@@ -1,0 +1,16 @@
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[user]
+	email = cheavuthearith0@gmail.com
+	name = CheaVuthearith
+[safe]
+	directory = /mnt/14DA34ABDA348ACE/Users/KG-23781HR/Code
+	directory = *
+[core]
+	editor = nvim
+[init]
+	defaultBranch = main
