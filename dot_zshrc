@@ -77,14 +77,8 @@ zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions fast-syntax-highlighting zsh-autocomplete zsh-lsd fzf gh vi-mode chezmoi)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete zsh-lsd fzf gh vi-mode chezmoi)
 source $ZSH/oh-my-zsh.sh
-
-# defaults
-VI_MODE_CURSOR_NORMAL=2
-VI_MODE_CURSOR_VISUAL=6
-VI_MODE_CURSOR_INSERT=6
-VI_MODE_CURSOR_OPPEND=0
 
 #zsh-autocomplete configuration
 bindkey -M menuselect  '^[[D' .backward-char  '^[OD' .backward-char
@@ -169,26 +163,3 @@ VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 
 # Remove mode switching delay.
 KEYTIMEOUT=5
-#
-# insert_beam_cursor() {
-#     echo -ne '\e[6 q'
-# }
-#
-# # Change cursor shape for different vi modes.
-# function zle-keymap-select {
-#     if [[ ${KEYMAP} == vicmd ]] ||
-#     [[ $1 = 'block' ]]; then
-#         echo -ne '\e[2 q'
-#
-#     elif [[ ${KEYMAP} == main ]] ||
-#     [[ ${KEYMAP} == viins ]] ||
-#     [[ ${KEYMAP} = '' ]] ||
-#     [[ $1 = 'beam' ]]; then
-#         insert_beam_cursor
-#     fi
-# }
-# zle -N zle-keymap-select
-#
-# insert_beam_cursor
-#
-# precmd_functions+=(insert_beam_cursor)
