@@ -118,7 +118,7 @@ bindkey "$terminfo[kcbt]" reverse-menu-complete
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 #nvim
-export PATH="$PATH:/opt/nvim-linux64/bin"
+export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 export EDITOR='nvim'
 
 # pnpm

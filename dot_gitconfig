@@ -8,7 +8,6 @@
 	email = cheavuthearith0@gmail.com
 	name = CheaVuthearith
 [safe]
-	directory = /mnt/14DA34ABDA348ACE/Users/KG-23781HR/Code
 	directory = *
 [core]
 	editor = nvim
@@ -16,3 +15,5 @@
 	defaultBranch = main
 [push]
 	autoSetupRemote = true
+[pull]
+	rebase = true

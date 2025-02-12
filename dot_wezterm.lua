@@ -22,12 +22,15 @@ config.font_rules = {
 		font = wezterm.font("VictorMono Nerd Font", { weight = "DemiBold", style = "Italic" }),
 	},
 }
+
 -- For example, changing the color scheme:
 config.color_scheme = "rose-pine-moon"
 config.enable_tab_bar = false
 
 -- animations
-config.max_fps = 170
-config.animation_fps = 170
+config.max_fps = 120
+config.animation_fps = 1
+config.cursor_blink_ease_in = "Constant"
+config.cursor_blink_ease_out = "Constant"
 -- and finally, return the configuration to wezterm
 return config
