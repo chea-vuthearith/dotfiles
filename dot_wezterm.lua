@@ -32,5 +32,8 @@ config.max_fps = 120
 config.animation_fps = 1
 config.cursor_blink_ease_in = "Constant"
 config.cursor_blink_ease_out = "Constant"
+
+-- missing glyphs warning
+config.warn_about_missing_glyphs = false
 -- and finally, return the configuration to wezterm
 return config
