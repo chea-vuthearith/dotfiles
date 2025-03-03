@@ -27,6 +27,9 @@ config.font_rules = {
 config.color_scheme = "rose-pine-moon"
 config.enable_tab_bar = false
 
+config.enable_wayland = false
+
+config.window_background_opacity = 0.90
 -- animations
 config.max_fps = 120
 config.animation_fps = 1
