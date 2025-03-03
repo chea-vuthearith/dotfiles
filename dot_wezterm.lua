@@ -29,7 +29,7 @@ config.enable_tab_bar = false
 
 config.enable_wayland = false
 
-config.window_background_opacity = 0.90
+config.window_background_opacity = 1
 -- animations
 config.max_fps = 120
 config.animation_fps = 1
