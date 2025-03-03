@@ -1,7 +1,7 @@
 {
     "modules-left": ["hyprland/workspaces","hyprland/window"],
-    "modules-center": ["clock", "idle_inhibitor"],
-    "modules-right": ["pulseaudio","battery", "custom/power"],
+    "modules-center": ["clock"],
+    "modules-right": ["tray", "pulseaudio","battery", "custom/power"],
 
 
     "hyprland/window": {
