@@ -21,9 +21,6 @@ Minimum:
 * Should theoretically work with Zsh 5.4, but I'm unable to test that.
 
 ## Installation & setup
-> Note: In this manual, `%` represents the command line prompt. If you see it in front of a command,
-> it means you should run it on the command line, not put it in a script.
-
 First, install Autocomplete itself. Here are some way to do so:
   * To use only releases (instead of the `main` branch), install `zsh-autocomplete` with a package
     manager. As of this writing, this package is available through Homebrew, Nix, `pacman`, Plumage,
@@ -90,18 +87,16 @@ Otherwise, simply use your package manager or plugin manager's update mechanisms
 | | <kbd>Ctrl</kbd><kbd>-</kbd><br><kbd>Ctrl</kbd><kbd>/</kbd> | <kbd>U</kbd> | | Undo last item
 | | <kbd>Ctrl</kbd><kbd>G</kbd> | | | Undo all added items
 
-### Caveats
+Note:
+* Plugins or other scripts that you load _after_ loading Autocomplete may override these bindings.
+  If you find that some shortcuts don't work as expected, then you can fix them by running
+  [`bindkey` commands](#reassign-keys) at the end of your `.zshrc` file.
+* Depending on your terminal, not all keybindings might be available to you.
+* Instead of <kbd>Alt</kbd>, your terminal might require you to press
+  <kbd>Escape</kbd>, <kbd>Option</kbd> or <kbd>Meta</kbd>.
 * `main` is whichever keymap was aliased to `main` when Autocomplete was sourced.
   * By default, this is `emacs`.
-  * If you run `bindkey -v` _before_ sourcing Autocomplete, then `main` will be `viins` when
-     Autocomplete installs keybindings.
-* Plugins or other scripts that you load _after_ loading Autocomplete may override these bindings.
-  If you find that some shortcuts don't work as expected, then you can fix them by
-  * changing the order in which you source your plugins or by
-  * running [`bindkey` commands](#reassign-keys) in your dotfiles _after_ you source your plugins.
-* Depending on your terminal, not all keybindings might be available to you.
-* Instead of <kbd>Alt</kbd>, your terminal might require you to press <kbd>Escape</kbd>,
-  <kbd>Option</kbd> or <kbd>Meta</kbd>.
+  * If you run `bindkey -v`, then this becomes `viins`.
 * In the menus, the bindings listed under `vicmd` require you to press <kbd>Alt</kbd> for each,
   instead of just once.
 * The bindings listed under `emacs` and `vicmd` are always both active in the menus, no matter which
@@ -226,8 +221,7 @@ zstyle ':autocomplete:*' min-input 3
 ```
 
 ### Wait with autocompletion until typing stops for a certain amount of seconds
-Normally, Autocomplete fetches completions after you stop typing for about 0.05 seconds. You can
-change this as follows:
+Normally, Autocomplete fetches completions after you stop typing for about 0.05 seconds. You can change this as follows:
 ```zsh
 zstyle ':autocomplete:*' delay 0.1  # seconds (float)
 ```

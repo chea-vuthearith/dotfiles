@@ -47,9 +47,7 @@ bindkey -M menuselect -s "$backtab" "^_$backtab"
 main+=(
           '\t' complete-word
     "$backtab" insert-unambiguous-or-complete
-)
-emacs+=(
-    '^X/' recent-paths
+         '^X/' recent-paths
 )
 
 ${0}:bind history-search-backward vi-backward-blank-word '\ep' '^P' $key_alt_up[@]

@@ -3,7 +3,6 @@ Setup:
 % source Tests/__init__.zsh
 % typeset -gA compstate=() _lastcomp=()
 % typeset -ga comptags=()
-% typeset -g curcontext=
 % zstyle ':autocomplete:*' add-space 'FOO' 'BAR'
 % zstyle ':autocomplete:*' insert-unambiguous yes
 %
