@@ -43,7 +43,7 @@ window#waybar {
  * ----------------------------------------------------- */
 
 #workspaces {
-    margin: 5px 1px 6px 1px;
+    margin: 5px 10px 6px 1px;
     padding: 0px 1px;
     border-radius: 15px;
     border: 0px;
@@ -60,6 +60,10 @@ window#waybar {
     border: 0px;
     color: @textcolor3;
     transition: all 0.3s ease-in-out;
+}
+
+#workspaces:last-child button {
+    margin-right: 0;
 }
 
 #workspaces button.active {
@@ -86,10 +90,11 @@ tooltip {
     opacity:0.8;
     padding:20px;
     margin:0px;
+    font-weight: 400;
 }
 
 tooltip label {
-    color: @textcolor2;
+    color: @textcolor1;
 }
 
 /* -----------------------------------------------------
