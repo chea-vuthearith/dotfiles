@@ -1,7 +1,7 @@
 {
     "modules-left": ["hyprland/workspaces","hyprland/window"],
     "modules-center": ["clock"],
-    "modules-right": ["tray", "pulseaudio","battery", "custom/power"],
+    "modules-right": ["tray", "pulseaudio","battery","network", "custom/power"],
 
 
     "hyprland/window": {
@@ -31,18 +31,11 @@
     },
 
     "network": {
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ifname} ",
-        "format-disconnected": "", 
+        "format-wifi": "{essid} ({signalStrength}%)  ",
+        "format-ethernet": "{ifname}  ",
+        "format-disconnected": " ", 
         "max-length": 50,
-        "on-click": "kitty -e 'nmtui'"
-    },
-    "idle_inhibitor": {
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "",
-            "deactivated": ""
-        },
+        "on-click": "wezterm -e 'nmtui'"
     },
     "tray": {
         "icon-size": 15,
@@ -75,13 +68,4 @@
 		"format": " ",
 		"on-click": "wlogout"
 	},
-    "custom/scratchpad-indicator": {
-        "format-text": "{}hi",
-        "return-type": "json",
-        "interval": 3,
-        "exec": "~/.local/bin/scratchpad-indicator 2> /dev/null",
-        "exec-if": "exit 0",
-        "on-click": "swaymsg 'scratchpad show'",
-        "on-click-right": "swaymsg 'move scratchpad'"
-    }
 }
