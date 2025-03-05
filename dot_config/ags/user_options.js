@@ -5,6 +5,7 @@
 
 const userConfigOptions = {
   bar: { modes: ["nothing", "nothing"] },
+  search: { enableFeatures: { aiSearch: false } },
 };
 
 export default userConfigOptions;
