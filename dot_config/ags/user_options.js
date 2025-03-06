@@ -4,6 +4,7 @@
 //   options listed in this file will override the default ones in the above file
 
 const userConfigOptions = {
+  time: { format: "%I:%M %p" },
   bar: { modes: ["nothing", "nothing"] },
   search: { enableFeatures: { aiSearch: false } },
 };
