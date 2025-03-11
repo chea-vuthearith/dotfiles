@@ -2,6 +2,7 @@
 local wezterm = require("wezterm")
 
 -- This will hold the configuration.
+
 local config = wezterm.config_builder()
 
 -- This is where you actually apply your config choices
@@ -24,12 +25,10 @@ config.font_rules = {
 }
 
 -- For example, changing the color scheme:
-config.color_scheme = "rose-pine-moon"
+config.color_scheme = "Catppuccin Mocha"
 config.enable_tab_bar = false
-
 config.enable_wayland = false
-
-config.window_background_opacity = 1
+-- config.window_background_opacity = 1
 -- animations
 config.max_fps = 120
 config.animation_fps = 1
@@ -38,5 +37,10 @@ config.cursor_blink_ease_out = "Constant"
 
 -- missing glyphs warning
 config.warn_about_missing_glyphs = false
+
+-- plugins
+-- local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
+-- modal.apply_to_config(config)
+
 -- and finally, return the configuration to wezterm
 return config
