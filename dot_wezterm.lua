@@ -26,9 +26,10 @@ config.font_rules = {
 
 -- For example, changing the color scheme:
 config.color_scheme = "Catppuccin Mocha"
-config.enable_tab_bar = false
+config.enable_tab_bar = true
 config.enable_wayland = false
--- config.window_background_opacity = 1
+config.tab_bar_at_bottom = true
+
 -- animations
 config.max_fps = 120
 config.animation_fps = 1
@@ -38,9 +39,44 @@ config.cursor_blink_ease_out = "Constant"
 -- missing glyphs warning
 config.warn_about_missing_glyphs = false
 
--- plugins
--- local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
--- modal.apply_to_config(config)
+-- key bindings
+config.keys = {
+	{ key = "h", mods = "SHIFT|CTRL", action = wezterm.action.ActivateTabRelative(-1) },
+	{ key = "l", mods = "SHIFT|CTRL", action = wezterm.action.ActivateTabRelative(1) },
+}
+config.disable_default_mouse_bindings = true
+
+-- tab bar
+config.hide_tab_bar_if_only_one_tab = true
+
+local bg_color = "#1E1E2E"
+config.window_frame = {
+	active_titlebar_bg = bg_color,
+}
+config.colors = {
+	tab_bar = {
+		inactive_tab = {
+			bg_color = bg_color,
+			fg_color = "#c0c0c0",
+			intensity = "Normal",
+			underline = "None",
+			italic = false,
+			strikethrough = false,
+		},
+		active_tab = {
+			bg_color = "#2b2042",
+			fg_color = "#c0c0c0",
+			intensity = "Normal",
+			underline = "None",
+			italic = false,
+			strikethrough = false,
+		},
+		new_tab = {
+			bg_color = bg_color,
+			fg_color = bg_color,
+		},
+	},
+}
 
 -- and finally, return the configuration to wezterm
 return config
