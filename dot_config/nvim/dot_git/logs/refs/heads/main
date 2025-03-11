@@ -1,0 +1,5 @@
+0000000000000000000000000000000000000000 a7bc3c2ebbd4fd5870d7169692ef020f445789c1 CheaVuthearith <cheavuthearith0@gmail.com> 1740561879 +0700	clone: from https://github.com/CheaVuThearith/nvim-config.git
+a7bc3c2ebbd4fd5870d7169692ef020f445789c1 4adddbfbe1de24d19c6beb83d3df2ed14b5840ca CheaVuthearith <cheavuthearith0@gmail.com> 1740563509 +0700	commit: feat: add buffer retirement
+4adddbfbe1de24d19c6beb83d3df2ed14b5840ca 53c635042060dd3eaf045afde02de128d47c5621 CheaVuthearith <cheavuthearith0@gmail.com> 1740974769 +0700	commit: feat: enable transparency in theme
+53c635042060dd3eaf045afde02de128d47c5621 152bfd35e304be379f20c3ac4d8f6cd77f673c0b CheaVuthearith <cheavuthearith0@gmail.com> 1740974978 +0700	pull -X ours (finish): refs/heads/main onto c67101b7ecf48ff60d01a4c312519857bc2d8614
+152bfd35e304be379f20c3ac4d8f6cd77f673c0b 56ee6bb16ad4eddb3754909d71efe2353697ce51 CheaVuthearith <cheavuthearith0@gmail.com> 1741683386 +0700	commit: feat: change color-scheme
