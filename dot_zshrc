@@ -143,7 +143,6 @@ export PYENV_ROOT="$HOME/.pyenv"
 eval "$(pyenv init -)"
 
 #aliases
-alias code="cd $HOME/Code"
 alias py="python3"
 alias m1off="xrandr --output DisplayPort-0 --off"
 alias m1on="xrandr --output DisplayPort-0 --pos 2560x180 --mode 1920x1080 --rate 170 --primary"
@@ -165,7 +164,16 @@ export ANDROID_HOME="$HOME/Android/Sdk/"
 export ANDROID_SDK_ROOT="$HOME/Android/Sdk/"
 
 #set terminal to vim mode
+wezterm_tab_left() { wezterm cli activate-tab --tab-relative -1 }
+wezterm_tab_right() { wezterm cli activate-tab --tab-relative 1 }
+
+zle -N wezterm_tab_left
+zle -N wezterm_tab_right
+
 bindkey -v
+bindkey -M vicmd 'H' wezterm_tab_right
+bindkey -M vicmd 'L' wezterm_tab_right
+
 VI_MODE_SET_CURSOR=true
 VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 

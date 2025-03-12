@@ -6,6 +6,20 @@
 vim.api.nvim_set_keymap(
   "n",
   "<leader>wt",
-  [[:lua vim.fn.system('wezterm start --cwd ' .. LazyVim.root()) <CR>]],
-  { noremap = true, silent = true, desc = "Launch termnal (Root Dir)" }
+  [[:lua vim.fn.system('wezterm cli spawn --cwd ' .. LazyVim.root()) <CR>]],
+  { noremap = true, silent = true, desc = "New terminal tab (Root Dir)" }
+)
+
+vim.api.nvim_set_keymap(
+  "n",
+  "H",
+  ":!wezterm cli activate-tab --tab-relative -1 <CR>",
+  { noremap = true, silent = true, desc = "Window Left" }
+)
+
+vim.api.nvim_set_keymap(
+  "n",
+  "L",
+  ":!wezterm cli activate-tab --tab-relative 1 <CR>",
+  { noremap = true, silent = true, desc = "Window Right" }
 )
