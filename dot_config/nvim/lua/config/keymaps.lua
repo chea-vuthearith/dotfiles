@@ -24,42 +24,23 @@ vim.api.nvim_set_keymap(
   { noremap = true, silent = true, desc = "Window Right" }
 )
 
-local function px_to_rem()
-  -- Get visual selection
-  local _, start_col, _, end_col = unpack(vim.fn.getpos("'<"))
-  local text = vim.fn.getreg('"') -- Use default unnamed register
-  local new_text = text:gsub("(%d+)px", function(px)
-    return string.format("%.2frem", px / 16)
-  end)
+vim.api.nvim_set_keymap(
+  "v",
+  "<leader>r",
+  [[:s#\v(\d+)px#\=printf("%0.3frem", 1.0/16*submatch(1))#g<CR>]],
+  { noremap = true, silent = true, desc = "px to rem" }
+)
 
-  -- Replace selection with converted text
-  vim.api.nvim_input("<Esc>") -- Exit visual mode
-  vim.fn.setreg('"', new_text)
-  vim.cmd('normal! gv"_c"') -- Replace selection with converted value
-end
+vim.api.nvim_set_keymap(
+  "v",
+  "<leader>ts",
+  [[:s/\v\a@<=(\u)/\L_\1/g<CR>]],
+  { noremap = true, silent = true, desc = "to snake_case" }
+)
 
-vim.keymap.set("v", "<leader>pr", px_to_rem, { desc = "Convert px to rem in visual mode" })
-
-local function toggle_case_visual()
-  -- Get visual selection
-  local _, start_col, _, end_col = unpack(vim.fn.getpos("'<"))
-  local text = vim.fn.getreg('"') -- Use default unnamed register
-
-  local new_text
-  if text:find("_") then
-    -- Convert snake_case to camelCase
-    new_text = text:gsub("_(%l)", function(c)
-      return c:upper()
-    end)
-  else
-    -- Convert camelCase to snake_case
-    new_text = text:gsub("([a-z])([A-Z])", "%1_%2"):lower()
-  end
-
-  -- Replace selection with converted text
-  vim.api.nvim_input("<Esc>") -- Exit visual mode
-  vim.fn.setreg('"', new_text)
-  vim.cmd('normal! gv"_c"') -- Replace selection with converted value
-end
-
-vim.keymap.set("v", "<leader>tc", toggle_case_visual, { desc = "Toggle Snake ⇄ Camel Case in visual mode" })
+vim.api.nvim_set_keymap(
+  "v",
+  "<leader>tc",
+  [[:s/\v_(\a)/\u\1/g<CR>]],
+  { noremap = true, silent = true, desc = "to camelCase" }
+)
