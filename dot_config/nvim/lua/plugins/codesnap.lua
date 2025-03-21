@@ -9,7 +9,7 @@ return {
   opts = {
     mac_window_bar = false,
     has_line_number = true,
-    -- has_breadcrumbs = false,
+    has_breadcrumbs = true,
     watermark = "",
     bg_theme = "default",
   },
