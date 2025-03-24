@@ -44,3 +44,11 @@ vim.api.nvim_set_keymap(
   [[:s/\v_(\a)/\u\1/g<CR>]],
   { noremap = true, silent = true, desc = "to camelCase" }
 )
+
+-- git-conflict.nvim
+vim.keymap.set("n", "<leader>go", "<Plug>(git-conflict-ours)", { desc = "Accept Ours" })
+vim.keymap.set("n", "<leader>gt", "<Plug>(git-conflict-theirs)", { desc = "Accept Theirs" })
+vim.keymap.set("n", "<leader>gb", "<Plug>(git-conflict-both)", { desc = "Accept Both" })
+vim.keymap.set("n", "<leader>g0", "<Plug>(git-conflict-none)", { desc = "Accept None" })
+vim.keymap.set("n", "[x", "<Plug>(git-conflict-prev-conflict)")
+vim.keymap.set("n", "]x", "<Plug>(git-conflict-next-conflict)")
