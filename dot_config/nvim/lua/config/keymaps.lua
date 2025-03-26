@@ -11,20 +11,6 @@ vim.api.nvim_set_keymap(
 )
 
 vim.api.nvim_set_keymap(
-  "n",
-  "H",
-  ":!wezterm cli activate-tab --tab-relative -1 <CR>",
-  { noremap = true, silent = true, desc = "Window Left" }
-)
-
-vim.api.nvim_set_keymap(
-  "n",
-  "L",
-  ":!wezterm cli activate-tab --tab-relative 1 <CR>",
-  { noremap = true, silent = true, desc = "Window Right" }
-)
-
-vim.api.nvim_set_keymap(
   "v",
   "<leader>r",
   [[:s#\v(\d+)px#\=printf("%0.3frem", 1.0/16*submatch(1))#g<CR>]],
@@ -46,9 +32,10 @@ vim.api.nvim_set_keymap(
 )
 
 -- git-conflict.nvim
-vim.keymap.set("n", "<leader>go", "<Plug>(git-conflict-ours)", { desc = "Accept Ours" })
-vim.keymap.set("n", "<leader>gt", "<Plug>(git-conflict-theirs)", { desc = "Accept Theirs" })
-vim.keymap.set("n", "<leader>gb", "<Plug>(git-conflict-both)", { desc = "Accept Both" })
-vim.keymap.set("n", "<leader>g0", "<Plug>(git-conflict-none)", { desc = "Accept None" })
+vim.keymap.set("n", "<leader>ga", "", { desc = "Accept" })
+vim.keymap.set("n", "<leader>gao", "<Plug>(git-conflict-ours)", { desc = "Accept Ours" })
+vim.keymap.set("n", "<leader>gat", "<Plug>(git-conflict-theirs)", { desc = "Accept Theirs" })
+vim.keymap.set("n", "<leader>gab", "<Plug>(git-conflict-both)", { desc = "Accept Both" })
+vim.keymap.set("n", "<leader>ga0", "<Plug>(git-conflict-none)", { desc = "Accept None" })
 vim.keymap.set("n", "[x", "<Plug>(git-conflict-prev-conflict)")
 vim.keymap.set("n", "]x", "<Plug>(git-conflict-next-conflict)")
