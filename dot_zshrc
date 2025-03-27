@@ -150,9 +150,6 @@ alias m1on="xrandr --output DisplayPort-0 --pos 2560x180 --mode 1920x1080 --rate
 #biome
 export BIOME_CONFIG_PATH="$HOME/.config/nvim"
 
-#sideloader
-export PATH="$PATH:/opt/sideloader-cli"
-
 #cargo
 export PATH="$PATH:$HOME/.cargo/env"
 
