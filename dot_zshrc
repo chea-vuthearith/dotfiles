@@ -180,10 +180,13 @@ VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 # Remove mode switching delay.
 KEYTIMEOUT=5
 
-#node version manager
+# node version manager
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-#pager
+# pager
 export PAGER="less -X"
+
+# launch hyprland on login
+source ~/.config/zshrc.d/auto-Hypr.sh

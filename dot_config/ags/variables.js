@@ -41,16 +41,16 @@ const updateMonitorShellMode = (monitorShellModes, monitor, mode) => {
 }
 globalThis['currentMode'] = currentShellMode;
 globalThis['cycleMode'] = () => {
-    const numberOfMonitors = Gdk.Display.get_default()?.get_n_monitors() || 1
-    const activeMonitor = Hyprland.active.monitor.id || 0;
+    const monitor = Hyprland.active.monitor.id || 0;
 
-    if (currentShellMode.value[activeMonitor] === 'normal') {
-    for (let i= 0; i<numberOfMonitors; i++)
-    updateMonitorShellMode(currentShellMode, i, 'nothing');
+    if (currentShellMode.value[monitor] === 'normal') {
+        updateMonitorShellMode(currentShellMode, monitor, 'focus')
+    }
+    else if (currentShellMode.value[monitor] === 'focus') {
+        updateMonitorShellMode(currentShellMode, monitor, 'nothing')
     }
     else {
-    for (let i= 0; i<numberOfMonitors; i++)
-    updateMonitorShellMode(currentShellMode, i, 'normal');
+        updateMonitorShellMode(currentShellMode, monitor, 'normal')
     }
 }
 
