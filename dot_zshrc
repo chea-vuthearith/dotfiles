@@ -35,7 +35,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-
 ### Plugins
 
 # vi-mode
@@ -58,6 +57,7 @@ zi snippet OMZP::fzf
 zi ice depth"1"
 zi light Aloxaf/fzf-tab
 
+zi ice depth"1"
 zi light romkatv/powerlevel10k
 
 zi ice depth"1" wait"2" lucid
@@ -89,8 +89,6 @@ zsh-defer eval "$(pyenv init -)"
 
 # aliases
 alias py="python3"
-alias m1off="xrandr --output DisplayPort-0 --off"
-alias m1on="xrandr --output DisplayPort-0 --pos 2560x180 --mode 1920x1080 --rate 170 --primary"
 
 # biome
 export BIOME_CONFIG_PATH="$HOME/.config/nvim"
@@ -105,10 +103,9 @@ zsh-defer eval "$(fnm env --use-on-cd --shell zsh)"
 export PAGER="less -X"
 
 # launch hyprland on login
-zsh-defer source ~/.config/zshrc.d/auto-Hypr.sh
+source ~/.config/zshrc.d/auto-Hypr.sh
 
 timezsh() {
   shell=${1-$SHELL}
   for i in $(seq 1 10); do time $shell -i -c exit; done
 }
-
