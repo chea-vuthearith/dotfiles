@@ -17,20 +17,23 @@ if pgrep wf-recorder >/dev/null; then
   pkill wf-recorder &
 else
   notify-send "Starting recording" 'recording_'"$(getdate)"'.mp4' -a 'record-script.sh'
-  file='/recording_'"$(getdate)"'.mp4'
+  FILE='/recording_'"$(getdate)"'.mp4'
+  WORKSPACES="$(hyprctl monitors -j | jq -r 'map(.activeWorkspace.id)')"
+  WINDOWS="$(hyprctl clients -j | jq -r --argjson workspaces "$WORKSPACES" 'map(select([.workspace.id] | inside($workspaces)))')"
+  GEOM=$(echo "$WINDOWS" | jq -r '.[] | "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"' | slurp $SLURP_ARGS)
 
   if [[ "$1" == "--sound" ]]; then
-    wf-recorder --pixel-format yuv420p -f ".$file" -t --geometry "$(slurp)" --audio="$(getaudiooutput)" &
+    wf-recorder --pixel-format yuv420p -f ".$FILE" -t --geometry "$GEOM" --audio="$(getaudiooutput)" &
     disown
   elif [[ "$1" == "--fullscreen-sound" ]]; then
-    wf-recorder -o $(getactivemonitor) --pixel-format yuv420p -f ".$file" -t --audio="$(getaudiooutput)" &
+    wf-recorder -o $(getactivemonitor) --pixel-format yuv420p -f ".$FILE" -t --audio="$(getaudiooutput)" &
     disown
   elif [[ "$1" == "--fullscreen" ]]; then
-    wf-recorder -o $(getactivemonitor) --pixel-format yuv420p -f ".$file" -t &
+    wf-recorder -o $(getactivemonitor) --pixel-format yuv420p -f ".$FILE" -t &
     disown
   else
-    wf-recorder --pixel-format yuv420p -f ".$file" -t --geometry "$(slurp)" &
+    wf-recorder --pixel-format yuv420p -f ".$FILE" -t --geometry "$GEOM" &
     disown
   fi
-  wl-copy --type text/uri-list "file://$PWD$file"
+  wl-copy --type text/uri-list "file://$PWD$FILE"
 fi
