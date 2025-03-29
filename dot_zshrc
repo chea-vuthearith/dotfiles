@@ -37,28 +37,6 @@ fi
 
 
 ### Plugins
-# fzf
-export FZF_DEFAULT_OPTS="--bind=tab:accept"
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' menu no
-zstyle ':fzf-tab:*' fzf-flags --bind=tab:accept
-zpcompinit
-zi ice depth"1"
-zi snippet OMZP::fzf
-zi ice depth"1"
-zi light Aloxaf/fzf-tab
-
-zi ice depth"1"
-zi light romkatv/powerlevel10k
-
-zi ice depth"1"
-zi light zsh-users/zsh-syntax-highlighting
-
-zi ice depth"1"
-zi light z-shell/zsh-lsd
-
-zi ice depth"1"
-zi light zsh-users/zsh-autosuggestions
 
 # vi-mode
 zi ice depth"1"
@@ -68,6 +46,28 @@ zi snippet OMZP::vi-mode
 VI_MODE_SET_CURSOR=true
 VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 KEYTIMEOUT=5
+
+# fzf
+export FZF_DEFAULT_OPTS="--bind=tab:accept"
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:*' fzf-flags --bind=tab:accept
+zpcompinit
+zi ice depth"1" wait"2" lucid
+zi snippet OMZP::fzf
+zi ice depth"1"
+zi light Aloxaf/fzf-tab
+
+zi light romkatv/powerlevel10k
+
+zi ice depth"1" wait"2" lucid
+zi light zsh-users/zsh-syntax-highlighting
+
+zi ice depth"1" wait"2" lucid
+zi light z-shell/zsh-lsd
+
+zi ice depth"1" wait"2" lucid
+zi light zsh-users/zsh-autosuggestions
 
 zi ice depth"1"
 zi snippet OMZP::git
@@ -98,16 +98,14 @@ export BIOME_CONFIG_PATH="$HOME/.config/nvim"
 # cargo
 export PATH="$PATH:$HOME/.cargo/env"
 
-# node version manager
-export NVM_COMPLETION=true
-export NVM_SYMLINK_CURRENT="true"
-zi wait"2" lucid light-mode for lukechilds/zsh-nvm
+#fnm 
+zsh-defer eval "$(fnm env --use-on-cd --shell zsh)"
 
 # pager
 export PAGER="less -X"
 
 # launch hyprland on login
-source ~/.config/zshrc.d/auto-Hypr.sh
+zsh-defer source ~/.config/zshrc.d/auto-Hypr.sh
 
 timezsh() {
   shell=${1-$SHELL}
