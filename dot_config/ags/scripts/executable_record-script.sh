@@ -16,7 +16,6 @@ if pgrep wf-recorder >/dev/null; then
   notify-send "Recording Stopped" "Stopped" -a 'record-script.sh' &
   NAME="$(ps ax | grep 'wf-recorder' | head -n 1 | awk -F'wf-recorder:' '{print $2}' | awk '{print $1}')"
   wl-copy --type text/uri-list "$NAME"
-
   pkill wf-recorder
 
 else
