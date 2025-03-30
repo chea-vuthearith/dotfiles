@@ -24,18 +24,14 @@ config.font_rules = {
 	},
 }
 
--- For example, changing the color scheme:
-config.color_scheme = "Catppuccin Mocha"
-config.enable_tab_bar = true
+-- hyprland support
 config.enable_wayland = false
+
+-- theme
+config.color_scheme = "Dark Violet (base16)"
+config.enable_tab_bar = true
 config.tab_bar_at_bottom = true
 config.window_background_opacity = 0.9
-
--- animations
-config.max_fps = 120
-config.animation_fps = 1
-config.cursor_blink_ease_in = "Constant"
-config.cursor_blink_ease_out = "Constant"
 
 -- missing glyphs warning
 config.warn_about_missing_glyphs = false
@@ -45,32 +41,30 @@ config.keys = {
 	{ key = "h", mods = "SHIFT|CTRL", action = wezterm.action.ActivateTabRelative(-1) },
 	{ key = "l", mods = "SHIFT|CTRL", action = wezterm.action.ActivateTabRelative(1) },
 }
+
 config.disable_default_mouse_bindings = true
 
 -- tab bar
 config.hide_tab_bar_if_only_one_tab = true
+config.color_scheme = "Black Metal (Dark Funeral) (base16)"
 
-local bg_color = "#1E1E2E"
+local bg_color = "#000000"
+local fg_color = "#D0DFEE"
+
 config.window_frame = {
 	active_titlebar_bg = bg_color,
+	inactive_titlebar_bg = bg_color,
 }
+
 config.colors = {
 	tab_bar = {
 		inactive_tab = {
 			bg_color = bg_color,
-			fg_color = "#c0c0c0",
-			intensity = "Normal",
-			underline = "None",
-			italic = false,
-			strikethrough = false,
+			fg_color = fg_color,
 		},
 		active_tab = {
-			bg_color = "#2b2042",
-			fg_color = "#c0c0c0",
-			intensity = "Normal",
-			underline = "None",
-			italic = false,
-			strikethrough = false,
+			bg_color = fg_color,
+			fg_color = bg_color,
 		},
 		new_tab = {
 			bg_color = bg_color,
