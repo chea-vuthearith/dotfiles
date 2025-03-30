@@ -29,6 +29,7 @@ config.color_scheme = "Catppuccin Mocha"
 config.enable_tab_bar = true
 config.enable_wayland = false
 config.tab_bar_at_bottom = true
+config.window_background_opacity = 0.9
 
 -- animations
 config.max_fps = 120
