@@ -79,7 +79,7 @@ zle-line-init() {
 zle -N zle-line-init
 
 # fzf
-export FZF_DEFAULT_OPTS="--bind=tab:accept"
+export FZF_DEFAULT_OPTS="--bind=tab:accept -i -s"
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' menu no
