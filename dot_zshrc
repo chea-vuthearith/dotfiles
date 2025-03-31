@@ -41,6 +41,7 @@ KEYTIMEOUT=5
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 eval "$(starship init zsh)"
 zle-line-init() {
+  echo -ne "\e[6 q"
   emulate -L zsh
 
   [[ $CONTEXT == start ]] || return 0
