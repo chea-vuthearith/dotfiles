@@ -28,7 +28,7 @@ config.font_rules = {
 config.enable_wayland = false
 
 -- theme
-config.color_scheme = "Dark Violet (base16)"
+config.color_scheme = "Catppuccin Mocha"
 config.enable_tab_bar = true
 config.tab_bar_at_bottom = true
 config.window_background_opacity = 0.9
@@ -46,7 +46,6 @@ config.disable_default_mouse_bindings = true
 
 -- tab bar
 config.hide_tab_bar_if_only_one_tab = true
-config.color_scheme = "Black Metal (Dark Funeral) (base16)"
 
 local bg_color = "#000000"
 local fg_color = "#D0DFEE"
@@ -57,6 +56,7 @@ config.window_frame = {
 }
 
 config.colors = {
+	background = bg_color,
 	tab_bar = {
 		inactive_tab = {
 			bg_color = bg_color,
