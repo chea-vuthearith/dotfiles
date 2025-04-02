@@ -12,7 +12,7 @@ vim.api.nvim_set_keymap(
 
 vim.api.nvim_set_keymap(
   "v",
-  "<leader>r",
+  "<leader>tr ",
   [[:s#\v(\d+)px#\=printf("%0.3frem", 1.0/16*submatch(1))#g<CR>]],
   { noremap = true, silent = true, desc = "px to rem" }
 )
