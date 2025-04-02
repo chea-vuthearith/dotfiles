@@ -12,8 +12,8 @@ vim.api.nvim_set_keymap(
 
 vim.api.nvim_set_keymap(
   "v",
-  "<leader>tr ",
-  [[:s#\v(\d+)px#\=printf("%0.3frem", 1.0/16*submatch(1))#g<CR>]],
+  "<leader>tr",
+  [[:s#\v(\d+)px#\=printf("%grem", 1.0/16*submatch(1))#g<CR>]],
   { noremap = true, silent = true, desc = "px to rem" }
 )
 
@@ -37,5 +37,9 @@ vim.keymap.set("n", "<leader>gao", "<Plug>(git-conflict-ours)", { desc = "Accept
 vim.keymap.set("n", "<leader>gat", "<Plug>(git-conflict-theirs)", { desc = "Accept Theirs" })
 vim.keymap.set("n", "<leader>gab", "<Plug>(git-conflict-both)", { desc = "Accept Both" })
 vim.keymap.set("n", "<leader>ga0", "<Plug>(git-conflict-none)", { desc = "Accept None" })
-vim.keymap.set("n", "[x", "<Plug>(git-conflict-prev-conflict)")
-vim.keymap.set("n", "]x", "<Plug>(git-conflict-next-conflict)")
+vim.keymap.set("n", "[x", "<Plug>(git-conflict-prev-conflict)", { desc = "Prev Conflict" })
+vim.keymap.set("n", "]x", "<Plug>(git-conflict-next-conflict)", { desc = "Next Conflict" })
+
+-- jumps
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
