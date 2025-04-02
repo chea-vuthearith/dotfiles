@@ -1,3 +1,4 @@
+math.randomseed(os.time() + vim.loop.hrtime())
 return {
   "folke/snacks.nvim",
   ---@type snacks.Config
@@ -6,7 +7,9 @@ return {
       sections = {
         {
           section = "terminal",
-          cmd = "chafa ~/.config/nvim/pngs/wall2.png --format symbols --symbols vhalf --size 60x17 --stretch; sleep .1",
+          cmd = "chafa ~/.config/nvim/pngs/wall"
+            .. math.random(3)
+            .. ".png --format symbols --symbols vhalf --size 60x17 --stretch; sleep .1",
           height = 17,
           padding = 1,
         },
