@@ -55,6 +55,11 @@ vim.keymap.set("n", "<C-j>", require("smart-splits").move_cursor_down)
 vim.keymap.set("n", "<C-k>", require("smart-splits").move_cursor_up)
 vim.keymap.set("n", "<C-l>", require("smart-splits").move_cursor_right)
 
+vim.keymap.set("n", "<C-S-H>", "<cmd>WinShift left<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-S-J>", "<cmd>WinShift down<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-S-K>", "<cmd>WinShift up<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-S-L>", "<cmd>WinShift right<cr>", { noremap = true, silent = true })
+
 --disable toggle term
 vim.keymap.del("n", "<C-/>")
 vim.keymap.del("n", "<C-_>")

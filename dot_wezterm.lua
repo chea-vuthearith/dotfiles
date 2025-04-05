@@ -35,7 +35,7 @@ config.warn_about_missing_glyphs = false
 
 -- key bindings
 local action = wezterm.action
-config.leader = { key = "e", mods = "ALT", timeout_milliseconds = 1000 }
+config.leader = { key = "w", mods = "ALT", timeout_milliseconds = 1000 }
 config.keys = {
 	--tabs
 	-- navigation
@@ -59,8 +59,39 @@ config.keys = {
 	--focus
 	{ key = "d", mods = "LEADER", action = action.CloseCurrentPane({ confirm = true }) },
 	{ key = "z", mods = "ALT", action = action.TogglePaneZoomState },
+
+	{ key = "v", mods = "LEADER", action = action.ActivateCopyMode },
 	-- { key = "/", mods = "CTRL", action = wezterm.action.EmitEvent("toggle-terminal") },
+	-- disable
+	{
+		key = "H",
+		mods = "CTRL|SHIFT",
+		action = "DisableDefaultAssignment",
+	},
+	{
+		key = "J",
+		mods = "CTRL|SHIFT",
+		action = "DisableDefaultAssignment",
+	},
+	{
+		key = "K",
+		mods = "CTRL|SHIFT",
+		action = "DisableDefaultAssignment",
+	},
+	{
+		key = "L",
+		mods = "CTRL|SHIFT",
+		action = "DisableDefaultAssignment",
+	},
 }
+
+for i = 1, 9 do
+	table.insert(config.keys, {
+		key = tostring(i),
+		mods = "ALT",
+		action = action.ActivateTab(i - 1),
+	})
+end
 
 -- if focused tab is term
 -- focus up & zoom
