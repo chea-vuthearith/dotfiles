@@ -35,7 +35,7 @@ config.warn_about_missing_glyphs = false
 
 -- key bindings
 local action = wezterm.action
-config.leader = { key = "w", mods = "ALT", timeout_milliseconds = 1000 }
+config.leader = { key = "w", mods = "ALT", timeout_milliseconds = 2000 }
 config.keys = {
 	--tabs
 	-- navigation
@@ -62,6 +62,31 @@ config.keys = {
 
 	{ key = "v", mods = "LEADER", action = action.ActivateCopyMode },
 	-- { key = "/", mods = "CTRL", action = wezterm.action.EmitEvent("toggle-terminal") },
+
+	-- workspaces
+	{ key = "w", mods = "LEADER", action = action.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }) },
+	{
+		key = "w",
+		mods = "LEADER|SHIFT",
+		action = action.PromptInputLine({
+			description = wezterm.format({
+				{ Attribute = { Intensity = "Bold" } },
+				{ Foreground = { AnsiColor = "Fuchsia" } },
+				{ Text = "Enter name for new workspace" },
+			}),
+			action = wezterm.action_callback(function(window, pane, line)
+				if line then
+					window:perform_action(
+						action.SwitchToWorkspace({
+							name = line,
+						}),
+						pane
+					)
+				end
+			end),
+		}),
+	},
+
 	-- disable
 	{
 		key = "H",
