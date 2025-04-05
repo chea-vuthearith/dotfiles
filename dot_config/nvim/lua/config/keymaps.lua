@@ -43,3 +43,18 @@ vim.keymap.set("n", "]x", "<Plug>(git-conflict-next-conflict)", { desc = "Next C
 -- jumps
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
+
+-- smart-splits.nvim
+vim.keymap.set("n", "<C-Left>", require("smart-splits").resize_left)
+vim.keymap.set("n", "<C-Down>", require("smart-splits").resize_down)
+vim.keymap.set("n", "<C-Up>", require("smart-splits").resize_up)
+vim.keymap.set("n", "<C-Right>", require("smart-splits").resize_right)
+-- moving between splits
+vim.keymap.set("n", "<C-h>", require("smart-splits").move_cursor_left)
+vim.keymap.set("n", "<C-j>", require("smart-splits").move_cursor_down)
+vim.keymap.set("n", "<C-k>", require("smart-splits").move_cursor_up)
+vim.keymap.set("n", "<C-l>", require("smart-splits").move_cursor_right)
+
+--disable toggle term
+vim.keymap.del("n", "<C-/>")
+vim.keymap.del("n", "<C-_>")

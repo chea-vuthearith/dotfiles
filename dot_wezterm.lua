@@ -1,11 +1,7 @@
--- Pull in the wezterm API
 local wezterm = require("wezterm")
-
--- This will hold the configuration.
-
+local smart_splits = wezterm.plugin.require("https://github.com/mrjones2014/smart-splits.nvim")
 local config = wezterm.config_builder()
 
--- This is where you actually apply your config choices
 config.font_size = 12
 config.font = wezterm.font("FiraCode Nerd Font")
 config.font_rules = {
@@ -32,15 +28,109 @@ config.color_scheme = "Catppuccin Mocha"
 config.enable_tab_bar = true
 config.tab_bar_at_bottom = true
 config.window_background_opacity = 0.9
+config.window_decorations = "RESIZE"
 
 -- missing glyphs warning
 config.warn_about_missing_glyphs = false
 
 -- key bindings
+local action = wezterm.action
+config.leader = { key = "e", mods = "ALT", timeout_milliseconds = 1000 }
 config.keys = {
-	{ key = "h", mods = "SHIFT|CTRL", action = wezterm.action.ActivateTabRelative(-1) },
-	{ key = "l", mods = "SHIFT|CTRL", action = wezterm.action.ActivateTabRelative(1) },
+	--tabs
+	-- navigation
+	{ key = "h", mods = "ALT", action = action.ActivateTabRelative(-1) },
+	{ key = "l", mods = "ALT", action = action.ActivateTabRelative(1) },
+	-- order
+	{ key = "h", mods = "SHIFT|ALT", action = action.MoveTabRelative(-1) },
+	{ key = "l", mods = "SHIFT|ALT", action = action.MoveTabRelative(1) },
+	-- creation
+	{ key = "t", mods = "LEADER", action = action.SpawnTab("CurrentPaneDomain") },
+
+	-- panes
+	-- creation
+	{
+		key = "|",
+		mods = "LEADER|SHIFT",
+		action = action.SplitVertical({ domain = "CurrentPaneDomain" }),
+	},
+	{ key = "-", mods = "LEADER", action = action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+
+	--focus
+	{ key = "d", mods = "LEADER", action = action.CloseCurrentPane({ confirm = true }) },
+	{ key = "z", mods = "ALT", action = action.TogglePaneZoomState },
+	-- { key = "/", mods = "CTRL", action = wezterm.action.EmitEvent("toggle-terminal") },
 }
+
+-- if focused tab is term
+-- focus up & zoom
+-- else
+-- if bottom toggle term
+-- botom:focus
+-- else
+-- split pane bottom
+-- bottom:focus
+-- local function is_toggle_term(pane)
+-- 	return pane:get_user_vars().toggle_term
+-- end
+--
+-- wezterm.on("toggle-terminal", function(window, pane)
+-- 	local tab = pane:tab()
+-- 	local panes = tab:panes()
+--
+-- 	local term_pane = nil
+-- 	for _, p in ipairs(panes) do
+-- 		if is_toggle_term(p) then
+-- 			term_pane = p
+-- 			break
+-- 		end
+-- 	end
+--
+-- 	if term_pane then
+-- 		local is_term_pane_active = term_pane:get_dimensions().viewport_rows > 5
+-- 		if is_term_pane_active then
+-- 			window:perform_action(action.AdjustPaneSize({ "Down", 1000 }), term_pane)
+-- 			local main_pane = tab:get_pane_direction("Up")
+-- 			main_pane:activate()
+-- 		else
+-- 			window:perform_action(action.AdjustPaneSize({ "Up", 5 }), term_pane)
+-- 			term_pane:activate()
+-- 		end
+-- 	else
+-- 		local new_pane = pane:split({
+-- 			direction = "Bottom",
+-- 			domain = "CurrentPaneDomain",
+-- 			size = 0.001,
+-- 		})
+-- 		window:perform_action(action.AdjustPaneSize({ "Up", 5 }), new_pane)
+-- 		local cmd = [[printf "\033]1337;SetUserVar=toggle_term=]] .. "$(echo -n 1 | base64)" .. [[\007"]]
+-- 		new_pane:send_text(cmd .. "\n")
+-- 		-- new_pane:activate()
+-- 	end
+-- end)
+
+-- wezterm.on("user-var-changed", function(window, pane, name, value)
+-- 	-- wezterm.log_info("var", name, value)
+-- 	window:toast_notification("wezterm", value, nil, 4000)
+-- end)
+-- if term_pane then
+-- 	if term_pane:is_zoomed() then
+-- term_pane:toggle_zoom() -- unzoom first
+-- 		window:perform_action(wezterm.action.ActivatePaneDirection("Down"), pane)
+-- 	else
+-- 		window:perform_action(wezterm.action.ActivatePaneDirection("Up"), pane)
+-- 		term_pane:toggle_zoom()
+-- 	end
+-- else
+-- 	-- create a bottom pane
+-- 	local new_pane = pane:split({
+-- 		direction = "Bottom",
+-- 		size = 0.3,
+-- 	})
+-- 	-- tag this pane
+-- 	new_pane:set_title("toggle_terminal")
+-- 	-- optional: run shell or something
+-- 	-- new_pane:send_text("clear\n") -- or any init command
 
 config.disable_default_mouse_bindings = true
 
@@ -73,5 +163,11 @@ config.colors = {
 	},
 }
 
--- and finally, return the configuration to wezterm
+smart_splits.apply_to_config(config, {
+	direction_keys = {
+		move = { "h", "j", "k", "l" },
+		resize = { "LeftArrow", "DownArrow", "UpArrow", "RightArrow" },
+	},
+})
+
 return config
