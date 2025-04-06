@@ -62,7 +62,7 @@ config.warn_about_missing_glyphs = false
 
 -- key bindings
 local action = wezterm.action
-config.leader = { key = "w", mods = "ALT", timeout_milliseconds = 2000 }
+config.leader = { key = "w", mods = "ALT", timeout_milliseconds = math.maxinteger }
 config.keys = {
 	--tabs
 	-- navigation
