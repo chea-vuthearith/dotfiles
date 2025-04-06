@@ -83,9 +83,13 @@ config.keys = {
 	{
 		key = "|",
 		mods = "LEADER|SHIFT",
+		action = action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+	},
+	{
+		key = "-",
+		mods = "LEADER",
 		action = action.SplitVertical({ domain = "CurrentPaneDomain" }),
 	},
-	{ key = "-", mods = "LEADER", action = action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
 	-- keytable
 	-- w to be interchangable with nvim's window
 	{
