@@ -110,6 +110,27 @@ config.keys = {
 		action = action.ActivateKeyTable({ name = "workspace" }),
 	},
 
+	-- smart_splits - cuz they fucked up
+	{
+		key = "LeftArrow",
+		mods = "CTRL",
+		action = action.EmitEvent("user-defined-5"),
+	},
+	{
+		key = "DownArrow",
+		mods = "CTRL",
+		action = action.EmitEvent("user-defined-6"),
+	},
+	{
+		key = "UpArrow",
+		mods = "CTRL",
+		action = action.EmitEvent("user-defined-7"),
+	},
+	{
+		key = "RightArrow",
+		mods = "CTRL",
+		action = action.EmitEvent("user-defined-8"),
+	},
 	-- disable
 	{
 		key = "H",
@@ -180,6 +201,10 @@ smart_splits.apply_to_config(config, {
 	direction_keys = {
 		move = { "h", "j", "k", "l" },
 		resize = { "LeftArrow", "DownArrow", "UpArrow", "RightArrow" },
+		modifiers = {
+			move = "CTRL",
+			resize = "CTRL",
+		},
 	},
 })
 
