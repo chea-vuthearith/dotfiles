@@ -109,28 +109,6 @@ config.keys = {
 		mods = "LEADER",
 		action = action.ActivateKeyTable({ name = "workspace" }),
 	},
-
-	-- smart_splits - cuz they fucked up
-	{
-		key = "LeftArrow",
-		mods = "CTRL",
-		action = action.EmitEvent("user-defined-5"),
-	},
-	{
-		key = "DownArrow",
-		mods = "CTRL",
-		action = action.EmitEvent("user-defined-6"),
-	},
-	{
-		key = "UpArrow",
-		mods = "CTRL",
-		action = action.EmitEvent("user-defined-7"),
-	},
-	{
-		key = "RightArrow",
-		mods = "CTRL",
-		action = action.EmitEvent("user-defined-8"),
-	},
 	-- disable
 	{
 		key = "H",
