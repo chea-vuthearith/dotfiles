@@ -140,13 +140,41 @@ for i = 1, 9 do
 	})
 end
 
+wezterm.on("close-all-other-panes", function(window, pane)
+	local tab = pane:tab()
+	local panes = tab:panes()
+
+	for _, p in ipairs(panes) do
+		if p:pane_id() ~= pane:pane_id() then
+			p:activate()
+			window:perform_action(wezterm.action.CloseCurrentPane({ confirm = false }), p)
+		end
+	end
+end)
+
+wezterm.on("close-all-other-tabs", function(window, pane)
+	local tab = window:active_tab()
+	local mux_window = window:mux_window()
+	local tabs = mux_window:tabs()
+
+	for _, t in ipairs(tabs) do
+		if t:tab_id() ~= tab:tab_id() then
+			t:activate()
+			window:perform_action(wezterm.action.CloseCurrentTab({ confirm = false }), pane)
+		end
+	end
+end)
+
 config.key_tables = {
+
 	pane = {
 		{ key = "d", action = action.CloseCurrentPane({ confirm = true }) },
+		{ key = "o", action = action.EmitEvent("close-all-other-panes") },
 	},
 	tab = {
 		{ key = "Tab", action = action.SpawnTab("CurrentPaneDomain") },
 		{ key = "d", action = action.CloseCurrentTab({ confirm = true }) },
+		{ key = "o", action = action.EmitEvent("close-all-other-tabs") },
 	},
 	workspace = {
 		{ key = "s", action = action.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }) },
