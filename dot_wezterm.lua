@@ -177,9 +177,9 @@ config.key_tables = {
 		{ key = "o", action = action.EmitEvent("close-all-other-tabs") },
 	},
 	workspace = {
-		{ key = "s", action = action.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }) },
+		{ key = "f", action = action.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }) },
 		{
-			key = "n",
+			key = "s",
 			action = action.PromptInputLine({
 				description = wezterm.format({
 					{ Attribute = { Intensity = "Bold" } },
