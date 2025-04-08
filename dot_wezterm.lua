@@ -24,40 +24,36 @@ config.font_rules = {
 }
 
 config.color_scheme = "Catppuccin Mocha"
-config.enable_tab_bar = true
-config.tab_bar_at_bottom = true
 config.window_background_opacity = 0.9
 config.window_decorations = "RESIZE"
 -- tab bar
-config.hide_tab_bar_if_only_one_tab = true
-
-local bg_color = "#000000"
-local fg_color = "#D0DFEE"
-
-config.window_frame = {
-	active_titlebar_bg = bg_color,
-	inactive_titlebar_bg = bg_color,
-}
-
+local bar = wezterm.plugin.require("https://github.com/adriankarlen/bar.wezterm")
+bar.apply_to_config(config, {
+	separator = {
+		space = 1,
+		left_icon = wezterm.nerdfonts.cod_circle_filled,
+		right_icon = wezterm.nerdfonts.cod_circle_filled,
+	},
+	modules = {
+		pane = { enabled = false },
+		username = { enabled = false },
+		hostname = { enabled = false },
+		cwd = { enabled = false },
+		clock = { enabled = false },
+	},
+})
+local bg_color = "#000"
 config.colors = {
 	background = bg_color,
 	tab_bar = {
-		inactive_tab = {
-			bg_color = bg_color,
-			fg_color = fg_color,
-		},
-		active_tab = {
-			bg_color = fg_color,
-			fg_color = bg_color,
-		},
+		background = bg_color,
 		new_tab = {
 			bg_color = bg_color,
 			fg_color = bg_color,
 		},
 	},
 }
-
-config.warn_about_missing_glyphs = false
+-- swap panes
 
 -- key bindings
 local action = wezterm.action
