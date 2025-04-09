@@ -27,19 +27,26 @@ config.color_scheme = "Catppuccin Mocha"
 config.window_background_opacity = 0.9
 config.window_decorations = "RESIZE"
 -- tab bar
-local bar = wezterm.plugin.require("https://github.com/adriankarlen/bar.wezterm")
+local bar = wezterm.plugin.require("https://github.com/chea-vuthearith/bar.wezterm")
 bar.apply_to_config(config, {
 	separator = {
 		space = 1,
 		left_icon = wezterm.nerdfonts.cod_circle_filled,
 		right_icon = wezterm.nerdfonts.cod_circle_filled,
 	},
+	padding = {
+		tabs = {
+			left = 1,
+			right = 1,
+		},
+	},
 	modules = {
-		pane = { enabled = true },
+		pane = { enabled = false },
+		zoom = { enabled = true },
 		username = { enabled = false },
 		hostname = { enabled = false },
 		cwd = { enabled = false },
-		clock = { enabled = false },
+		clock = { enabled = true, format = "%I:%M %p" },
 	},
 })
 local bg_color = "#000"
