@@ -35,7 +35,7 @@ bar.apply_to_config(config, {
 		right_icon = wezterm.nerdfonts.cod_circle_filled,
 	},
 	modules = {
-		pane = { enabled = false },
+		pane = { enabled = true },
 		username = { enabled = false },
 		hostname = { enabled = false },
 		cwd = { enabled = false },
@@ -46,10 +46,14 @@ local bg_color = "#000"
 config.colors = {
 	background = bg_color,
 	tab_bar = {
-		background = bg_color,
+		background = "transparent",
+		inactive_tab = {
+			fg_color = "#CDD6F4",
+			bg_color = "transparent",
+		},
 		new_tab = {
-			bg_color = bg_color,
 			fg_color = bg_color,
+			bg_color = bg_color,
 		},
 	},
 }
