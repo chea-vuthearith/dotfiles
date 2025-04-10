@@ -59,8 +59,8 @@ config.colors = {
 			bg_color = "transparent",
 		},
 		new_tab = {
-			fg_color = bg_color,
-			bg_color = bg_color,
+			fg_color = "transparent",
+			bg_color = "transparent",
 		},
 	},
 }
