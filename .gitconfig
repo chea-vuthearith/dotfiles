@@ -6,7 +6,7 @@
 	helper = !/usr/bin/gh auth git-credential
 [user]
 	email = cheavuthearith0@gmail.com
-	name = CheaVuthearith
+	name = chea-vuthearith
 [safe]
 	directory = *
 [core]
