@@ -206,10 +206,7 @@
   nixpkgs.config.allowUnfree = true;
 }
 
-# TODO: merge file from /etc/nixos/configuration.nix to this repo
 # TODO: figure out nvim config
 # TODO: clean up unused scripts
 # TODO: get notifs and notifs history working
-# TODO: fkeys on keyboard
-# TODO: get home manager in repo
 
