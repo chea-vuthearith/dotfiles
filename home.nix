@@ -1,6 +1,8 @@
-{ lib, pkgs, ... }:
+{ inputs, lib, pkgs, ... }:
 
 {
+  imports = [ inputs.hyprpanel.homeManagerModules.hyprpanel ];
+
   home.stateVersion = "24.11"; # DO NOT CHANGE
   home.username = "kuro";
   home.homeDirectory = "/home/kuro";
@@ -16,13 +18,15 @@
 
     # dev tools
     fzf
-    brave
+    yazi
     xclip
     ripgrep
     starship
     gitAndTools.gh
+    vscode-extensions.biomejs.biome
 
     # socials
+    brave
     discord
     telegram-desktop
 
@@ -38,6 +42,7 @@
     swappy
     nautilus
     tesseract
+    libnotify
     hyprpicker
     pavucontrol
     gnome-system-monitor
@@ -88,6 +93,71 @@
         radius = 17;
         width = 1;
       };
+    };
+  };
+
+  programs.hyprpanel = {
+    enable = true;
+    hyprland.enable = true;
+    overwrite.enable = true;
+    overlay.enable = true;
+
+    settings = {
+      theme = {
+        name = "monochrome";
+        bar.transparent = true;
+        osd = {
+          enable = true;
+          orientation = "horizontal";
+          location = "top";
+        };
+        font = {
+          size = "1rem";
+          weight = 400;
+          name = "System-ui";
+        };
+      };
+
+      layout = {
+        "bar.layouts" = {
+          "*" = {
+            left = [ "windowtitle" "volume" "media" ];
+            middle = [ "workspaces" ];
+            right = [ "clock" "notifications" "session" "battery" "systray" ];
+          };
+        };
+      };
+
+      bar = {
+        clock.icon = " ";
+        clock.format = "%I:%M %p";
+        customModules.worldclock.format = "%I:%M %p %Z";
+        customModules.worldclock.formatDiffDate = "%a %b %d  %I:%M %p %Z";
+        media.show_active_only = true;
+        notifications.hideCountWhenZero = true;
+        notifications.show_total = true;
+        workspaces.applicationIconOncePerWorkspace = true;
+        workspaces.showAllActive = true;
+        workspaces.showApplicationIcons = true;
+        workspaces.showWsIcons = true;
+
+      };
+
+      notifications = {
+        position = "top";
+        showActionsOnHover = true;
+      };
+
+      menus = {
+        clock.time.hideSeconds = true;
+        clock.weather.location = "Phnom Penh";
+        clock.weather.unit = "metric";
+      };
+
+      wallpaper.enable = true;
+      wallpaper.image =
+        "/home/kuro/.config/home-manager/dotfiles/wallpaper/tunnel.png";
+
     };
   };
 
@@ -165,7 +235,7 @@
     latitude = "11.562108";
   };
 
-  services.swww = { enable = true; };
+  # services.swww = { enable = true; };
 
   wayland.windowManager.hyprland = {
     enable = true;
