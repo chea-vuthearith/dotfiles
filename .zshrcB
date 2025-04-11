@@ -38,7 +38,7 @@ zi ice depth"1"; zi light romkatv/zsh-defer
  export EDITOR="nvim"
 
  # launch hyprland on login
- source ~/.config/home-manager/dotfiles/zshrc.d/auto-Hypr.sh
+ source ~/dotfiles/zshrc.d/auto-Hypr.sh
 
 timezsh() {
   shell=${1-$SHELL}

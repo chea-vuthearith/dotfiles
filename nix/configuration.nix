@@ -1,12 +1,12 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   imports = [ # Include the results of the hardware scan.
     /etc/nixos/hardware-configuration.nix
+    inputs.home-manager.nixosModules.default
   ];
 
   hardware.i2c.enable = true;
@@ -32,7 +32,6 @@
   users.users.kuro = {
     isNormalUser = true;
     extraGroups = [ "wheel" "video" "audio" ];
-    packages = with pkgs; [ tree ];
     shell = pkgs.zsh;
     ignoreShellProgramCheck = true;
   };
@@ -46,10 +45,16 @@
     # fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
-    home-manager
   ];
 
   services.openssh.enable = true;
   # DO NOT CHANGE
   system.stateVersion = "24.11";
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = { kuro = import ./home.nix; };
+  };
+
 }
+

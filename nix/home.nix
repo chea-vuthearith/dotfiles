@@ -1,4 +1,4 @@
-{ inputs, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, ... }:
 
 {
   imports = [ inputs.hyprpanel.homeManagerModules.hyprpanel ];
@@ -6,6 +6,14 @@
   home.stateVersion = "24.11"; # DO NOT CHANGE
   home.username = "kuro";
   home.homeDirectory = "/home/kuro";
+
+  home.file = {
+    ".config/nvim" = {
+      source = config.lib.file.mkOutOfStoreSymlink
+        "${config.home.homeDirectory}/dotfiles/nvim";
+    };
+  };
+
   home.packages = with pkgs; [
 
     # languages
@@ -20,6 +28,7 @@
     fzf
     yazi
     xclip
+    docker
     ripgrep
     starship
     gitAndTools.gh
@@ -57,18 +66,13 @@
     wl-clipboard
   ];
 
-  nix = {
-    package = pkgs.nix;
-    settings.experimental-features = [ "nix-command" "flakes" ];
-  };
+  nix = { settings.experimental-features = [ "nix-command" "flakes" ]; };
 
   programs.neovim = {
     enable = true;
     extraLuaPackages = ps: [ ps.magick ];
     extraPackages = [ pkgs.imagemagick ];
     defaultEditor = true;
-    # extraLuaConfig =  lib.fileContents ./dotfilesnvim/init.lua;
-    # extraLuaConfig = ''dofile("${config.users.users.kuro.home}/dotfiles/nvim/init.lua")'';
   };
 
   programs.fuzzel = {
@@ -155,8 +159,7 @@
       };
 
       wallpaper.enable = true;
-      wallpaper.image =
-        "/home/kuro/.config/home-manager/dotfiles/wallpaper/tunnel.png";
+      wallpaper.image = "dotfiles/wallpaper/tunnel.png";
 
     };
   };
@@ -174,29 +177,31 @@
       findNoDups = true;
     };
     shellAliases = {
-      nsw = "sudo nixos-rebuild switch";
-      ncf = "sudo nvim /etc/nixos/configuration.nix";
-      hsw = "home-manager switch";
-      hcf = "nvim ~/.config/home-manager/home.nix";
+      nsw = "sudo nixos-rebuild switch --flake ~/dotfiles/nix --impure";
     };
-    initExtraBeforeCompInit = lib.fileContents ./dotfiles/.zshrcA;
-    initExtra = lib.fileContents ./dotfiles/.zshrcB;
+    initExtraBeforeCompInit =
+      lib.fileContents "${config.home.homeDirectory}/dotfiles/.zshrcA";
+    initExtra =
+      lib.fileContents "${config.home.homeDirectory}/dotfiles/.zshrcB";
   };
 
   programs.wezterm = {
     enable = true;
     enableZshIntegration = true;
-    extraConfig = lib.fileContents ./dotfiles/.wezterm.lua;
+    extraConfig =
+      lib.fileContents "${config.home.homeDirectory}/dotfiles/.wezterm.lua";
   };
 
   programs.git = {
     enable = true;
-    extraConfig = lib.fileContents ./dotfiles/.gitconfig;
+    extraConfig =
+      lib.fileContents "${config.home.homeDirectory}/dotfiles/.gitconfig";
   };
 
   programs.hyprlock = {
     enable = true;
-    extraConfig = lib.fileContents ./dotfiles/hypr/hyprlock.conf;
+    extraConfig = lib.fileContents
+      "${config.home.homeDirectory}/dotfiles/hypr/hyprlock.conf";
   };
 
   services.cliphist.enable = true;
@@ -239,7 +244,8 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
-    extraConfig = lib.fileContents ./dotfiles/hypr/hyprland.conf;
+    extraConfig = lib.fileContents
+      "${config.home.homeDirectory}/dotfiles/hypr/hyprland.conf";
   };
 
   # Optional, hint Electron apps to use Wayland:
@@ -275,8 +281,3 @@
   };
   nixpkgs.config.allowUnfree = true;
 }
-
-# TODO: figure out nvim config
-# TODO: clean up unused scripts
-# TODO: get notifs and notifs history working
-
