@@ -29,6 +29,8 @@
     pulse.enable = true;
   };
 
+  services.upower.enable = true;
+
   users.users.kuro = {
     isNormalUser = true;
     extraGroups = [ "wheel" "video" "audio" "docker" ];
