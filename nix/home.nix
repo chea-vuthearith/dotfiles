@@ -31,6 +31,7 @@
     nodejs_23
 
     # dev tools
+    fd
     fzf
     xclip
     sshfs
@@ -80,8 +81,29 @@
   programs.neovim = {
     enable = true;
     extraLuaPackages = ps: [ ps.magick ];
-    extraPackages = [ pkgs.imagemagick ];
     defaultEditor = true;
+    extraPackages = with pkgs; [
+      bash-language-server
+      biome
+      black
+      docker-compose-language-service
+      dockerfile-language-server-nodejs
+      hadolint
+      lua-language-server
+      markdownlint-cli2
+      marksman
+      nil
+      nixfmt
+      pyright
+      ruff
+      shellcheck
+      shfmt
+      sqlfluff
+      stylua
+      tailwindcss-language-server
+      texlab
+      vtsls
+    ];
   };
 
   programs.yazi = {
