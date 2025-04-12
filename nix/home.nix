@@ -40,6 +40,7 @@
     docker
     prisma
     docker-compose
+    gnumake
     ripgrep
     starship
     magic-wormhole
