@@ -10,8 +10,8 @@ return
     {
       "<leader>e",
       mode = { "n", "v" },
-      "<cmd>Yazi toggle<cr>",
-      desc = "Open yazi in cwd",
+      "<cmd>Yazi<cr>",
+      desc = "Open yazi",
     },
     {
       -- Open in the current working directory

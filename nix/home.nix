@@ -255,7 +255,8 @@
       findNoDups = true;
     };
     shellAliases = {
-      nsw = "sudo nixos-rebuild switch --flake ~/dotfiles/nix --impure";
+      nsw =
+        "cd ~/dotfiles && git pull && sudo nixos-rebuild switch --flake ~/dotfiles/nix --impure && cd -";
       ncf = "yazi ~/dotfiles/nix";
     };
     initExtraBeforeCompInit =
