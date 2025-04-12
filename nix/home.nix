@@ -151,6 +151,7 @@
     enable = true;
     settings = {
       main = {
+        dpi-aware = "no";
         terminal = "wezterm";
         layer = "overlay";
         font = "Firacode";
