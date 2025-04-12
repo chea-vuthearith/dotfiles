@@ -27,6 +27,7 @@
     cargo
     pnpm_9
     python3
+    sqlite
     luarocks
     nodejs_23
 
@@ -36,6 +37,7 @@
     xclip
     sshfs
     docker
+    prisma
     docker-compose
     ripgrep
     starship
@@ -55,6 +57,7 @@
 
     # qol
     lsd
+    newt
     mesa
     chafa
     unzip
@@ -243,6 +246,7 @@
     };
     shellAliases = {
       nsw = "sudo nixos-rebuild switch --flake ~/dotfiles/nix --impure";
+      ncf = "yazi ~/dotfiles/nix";
     };
     initExtraBeforeCompInit =
       lib.fileContents "${config.home.homeDirectory}/dotfiles/.zshrcA";
