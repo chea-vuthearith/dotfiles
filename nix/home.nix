@@ -41,6 +41,7 @@
     starship
     magic-wormhole
     gitAndTools.gh
+    dragon-drop
 
     # socials
     brave
@@ -91,9 +92,9 @@
       hadolint
       lua-language-server
       markdownlint-cli2
+      nixfmt-classic
       marksman
       nil
-      nixfmt
       pyright
       ruff
       shellcheck
@@ -112,7 +113,17 @@
     keymap = {
       manager.prepend_keymap = [
         {
-          on = [ "y" ];
+          on = [ "g" "r" ];
+          run = ''shell -- ya emit cd "$(git rev-parse --show-toplevel)"'';
+          description = "Go to git root";
+        }
+        {
+          on = "<C-n>";
+          run = ''shell -- dragon-drop -x -i -a -T "$@"'';
+
+        }
+        {
+          on = "y";
           run = [
             ''
               shell -- for path in "$@"; do echo "file://$path"; done | wl-copy -t text/uri-list''
