@@ -8,14 +8,21 @@
   home.homeDirectory = "/home/kuro";
   home.preferXdgDirectories = true;
 
-  xdg.enable = true;
-  xdg.userDirs.enable = true;
+  xdg = {
+    enable = true;
+    userDirs.enable = true;
+  };
 
   home.file = {
     ".config/nvim" = {
       source = config.lib.file.mkOutOfStoreSymlink
         "${config.home.homeDirectory}/dotfiles/nvim";
     };
+
+    ".config/xdg-desktop-portal-termfilechooser/config".text = ''
+      [filechooser]
+      cmd=yazi
+    '';
   };
 
   home.packages = with pkgs; [
@@ -121,6 +128,10 @@
     keymap = {
       manager.prepend_keymap = [
         {
+          on = "i";
+          run = "spot";
+        }
+        {
           on = [ "g" "r" ];
           run = ''shell -- ya emit cd "$(git rev-parse --show-toplevel)"'';
           description = "Go to git root";
@@ -144,7 +155,6 @@
         }
       ];
     };
-
   };
 
   programs.fuzzel = {
