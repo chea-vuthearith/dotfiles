@@ -201,7 +201,7 @@
       layout = {
         "bar.layouts" = {
           "*" = {
-            left = [ "windowtitle" ];
+            left = [ "hypridle" "windowtitle" ];
             middle = [ "media" "workspaces" "clock" "battery" ];
             right = [ "systray" "notifications" "volume" "network" ];
           };
