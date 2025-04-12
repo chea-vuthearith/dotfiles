@@ -58,6 +58,7 @@
     nerd-fonts.victor-mono
 
     # qol
+    vlc
     lsd
     newt
     mesa

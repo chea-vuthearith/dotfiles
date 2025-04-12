@@ -20,7 +20,7 @@ if pgrep wf-recorder >/dev/null; then
 
 else
   FILE='/recording_'"$(getdate)"'.mp4'
-  notify-send "Starting recording" "saving to $FILE" -a 'record-script.sh'
+  notify-send "Starting recording" "Saving to $(xdg-user-dir VIDEOS)" -a 'record-script.sh'
   WORKSPACES="$(hyprctl monitors -j | jq -r 'map(.activeWorkspace.id)')"
   WINDOWS="$(hyprctl clients -j | jq -r --argjson workspaces "$WORKSPACES" 'map(select([.workspace.id] | inside($workspaces)))')"
   GEOM=$(echo "$WINDOWS" | jq -r '.[] | "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"' | slurp "$SLURP_ARGS")
