@@ -3,11 +3,11 @@ return {
     "nvim-lualine/lualine.nvim",
     opts = {
       sections = {
-        lualine_z = {
-          function()
-            return " " .. os.date("%-I:%02M %p")
-          end,
-        },
+        lualine_b = { "branch", "diff", "diagnostics" },
+        lualine_c = { "filename" },
+        lualine_x = { "filetype" },
+        lualine_y = { "progress" },
+        lualine_z = { "location" },
       },
     },
   },

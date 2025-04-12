@@ -46,9 +46,10 @@ bar.apply_to_config(config, {
 		username = { enabled = false },
 		hostname = { enabled = false },
 		cwd = { enabled = false },
-		clock = { enabled = true, format = "%I:%M %p" },
+		clock = { enabled = true, icon = wezterm.nerdfonts.fa_clock, format = "%I:%M %p" },
 	},
 })
+
 local bg_color = "#000"
 config.colors = {
 	background = bg_color,

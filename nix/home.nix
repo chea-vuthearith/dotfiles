@@ -187,6 +187,11 @@
           weight = 400;
           name = "System-ui";
         };
+
+        bar = {
+          outer_spacing = "0.4em";
+          buttons.y_margins = "0.4em";
+        };
       };
 
       layout = {
@@ -200,7 +205,7 @@
       };
 
       bar = {
-        clock.icon = " ";
+        clock.icon = "";
         clock.format = "%I:%M %p";
         customModules.worldclock.format = "%I:%M %p %Z";
         customModules.worldclock.formatDiffDate = "%a %b %d  %I:%M %p %Z";
