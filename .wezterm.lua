@@ -27,7 +27,7 @@ config.color_scheme = "Catppuccin Mocha"
 config.window_background_opacity = 0.9
 config.window_decorations = "RESIZE"
 -- tab bar
-local bar = wezterm.plugin.require("https://github.com/chea-vuthearith/bar.wezterm")
+local bar = wezterm.plugin.require("https://github.com/adriankarlen/bar.wezterm")
 bar.apply_to_config(config, {
 	separator = {
 		space = 1,

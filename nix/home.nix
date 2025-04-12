@@ -90,6 +90,7 @@
       bash-language-server
       biome
       black
+      vscode-langservers-extracted
       docker-compose-language-service
       dockerfile-language-server-nodejs
       hadolint
