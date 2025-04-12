@@ -34,6 +34,7 @@
     # dev tools
     fd
     fzf
+    croc
     xclip
     sshfs
     docker
