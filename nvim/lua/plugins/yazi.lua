@@ -10,18 +10,14 @@ return
     {
       "<leader>e",
       mode = { "n", "v" },
-      "<cmd>Yazi<cr>",
+      "<cmd>Yazi toggle<cr>",
+      desc = "Open yazi in cwd",
     },
     {
       -- Open in the current working directory
       "<leader>E",
       "<cmd>Yazi cwd<cr>",
-      desc = "Open the file manager in nvim's working directory",
-    },
-    {
-      "<c-up>",
-      "<cmd>Yazi toggle<cr>",
-      desc = "Resume the last yazi session",
+      desc = "Open yazi in root",
     },
   },
   ---@type YaziConfig | {}

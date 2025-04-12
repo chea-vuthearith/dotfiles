@@ -31,10 +31,12 @@
 
   users.users.kuro = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" "audio" ];
+    extraGroups = [ "wheel" "video" "audio" "docker" ];
     shell = pkgs.zsh;
     ignoreShellProgramCheck = true;
   };
+
+  virtualisation.docker.enable = true;
 
   programs.zsh.enable = false;
   programs.hyprland.enable = true;
