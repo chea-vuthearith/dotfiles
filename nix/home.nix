@@ -96,6 +96,7 @@
   programs.neovim = {
     enable = true;
     viAlias = true;
+    extraLuaPackages = ps: [ ps.magick ];
     defaultEditor = true;
     extraPackages = with pkgs; [
       bash-language-server
