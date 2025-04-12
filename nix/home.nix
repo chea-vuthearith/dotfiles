@@ -26,7 +26,6 @@
 
     # dev tools
     fzf
-    yazi
     xclip
     docker
     ripgrep
@@ -73,6 +72,28 @@
     extraLuaPackages = ps: [ ps.magick ];
     extraPackages = [ pkgs.imagemagick ];
     defaultEditor = true;
+  };
+
+  programs.yazi = {
+    enable = true;
+    enableZshIntegration = true;
+    keymap = {
+      manager.prepend_keymap = [
+        {
+          on = [ "y" ];
+          run = [
+            ''
+              shell -- for path in "$@"; do echo "file://$path"; done | wl-copy -t text/uri-list''
+            "yank"
+          ];
+        }
+        {
+          run = "quit";
+          on = [ "Z" "Z" ];
+        }
+      ];
+    };
+
   };
 
   programs.fuzzel = {
