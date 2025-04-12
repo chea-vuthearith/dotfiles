@@ -69,6 +69,7 @@
     hyprpicker
     pavucontrol
     xdg-user-dirs
+    brightnessctl
     gnome-system-monitor
     xdg-desktop-portal-hyprland
 
