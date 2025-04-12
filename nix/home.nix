@@ -19,6 +19,8 @@
     # languages
     gcc
     lua
+    rustc
+    cargo
     pnpm_9
     python3
     luarocks
@@ -47,6 +49,7 @@
     lsd
     mesa
     chafa
+    unzip
     swappy
     nautilus
     tesseract
@@ -180,7 +183,7 @@
       };
 
       wallpaper.enable = true;
-      wallpaper.image = "dotfiles/wallpaper/tunnel.png";
+      wallpaper.image = "${config.home.homeDirectory}/dotfiles/wallpaper/tunnel.png";
 
     };
   };
