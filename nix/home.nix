@@ -38,8 +38,8 @@
     docker-compose
     ripgrep
     starship
+    magic-wormhole
     gitAndTools.gh
-    vscode-extensions.biomejs.biome
 
     # socials
     brave
@@ -156,9 +156,9 @@
       layout = {
         "bar.layouts" = {
           "*" = {
-            left = [ "windowtitle" "volume" "media" ];
-            middle = [ "workspaces" ];
-            right = [ "clock" "notifications" "session" "battery" "systray" ];
+            left = [ "windowtitle" ];
+            middle = [ "media" "workspaces" "clock" "battery" ];
+            right = [ "systray" "notifications" "volume" "network" ];
           };
         };
       };
@@ -190,7 +190,8 @@
       };
 
       wallpaper.enable = true;
-      wallpaper.image = "${config.home.homeDirectory}/dotfiles/wallpaper/tunnel.png";
+      wallpaper.image =
+        "${config.home.homeDirectory}/dotfiles/wallpaper/tunnel.png";
 
     };
   };
