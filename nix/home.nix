@@ -6,6 +6,10 @@
   home.stateVersion = "24.11"; # DO NOT CHANGE
   home.username = "kuro";
   home.homeDirectory = "/home/kuro";
+  home.preferXdgDirectories = true;
+
+  xdg.enable = true;
+  xdg.userDirs.enable = true;
 
   home.file = {
     ".config/nvim" = {
@@ -29,7 +33,9 @@
     # dev tools
     fzf
     xclip
+    sshfs
     docker
+    docker-compose
     ripgrep
     starship
     gitAndTools.gh
@@ -56,6 +62,7 @@
     libnotify
     hyprpicker
     pavucontrol
+    xdg-user-dirs
     gnome-system-monitor
     xdg-desktop-portal-hyprland
 
@@ -264,7 +271,7 @@
     latitude = "11.562108";
   };
 
-  # services.swww = { enable = true; };
+  services.swww = { enable = true; };
 
   wayland.windowManager.hyprland = {
     enable = true;
