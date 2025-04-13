@@ -192,35 +192,13 @@
     overlay.enable = true;
 
     settings = {
-      theme = {
-        matugen = true;
-        matugen_settings.mode = "dark";
-        matugen_settings.scheme_type = "neutral";
-        matugen_settings.variation = "standard_1";
-        bar.transparent = true;
-        osd = {
-          enable = true;
-          orientation = "horizontal";
-          location = "top";
-        };
-        font = {
-          size = "1rem";
-          weight = 400;
-          name = "System-ui";
-        };
-
-        bar = {
-          outer_spacing = "0.4em";
-          buttons.y_margins = "0.4em";
-        };
-      };
 
       layout = {
         "bar.layouts" = {
           "*" = {
-            left = [ "hypridle" "windowtitle" ];
+            left = [ "notifications" "windowtitle" ];
             middle = [ "media" "workspaces" "clock" "battery" ];
-            right = [ "systray" "notifications" "volume" "network" ];
+            right = [ "systray" "hypridle" "volume" "network" ];
           };
         };
       };
@@ -246,9 +224,12 @@
       };
 
       menus = {
-        clock.time.hideSeconds = true;
-        clock.weather.location = "Phnom Penh";
-        clock.weather.unit = "metric";
+        clock = {
+          time.hideSeconds = true;
+          weather.location = "Phnom Penh";
+          weather.unit = "metric";
+        };
+        power = { lowBatteryNotification = true; };
       };
 
       wallpaper = {
@@ -256,6 +237,37 @@
         image = "${config.home.homeDirectory}/dotfiles/wallpaper/tunnel.png";
       };
     };
+
+    override = {
+      theme = {
+        matugen = true;
+        matugen_settings.mode = "dark";
+        matugen_settings.scheme_type = "neutral";
+        matugen_settings.variation = "standard_1";
+        bar.transparent = true;
+        osd = {
+          enable = true;
+          orientation = "horizontal";
+          location = "top";
+          icon_container = "#1A1A1A";
+          icon = "#cdd6f4";
+        };
+        font = {
+          size = "1rem";
+          weight = 400;
+          name = "System-ui";
+        };
+        bar = {
+          outer_spacing = "0.4em";
+          buttons.y_margins = "0.4em";
+        };
+        notification = {
+          close_button.label = "#cdd6f4";
+          close_button.background = "#303032";
+        };
+      };
+    };
+
   };
 
   programs.zsh = {
