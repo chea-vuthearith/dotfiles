@@ -5,8 +5,9 @@
 
   home.stateVersion = "24.11"; # DO NOT CHANGE
   home.username = "kuro";
-  home.homeDirectory = "/home/kuro";
+  home.homeDirectory = "/home/${config.home.username}";
   home.preferXdgDirectories = true;
+  home.sessionVariables.NIXOS_OZONE_WL = "1";
 
   xdg = {
     enable = true;
@@ -72,6 +73,7 @@
     chafa
     unzip
     swappy
+    matugen
     nautilus
     tesseract
     libnotify
@@ -135,7 +137,7 @@
         {
           on = [ "g" "r" ];
           run = ''shell -- ya emit cd "$(git rev-parse --show-toplevel)"'';
-          description = "Go to git root";
+          desc = "Go to git root";
         }
         {
           on = "<C-n>";
@@ -192,7 +194,10 @@
 
     settings = {
       theme = {
-        name = "monochrome";
+        matugen = true;
+        matugen_settings.mode = "dark";
+        matugen_settings.scheme_type = "neutral";
+        matugen_settings.variation = "standard_1";
         bar.transparent = true;
         osd = {
           enable = true;
@@ -247,10 +252,10 @@
         clock.weather.unit = "metric";
       };
 
-      wallpaper.enable = true;
-      wallpaper.image =
-        "${config.home.homeDirectory}/dotfiles/wallpaper/tunnel.png";
-
+      wallpaper = {
+        enable = true;
+        image = "${config.home.homeDirectory}/dotfiles/wallpaper/tunnel.png";
+      };
     };
   };
 
@@ -340,8 +345,6 @@
       "${config.home.homeDirectory}/dotfiles/hypr/hyprland.conf";
   };
 
-  # Optional, hint Electron apps to use Wayland:
-  home.sessionVariables.NIXOS_OZONE_WL = "1";
   home.pointerCursor = {
     gtk.enable = true;
     package = pkgs.bibata-cursors;
@@ -349,14 +352,14 @@
     size = 16;
   };
 
-  fonts = {
-    fontconfig = {
-      defaultFonts = {
-        serif = [ "Liberation Serif" ];
-        sansSerif = [ "Ubuntu" ];
-      };
-    };
-  };
+  # fonts = {
+  #   fontconfig = {
+  #     defaultFonts = {
+  #       serif = [ "Liberation Serif" ];
+  #       sansSerif = [ "Ubuntu" ];
+  #     };
+  #   };
+  # };
 
   gtk = {
     enable = true;
