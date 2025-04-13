@@ -15,15 +15,13 @@
   };
 
   home.file = {
+    ".config/background" = {
+      source = "${config.home.homeDirectory}/dotfiles/wallpaper/tunnel.png";
+    };
     ".config/nvim" = {
       source = config.lib.file.mkOutOfStoreSymlink
         "${config.home.homeDirectory}/dotfiles/nvim";
     };
-
-    ".config/xdg-desktop-portal-termfilechooser/config".text = ''
-      [filechooser]
-      cmd=yazi
-    '';
   };
 
   home.packages = with pkgs; [
