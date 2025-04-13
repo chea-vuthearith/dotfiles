@@ -358,6 +358,12 @@
     };
   };
 
+  qt = {
+    enable = true;
+    platformTheme = "gtk";
+    qt.style.name = "adwaita-dark";
+  };
+
   gtk = {
     enable = true;
 
