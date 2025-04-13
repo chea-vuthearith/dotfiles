@@ -300,6 +300,7 @@
   };
 
   services.cliphist.enable = true;
+  services.hyprpolkitagent.enable = true;
 
   services.hypridle = {
     enable = true;
