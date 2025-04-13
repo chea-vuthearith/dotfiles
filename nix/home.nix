@@ -274,6 +274,7 @@
       nsw =
         "cd ~/dotfiles && git pull; sudo nixos-rebuild switch --flake ~/dotfiles/nix --impure; cd -";
       ncf = "yazi ~/dotfiles/nix";
+      nosleep = "~/dotfiles/ags/scripts/wayland-idle-inhibitor.py";
     };
     initExtraBeforeCompInit =
       lib.fileContents "${config.home.homeDirectory}/dotfiles/.zshrcA";
@@ -322,7 +323,7 @@
           on-timeout = "loginctl lock-session";
         }
         {
-          timeout = 4 * 60;
+          timeout = 10 * 60;
           on-timeout = "pidof steam || systemctl suspend || loginctl suspend";
         }
       ];
