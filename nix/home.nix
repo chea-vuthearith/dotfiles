@@ -249,7 +249,7 @@
           enable = true;
           orientation = "horizontal";
           location = "top";
-          icon_container = "#1A1A1A";
+          icon_container = "#131315";
           icon = "#cdd6f4";
         };
         font = {
