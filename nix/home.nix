@@ -313,18 +313,16 @@
 
       listener = [
         {
-          timeout = 180; # 3mins
-          on-timeout = "loginctl lock-session";
-        }
-
-        {
-          timeout = 240; # 4mins
+          timeout = 3 * 60; # 4mins
           on-timeout = "hyprctl dispatch dpms off";
           on-resume = "hyprctl dispatch dpms on";
         }
-
         {
-          timeout = 540;
+          timeout = 5 * 60; # 3mins
+          on-timeout = "loginctl lock-session";
+        }
+        {
+          timeout = 4 * 60;
           on-timeout = "pidof steam || systemctl suspend || loginctl suspend";
         }
       ];
