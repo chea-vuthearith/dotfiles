@@ -350,15 +350,6 @@
     size = 16;
   };
 
-  # fonts = {
-  #   fontconfig = {
-  #     defaultFonts = {
-  #       serif = [ "Liberation Serif" ];
-  #       sansSerif = [ "Ubuntu" ];
-  #     };
-  #   };
-  # };
-
   gtk = {
     enable = true;
 
