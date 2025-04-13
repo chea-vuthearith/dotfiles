@@ -25,7 +25,6 @@
   };
 
   home.packages = with pkgs; [
-
     # languages
     gcc
     lua
@@ -156,6 +155,8 @@
         }
       ];
     };
+    settings = { manager = { show_hidden = true; }; };
+    shellWrapperName = "y";
   };
 
   programs.fuzzel = {
