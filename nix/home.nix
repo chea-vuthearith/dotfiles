@@ -313,12 +313,12 @@
 
       listener = [
         {
-          timeout = 3 * 60; # 4mins
+          timeout = 3 * 60;
           on-timeout = "hyprctl dispatch dpms off";
           on-resume = "hyprctl dispatch dpms on";
         }
         {
-          timeout = 5 * 60; # 3mins
+          timeout = 5 * 60;
           on-timeout = "loginctl lock-session";
         }
         {
