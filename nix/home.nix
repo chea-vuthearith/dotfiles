@@ -268,7 +268,7 @@
     };
     shellAliases = {
       nsw =
-        "cd ~/dotfiles && git pull && sudo nixos-rebuild switch --flake ~/dotfiles/nix --impure && cd -";
+        "cd ~/dotfiles && git pull; sudo nixos-rebuild switch --flake ~/dotfiles/nix --impure; cd -";
       ncf = "yazi ~/dotfiles/nix";
     };
     initExtraBeforeCompInit =
@@ -358,18 +358,12 @@
     };
   };
 
-  qt = {
-    enable = true;
-    platformTheme = "gtk";
-    qt.style.name = "adwaita-dark";
-  };
-
   gtk = {
     enable = true;
 
     theme = {
-      package = pkgs.flat-remix-gtk;
-      name = "Flat-Remix-GTK-Grey-Darkest";
+      package = pkgs.gnome-themes-extra;
+      name = "Adwaita-dark";
     };
 
     iconTheme = {
@@ -377,5 +371,12 @@
       name = "Yaru-purple";
     };
   };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "adwaita";
+    style.name = "adwaita-dark";
+  };
+
   nixpkgs.config.allowUnfree = true;
 }
