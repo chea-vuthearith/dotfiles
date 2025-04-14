@@ -39,11 +39,14 @@
     # dev tools
     fd
     fzf
+    ags
     croc
+    bluez
     xclip
     sshfs
     docker
     prisma
+    libgtop
     docker-compose
     gnumake
     ripgrep
