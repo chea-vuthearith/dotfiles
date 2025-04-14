@@ -97,29 +97,6 @@
     viAlias = true;
     extraLuaPackages = ps: [ ps.magick ];
     defaultEditor = true;
-    extraPackages = with pkgs; [
-      bash-language-server
-      biome
-      black
-      vscode-langservers-extracted
-      docker-compose-language-service
-      dockerfile-language-server-nodejs
-      hadolint
-      lua-language-server
-      markdownlint-cli2
-      nixfmt-classic
-      marksman
-      nil
-      pyright
-      ruff
-      shellcheck
-      shfmt
-      sqlfluff
-      stylua
-      tailwindcss-language-server
-      texlab
-      vtsls
-    ];
   };
 
   programs.yazi = {

@@ -43,6 +43,8 @@
 
   programs.zsh.enable = false;
   programs.hyprland.enable = true;
+  programs.nix-ld.enable = true;
+
   environment.systemPackages = with pkgs; [
     neovim
     wget
