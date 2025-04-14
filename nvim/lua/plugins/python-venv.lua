@@ -3,7 +3,7 @@ return {
   lazy = true,
   branch = "regexp",
   enabled = true,
-  opts = {
-    picker = "fzf-lua",
-  },
+  -- opts = {
+  --   picker = "fzf-lua",
+  -- },
 }
