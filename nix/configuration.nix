@@ -1,36 +1,50 @@
-# Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page, on
-# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 { config, lib, pkgs, inputs, ... }:
 
 {
-  imports = [ # Include the results of the hardware scan.
+  imports = [
     /etc/nixos/hardware-configuration.nix
     inputs.home-manager.nixosModules.default
   ];
 
-  hardware.i2c.enable = true;
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  boot.kernelModules = [ "hid_apple" ];
-
-  boot.extraModprobeConfig = ''
-    options hid_apple fnmode=2
-  '';
-
-  networking.hostName = "nixos";
-  networking.networkmanager.enable = true;
-
-  time.timeZone = "Asia/Phnom_Penh";
-
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
+  # Boot configuration
+  boot = {
+    loader.systemd-boot.enable = true;
+    loader.efi.canTouchEfiVariables = true;
+    kernelModules = [ "hid_apple" ];
+    extraModprobeConfig = ''
+      options hid_apple fnmode=2
+    '';
   };
 
-  services.upower.enable = true;
+  # Hardware settings
+  hardware.i2c.enable = true;
 
+  # Networking
+  networking = {
+    hostName = "nixos";
+    networkmanager.enable = true;
+  };
+
+  # Time and locale
+  time.timeZone = "Asia/Phnom_Penh";
+
+  # Services
+  services = {
+    upower.enable = true;
+    openssh.enable = true;
+    pipewire = {
+      enable = true;
+      pulse.enable = true;
+    };
+  };
+
+  # Virtualization
+  virtualisation.docker.enable = true;
+
+  # Security
+  security.polkit.enable = true;
+
+  # User configuration
   users.users.kuro = {
     isNormalUser = true;
     extraGroups = [ "wheel" "video" "audio" "docker" "networkmanager" ];
@@ -38,13 +52,14 @@
     ignoreShellProgramCheck = true;
   };
 
-  virtualisation.docker.enable = true;
-  security.polkit.enable = true;
+  # Programs
+  programs = {
+    zsh.enable = false;
+    hyprland.enable = true;
+    nix-ld.enable = true;
+  };
 
-  programs.zsh.enable = false;
-  programs.hyprland.enable = true;
-  programs.nix-ld.enable = true;
-
+  # Environment
   environment.systemPackages = with pkgs; [
     neovim
     wget
@@ -54,14 +69,22 @@
     noto-fonts-emoji
   ];
 
-  services.openssh.enable = true;
+  # Miscellaneous
+  services.getty.greetingLine = ''
+      ______________
+    < i hate my life >
+      --------------
+             \   ^__^ 
+              \  (oo)\_______
+                (__)\       )\/\\
+                    ||----w |
+                    ||     ||'';
   # DO NOT CHANGE
   system.stateVersion = "24.11";
 
+  # Home Manager
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = { kuro = import ./home.nix; };
   };
-
 }
-

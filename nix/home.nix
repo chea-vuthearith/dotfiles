@@ -1,112 +1,115 @@
 { inputs, config, lib, pkgs, ... }:
 
 {
+  # Imports
   imports = [ inputs.hyprpanel.homeManagerModules.hyprpanel ];
 
-  home.stateVersion = "24.11"; # DO NOT CHANGE
-  home.username = "kuro";
-  home.homeDirectory = "/home/${config.home.username}";
-  home.preferXdgDirectories = true;
-  home.sessionVariables.NIXOS_OZONE_WL = "1";
+  # Home Configuration
+  home = {
+    stateVersion = "24.11"; # DO NOT CHANGE
+    username = "kuro";
+    homeDirectory = "/home/${config.home.username}";
+    preferXdgDirectories = true;
+    sessionVariables = { NIXOS_OZONE_WL = "1"; };
 
-  xdg = {
-    enable = true;
-    userDirs.enable = true;
-  };
-
-  home.file = {
-    ".config/background" = {
-      source = "${config.home.homeDirectory}/dotfiles/wallpaper/tunnel.png";
+    file = {
+      ".config/background" = {
+        source = "${config.home.homeDirectory}/dotfiles/wallpaper/tunnel.png";
+      };
+      ".config/nvim" = {
+        source = config.lib.file.mkOutOfStoreSymlink
+          "${config.home.homeDirectory}/dotfiles/nvim";
+      };
     };
-    ".config/nvim" = {
-      source = config.lib.file.mkOutOfStoreSymlink
-        "${config.home.homeDirectory}/dotfiles/nvim";
+
+    packages = with pkgs; [
+      # Languages
+      gcc
+      lua
+      rustc
+      cargo
+      pnpm_9
+      python3
+      sqlite
+      luarocks
+      nodejs_23
+
+      # Development Tools
+      fd
+      vscode
+      fzf
+      ags
+      croc
+      bluez
+      xclip
+      sshfs
+      docker
+      prisma
+      libgtop
+      docker-compose
+      gnumake
+      ripgrep
+      starship
+      magic-wormhole
+      gitAndTools.gh
+      dragon-drop
+
+      # Social Applications
+      brave
+      discord
+      telegram-desktop
+
+      # Fonts
+      khmeros
+      nerd-fonts.fira-code
+      nerd-fonts.victor-mono
+
+      # Quality of Life
+      vlc
+      lsd
+      newt
+      mesa
+      chafa
+      unzip
+      swappy
+      matugen
+      nautilus
+      tesseract
+      libnotify
+      hyprpicker
+      pavucontrol
+      xdg-user-dirs
+      brightnessctl
+      gnome-system-monitor
+      xdg-desktop-portal-hyprland
+
+      # Screenshot Tools
+      jq
+      glib
+      grim
+      slurp
+      wf-recorder
+      wl-clipboard
+    ];
+  };
+
+  # Nix Settings
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nixpkgs.config.allowUnfree = true;
+
+  # Programs
+  programs = {
+    neovim = {
+      enable = true;
+      viAlias = true;
+      extraLuaPackages = ps: [ ps.magick ];
+      defaultEditor = true;
     };
-  };
 
-  home.packages = with pkgs; [
-    # languages
-    gcc
-    lua
-    rustc
-    cargo
-    pnpm_9
-    python3
-    sqlite
-    luarocks
-    nodejs_23
-
-    # dev tools
-    fd
-    fzf
-    ags
-    croc
-    bluez
-    xclip
-    sshfs
-    docker
-    prisma
-    libgtop
-    docker-compose
-    gnumake
-    ripgrep
-    starship
-    magic-wormhole
-    gitAndTools.gh
-    dragon-drop
-
-    # socials
-    brave
-    discord
-    telegram-desktop
-
-    # fonts
-    khmeros # this sucks
-    nerd-fonts.fira-code
-    nerd-fonts.victor-mono
-
-    # qol
-    vlc
-    lsd
-    newt
-    mesa
-    chafa
-    unzip
-    swappy
-    matugen
-    nautilus
-    tesseract
-    libnotify
-    hyprpicker
-    pavucontrol
-    xdg-user-dirs
-    brightnessctl
-    gnome-system-monitor
-    xdg-desktop-portal-hyprland
-
-    # screenshot tools
-    jq
-    glib
-    grim
-    slurp
-    wf-recorder
-    wl-clipboard
-  ];
-
-  nix = { settings.experimental-features = [ "nix-command" "flakes" ]; };
-
-  programs.neovim = {
-    enable = true;
-    viAlias = true;
-    extraLuaPackages = ps: [ ps.magick ];
-    defaultEditor = true;
-  };
-
-  programs.yazi = {
-    enable = true;
-    enableZshIntegration = true;
-    keymap = {
-      manager.prepend_keymap = [
+    yazi = {
+      enable = true;
+      enableZshIntegration = true;
+      keymap.manager.prepend_keymap = [
         {
           on = "i";
           run = "spot";
@@ -119,7 +122,6 @@
         {
           on = "<C-n>";
           run = ''shell -- dragon-drop -x -i -a -T "$@"'';
-
         }
         {
           on = "y";
@@ -134,97 +136,132 @@
           on = [ "Z" "Z" ];
         }
       ];
+      settings.manager.show_hidden = true;
+      shellWrapperName = "y";
     };
-    settings = { manager = { show_hidden = true; }; };
-    shellWrapperName = "y";
-  };
 
-  programs.fuzzel = {
-    enable = true;
-    settings = {
-      main = {
-        dpi-aware = "no";
-        terminal = "wezterm";
-        layer = "overlay";
-        font = "Firacode";
-      };
-      colors = {
-        background = "000000E6";
-        text = "CDD6F4ff";
-        selection = "2A2B3Cff";
-        selection-text = "CDD6F4ff";
-        border = "1F1D2E00";
-        match = "F5A97Fff";
-        selection-match = "F5A97Fff";
-      };
-
-      border = {
-        radius = 17;
-        width = 1;
+    fuzzel = {
+      enable = true;
+      settings = {
+        main = {
+          dpi-aware = "no";
+          terminal = "wezterm";
+          layer = "overlay";
+          font = "Firacode";
+        };
+        colors = {
+          background = "000000E6";
+          text = "CDD6F4ff";
+          selection = "2A2B3Cff";
+          selection-text = "CDD6F4ff";
+          border = "1F1D2E00";
+          match = "F5A97Fff";
+          selection-match = "F5A97Fff";
+        };
+        border = {
+          radius = 17;
+          width = 1;
+        };
       };
     };
-  };
 
-  programs.hyprpanel = {
-    enable = true;
-    hyprland.enable = true;
-    overwrite.enable = true;
-    overlay.enable = true;
+    zsh = {
+      enable = true;
+      history = {
+        size = 10000;
+        append = true;
+        share = true;
+        ignoreSpace = true;
+        ignoreAllDups = true;
+        saveNoDups = true;
+        ignoreDups = true;
+        findNoDups = true;
+      };
+      shellAliases = {
+        nsw =
+          "cd ~/dotfiles && git pull; sudo nixos-rebuild switch --flake ~/dotfiles/nix --impure; cd -";
+        ncf = "yazi ~/dotfiles/nix";
+        nosleep = "~/dotfiles/ags/scripts/wayland-idle-inhibitor.py";
+      };
+      initExtraBeforeCompInit =
+        lib.fileContents "${config.home.homeDirectory}/dotfiles/.zshrcA";
+      initExtra =
+        lib.fileContents "${config.home.homeDirectory}/dotfiles/.zshrcB";
+    };
 
-    settings = {
+    wezterm = {
+      enable = true;
+      enableZshIntegration = true;
+      extraConfig =
+        lib.fileContents "${config.home.homeDirectory}/dotfiles/.wezterm.lua";
+    };
 
-      layout = {
-        "bar.layouts" = {
-          "*" = {
-            left = [ "notifications" "windowtitle" ];
-            middle = [ "media" "workspaces" "clock" "battery" ];
-            right = [ "systray" "hypridle" "volume" "network" ];
+    hyprpanel = {
+      enable = true;
+      hyprland.enable = true;
+      overwrite.enable = true;
+      overlay.enable = true;
+
+      settings = {
+        layout."bar.layouts"."*" = {
+          left = [ "notifications" "windowtitle" ];
+          middle = [ "media" "workspaces" "clock" "battery" ];
+          right = [ "systray" "hypridle" "volume" "network" ];
+        };
+
+        bar = {
+          media.show_active_only = true;
+
+          clock = {
+            icon = "";
+            format = "%I:%M %p";
+          };
+
+          customModules = {
+            worldclock.format = "%I:%M %p %Z";
+            worldclock.formatDiffDate = "%a %b %d  %I:%M %p %Z";
+          };
+
+          workspaces = {
+            applicationIconOncePerWorkspace = true;
+            showAllActive = true;
+            showApplicationIcons = true;
+            showWsIcons = true;
+          };
+
+          notifications = {
+            hideCountWhenZero = true;
+            show_total = true;
           };
         };
-      };
 
-      bar = {
-        clock.icon = "";
-        clock.format = "%I:%M %p";
-        customModules.worldclock.format = "%I:%M %p %Z";
-        customModules.worldclock.formatDiffDate = "%a %b %d  %I:%M %p %Z";
-        media.show_active_only = true;
-        notifications.hideCountWhenZero = true;
-        notifications.show_total = true;
-        workspaces.applicationIconOncePerWorkspace = true;
-        workspaces.showAllActive = true;
-        workspaces.showApplicationIcons = true;
-        workspaces.showWsIcons = true;
-
-      };
-
-      notifications = {
-        position = "top";
-        showActionsOnHover = true;
-      };
-
-      menus = {
-        clock = {
-          time.hideSeconds = true;
-          weather.location = "Phnom Penh";
-          weather.unit = "metric";
+        notifications = {
+          position = "top";
+          showActionsOnHover = true;
         };
-        power = { lowBatteryNotification = true; };
+
+        menus = {
+          clock = {
+            time.hideSeconds = true;
+            weather.location = "Phnom Penh";
+            weather.unit = "metric";
+          };
+          power.lowBatteryNotification = true;
+        };
+
+        wallpaper = {
+          enable = true;
+          image = "${config.home.homeDirectory}/dotfiles/wallpaper/tunnel.png";
+        };
       };
 
-      wallpaper = {
-        enable = true;
-        image = "${config.home.homeDirectory}/dotfiles/wallpaper/tunnel.png";
-      };
-    };
-
-    override = {
-      theme = {
+      override.theme = {
         matugen = true;
-        matugen_settings.mode = "dark";
-        matugen_settings.scheme_type = "neutral";
-        matugen_settings.variation = "standard_1";
-        bar.transparent = true;
+        matugen_settings = {
+          mode = "dark";
+          scheme_type = "neutral";
+          variation = "standard_1";
+        };
         osd = {
           enable = true;
           orientation = "horizontal";
@@ -238,6 +275,7 @@
           name = "System-ui";
         };
         bar = {
+          transparent = true;
           outer_spacing = "0.4em";
           buttons.y_margins = "0.4em";
         };
@@ -248,94 +286,67 @@
       };
     };
 
-  };
-
-  programs.zsh = {
-    enable = true;
-    history = {
-      size = 10000;
-      append = true;
-      share = true;
-      ignoreSpace = true;
-      ignoreAllDups = true;
-      saveNoDups = true;
-      ignoreDups = true;
-      findNoDups = true;
+    git = {
+      enable = true;
+      extraConfig =
+        lib.fileContents "${config.home.homeDirectory}/dotfiles/.gitconfig";
     };
-    shellAliases = {
-      nsw =
-        "cd ~/dotfiles && git pull; sudo nixos-rebuild switch --flake ~/dotfiles/nix --impure; cd -";
-      ncf = "yazi ~/dotfiles/nix";
-      nosleep = "~/dotfiles/ags/scripts/wayland-idle-inhibitor.py";
+
+    hyprlock = {
+      enable = true;
+      extraConfig = lib.fileContents
+        "${config.home.homeDirectory}/dotfiles/hypr/hyprlock.conf";
     };
-    initExtraBeforeCompInit =
-      lib.fileContents "${config.home.homeDirectory}/dotfiles/.zshrcA";
-    initExtra =
-      lib.fileContents "${config.home.homeDirectory}/dotfiles/.zshrcB";
   };
 
-  programs.wezterm = {
-    enable = true;
-    enableZshIntegration = true;
-    extraConfig =
-      lib.fileContents "${config.home.homeDirectory}/dotfiles/.wezterm.lua";
-  };
+  # Services
+  services = {
+    cliphist.enable = true;
+    hyprpolkitagent.enable = true;
 
-  programs.git = {
-    enable = true;
-    extraConfig =
-      lib.fileContents "${config.home.homeDirectory}/dotfiles/.gitconfig";
-  };
+    hypridle = {
+      enable = true;
+      settings = {
+        general = {
+          lock_cmd = "pidof hyprlock || hyprlock";
+          before_sleep_cmd = "loginctl lock-session";
+        };
 
-  programs.hyprlock = {
-    enable = true;
-    extraConfig = lib.fileContents
-      "${config.home.homeDirectory}/dotfiles/hypr/hyprlock.conf";
-  };
-
-  services.cliphist.enable = true;
-  services.hyprpolkitagent.enable = true;
-
-  services.hypridle = {
-    enable = true;
-    settings = {
-      general = {
-        lock_cmd = "pidof hyprlock || hyprlock";
-        before_sleep_cmd = "loginctl lock-session";
+        listener = [
+          {
+            timeout = 3 * 60;
+            on-timeout = "hyprctl dispatch dpms off";
+            on-resume = "hyprctl dispatch dpms on";
+          }
+          {
+            timeout = 5 * 60;
+            on-timeout = "loginctl lock-session";
+          }
+          {
+            timeout = 10 * 60;
+            on-timeout = "pidof steam || systemctl suspend || loginctl suspend";
+          }
+        ];
       };
-
-      listener = [
-        {
-          timeout = 3 * 60;
-          on-timeout = "hyprctl dispatch dpms off";
-          on-resume = "hyprctl dispatch dpms on";
-        }
-        {
-          timeout = 5 * 60;
-          on-timeout = "loginctl lock-session";
-        }
-        {
-          timeout = 10 * 60;
-          on-timeout = "pidof steam || systemctl suspend || loginctl suspend";
-        }
-      ];
     };
+
+    gammastep = {
+      enable = true;
+      longitude = "104.888535";
+      latitude = "11.562108";
+    };
+
+    swww.enable = true;
   };
 
-  services.gammastep = {
-    enable = true;
-    longitude = "104.888535";
-    latitude = "11.562108";
-  };
-
-  services.swww = { enable = true; };
-
+  # Wayland Configuration
   wayland.windowManager.hyprland = {
     enable = true;
     extraConfig = lib.fileContents
       "${config.home.homeDirectory}/dotfiles/hypr/hyprland.conf";
   };
 
+  # Cursor Configuration
   home.pointerCursor = {
     gtk.enable = true;
     package = pkgs.bibata-cursors;
@@ -343,6 +354,7 @@
     size = 16;
   };
 
+  # GTK Configuration
   gtk = {
     enable = true;
 
@@ -357,11 +369,10 @@
     };
   };
 
+  # QT Configuration
   qt = {
     enable = true;
     platformTheme.name = "adwaita";
     style.name = "adwaita-dark";
   };
-
-  nixpkgs.config.allowUnfree = true;
 }
