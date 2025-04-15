@@ -59,7 +59,3 @@ vim.keymap.set("n", "<C-S-H>", require("smart-splits").swap_buf_left)
 vim.keymap.set("n", "<C-S-J>", require("smart-splits").swap_buf_down)
 vim.keymap.set("n", "<C-S-K>", require("smart-splits").swap_buf_up)
 vim.keymap.set("n", "<C-S-L>", require("smart-splits").swap_buf_right)
-
---disable toggle term
-vim.keymap.del("n", "<C-/>")
-vim.keymap.del("n", "<C-_>")
