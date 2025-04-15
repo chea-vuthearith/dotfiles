@@ -20,10 +20,8 @@
   hardware.i2c.enable = true;
 
   # Networking
-  networking = {
-    hostName = "nixos";
-    networkmanager.enable = true;
-  };
+  networking.hostName = "nixos";
+  networking.networkmanager.enable = true;
 
   # Time and locale
   time.timeZone = "Asia/Phnom_Penh";
@@ -64,6 +62,7 @@
     neovim
     wget
     dconf
+    dbus
     # fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
@@ -81,10 +80,4 @@
                     ||     ||'';
   # DO NOT CHANGE
   system.stateVersion = "24.11";
-
-  # Home Manager
-  home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    users = { kuro = import ./home.nix; };
-  };
 }

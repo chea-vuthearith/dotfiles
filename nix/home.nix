@@ -25,6 +25,8 @@
     packages = with pkgs; [
       # Languages
       gcc
+      libgcc
+      gnumake
       lua
       rustc
       cargo
@@ -33,6 +35,7 @@
       sqlite
       luarocks
       nodejs_23
+      postgresql
 
       # Development Tools
       fd
@@ -47,7 +50,6 @@
       prisma
       libgtop
       docker-compose
-      gnumake
       ripgrep
       starship
       magic-wormhole
@@ -99,6 +101,12 @@
 
   # Programs
   programs = {
+
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
     neovim = {
       enable = true;
       viAlias = true;
@@ -178,10 +186,9 @@
         findNoDups = true;
       };
       shellAliases = {
-        nsw =
-          "cd ~/dotfiles && git pull; sudo nixos-rebuild switch --flake ~/dotfiles/nix --impure; cd -";
+        pysrc = "source .venv/bin/activate";
+        pyenv = "py -m venv .venv && pysrc";
         ncf = "yazi ~/dotfiles/nix";
-        nosleep = "~/dotfiles/ags/scripts/wayland-idle-inhibitor.py";
       };
       initExtraBeforeCompInit =
         lib.fileContents "${config.home.homeDirectory}/dotfiles/.zshrcA";
@@ -203,12 +210,6 @@
       overlay.enable = true;
 
       settings = {
-        layout."bar.layouts"."*" = {
-          left = [ "notifications" "windowtitle" ];
-          middle = [ "media" "workspaces" "clock" "battery" ];
-          right = [ "systray" "hypridle" "volume" "network" ];
-        };
-
         bar = {
           media.show_active_only = true;
 
