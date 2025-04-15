@@ -21,13 +21,9 @@
           "${config.home.homeDirectory}/dotfiles/nvim";
       };
 
-      ".config/BraveSoftware/Brave-Browser/Default/Shortcuts" = {
+      ".config/BraveSoftware/Brave-Browser/Default/Preferences" = {
         source = config.lib.file.mkOutOfStoreSymlink
-          "${config.home.homeDirectory}/dotfiles/brave/Shortcuts";
-      };
-      ".config/BraveSoftware/Brave-Browser/Default/Shortcuts-journal" = {
-        source = config.lib.file.mkOutOfStoreSymlink
-          "${config.home.homeDirectory}/dotfiles/brave/Shortcuts-journal";
+          "${config.home.homeDirectory}/dotfiles/brave/Preferences";
       };
     };
 
