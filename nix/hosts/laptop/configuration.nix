@@ -8,5 +8,7 @@
     users = { kuro = import ./home.nix; };
   };
 
+  services.uponit.enable = true;
+
 }
 

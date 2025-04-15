@@ -10,10 +10,6 @@
   boot = {
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
-    kernelModules = [ "hid_apple" ];
-    extraModprobeConfig = ''
-      options hid_apple fnmode=2
-    '';
   };
 
   # Hardware settings
@@ -28,7 +24,6 @@
 
   # Services
   services = {
-    upower.enable = true;
     openssh.enable = true;
     pipewire = {
       enable = true;
