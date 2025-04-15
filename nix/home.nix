@@ -71,6 +71,7 @@
       lsd
       newt
       mesa
+      htop
       chafa
       unzip
       swappy
@@ -82,7 +83,6 @@
       pavucontrol
       xdg-user-dirs
       brightnessctl
-      gnome-system-monitor
       xdg-desktop-portal-hyprland
 
       # Screenshot Tools
