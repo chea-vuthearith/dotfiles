@@ -10,6 +10,8 @@
   boot = {
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
+    loader.timeout = 3;
+    kernelParams = [ "quiet" ];
   };
 
   # Hardware settings
@@ -18,6 +20,7 @@
   # Networking
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
+  systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
 
   # Time and locale
   time.timeZone = "Asia/Phnom_Penh";
@@ -32,7 +35,10 @@
   };
 
   # Virtualization
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = false;
+  };
 
   # Security
   security.polkit.enable = true;
