@@ -76,7 +76,6 @@
       unzip
       swappy
       matugen
-      nautilus
       tesseract
       libnotify
       hyprpicker
@@ -90,6 +89,7 @@
       glib
       grim
       slurp
+      imagemagick
       wf-recorder
       wl-clipboard
     ];
@@ -137,6 +137,16 @@
               shell -- for path in "$@"; do echo "file://$path"; done | wl-copy -t text/uri-list''
             "yank"
           ];
+        }
+        {
+          on = "P";
+          run = "shell -- wl-paste > pasted-image.png";
+          desc = "Paste image from clipboard";
+        }
+
+        {
+          on = "z";
+          run = "plugin zoxide";
         }
         {
           run = "quit";
