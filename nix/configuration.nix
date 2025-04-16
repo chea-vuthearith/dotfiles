@@ -13,6 +13,7 @@
     loader.timeout = 3;
     kernelParams = [ "quiet" ];
   };
+  services.logind.powerKey = "ignore";
 
   # Hardware settings
   hardware.i2c.enable = true;
