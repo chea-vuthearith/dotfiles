@@ -201,6 +201,7 @@
       shellAliases = {
         pysrc = "source .venv/bin/activate";
         pyenv = "py -m venv .venv && pysrc";
+        nsh = "nix-shell --run zsh";
         ncf = "yazi ~/dotfiles/nix";
       };
       initExtraBeforeCompInit =
