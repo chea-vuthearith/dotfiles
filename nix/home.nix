@@ -20,11 +20,6 @@
         source = config.lib.file.mkOutOfStoreSymlink
           "${config.home.homeDirectory}/dotfiles/nvim";
       };
-
-      ".config/BraveSoftware/Brave-Browser/Default/Preferences" = {
-        source = config.lib.file.mkOutOfStoreSymlink
-          "${config.home.homeDirectory}/dotfiles/brave/Preferences";
-      };
     };
 
     packages = with pkgs; [
@@ -76,7 +71,6 @@
       lsd
       newt
       mesa
-      htop
       chafa
       unzip
       swappy
@@ -106,6 +100,11 @@
 
   # Programs
   programs = {
+    bottom = {
+      enable = true;
+      # settings = { };
+    };
+
     zoxide = {
       enable = true;
       enableZshIntegration = true;
