@@ -100,10 +100,14 @@
 
   # Programs
   programs = {
-    bottom = {
+
+    direnv = {
       enable = true;
-      # settings = { };
+      enableZshIntegration = true;
+      nix-direnv.enable = true;
     };
+
+    bottom = { enable = true; };
 
     zoxide = {
       enable = true;
