@@ -1,6 +1,6 @@
 { pkgs, ... }: {
 
-  environment.systemPackages = with pkgs; [ lact stdenv.cc.cc.lib clinfo zstd ];
+  environment.systemPackages = with pkgs; [ lact clinfo ];
   boot.kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" ];
 
   systemd.packages = [ pkgs.lact ];
@@ -13,10 +13,7 @@
   ];
 
   environment = {
-    sessionVariables = {
-      HSA_OVERRIDE_GFX_VERSION = "10.3.1";
-      LD_LIBRARY_PATH = "${pkgs.zstd.out}/lib:${pkgs.stdenv.cc.cc.lib}/lib";
-    };
+    sessionVariables = { HSA_OVERRIDE_GFX_VERSION = "10.3.1"; };
   };
 
 }
