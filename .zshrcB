@@ -13,7 +13,6 @@ zi ice depth"1" wait"2" lucid; zi light zsh-users/zsh-autosuggestions
 
 zi ice depth"1"; zi snippet OMZP::git
 
-zi ice depth"1"; zi light romkatv/zsh-defer
  ### End of plugins
  # # pyenv
  # export PYENV_ROOT="$HOME/.pyenv"
