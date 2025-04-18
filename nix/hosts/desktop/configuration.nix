@@ -1,7 +1,7 @@
 { inputs, config, pkgs, ... }:
 
 {
-  imports = [ ../../configuration.nix ../../rocm.nix ];
+  imports = [ ../../configuration.nix ./rocm.nix ./rgb.nix ];
 
   boot = {
     kernelModules = [ "hid_apple" ];
