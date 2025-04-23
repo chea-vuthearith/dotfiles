@@ -23,10 +23,9 @@ zinit light-mode for \
 ### Plugins
 
 # vi-mode
-zi ice depth"1"
-zi snippet OMZ::lib/clipboard.zsh
-zi ice depth"1"
-zi snippet OMZP::vi-mode
+zi ice depth"1"; zi snippet OMZ::lib/clipboard.zsh
+zi ice depth"1"; zi light jeffreytse/zsh-vi-mode
+
 VI_MODE_SET_CURSOR=true
 VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 KEYTIMEOUT=5
@@ -35,8 +34,6 @@ KEYTIMEOUT=5
 export STARSHIP_CONFIG="$HOME/dotfiles/starship/starship.toml"
 eval "$(starship init zsh)"
 zle-line-init() {
-  echo -ne "\e[6 q"
-  emulate -L zsh
 
   [[ $CONTEXT == start ]] || return 0
 
