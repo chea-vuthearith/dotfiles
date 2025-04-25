@@ -1,7 +1,7 @@
 { pkgs, ... }: {
   imports = [ ../../home.nix ];
 
-  home.packages = with pkgs; [ droidcam ];
+  home.packages = with pkgs; [ cheese ];
 
   programs.hyprpanel.settings = {
     layout."bar.layouts"."*" = {
