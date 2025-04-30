@@ -1,4 +1,4 @@
-{ ... }: {
+{ inputs, pkgs, ... }: {
   imports = [ ../../home.nix ];
 
   programs.hyprpanel.settings = {
@@ -8,6 +8,11 @@
       right = [ "systray" "hypridle" "volume" "network" ];
     };
   };
+
+  wayland.windowManager.hyprland.plugins = [
+    inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
+
+  ];
 
   programs.zsh.shellAliases = {
     nsw =
