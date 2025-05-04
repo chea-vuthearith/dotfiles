@@ -72,6 +72,7 @@
       newt
       mesa
       chafa
+      zip
       unzip
       swappy
       matugen
