@@ -23,8 +23,16 @@ zinit light-mode for \
 ### Plugins
 
 # vi-mode
-zi ice depth"1"; zi light jeffreytse/zsh-vi-mode
-zi ice depth"1"; zi light kutsan/zsh-system-clipboard
+zi ice depth"1"; zi light chea-vuthearith/zsh-vi-mode
+zi ice depth"1" wait"2" lucid; zi snippet OMZL::clipboard.zsh
+
+ function zvm_get_cutbuffer() {
+   clippaste
+ }
+ 
+ function zvm_set_cutbuffer() {
+   echo -n $1 | clipcopy
+ }
 
 # starship
 export STARSHIP_CONFIG="$HOME/dotfiles/starship/starship.toml"
