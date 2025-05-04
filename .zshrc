@@ -26,11 +26,6 @@ zinit light-mode for \
 zi ice depth"1"; zi light jeffreytse/zsh-vi-mode
 zi ice depth"1"; zi light kutsan/zsh-system-clipboard
 
-
-VI_MODE_SET_CURSOR=true
-VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
-KEYTIMEOUT=5
-
 # starship
 export STARSHIP_CONFIG="$HOME/dotfiles/starship/starship.toml"
 eval "$(starship init zsh)"
@@ -61,13 +56,66 @@ zle-line-init() {
   return ret
 }
 
-zle -N zle-line-init
-
 # fzf
+zi ice depth"1" wait"2" lucid; zi snippet OMZP::fzf
+zi ice depth"1"; zi light Aloxaf/fzf-tab
+
 export FZF_DEFAULT_OPTS="--bind=tab:accept -i -s"
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:*' fzf-flags --bind=tab:accept
 
-zstyle ':fzf-tab:*' fzf-flags --bind=tab:accept
+export CARAPACE_BRIDGES='zsh'
+zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+source <(carapace _carapace)
+
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
+bindkey '^@' fzf-tab-complete
+
+zi ice depth"1" wait"2" lucid; zi light zsh-users/zsh-syntax-highlighting
+
+zi ice depth"1" wait"2" lucid; zi light z-shell/zsh-lsd
+
+zi ice depth"1" wait"2" lucid; zi light zsh-users/zsh-autosuggestions
+
+zi ice depth"1"; zi snippet OMZP::git
+
+ ### End of plugins
+ # # pyenv
+ # export PYENV_ROOT="$HOME/.pyenv"
+ # export PATH="$PYENV_ROOT/bin:$PATH"
+ # zsh-defer eval "$(pyenv init -)" 
+
+ # aliases
+ alias py="python3"
+ # alias nixsw="nixos-rebuild switch"
+ # alias homesw="home-manager switch"
+
+ # biome
+ export BIOME_CONFIG_PATH="$HOME/dotfiles/nvim"
+
+ # #fnm 
+ # zsh-defer eval "$(fnm env --use-on-cd --shell zsh)"
+
+ # pager
+ export PAGER="less -X -F"
+
+ # editor
+ export EDITOR="nvim"
+
+ # launch hyprland on login
+ source ~/dotfiles/zshrc.d/auto-Hypr.sh
+
+ #pnpm
+ export PNPM_HOME="/root/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+timezsh() {
+  shell=${1-$SHELL}
+  for i in $(seq 1 10); do time $shell -i -c exit; done
+}

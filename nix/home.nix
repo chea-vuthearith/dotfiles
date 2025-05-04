@@ -75,6 +75,7 @@
       unzip
       swappy
       matugen
+      carapace
       tesseract
       libnotify
       hyprpicker
@@ -209,10 +210,8 @@
         nsh = "nix-shell --run zsh";
         ncf = "yazi ~/dotfiles/nix";
       };
-      initExtraBeforeCompInit =
-        lib.fileContents "${config.home.homeDirectory}/dotfiles/.zshrcA";
       initExtra =
-        lib.fileContents "${config.home.homeDirectory}/dotfiles/.zshrcB";
+        lib.fileContents "${config.home.homeDirectory}/dotfiles/.zshrc";
     };
 
     wezterm = {
