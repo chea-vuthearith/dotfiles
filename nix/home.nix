@@ -43,6 +43,7 @@
       fzf
       ags
       croc
+      mqttx
       bluez
       xclip
       sshfs
