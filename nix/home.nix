@@ -75,6 +75,8 @@
       chafa
       zip
       unzip
+      linux-firmware
+      ffmpeg
       swappy
       matugen
       carapace
