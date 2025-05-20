@@ -24,7 +24,7 @@ zinit light-mode for \
 
 # vi-mode
 zi ice depth"1"; zi light chea-vuthearith/zsh-vi-mode
-zi ice depth"1" wait"2" lucid; zi snippet OMZL::clipboard.zsh
+zi ice depth"1"; zi snippet OMZL::clipboard.zsh
 
  function zvm_get_cutbuffer() {
    clippaste
