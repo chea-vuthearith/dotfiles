@@ -88,6 +88,8 @@
       brightnessctl
       xdg-desktop-portal-hyprland
 
+      openssl
+
       # Screenshot Tools
       jq
       glib
