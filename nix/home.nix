@@ -41,7 +41,7 @@
       fd
       vscode
       fzf
-      ags
+      redis
       croc
       mqttx
       bluez
@@ -69,6 +69,7 @@
 
       # Quality of Life
       vlc
+      ags
       lsd
       newt
       mesa
