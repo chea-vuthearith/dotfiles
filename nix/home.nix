@@ -78,6 +78,7 @@
       unzip
       linux-firmware
       ffmpeg
+      playerctl
       swappy
       matugen
       carapace
