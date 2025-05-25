@@ -45,7 +45,6 @@
       croc
       mqttx
       bluez
-      xclip
       sshfs
       docker
       prisma
@@ -182,7 +181,7 @@
           dpi-aware = "no";
           terminal = "wezterm";
           layer = "overlay";
-          font = "Firacode";
+          font = "System-ui";
         };
         colors = {
           background = "000000E6";
