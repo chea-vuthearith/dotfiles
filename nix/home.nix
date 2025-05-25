@@ -303,7 +303,7 @@
         };
         bar = {
           transparent = true;
-          outer_spacing = "0.4em";
+          outer_spacing = "0.2em";
           buttons.y_margins = "0.4em";
         };
         notification = {
