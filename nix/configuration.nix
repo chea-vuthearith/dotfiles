@@ -8,10 +8,13 @@
 
   # Boot configuration
   boot = {
-    loader.systemd-boot.enable = true;
-    loader.efi.canTouchEfiVariables = true;
-    loader.timeout = 3;
     kernelParams = [ "quiet" ];
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+      timeout = 3;
+      systemd-boot.configurationLimit = 5;
+    };
   };
   services.logind.powerKey = "ignore";
 
