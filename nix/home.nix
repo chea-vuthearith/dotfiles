@@ -28,6 +28,7 @@
       libgcc
       gnumake
       lua
+      openjdk
       rustc
       cargo
       pnpm_9
