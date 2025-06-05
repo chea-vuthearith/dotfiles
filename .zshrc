@@ -141,5 +141,5 @@ serveo() {
     echo "Usage: serveo <port>"
     return 1
   fi
-  ssh -R 80:localhost:"$1" serveo.net
+  ssh -R chea:80:localhost:"$1" serveo.net
 }
