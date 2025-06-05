@@ -135,4 +135,11 @@ pfwd() {
   fi
   ssh -fNL "$1":localhost:"$1" "$2"
 }
-compdef _ssh pfwd
+
+serveo() {
+  if [ $# -ne 1 ]; then
+    echo "Usage: serveo <port>"
+    return 1
+  fi
+  ssh -R 80:localhost:"$1" serveo.net
+}
