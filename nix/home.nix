@@ -336,7 +336,7 @@
       settings = {
         general = {
           lock_cmd = "pidof hyprlock || hyprlock";
-          before_sleep_cmd = "loginctl lock-session";
+          before_sleep_cmd = "loginctl lock-session; shutdown -h +20";
         };
 
         listener = [
@@ -352,6 +352,7 @@
           {
             timeout = 10 * 60;
             on-timeout = "systemctl suspend || loginctl suspend";
+            on-resume = "shutdown -c";
           }
         ];
       };
