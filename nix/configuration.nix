@@ -22,8 +22,12 @@
   hardware.i2c.enable = true;
 
   # Networking
-  networking.hostName = "nixos";
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "nixos";
+    networkmanager.enable = true;
+    firewall.enable = false;
+  };
+
   systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
 
   # Time and locale
