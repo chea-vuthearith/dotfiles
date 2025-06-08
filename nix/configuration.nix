@@ -74,13 +74,14 @@
   ];
 
   # Miscellaneous
+  services.getty.helpLine = "";
   services.getty.greetingLine = ''
-      ______________
-    < i hate my life >
-      --------------
+      ______________________
+    < i fucking hate my life >
+      ----------------------
              \   ^__^ 
-              \  (oo)\_______
-                (__)\       )\/\\
+              \  (oo)\________
+                (__)\        )\/\\
                     ||----w |
                     ||     ||'';
   # DO NOT CHANGE
