@@ -1,13 +1,13 @@
 { pkgs, ... }: {
   imports = [ ../../home.nix ];
 
-  home.packages = with pkgs; [ cheese ];
+  home.packages = with pkgs; [ cheese bluez bluez-tools ];
 
   programs.hyprpanel.settings = {
     layout."bar.layouts"."*" = {
       left = [ "notifications" "windowtitle" ];
       middle = [ "media" "workspaces" "clock" "battery" ];
-      right = [ "systray" "hypridle" "volume" "network" ];
+      right = [ "systray" "hypridle" "volume" "bluetooth" "network" ];
     };
   };
 

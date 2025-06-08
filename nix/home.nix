@@ -45,7 +45,6 @@
       redis
       croc
       mqttx
-      bluez
       sshfs
       docker
       prisma
