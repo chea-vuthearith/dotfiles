@@ -5,7 +5,7 @@ return {
     opts = {
       suggestion = {
         keymap = {
-          accept = "<S-Enter>",
+          accept = "<S-Tab>",
           next = "<M-]>",
           prev = "<M-[>",
         },

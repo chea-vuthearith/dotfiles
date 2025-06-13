@@ -40,6 +40,9 @@ vim.keymap.set("n", "<leader>ga0", "<Plug>(git-conflict-none)", { desc = "Accept
 vim.keymap.set("n", "[x", "<Plug>(git-conflict-prev-conflict)", { desc = "Prev Conflict" })
 vim.keymap.set("n", "]x", "<Plug>(git-conflict-next-conflict)", { desc = "Next Conflict" })
 
+-- telescope
+vim.keymap.set("n", "<leader>z", ":Telescope zoxide list<CR>", { desc = "List Zoxide Dirs" })
+
 -- jumps
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
