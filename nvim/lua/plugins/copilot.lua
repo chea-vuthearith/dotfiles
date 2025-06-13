@@ -5,7 +5,7 @@ return {
     opts = {
       suggestion = {
         keymap = {
-          accept = "<tab>",
+          accept = "<S-Enter>",
           next = "<M-]>",
           prev = "<M-[>",
         },
@@ -14,5 +14,4 @@ return {
       },
     },
   },
-  { "zbirenbaum/copilot-cmp", enabled = false },
 }

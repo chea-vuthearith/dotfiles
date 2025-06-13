@@ -13,7 +13,8 @@ vim.opt.mouse = ""
 vim.opt.clipboard = "unnamedplus"
 
 vim.g.snacks_animate = false
-vim.g.lazyvim_blink_main = true
+vim.g.lazyvim_blink_main = false
+vim.g.ai_cmp = false
 
 -- vim.g.tokyonight_cterm_colors = false
 -- vim.g.tokyonight_terminal_colors = true
