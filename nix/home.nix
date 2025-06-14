@@ -23,8 +23,6 @@
     };
 
     packages = with pkgs; [
-      gwenview
-      gthumb
       # Languages
       gcc
       libgcc
