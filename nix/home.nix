@@ -62,7 +62,6 @@
       telegram-desktop
 
       # Fonts
-      khmeros
       nerd-fonts.fira-code
       nerd-fonts.victor-mono
 

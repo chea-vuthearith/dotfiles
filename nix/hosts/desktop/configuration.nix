@@ -1,7 +1,12 @@
 { inputs, config, pkgs, ... }:
 
 {
-  imports = [ ../../configuration.nix ./rocm.nix ./rgb.nix ];
+  imports = [
+    inputs.home-manager.nixosModules.default
+    ../../configuration.nix
+    ./rocm.nix
+    ./rgb.nix
+  ];
 
   boot = {
     kernelModules = [ "hid_apple" ];

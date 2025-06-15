@@ -2,8 +2,8 @@
 
 {
   imports = [
-    /etc/nixos/hardware-configuration.nix
     inputs.home-manager.nixosModules.default
+    /etc/nixos/hardware-configuration.nix
   ];
 
   # Boot configuration

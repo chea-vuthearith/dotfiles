@@ -1,7 +1,8 @@
 { inputs, config, pkgs, ... }:
 
 {
-  imports = [ ../../configuration.nix ];
+  imports =
+    [ inputs.home-manager.nixosModules.default ../../configuration.nix ];
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };

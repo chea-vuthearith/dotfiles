@@ -23,18 +23,12 @@
   outputs = { self, nixpkgs, ... }@inputs: {
     nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
       specialArgs = { inherit inputs; };
-      modules = [
-        ./hosts/desktop/configuration.nix
-        inputs.home-manager.nixosModules.default
-      ];
+      modules = [ ./hosts/desktop/configuration.nix ];
     };
 
     nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
       specialArgs = { inherit inputs; };
-      modules = [
-        ./hosts/laptop/configuration.nix
-        inputs.home-manager.nixosModules.default
-      ];
+      modules = [ ./hosts/laptop/configuration.nix ];
     };
   };
 }
