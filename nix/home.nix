@@ -61,10 +61,6 @@
       discord
       telegram-desktop
 
-      # Fonts
-      nerd-fonts.fira-code
-      nerd-fonts.victor-mono
-
       # Quality of Life
       vlc
       ags

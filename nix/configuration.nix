@@ -64,14 +64,13 @@
   };
 
   # Environment
-  environment.systemPackages = with pkgs; [
-    neovim
-    wget
-    dconf
-    dbus
-    # fonts
-    noto-fonts-cjk-sans
+  environment.systemPackages = with pkgs; [ neovim wget dconf dbus ];
+
+  fonts.packages = with pkgs; [
+    noto-fonts
     noto-fonts-emoji
+    nerd-fonts.fira-code
+    nerd-fonts.victor-mono
   ];
 
   # Miscellaneous
