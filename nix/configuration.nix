@@ -1,10 +1,7 @@
 { config, lib, pkgs, inputs, ... }:
 
 {
-  imports = [
-    inputs.home-manager.nixosModules.default
-    /etc/nixos/hardware-configuration.nix
-  ];
+  imports = [ /etc/nixos/hardware-configuration.nix ];
 
   # Boot configuration
   boot = {
