@@ -2,10 +2,6 @@ return {
   "saghen/blink.cmp",
   opts = {
     completion = {
-      documentation = {
-        auto_show = true,
-        auto_show_deply_ms = 500,
-      },
       list = {
         selection = {
           preselect = function(ctx)
