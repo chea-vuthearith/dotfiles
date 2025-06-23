@@ -62,3 +62,6 @@ vim.keymap.set("n", "<C-S-H>", require("smart-splits").swap_buf_left)
 vim.keymap.set("n", "<C-S-J>", require("smart-splits").swap_buf_down)
 vim.keymap.set("n", "<C-S-K>", require("smart-splits").swap_buf_up)
 vim.keymap.set("n", "<C-S-L>", require("smart-splits").swap_buf_right)
+
+vim.keymap.del("n", "<S-H>")
+vim.keymap.del("n", "<S-L>")
