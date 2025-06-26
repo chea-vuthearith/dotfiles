@@ -5,8 +5,12 @@ return {
     inlay_hints = { enabled = false },
     servers = {
       vtsls = {
-        typescript = {
-          importModuleSpecifier = "non-relative",
+        settings = {
+          typescript = {
+            preferences = {
+              importModuleSpecifier = "non-relative",
+            },
+          },
         },
       },
       biome = {
