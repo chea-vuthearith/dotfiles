@@ -25,7 +25,6 @@ zinit light-mode for \
 # vi-mode
 zi ice depth"1"; zi light chea-vuthearith/zsh-vi-mode
 zi ice depth"1"; zi snippet OMZL::clipboard.zsh
-zi light romkatv/zsh-defer
 
 function zvm_get_cutbuffer() {
   clippaste
@@ -91,6 +90,8 @@ zi ice depth"1" wait"2" lucid; zi light zsh-users/zsh-autosuggestions
 
 zi ice depth"1"; zi snippet OMZP::git
 
+zi light romkatv/zsh-defer
+
  ### End of plugins
  # # pyenv
  # export PYENV_ROOT="$HOME/.pyenv"
@@ -145,4 +146,8 @@ serveo() {
   ssh -R chea:80:localhost:"$1" serveo.net
 }
 
-zsh-defer eval "$(keychain --eval $(find ~/.ssh/deployment-keys/ -type f ! -name "*.pub") > /dev/null 2>&1)"
+init_keychain() {
+  eval "$(keychain --eval $(find ~/.ssh/deployment-keys/ -type f ! -name "*.pub"))"
+}
+
+zsh-defer -t 2 init_keychain
