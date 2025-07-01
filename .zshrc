@@ -144,4 +144,4 @@ serveo() {
   ssh -R chea:80:localhost:"$1" serveo.net
 }
 
-keychain --eval $(find ~/.ssh/deployment-keys/ -type f ! -name "*.pub") > /dev/null 2>&1
+eval "$(keychain --eval $(find ~/.ssh/deployment-keys/ -type f ! -name "*.pub") > /dev/null 2>&1)"
