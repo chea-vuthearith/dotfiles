@@ -144,10 +144,4 @@ serveo() {
   ssh -R chea:80:localhost:"$1" serveo.net
 }
 
-if ! pgrep -u "$USER" ssh-agent > /dev/null 2>&1; then
-  eval "$(ssh-agent -s)" > /dev/null 2>&1
-
-  for key in $(find ~/.ssh/deployment-keys/ -type f ! -name "*.pub" 2>/dev/null); do
-    ssh-add "$key" > /dev/null 2>&1
-  done
-fi
+keychain --eval $(find ~/.ssh/deployment-keys/ -type f ! -name "*.pub") > /dev/null 2>&1

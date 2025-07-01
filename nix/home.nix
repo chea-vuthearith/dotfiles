@@ -64,6 +64,7 @@
       # Quality of Life
       vlc
       ags
+      keychain
       lsd
       newt
       mesa
