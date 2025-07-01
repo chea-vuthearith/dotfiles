@@ -143,3 +143,24 @@ serveo() {
   fi
   ssh -R chea:80:localhost:"$1" serveo.net
 }
+
+# Start ssh-agent if not running
+if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+  eval "$(ssh-agent -s)"
+fi
+
+KEY_DIR="$HOME/.ssh/deployment-keys"
+
+# Add all private keys in that directory if not already added
+for KEY in "$KEY_DIR"/*; do
+  # Skip if not a file or if it ends with .pub (public key)
+  if [[ ! -f "$KEY" || "$KEY" == *.pub ]]; then
+    continue
+  fi
+
+  # Get fingerprint of the key
+  KEY_FP=$(ssh-keygen -lf "$KEY" | awk '{print $2}')
+  if ! ssh-add -l 2>/dev/null | grep -q "$KEY_FP"; then
+    ssh-add "$KEY"
+  fi
+done
