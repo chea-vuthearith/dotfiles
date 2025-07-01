@@ -25,6 +25,7 @@ zinit light-mode for \
 # vi-mode
 zi ice depth"1"; zi light chea-vuthearith/zsh-vi-mode
 zi ice depth"1"; zi snippet OMZL::clipboard.zsh
+zi light romkatv/zsh-defer
 
 function zvm_get_cutbuffer() {
   clippaste
@@ -144,4 +145,4 @@ serveo() {
   ssh -R chea:80:localhost:"$1" serveo.net
 }
 
-eval "$(keychain --eval $(find ~/.ssh/deployment-keys/ -type f ! -name "*.pub") > /dev/null 2>&1)"
+zsh-defer eval "$(keychain --eval $(find ~/.ssh/deployment-keys/ -type f ! -name "*.pub") > /dev/null 2>&1)"
