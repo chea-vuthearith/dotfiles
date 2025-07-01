@@ -1,10 +1,10 @@
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
-        print -P "%F{33} %F{34}Installation successful.%f%b" || \
-        print -P "%F{160} The clone has failed.%f%b"
+  print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+  command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+  command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+    print -P "%F{33} %F{34}Installation successful.%f%b" || \
+    print -P "%F{160} The clone has failed.%f%b"
 fi
 
 source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
@@ -14,10 +14,10 @@ autoload -Uz _zinit
 # Load a few important annexes, without Turbo
 # (this is currently required for annexes)
 zinit light-mode for \
-    zdharma-continuum/zinit-annex-as-monitor \
-    zdharma-continuum/zinit-annex-bin-gem-node \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-rust
+  zdharma-continuum/zinit-annex-as-monitor \
+  zdharma-continuum/zinit-annex-bin-gem-node \
+  zdharma-continuum/zinit-annex-patch-dl \
+  zdharma-continuum/zinit-annex-rust
 ### End of Zinit's installer chunk
 
 ### Plugins
@@ -26,13 +26,13 @@ zinit light-mode for \
 zi ice depth"1"; zi light chea-vuthearith/zsh-vi-mode
 zi ice depth"1"; zi snippet OMZL::clipboard.zsh
 
- function zvm_get_cutbuffer() {
-   clippaste
- }
- 
- function zvm_set_cutbuffer() {
-   echo -n $1 | clipcopy
- }
+function zvm_get_cutbuffer() {
+  clippaste
+}
+
+function zvm_set_cutbuffer() {
+  echo -n $1 | clipcopy
+}
 
 # starship
 export STARSHIP_CONFIG="$HOME/dotfiles/starship/starship.toml"
@@ -118,15 +118,15 @@ zi ice depth"1"; zi snippet OMZP::git
 
  #pnpm
  export PNPM_HOME="/root/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
+ case ":$PATH:" in
+   *":$PNPM_HOME:"*) ;;
+   *) export PATH="$PNPM_HOME:$PATH" ;;
+ esac
 
-timezsh() {
-  shell=${1-$SHELL}
-  for i in $(seq 1 10); do time $shell -i -c exit; done
-}
+ timezsh() {
+   shell=${1-$SHELL}
+   for i in $(seq 1 10); do time $shell -i -c exit; done
+ }
 
 pfwd() {
   if [ $# -ne 2 ]; then
@@ -144,23 +144,10 @@ serveo() {
   ssh -R chea:80:localhost:"$1" serveo.net
 }
 
-# Start ssh-agent if not running
-if ! pgrep -u "$USER" ssh-agent > /dev/null; then
-  eval "$(ssh-agent -s)"
+if ! pgrep -u "$USER" ssh-agent > /dev/null 2>&1; then
+  eval "$(ssh-agent -s)" > /dev/null 2>&1
+
+  for key in $(find ~/.ssh/deployment-keys/ -type f ! -name "*.pub" 2>/dev/null); do
+    ssh-add "$key" > /dev/null 2>&1
+  done
 fi
-
-KEY_DIR="$HOME/.ssh/deployment-keys"
-
-# Add all private keys in that directory if not already added
-for KEY in "$KEY_DIR"/*; do
-  # Skip if not a file or if it ends with .pub (public key)
-  if [[ ! -f "$KEY" || "$KEY" == *.pub ]]; then
-    continue
-  fi
-
-  # Get fingerprint of the key
-  KEY_FP=$(ssh-keygen -lf "$KEY" | awk '{print $2}')
-  if ! ssh-add -l 2>/dev/null | grep -q "$KEY_FP"; then
-    ssh-add "$KEY"
-  fi
-done
