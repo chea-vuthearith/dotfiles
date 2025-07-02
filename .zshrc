@@ -147,7 +147,7 @@ serveo() {
 }
 
 init_keychain() {
-  eval "$(keychain --eval $(find ~/.ssh/deployment-keys/ -type f ! -name "*.pub"))"
+eval "$(keychain --quiet --eval id_ed25519)"
 }
 
 zsh-defer -t 2 init_keychain
