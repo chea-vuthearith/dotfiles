@@ -13,6 +13,6 @@
 
   programs.zsh.shellAliases = {
     nsw =
-      "cd ~/dotfiles && git pull; sudo nixos-rebuild switch --flake ~/dotfiles/nix#laptop --impure; cd -";
+      "git -C ~/dotfiles pull; sudo nixos-rebuild switch --flake ~/dotfiles/nix#laptop --impure";
   };
 }

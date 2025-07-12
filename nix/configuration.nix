@@ -13,10 +13,10 @@
       systemd-boot.configurationLimit = 5;
     };
   };
-  services.logind.powerKey = "ignore";
 
   # Hardware settings
   hardware.i2c.enable = true;
+  hardware.graphics.enable = true;
 
   # Networking
   networking = {
@@ -32,6 +32,8 @@
 
   # Services
   services = {
+    logind.powerKey = "ignore";
+    xserver.videoDrivers = [ "modesetting" ];
     openssh.enable = true;
     pipewire = {
       enable = true;

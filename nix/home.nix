@@ -310,8 +310,19 @@
 
     git = {
       enable = true;
-      extraConfig =
-        lib.fileContents "${config.home.homeDirectory}/dotfiles/.gitconfig";
+      userName = "chea-vuthearith";
+      userEmail = "cheavuthearith0@gmail.com";
+      extraConfig = {
+        credential."https://github.com".helper =
+          "!${pkgs.coreutils}/bin/env gh auth git-credential";
+        credential."https://gist.github.com".helper =
+          "!${pkgs.coreutils}/bin/env gh auth git-credential";
+        safe.directory = "*";
+        init.defaultBranch = "main";
+        push.autoSetupRemote = true;
+        pull.rebase = true;
+        rerere.enabled = true;
+      };
     };
 
     hyprlock = {
