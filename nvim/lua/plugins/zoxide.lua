@@ -1,0 +1,1 @@
+return { "jvgrootveld/telescope-zoxide" }
