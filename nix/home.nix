@@ -216,6 +216,8 @@
         pyenv = "py -m venv .venv && pysrc";
         nsh = "nix-shell --run zsh";
         ncf = "yazi ~/dotfiles/nix";
+        wgu = "sudo systemctl start wg-quick-wg0.service";
+        wgd = "sudo systemctl stop wg-quick-wg0.service";
       };
       initExtra =
         lib.fileContents "${config.home.homeDirectory}/dotfiles/.zshrc";
