@@ -38,7 +38,13 @@
 
   # Services
   services = {
-    resolved.enable = true; # for wg
+    resolved = {
+      enable = true;
+      dnssec = "true";
+      domains = [ "~." ];
+      fallbackDns = [ "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
+      dnsovertls = "true";
+    };
     logind.powerKey = "ignore";
     openssh.enable = true;
     pipewire = {
