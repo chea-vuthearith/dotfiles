@@ -5,7 +5,7 @@
 
   # Boot configuration
   boot = {
-    kernelParams = [ "quiet" ];
+    kernelParams = [ "quiet" "mem_sleep_default=deep" ];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
