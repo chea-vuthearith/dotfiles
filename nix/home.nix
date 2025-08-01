@@ -31,7 +31,8 @@
       cargo
       python3
       nodejs_23
-      pnpm_9
+      pnpm_10
+      turbo
       sqlite
       postgresql
 
