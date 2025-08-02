@@ -64,11 +64,11 @@ vim.keymap.del("n", "<S-H>")
 vim.keymap.del("n", "<S-L>")
 
 -- oil.nvim
-vim.keymap.set("n", "<leader>e", function()
-  local oil = require("oil")
-  if vim.bo.filetype == "oil" then
-    oil.close()
-  else
-    oil.open_float(nil, { preview = {} })
-  end
-end, { desc = "Toggle Oil" })
+-- vim.keymap.set("n", "<leader>e", function()
+--   local oil = require("oil")
+--   if vim.bo.filetype == "oil" then
+--     oil.close()
+--   else
+--     oil.open(nil, { preview = {} })
+--   end
+-- end, { desc = "Toggle Oil" })

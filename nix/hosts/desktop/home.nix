@@ -18,4 +18,9 @@
     nsw =
       "git -C ~/dotfiles pull; sudo nixos-rebuild switch --flake ~/dotfiles/nix#desktop --impure";
   };
+
+  home.packages = [
+    inputs.prismlauncher.packages.${pkgs.system}.prismlauncher
+
+  ];
 }

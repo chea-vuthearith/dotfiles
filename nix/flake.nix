@@ -2,6 +2,7 @@
   description = "Nixos config flake";
 
   inputs = {
+    prismlauncher.url = "github:Diegiwg/PrismLauncher-Cracked";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
