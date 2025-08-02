@@ -11,6 +11,11 @@ return {
       win_options = {
         wrap = true,
       },
+      keymaps = {
+        ["q"] = { "actions.close", mode = "n" },
+        ["<Backspace>"] = { "actions.parent", mode = "n" },
+        ["<C-s>"] = { "actions.parent", mode = "n" },
+      },
     },
     -- Optional dependencies
     dependencies = { { "echasnovski/mini.icons", opts = {} } },
