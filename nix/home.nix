@@ -26,6 +26,7 @@
       cargo
       python3
       nodejs_24
+      aria2
       pnpm_10
       turbo
       sqlite
@@ -128,7 +129,7 @@
     yazi = {
       enable = true;
       enableZshIntegration = true;
-      keymap.manager.prepend_keymap = [
+      keymap.mgr.prepend_keymap = [
         {
           on = "i";
           run = "spot";
@@ -165,7 +166,7 @@
           on = [ "Z" "Z" ];
         }
       ];
-      settings.manager.show_hidden = true;
+      settings.mgr.show_hidden = true;
       shellWrapperName = "y";
     };
 
@@ -213,6 +214,8 @@
         ncf = "yazi ~/dotfiles/nix";
         wgu = "sudo systemctl start wg-quick-wg0.service";
         wgd = "sudo systemctl stop wg-quick-wg0.service";
+        dl =
+          "aria2c --console-log-level=error --max-connection-per-server=16 --max-concurrent-downloads=16 --split=16 --continue=true --dir=$HOME/Downloads";
       };
       initContent =
         lib.fileContents "${config.home.homeDirectory}/dotfiles/.zshrc";

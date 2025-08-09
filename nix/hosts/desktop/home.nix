@@ -17,8 +17,8 @@
       "git -C ~/dotfiles pull; sudo nixos-rebuild switch --flake ~/dotfiles/nix#desktop --impure";
   };
 
-  home.packages = [
+  home.packages = with pkgs; [
     inputs.prismlauncher.packages.${pkgs.system}.prismlauncher
-
+    lutris
   ];
 }
