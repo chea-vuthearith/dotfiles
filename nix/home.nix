@@ -227,6 +227,8 @@
 
     hyprpanel = {
       enable = true;
+      package = inputs.hyprpanel.packages.${pkgs.system}.hyprpanel;
+
       settings = {
         bar = {
           media.show_active_only = true;
