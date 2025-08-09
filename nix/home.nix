@@ -1,9 +1,4 @@
-{ inputs, config, lib, pkgs, ... }:
-
-{
-  # Imports
-  imports = [ inputs.hyprpanel.homeManagerModules.hyprpanel ];
-
+{ inputs, config, lib, pkgs, ... }: {
   # Home Configuration
   home = {
     stateVersion = "24.11"; # DO NOT CHANGE
@@ -30,7 +25,7 @@
       rustc
       cargo
       python3
-      nodejs_23
+      nodejs_24
       pnpm_10
       turbo
       sqlite
@@ -220,13 +215,12 @@
         wgu = "sudo systemctl start wg-quick-wg0.service";
         wgd = "sudo systemctl stop wg-quick-wg0.service";
       };
-      initExtra =
+      initContent =
         lib.fileContents "${config.home.homeDirectory}/dotfiles/.zshrc";
     };
 
     wezterm = {
       enable = true;
-      package = inputs.wezterm.packages.${pkgs.system}.default;
       enableZshIntegration = true;
       extraConfig =
         lib.fileContents "${config.home.homeDirectory}/dotfiles/.wezterm.lua";
@@ -234,17 +228,13 @@
 
     hyprpanel = {
       enable = true;
-      hyprland.enable = true;
-      overwrite.enable = true;
-      overlay.enable = true;
-
       settings = {
         bar = {
           media.show_active_only = true;
 
           clock = {
             icon = "";
-            format = "%I:%M %p";
+            format = " %I:%M %p";
           };
 
           customModules = {
@@ -283,37 +273,38 @@
           enable = false;
           image = "${config.home.homeDirectory}/dotfiles/wallpaper/tunnel.png";
         };
+
+        theme = {
+          matugen = true;
+          matugen_settings = {
+            mode = "dark";
+            scheme_type = "neutral";
+            variation = "standard_1";
+          };
+          osd = {
+            enable = true;
+            orientation = "horizontal";
+            location = "top";
+            icon_container = "#131315";
+            icon = "#cdd6f4";
+          };
+          font = {
+            size = "1rem";
+            weight = 400;
+            name = "System-ui";
+          };
+          bar = {
+            transparent = true;
+            outer_spacing = "0.2em";
+            buttons.y_margins = "0.4em";
+          };
+          notification = {
+            close_button.label = "#cdd6f4";
+            close_button.background = "#303032";
+          };
+        };
       };
 
-      override.theme = {
-        matugen = true;
-        matugen_settings = {
-          mode = "dark";
-          scheme_type = "neutral";
-          variation = "standard_1";
-        };
-        osd = {
-          enable = true;
-          orientation = "horizontal";
-          location = "top";
-          icon_container = "#131315";
-          icon = "#cdd6f4";
-        };
-        font = {
-          size = "1rem";
-          weight = 400;
-          name = "System-ui";
-        };
-        bar = {
-          transparent = true;
-          outer_spacing = "0.2em";
-          buttons.y_margins = "0.4em";
-        };
-        notification = {
-          close_button.label = "#cdd6f4";
-          close_button.background = "#303032";
-        };
-      };
     };
 
     git = {
@@ -394,6 +385,9 @@
   # Wayland Configuration
   wayland.windowManager.hyprland = {
     enable = true;
+    plugins = [
+      inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
+    ];
     extraConfig = lib.fileContents
       "${config.home.homeDirectory}/dotfiles/hypr/hyprland.conf";
   };
