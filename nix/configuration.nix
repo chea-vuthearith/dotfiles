@@ -17,6 +17,8 @@
   # Hardware settings
   hardware.i2c.enable = true;
 
+  nixpkgs.config = { allowUnfree = true; };
+
   # Networking
   networking = {
     hostName = "nixos";

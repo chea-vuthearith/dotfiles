@@ -19,8 +19,7 @@
 
   home.packages = with pkgs; [
     inputs.prismlauncher.packages.${pkgs.system}.prismlauncher
-    umu-launcher
-    wine
     mono
+    umu-launcher
   ];
 }
