@@ -19,6 +19,8 @@
 
   home.packages = with pkgs; [
     inputs.prismlauncher.packages.${pkgs.system}.prismlauncher
-    lutris
+    umu-launcher
+    wine
+    mono
   ];
 }
