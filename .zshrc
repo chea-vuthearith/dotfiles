@@ -109,13 +109,6 @@ zi light romkatv/zsh-defer
  # editor
  export EDITOR="nvim"
 
- #pnpm
- export PNPM_HOME="/root/.local/share/pnpm"
- case ":$PATH:" in
-   *":$PNPM_HOME:"*) ;;
-   *) export PATH="$PNPM_HOME:$PATH" ;;
- esac
-
  timezsh() {
    shell=${1-$SHELL}
    for i in $(seq 1 10); do time $shell -i -c exit; done

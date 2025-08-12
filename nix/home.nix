@@ -50,6 +50,7 @@
       keychain
       newt
       libgtop
+      xorg.xrandr
 
       # Containers & Cloud
       docker

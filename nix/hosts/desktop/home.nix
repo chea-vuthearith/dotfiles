@@ -15,6 +15,8 @@
   programs.zsh.shellAliases = {
     nsw =
       "git -C ~/dotfiles pull; sudo nixos-rebuild switch --flake ~/dotfiles/nix#desktop --impure";
+    eldenring = ''
+      WINEDLLOVERRIDES="dinput8.dll=n,b" umu-run "$HOME/Games/Elden Ring/Game/eldenring.exe"'';
   };
 
   home.packages = with pkgs; [
