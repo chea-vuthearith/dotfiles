@@ -56,16 +56,6 @@ config.tab_bar_at_bottom = true
 local action = wezterm.action
 config.leader = { key = "w", mods = "ALT", timeout_milliseconds = math.maxinteger }
 config.keys = {
-	-- disable search mode
-	{
-		key = "Escape",
-		mods = "NONE",
-		action = action.Multiple({
-			action.CopyMode("ClearPattern"),
-			action.CopyMode("AcceptPattern"),
-			action.CopyMode({ SetSelectionMode = "Cell" }),
-		}),
-	},
 	--tabs
 	-- navigation
 	{ key = "h", mods = "ALT", action = action.ActivateTabRelative(-1) },
@@ -201,7 +191,84 @@ config.key_tables = {
 			}),
 		},
 	},
+	copy_mode = {
+		{
+			key = "/",
+			action = action.Multiple({
+				action.CopyMode("ClearPattern"),
+				action.Search({ CaseInSensitiveString = "" }),
+			}),
+		},
+		{ key = "Escape", mods = "NONE", action = action.CopyMode("ClearSelectionMode") },
+
+		{
+			key = "n",
+			mods = "NONE",
+			action = action.Multiple({ action.CopyMode("NextMatch"), action.CopyMode("ClearSelectionMode") }),
+		},
+		{
+			key = "N",
+			mods = "SHIFT",
+			action = action.Multiple({ action.CopyMode("PriorMatch"), action.CopyMode("ClearSelectionMode") }),
+		},
+		{
+			key = "i",
+			action = action.Multiple({
+				action.CopyMode("ClearPattern"),
+				action.CopyMode("AcceptPattern"),
+				action.CopyMode("Close"),
+			}),
+		},
+	},
+
+	search_mode = {
+		{
+			key = "Enter",
+			action = action.Multiple({
+				action.CopyMode("AcceptPattern"),
+				action.CopyMode("ClearSelectionMode"),
+			}),
+		},
+		{
+			key = "Escape",
+			mods = "NONE",
+			action = action.Multiple({
+				action.CopyMode("ClearPattern"),
+				action.CopyMode("AcceptPattern"),
+				action.CopyMode("ClearSelectionMode"),
+			}),
+		},
+	},
 }
+local default_copy_mode_key_table = wezterm.gui.default_key_tables()["copy_mode"]
+
+-- remove default esc key binding
+for i, v in ipairs(default_copy_mode_key_table) do
+	if v.key == "mapped:" then
+		table.remove(default_copy_mode_key_table, i)
+		break
+	end
+end
+
+for k, v in pairs(config.key_tables.copy_mode) do
+	default_copy_mode_key_table[k] = v
+end
+config.key_tables.copy_mode = default_copy_mode_key_table -- merged
+
+local default_search_mode_key_table = {}
+
+-- remove default keys
+for i, v in ipairs(default_search_mode_key_table) do
+	if v.key == "mapped:" then
+		table.remove(default_search_mode_key_table, i)
+		break
+	end
+end
+
+for k, v in pairs(config.key_tables.search_mode) do
+	default_search_mode_key_table[k] = v
+end
+config.key_tables.search_mode = default_search_mode_key_table -- merged
 
 config.disable_default_mouse_bindings = true
 
