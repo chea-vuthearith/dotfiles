@@ -24,4 +24,7 @@
     mono
     umu-launcher
   ];
+
+  wayland.windowManager.hyprland.systemd.extraCommands =
+    [ "xrandr --output DP-3 --primary" ];
 }

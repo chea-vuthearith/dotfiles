@@ -56,6 +56,16 @@ config.tab_bar_at_bottom = true
 local action = wezterm.action
 config.leader = { key = "w", mods = "ALT", timeout_milliseconds = math.maxinteger }
 config.keys = {
+	-- disable search mode
+	{
+		key = "Escape",
+		mods = "NONE",
+		action = action.Multiple({
+			action.CopyMode("ClearPattern"),
+			action.CopyMode("AcceptPattern"),
+			action.CopyMode({ SetSelectionMode = "Cell" }),
+		}),
+	},
 	--tabs
 	-- navigation
 	{ key = "h", mods = "ALT", action = action.ActivateTabRelative(-1) },
