@@ -222,9 +222,8 @@ config.key_tables = {
 		{
 			key = "y",
 			action = action.Multiple({
-				{ CopyTo = "ClipboardAndPrimarySelection" },
-				{ CopyMode = "ScrollToBottom" },
-				{ CopyMode = "Close" },
+				action.CopyTo("ClipboardAndPrimarySelection"),
+				action.CopyMode("Close"),
 			}),
 		},
 	},
