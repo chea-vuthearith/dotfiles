@@ -166,8 +166,20 @@
           run = "quit";
           on = [ "Z" "Z" ];
         }
+        {
+          on = "<Down>";
+          run = [ "seek 1" ];
+        }
+        {
+          on = "<Up>";
+          run = [ "seek -1" ];
+        }
       ];
-      settings.mgr.show_hidden = true;
+      settings = {
+        mgr.show_hidden = true;
+        preview.max_width = 1600;
+        preview.max_height = 1440;
+      };
       shellWrapperName = "y";
     };
 
