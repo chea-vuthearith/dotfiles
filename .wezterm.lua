@@ -219,6 +219,14 @@ config.key_tables = {
 				action.CopyMode("Close"),
 			}),
 		},
+		{
+			key = "y",
+			action = action.Multiple({
+				{ CopyTo = "ClipboardAndPrimarySelection" },
+				{ CopyMode = "ScrollToBottom" },
+				{ CopyMode = "Close" },
+			}),
+		},
 	},
 
 	search_mode = {
