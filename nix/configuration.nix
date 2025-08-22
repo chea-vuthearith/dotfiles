@@ -73,20 +73,27 @@
   };
 
   # Virtualization
-  virtualisation.docker = {
-    enable = true;
-    enableOnBoot = false;
+  virtualisation = {
+    libvirtd.enable = true;
+    spiceUSBRedirection.enable = true;
+    docker = {
+      enable = true;
+      enableOnBoot = false;
+    };
   };
 
   # Security
   security.polkit.enable = true;
 
   # User configuration
-  users.users.kuro = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "video" "audio" "docker" "networkmanager" ];
-    shell = pkgs.zsh;
-    ignoreShellProgramCheck = true;
+  users = {
+    users.kuro = {
+      isNormalUser = true;
+      extraGroups =
+        [ "wheel" "video" "audio" "docker" "networkmanager" "libvrtd" ];
+      shell = pkgs.zsh;
+      ignoreShellProgramCheck = true;
+    };
   };
 
   # Programs

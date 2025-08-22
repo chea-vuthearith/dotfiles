@@ -34,6 +34,8 @@
 
       # Editors & IDEs
       vscode
+      virt-manager
+      platformio
 
       # Dev Utilities & CLI Tools
       fd
