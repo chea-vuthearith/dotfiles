@@ -5,7 +5,10 @@
     username = "kuro";
     homeDirectory = "/home/${config.home.username}";
     preferXdgDirectories = true;
-    sessionVariables = { NIXOS_OZONE_WL = "1"; };
+    sessionVariables = {
+      QT_QPA_PLATFORM = "xcb";
+      NIXOS_OZONE_WL = "1";
+    };
 
     file = {
       ".config/nvim" = {
