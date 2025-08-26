@@ -4,7 +4,7 @@
   imports =
     [ inputs.home-manager.nixosModules.default ../../configuration.nix ];
 
-  programs = [ pkgs.ciscoPacketTracer8 ];
+  environment.systemPackages = with pkgs; [ ciscoPacketTracer8 ];
   nixpkgs.config.permittedInsecurePackages =
     [ "libsoup-2.74.3" "libxml2-2.13.8" "ciscoPacketTracer8" "libxml2" ];
 
