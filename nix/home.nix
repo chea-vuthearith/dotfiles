@@ -5,10 +5,7 @@
     username = "kuro";
     homeDirectory = "/home/${config.home.username}";
     preferXdgDirectories = true;
-    sessionVariables = {
-      QT_QPA_PLATFORM = "xcb";
-      NIXOS_OZONE_WL = "1";
-    };
+    sessionVariables = { NIXOS_OZONE_WL = "1"; };
 
     file = {
       ".config/nvim" = {
@@ -38,9 +35,9 @@
       # Editors & IDEs
       vscode
       virt-manager
-      platformio
 
       # Dev Utilities & CLI Tools
+      platformio
       fd
       fzf
       ripgrep
