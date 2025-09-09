@@ -64,10 +64,9 @@
       redis
 
       # Media & Graphics
-      vlc
+      mpv
       ffmpeg
       imagemagick
-      chafa
       playerctl
       tesseract
       wf-recorder
@@ -81,7 +80,6 @@
       linux-firmware
       libnotify
       pavucontrol
-      xdg-user-dirs
       brightnessctl
       dragon-drop
       hyprpaper
@@ -98,6 +96,14 @@
       slurp
       wl-clipboard
     ];
+
+    # Cursor Configuration
+    pointerCursor = {
+      gtk.enable = true;
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Classic";
+      size = 16;
+    };
   };
 
   # Nix Settings
@@ -414,12 +420,12 @@
       "${config.home.homeDirectory}/dotfiles/hypr/hyprland.conf";
   };
 
-  # Cursor Configuration
-  home.pointerCursor = {
-    gtk.enable = true;
-    package = pkgs.bibata-cursors;
-    name = "Bibata-Modern-Classic";
-    size = 16;
+  xdg = {
+    enable = true;
+    userDirs = {
+      createDirectories = true;
+      enable = true;
+    };
   };
 
   # GTK Configuration
