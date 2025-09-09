@@ -79,7 +79,6 @@
 
   # Virtualization
   virtualisation = {
-    libvirtd.enable = true;
     spiceUSBRedirection.enable = true;
     docker = {
       enable = true;

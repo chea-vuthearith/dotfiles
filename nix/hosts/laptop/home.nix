@@ -1,7 +1,7 @@
 { pkgs, ... }: {
   imports = [ ../../home.nix ];
 
-  home = { packages = with pkgs; [ cheese bluez bluez-tools ]; };
+  home = { packages = with pkgs; [ cheese bluez bluez-tools virt-manager ]; };
   programs.hyprpanel.settings.bar.layouts."*" = {
     left = [ "notifications" "windowtitle" ];
     middle = [ "media" "workspaces" "clock" "battery" ];

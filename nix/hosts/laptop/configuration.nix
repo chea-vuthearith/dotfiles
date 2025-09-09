@@ -19,6 +19,7 @@
       settings = { General = { Experimental = true; }; };
     };
   };
+  virtualisation = { libvirtd.enable = true; };
 
   services = {
     upower.enable = true;

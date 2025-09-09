@@ -34,7 +34,6 @@
 
       # Editors & IDEs
       vscode
-      virt-manager
 
       # Dev Utilities & CLI Tools
       platformio

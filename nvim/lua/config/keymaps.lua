@@ -28,3 +28,6 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
 
 vim.keymap.del("n", "<S-H>")
 vim.keymap.del("n", "<S-L>")
+
+vim.keymap.set("n", "<TAB>l", ":tabn<CR>")
+vim.keymap.set("n", "<TAB>h", ":tabp<CR>")
