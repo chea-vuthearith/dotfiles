@@ -194,12 +194,16 @@
         };
         colors = {
           background = "000000E6";
-          text = "CDD6F4ff";
-          selection = "2A2B3Cff";
-          selection-text = "CDD6F4ff";
-          border = "1F1D2E00";
-          match = "F5A97Fff";
-          selection-match = "F5A97Fff";
+          border = "000000E6";
+          text = "cdd6f4ff";
+          prompt = "bac2deff";
+          placeholder = "7f849cff";
+          input = "cdd6f4ff";
+          match = "f38ba8ff";
+          selection = "585b70ff";
+          selection-text = "cdd6f4ff";
+          selection-match = "f38ba8ff";
+          counter = "7f849cff";
         };
         border = {
           radius = 17;
