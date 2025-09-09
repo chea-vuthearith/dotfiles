@@ -9,10 +9,7 @@
   ];
 
   hardware.graphics.enable = true;
-  services = {
-    logind.powerKey = "ignore";
-    xserver.videoDrivers = [ "modesetting" ];
-  };
+  services = { xserver.videoDrivers = [ "modesetting" ]; };
 
   boot = {
     kernelModules = [ "hid_apple" ];

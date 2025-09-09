@@ -45,7 +45,7 @@
 
   # Services
   services = {
-    logind.powerKey = "ignore";
+    logind.settings.Login.HandlePowerKey = "ignore";
     openssh.enable = true;
     pipewire = {
       enable = true;
