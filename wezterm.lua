@@ -105,22 +105,22 @@ config.keys = {
 	{
 		key = "H",
 		mods = "CTRL|SHIFT",
-		action = "DisableDefaultAssignment",
+		action = action.DisableDefaultAssignment,
 	},
 	{
 		key = "J",
 		mods = "CTRL|SHIFT",
-		action = "DisableDefaultAssignment",
+		action = action.DisableDefaultAssignment,
 	},
 	{
 		key = "K",
 		mods = "CTRL|SHIFT",
-		action = "DisableDefaultAssignment",
+		action = action.DisableDefaultAssignment,
 	},
 	{
 		key = "L",
 		mods = "CTRL|SHIFT",
-		action = "DisableDefaultAssignment",
+		action = action.DisableDefaultAssignment,
 	},
 }
 
@@ -196,10 +196,20 @@ config.key_tables = {
 			key = "/",
 			action = action.Multiple({
 				action.CopyMode("ClearPattern"),
-				action.Search({ CaseInSensitiveString = "" }),
+				action.Search({ CaseInSensitiveString = "a" }),
+				action.CopyMode("ClearPattern"), -- hack since setting it to just "" wont work
 			}),
 		},
-		{ key = "Escape", mods = "NONE", action = action.CopyMode("ClearSelectionMode") },
+		{
+			key = "*",
+			mods = "SHIFT",
+			action = wezterm.action.Search("CurrentSelectionOrEmptyString"),
+		},
+		{
+			key = "J",
+			mods = "CTRL|SHIFT",
+			action = action.DisableDefaultAssignment,
+		},
 
 		{
 			key = "n",
@@ -213,6 +223,14 @@ config.key_tables = {
 		},
 		{
 			key = "i",
+			action = action.Multiple({
+				action.CopyMode("ClearPattern"),
+				action.CopyMode("AcceptPattern"),
+				action.CopyMode("Close"),
+			}),
+		},
+		{
+			key = "Escape",
 			action = action.Multiple({
 				action.CopyMode("ClearPattern"),
 				action.CopyMode("AcceptPattern"),
@@ -238,7 +256,6 @@ config.key_tables = {
 		},
 		{
 			key = "Escape",
-			mods = "NONE",
 			action = action.Multiple({
 				action.CopyMode("ClearPattern"),
 				action.CopyMode("AcceptPattern"),
@@ -247,35 +264,19 @@ config.key_tables = {
 		},
 	},
 }
-local default_copy_mode_key_table = wezterm.gui.default_key_tables()["copy_mode"]
 
--- remove default esc key binding
-for i, v in ipairs(default_copy_mode_key_table) do
-	if v.key == "mapped:" then
-		table.remove(default_copy_mode_key_table, i)
-		break
+for _, v in pairs(wezterm.gui.default_key_tables()["search_mode"]) do
+	-- skip esc and enter
+	if v.key ~= "mapped:\27" and v.key ~= "mapped:\13" then
+		table.insert(config.key_tables.search_mode, v)
 	end
 end
 
-for k, v in pairs(config.key_tables.copy_mode) do
-	default_copy_mode_key_table[k] = v
-end
-config.key_tables.copy_mode = default_copy_mode_key_table -- merged
-
-local default_search_mode_key_table = {}
-
--- remove default keys
-for i, v in ipairs(default_search_mode_key_table) do
-	if v.key == "mapped:" then
-		table.remove(default_search_mode_key_table, i)
-		break
+for _, v in pairs(wezterm.gui.default_key_tables()["copy_mode"]) do
+	if v.key ~= "mapped:\27" and v.key ~= "mapped:\13" then
+		table.insert(config.key_tables.copy_mode, v)
 	end
 end
-
-for k, v in pairs(config.key_tables.search_mode) do
-	default_search_mode_key_table[k] = v
-end
-config.key_tables.search_mode = default_search_mode_key_table -- merged
 
 config.disable_default_mouse_bindings = true
 
