@@ -24,7 +24,7 @@
   services = {
     upower.enable = true;
     thermald.enable = true;
-    logind = { lidSwitch = "suspend"; };
+    logind = { settings.Login.handleLidSwitch = "suspend"; };
     tlp = {
       enable = true;
       settings = {
