@@ -41,6 +41,7 @@
       ripgrep
       jq
       glib
+      xdg-user-dirs
       zip
       unzip
       openssl
