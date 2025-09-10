@@ -1,8 +1,7 @@
 { inputs, config, pkgs, ... }:
 
 {
-  imports =
-    [ inputs.home-manager.nixosModules.default ../../configuration.nix ];
+  imports = [ ../../configuration.nix ];
 
   environment.systemPackages = with pkgs; [ ciscoPacketTracer8 ];
   nixpkgs.config.permittedInsecurePackages =

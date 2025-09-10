@@ -1,12 +1,7 @@
 { inputs, config, pkgs, ... }:
 
 {
-  imports = [
-    inputs.home-manager.nixosModules.default
-    ../../configuration.nix
-    ./rocm.nix
-    ./rgb.nix
-  ];
+  imports = [ ../../configuration.nix ./rocm.nix ./rgb.nix ];
 
   hardware.graphics.enable = true;
   services = { xserver.videoDrivers = [ "modesetting" ]; };
