@@ -1,4 +1,4 @@
-{ inputs, config, pkgs, ... }:
+{ inputs, pkgs, ... }:
 
 {
   imports = [ ../../configuration.nix ];
@@ -15,15 +15,20 @@
     bluetooth = {
       enable = true;
       powerOnBoot = false;
-      settings = { General = { Experimental = true; }; };
     };
   };
   virtualisation = { libvirtd.enable = true; };
 
+  powerManagement.enable = true;
   services = {
     upower.enable = true;
     thermald.enable = true;
-    logind = { settings.Login.handleLidSwitch = "suspend"; };
+    logind = {
+      settings.Login = {
+        HoldoffTimeoutSec = "0s";
+        HandleLidSwitch = "suspend-then-hibernate";
+      };
+    };
     tlp = {
       enable = true;
       settings = {

@@ -385,7 +385,7 @@
           }
           {
             timeout = 10 * 60;
-            on-timeout = "systemctl suspend || loginctl suspend";
+            on-timeout = "systemctl suspend-then-hibernate";
           }
         ];
       };

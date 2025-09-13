@@ -8,7 +8,7 @@
 
   # Boot configuration
   boot = {
-    kernelParams = [ "quiet" "mem_sleep_default=deep" ];
+    kernelParams = [ "quiet" ];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
@@ -16,6 +16,10 @@
       systemd-boot.configurationLimit = 5;
     };
   };
+
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=1h
+  '';
 
   # Hardware settings
   hardware.i2c.enable = true;
@@ -25,11 +29,6 @@
   # Networking
   networking = {
     hostName = "nixos";
-    extraHosts = ''
-      127.0.0.1 flux.local
-      127.0.0.1 auth.local
-      127.0.0.1 demo.local
-    '';
     networkmanager.enable = true;
     firewall.enable = false;
     wg-quick.interfaces = {
