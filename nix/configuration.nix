@@ -24,7 +24,14 @@
   # Hardware settings
   hardware.i2c.enable = true;
 
-  nixpkgs.config = { allowUnfree = true; };
+  nixpkgs = {
+    config = { allowUnfree = true; };
+    overlays = [
+      (final: prev: {
+        qutebrowser = prev.qutebrowser.override { enableWideVine = true; };
+      })
+    ];
+  };
 
   # Networking
   networking = {

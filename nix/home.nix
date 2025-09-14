@@ -12,6 +12,10 @@
         source = config.lib.file.mkOutOfStoreSymlink
           "${config.home.homeDirectory}/dotfiles/nvim";
       };
+      ".config/qutebrowser" = {
+        source = config.lib.file.mkOutOfStoreSymlink
+          "${config.home.homeDirectory}/dotfiles/qutebrowser";
+      };
     };
 
     packages = with pkgs; [
@@ -35,7 +39,6 @@
       vscode
 
       # Dev Utilities & CLI Tools
-      platformio
       fd
       fzf
       ripgrep
@@ -89,6 +92,7 @@
 
       # Browsers & Communication
       brave
+      qutebrowser
       discord
       telegram-desktop
 
