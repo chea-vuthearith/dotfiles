@@ -13,6 +13,10 @@
     '';
   };
 
+  swapDevices = [{
+    device = "/var/lib/swapfile";
+    size = 34816;
+  }];
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = { kuro = import ./home.nix; };
