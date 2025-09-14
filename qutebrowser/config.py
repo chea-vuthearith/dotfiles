@@ -50,3 +50,4 @@ c.auto_save.session = True
 c.fonts.default_family = "System-ui"
 c.content.autoplay = False
 c.colors.webpage.preferred_color_scheme = "dark"
+c.scrolling.smooth = True
