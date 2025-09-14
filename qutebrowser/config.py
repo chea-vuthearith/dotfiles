@@ -22,7 +22,7 @@ config.bind("<Ctrl-p>", "completion-item-focus prev", mode="command")
 config.bind("<Ctrl-n>", "completion-item-focus next", mode="command")
 
 config.bind("s", "hint")
-config.bind("S", "hint")
+config.bind("S", "hint all tab")
 
 config.bind('<Alt-l>', 'tab-next' )
 config.bind('<Alt-h>', 'tab-prev' )
@@ -34,6 +34,9 @@ config.bind('<Ctrl-o>', 'back' )
 
 config.bind('<Alt-W><Tab>d', 'tab-close' )
 config.bind('<Alt-W><Tab><Tab>', 'open -t' )
+
+config.bind('dd', 'tab-close' )
+config.bind('gh', 'history' )
 
 # Unbind Defaults
 config.unbind('d')
@@ -50,4 +53,9 @@ c.auto_save.session = True
 c.fonts.default_family = "System-ui"
 c.content.autoplay = False
 c.colors.webpage.preferred_color_scheme = "dark"
-c.scrolling.smooth = True
+c.tabs.position = 'bottom'
+c.statusbar.show = 'in-mode'
+c.tabs.show = 'multiple'
+c.tabs.last_close = 'close'
+c.tabs.tooltips = False
+c.window.hide_decoration = True
