@@ -73,6 +73,56 @@ class ExitCodes(enum.IntEnum):
 
 stderr = functools.partial(print, file=sys.stderr)
 
+def show_loading():
+    js= '''
+(function() {
+    const overlay = document.createElement('div');
+    overlay.id = 'custom-loading-spinner';
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;animation:fadeIn 0.3s forwards';
+    
+    const spinner = document.createElement('div');
+    spinner.style.cssText = 'width:50px;height:50px;border:4px solid rgba(255,255,255,0.3);border-top:4px solid white;border-radius:50%;animation:spin 1s linear infinite';
+    overlay.appendChild(spinner);
+    document.body.appendChild(overlay);
+
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    `;
+    document.head.appendChild(style);
+})();
+    '''
+
+    minified = minify_js(js)
+    qute_command(f'jseval -q {minified}')
+
+def hide_loading():
+    js = '''
+(function() {
+    const overlay = document.getElementById('custom-loading-spinner');
+    if (!overlay) return;
+
+    overlay.style.animation = 'fadeOut 0.3s forwards';
+
+    overlay.addEventListener('animationend', () => {
+        overlay.remove();
+    });
+
+    if (!document.getElementById('fadeOut-keyframes')) {
+        const style = document.createElement('style');
+        style.id = 'fadeOut-keyframes';
+        style.textContent = `
+            @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+        `;
+        document.head.appendChild(style);
+    }
+})();
+        '''
+    minified = minify_js(js)
+    qute_command(f'jseval -q {minified}')
+
+
 def qute_command(command: str):
     fifo_path = os.environ.get('QUTE_FIFO')
     if not fifo_path:
@@ -165,10 +215,6 @@ def fake_key_raw(text: str):
         qute_command(f'fake-key {sequence}')
 
 def fill_form(username: str, password: str):
-    """
-    Returns a minified JavaScript string that fills visible login forms with the given username and password.
-    """
-    # Escape username and password for JS string literals
     import json
     js_username = json.dumps(username)
     js_password = json.dumps(password)
@@ -219,82 +265,69 @@ def fill_form(username: str, password: str):
         }}
     }})();
     """
-    minified= ' '.join(line.strip() for line in js.splitlines())
-    qute_command(f'jseval {minified}')
+    minified = minify_js(js)
+    qute_command(f'jseval -q {minified}')
+
+def minify_js(js: str) -> str:
+    return ' '.join(line.strip() for line in js.splitlines())
 
 def main(args):
-    if not args.url:
-        stderr("No URL provided.")
-        return ExitCodes.FAILURE
+    try:
+        show_loading()
+        if not args.url:
+            stderr("No URL provided.")
+            return ExitCodes.FAILURE
 
-    extract_result = tldextract.extract(args.url)
-    candidates = []
-    targets = [
-        extract_result.fqdn,
-        getattr(extract_result, "top_domain_under_public_suffix", None) or extract_result.registered_domain,
-        f"{extract_result.subdomain}.{extract_result.domain}" if extract_result.subdomain else None,
-        extract_result.domain,
-        getattr(extract_result, "ipv4", None),
-    ]
-    for target in filter(None, targets):
-        target_candidates = json.loads(
-            bitwarden_list_items(
-                target,
-                args.io_encoding,
-                args.auto_lock,
-                args.password_prompt_invocation,
+        extract_result = tldextract.extract(args.url)
+        candidates = []
+        targets = [
+            extract_result.fqdn,
+            getattr(extract_result, "top_domain_under_public_suffix", None) or extract_result.registered_domain,
+            f"{extract_result.subdomain}.{extract_result.domain}" if extract_result.subdomain else None,
+            extract_result.domain,
+            getattr(extract_result, "ipv4", None),
+        ]
+        for target in filter(None, targets):
+            target_candidates = json.loads(
+                bitwarden_list_items(
+                    target,
+                    args.io_encoding,
+                    args.auto_lock,
+                    args.password_prompt_invocation,
+                )
             )
-        )
-        if not target_candidates:
-            continue
-        candidates += target_candidates
-        if not args.merge_candidates:
-            break
-    else:
-        if not candidates:
-            stderr(f"No pass candidates for URL '{args.url}' found!")
-            return ExitCodes.NO_PASS_CANDIDATES
+            if not target_candidates:
+                continue
+            candidates += target_candidates
+            if not args.merge_candidates:
+                break
+        else:
+            if not candidates:
+                stderr(f"No pass candidates for URL '{args.url}' found!")
+                return ExitCodes.NO_PASS_CANDIDATES
 
-    if len(candidates) == 1:
-        selection = candidates.pop()
-    else:
-        choices = [f"{c['login']['username']} | {c['name']}" for c in candidates]
-        choice = dmenu(choices, args.dmenu_invocation, args.io_encoding)
-        if not choice or '|' not in choice:
+        if len(candidates) == 1:
+            selection = candidates.pop()
+        else:
+            choices = [f"{c['login']['username']} | {c['name']}" for c in candidates]
+            choice = dmenu(choices, args.dmenu_invocation, args.io_encoding)
+            if not choice or '|' not in choice:
+                return ExitCodes.SUCCESS
+            choice_username, choice_name = map(str.strip, choice.split('|', 1))
+            selection = next(
+                (c for c in candidates if c['name'] == choice_name and c['login']['username'] == choice_username),
+                None
+            )
+
+        if not selection:
             return ExitCodes.SUCCESS
-        choice_username, choice_name = map(str.strip, choice.split('|', 1))
-        selection = next(
-            (c for c in candidates if c['name'] == choice_name and c['login']['username'] == choice_username),
-            None
-        )
 
-    if not selection:
-        return ExitCodes.SUCCESS
+        username = selection['login']['username']
+        password = selection['login']['password']
+        totp = selection['login'].get('totp')
 
-    username = selection['login']['username']
-    password = selection['login']['password']
-    totp = selection['login'].get('totp')
-
-    if args.totp_only:
-        fake_key_raw(
-            get_totp_code(
-                selection['id'],
-                selection['name'],
-                args.io_encoding,
-                args.auto_lock,
-                args.password_prompt_invocation,
-            )
-        )
-    else:
-        fill_form(username, password)
-
-    if args.insert_mode:
-        qute_command('mode-enter insert')
-
-    if not args.totp_only and totp and args.totp:
-        try:
-            import pyperclip
-            pyperclip.copy(
+        if args.totp_only:
+            fake_key_raw(
                 get_totp_code(
                     selection['id'],
                     selection['name'],
@@ -303,10 +336,30 @@ def main(args):
                     args.password_prompt_invocation,
                 )
             )
-        except ImportError:
-            stderr("pyperclip not installed, cannot copy TOTP code to clipboard.")
+        else:
+            fill_form(username, password)
 
-    return ExitCodes.SUCCESS
+        if args.insert_mode:
+            qute_command('mode-enter insert')
+
+        if not args.totp_only and totp and args.totp:
+            try:
+                import pyperclip
+                pyperclip.copy(
+                    get_totp_code(
+                        selection['id'],
+                        selection['name'],
+                        args.io_encoding,
+                        args.auto_lock,
+                        args.password_prompt_invocation,
+                    )
+                )
+            except ImportError:
+                stderr("pyperclip not installed, cannot copy TOTP code to clipboard.")
+
+        return ExitCodes.SUCCESS
+    finally:
+        hide_loading()
 
 if __name__ == '__main__':
     sys.exit(main(parse_args()))

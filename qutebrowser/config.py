@@ -54,6 +54,7 @@ c.auto_save.session = True
 c.fonts.default_family = "System-ui"
 c.content.autoplay = False
 c.colors.webpage.preferred_color_scheme = "dark"
+c.colors.webpage.bg = "black"
 c.tabs.position = 'bottom'
 c.statusbar.show = 'in-mode'
 c.tabs.show = 'multiple'
