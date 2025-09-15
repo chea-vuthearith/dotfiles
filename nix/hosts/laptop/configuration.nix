@@ -19,6 +19,10 @@
   };
   virtualisation = { libvirtd.enable = true; };
 
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=30m
+  '';
+
   powerManagement.enable = true;
   services = {
     upower.enable = true;

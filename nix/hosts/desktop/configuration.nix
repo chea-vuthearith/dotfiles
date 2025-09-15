@@ -13,6 +13,10 @@
     '';
   };
 
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=1h
+  '';
+
   swapDevices = [{
     device = "/var/lib/swapfile";
     size = 34816;

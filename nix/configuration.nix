@@ -17,10 +17,6 @@
     };
   };
 
-  systemd.sleep.extraConfig = ''
-    HibernateDelaySec=1h
-  '';
-
   # Hardware settings
   hardware.i2c.enable = true;
 
