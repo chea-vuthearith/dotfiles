@@ -40,6 +40,8 @@
 
       # Dev Utilities & CLI Tools
       fd
+      bitwarden-cli
+      keyutils
       fzf
       ripgrep
       jq

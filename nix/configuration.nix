@@ -93,6 +93,7 @@
 
   # Security
   security.polkit.enable = true;
+  security.pam.services.login.enable = true; # example for console login
 
   # User configuration
   users = {

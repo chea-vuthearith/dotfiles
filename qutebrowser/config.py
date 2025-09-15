@@ -37,6 +37,7 @@ config.bind('<Alt-W><Tab><Tab>', 'open -t' )
 
 config.bind('dd', 'tab-close' )
 config.bind('gh', 'history' )
+config.bind('gp', 'spawn --userscript qute-bitwarden.py')
 
 # Unbind Defaults
 config.unbind('d')
