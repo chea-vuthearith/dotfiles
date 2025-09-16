@@ -1,4 +1,5 @@
 { inputs, config, lib, pkgs, ... }: {
+  imports = [ ];
   # Home Configuration
   home = {
     stateVersion = "24.11"; # DO NOT CHANGE
@@ -36,8 +37,6 @@
 
       # Dev Utilities & CLI Tools
       fd
-      bitwarden-cli
-      keyutils
       fzf
       ripgrep
       jq
@@ -114,25 +113,6 @@
 
   # Programs
   programs = {
-    qutebrowser = {
-      enable = true;
-      package =
-        ((pkgs.qutebrowser.override { enableWideVine = true; }).overrideAttrs
-          (prev:
-            let
-              bw = builtins.path {
-                path =
-                  "${config.home.homeDirectory}/dotfiles/qutebrowser/userscripts/bw";
-              };
-            in {
-              postInstall = ''
-                cp ${bw} $out/share/qutebrowser/userscripts/bw
-              '' + (prev.postInstall or "");
-            }));
-      loadAutoconfig = true;
-      extraConfig = lib.fileContents
-        "${config.home.homeDirectory}/dotfiles/qutebrowser/config.py";
-    };
     direnv = {
       enable = true;
       enableZshIntegration = true;
