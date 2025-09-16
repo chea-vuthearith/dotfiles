@@ -31,3 +31,10 @@ vim.keymap.del("n", "<S-L>")
 
 vim.keymap.set("n", "<TAB>l", ":tabn<CR>")
 vim.keymap.set("n", "<TAB>h", ":tabp<CR>")
+
+-- Disable arrow keys in all modes
+for _, key in ipairs({ "<Up>", "<Down>", "<Left>", "<Right>" }) do
+  vim.keymap.set("", key, "<Nop>", { noremap = true, silent = true })
+  vim.keymap.set("i", key, "<Nop>", { noremap = true, silent = true })
+  vim.keymap.set("v", key, "<Nop>", { noremap = true, silent = true })
+end
