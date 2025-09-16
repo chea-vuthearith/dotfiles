@@ -20,14 +20,7 @@
   # Hardware settings
   hardware.i2c.enable = true;
 
-  nixpkgs = {
-    config = { allowUnfree = true; };
-    overlays = [
-      (final: prev: {
-        qutebrowser = prev.qutebrowser.override { enableWideVine = true; };
-      })
-    ];
-  };
+  nixpkgs = { config = { allowUnfree = true; }; };
 
   # Networking
   networking = {
@@ -68,18 +61,6 @@
         };
       };
     };
-    # getty = {
-    #   helpLine = "";
-    #   greetingLine = ''
-    #       ______________________
-    #     < i fucking hate my life >
-    #       ----------------------
-    #              \   ^__^
-    #               \  (oo)\________
-    #                 (__)\        )\/\\
-    #                     ||----w |
-    #                     ||     ||'';
-    # };
   };
 
   # Virtualization
@@ -93,7 +74,6 @@
 
   # Security
   security.polkit.enable = true;
-  security.pam.services.login.enable = true; # example for console login
 
   # User configuration
   users = {
