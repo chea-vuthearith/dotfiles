@@ -1,4 +1,7 @@
-{ inputs, config, lib, pkgs, ... }: {
+{ inputs, config, lib, pkgs, ... }:
+let
+  wallpaper = "${config.home.homeDirectory}/dotfiles/wallpaper/red-nebulae.png";
+in {
   imports = [ ];
   # Home Configuration
   home = {
@@ -299,7 +302,7 @@
 
         wallpaper = {
           enable = false;
-          image = "${config.home.homeDirectory}/dotfiles/wallpaper/tunnel.png";
+          image = wallpaper;
         };
 
         theme = {
@@ -401,10 +404,8 @@
       enable = true;
       settings = {
         splash = false;
-        preload =
-          [ "${config.home.homeDirectory}/dotfiles/wallpaper/tunnel.png" ];
-        wallpaper =
-          [ ", ${config.home.homeDirectory}/dotfiles/wallpaper/tunnel.png" ];
+        preload = [ wallpaper ];
+        wallpaper = [ wallpaper ];
 
       };
     };
