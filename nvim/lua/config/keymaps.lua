@@ -26,11 +26,11 @@ vim.api.nvim_set_keymap(
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
 
-vim.keymap.del("n", "<S-H>")
-vim.keymap.del("n", "<S-L>")
+vim.keymap.set("n", "<leader><TAB>l", ":tabn<CR>", { desc = "Next Tab" })
+vim.keymap.set("n", "<leader><TAB>h", ":tabp<CR>", { desc = "Previous Tab" })
 
-vim.keymap.set("n", "<TAB>l", ":tabn<CR>")
-vim.keymap.set("n", "<TAB>h", ":tabp<CR>")
+vim.keymap.del("n", "<leader><TAB>]")
+vim.keymap.del("n", "<leader><TAB>[")
 
 -- Disable arrow keys in all modes
 for _, key in ipairs({ "<Up>", "<Down>", "<Left>", "<Right>" }) do
@@ -38,3 +38,6 @@ for _, key in ipairs({ "<Up>", "<Down>", "<Left>", "<Right>" }) do
   vim.keymap.set("i", key, "<Nop>", { noremap = true, silent = true })
   vim.keymap.set("v", key, "<Nop>", { noremap = true, silent = true })
 end
+
+vim.keymap.del("n", "<S-H>")
+vim.keymap.del("n", "<S-L>")
