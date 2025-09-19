@@ -261,7 +261,10 @@ in {
       package = inputs.hyprpanel.packages.${pkgs.system}.hyprpanel;
 
       settings = {
+
         bar = {
+          autoHide = "fullscreen";
+          network.label = false;
           media.show_active_only = true;
 
           clock = {
@@ -310,7 +313,7 @@ in {
           matugen = true;
           matugen_settings = {
             mode = "dark";
-            scheme_type = "neutral";
+            scheme_type = "monochrome";
             variation = "standard_1";
           };
           osd = {
@@ -329,6 +332,8 @@ in {
             transparent = true;
             outer_spacing = "0.2em";
             buttons.y_margins = "0.4em";
+            location = "bottom";
+            buttons.background_opacity = 30;
           };
           notification = {
             close_button.label = "#cdd6f4";
