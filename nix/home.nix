@@ -268,92 +268,93 @@ in {
       enable = true;
       package = inputs.hyprpanel.packages.${pkgs.system}.hyprpanel;
 
-      settings = {
-        bar = {
-          autoHide = "fullscreen";
-          network.label = false;
-          media.show_active_only = true;
+      settings = builtins.fromJSON (builtins.readFile
+        "${config.home.homeDirectory}/dotfiles/hyprpanel/catppuccin_mocha.json")
+        // {
+          bar = {
+            autoHide = "fullscreen";
+            network.label = false;
+            media.show_active_only = true;
 
-          bluetooth = { label = false; };
+            bluetooth = { label = false; };
 
-          volume = { label = false; };
+            volume = { label = false; };
 
-          clock = {
-            icon = "";
-            format = " %I:%M %p";
-          };
+            clock = {
+              icon = "";
+              format = " %I:%M %p";
+            };
 
-          customModules = {
-            worldclock.format = "%I:%M %p %Z";
-            worldclock.formatDiffDate = "%a %b %d  %I:%M %p %Z";
-            hypridle.label = false;
-          };
+            customModules = {
+              worldclock.format = "%I:%M %p %Z";
+              worldclock.formatDiffDate = "%a %b %d  %I:%M %p %Z";
+              hypridle.label = false;
+            };
 
-          workspaces = {
-            applicationIconOncePerWorkspace = true;
-            showAllActive = true;
-            showApplicationIcons = true;
-            showWsIcons = true;
+            workspaces = {
+              applicationIconOncePerWorkspace = true;
+              showAllActive = true;
+              showApplicationIcons = true;
+              showWsIcons = true;
+            };
+
+            notifications = {
+              hideCountWhenZero = true;
+              show_total = true;
+            };
           };
 
           notifications = {
-            hideCountWhenZero = true;
-            show_total = true;
+            position = "top";
+            clearDelay = 0;
+            showActionsOnHover = true;
           };
-        };
 
-        notifications = {
-          position = "top";
-          clearDelay = 0;
-          showActionsOnHover = true;
-        };
+          menus = {
+            clock = {
+              time.hideSeconds = true;
+              weather.location = "Phnom Penh";
+              weather.unit = "metric";
+            };
+            power.lowBatteryNotification = true;
+          };
 
-        menus = {
-          clock = {
-            time.hideSeconds = true;
-            weather.location = "Phnom Penh";
-            weather.unit = "metric";
+          wallpaper = {
+            enable = false;
+            image = wallpaperPath;
           };
-          power.lowBatteryNotification = true;
-        };
 
-        wallpaper = {
-          enable = false;
-          image = wallpaperPath;
-        };
-
-        theme = {
-          matugen = true;
-          matugen_settings = {
-            mode = "dark";
-            scheme_type = "monochrome";
-            variation = "standard_1";
-          };
-          osd = {
-            enable = true;
-            orientation = "horizontal";
-            location = "top";
-            icon_container = "#131315";
-            icon = "#cdd6f4";
-          };
-          font = {
-            size = "1rem";
-            weight = 400;
-            name = "System-ui";
-          };
-          bar = {
-            transparent = true;
-            outer_spacing = "0.2em";
-            buttons.y_margins = "0.4em";
-            location = "bottom";
-            buttons.background_opacity = 30;
-          };
-          notification = {
-            close_button.label = "#cdd6f4";
-            close_button.background = "#303032";
+          theme = {
+            # matugen_settings = {
+            #   mode = "dark";
+            #   scheme_type = "monochrome";
+            #   variation = "standard_1";
+            # };
+            osd = {
+              enable = true;
+              orientation = "horizontal";
+              location = "top";
+              icon_container = "#131315";
+              icon = "#cdd6f4";
+            };
+            font = {
+              size = "1rem";
+              weight = 400;
+              name = "System-ui";
+            };
+            bar = {
+              transparent = true;
+              outer_spacing = "0.2em";
+              buttons.y_margins = "0.4em";
+              location = "bottom";
+              buttons.background_opacity = 30;
+            };
+            notification = {
+              close_button.label = "#cdd6f4";
+              close_button.background = "#303032";
+            };
           };
         };
-      };
 
     };
 

@@ -1,11 +1,11 @@
 @keyframes flash-red-white {
-  0% { color: #fff; }
-  50% { color: #f00; }
-  100% { color: #fff; }
+  0% { color: #cdd6f4; }
+  50% { color: #f38ba7; }
+  100% { color: #cdd6f4; }
 }
 
 .module-icon.cmodule-screenRecordStatus {
-  color: #f00;
+  color: #f38ba7;
   animation: flash-red-white 2s ease-in-out infinite
 }
 
