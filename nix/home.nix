@@ -17,6 +17,14 @@ in {
         source = config.lib.file.mkOutOfStoreSymlink
           "${config.home.homeDirectory}/dotfiles/nvim";
       };
+      ".config/hyprpanel/modules.scss" = {
+        source = config.lib.file.mkOutOfStoreSymlink
+          "${config.home.homeDirectory}/dotfiles/hyprpanel/modules.scss";
+      };
+      ".config/hyprpanel/modules.json" = {
+        source = config.lib.file.mkOutOfStoreSymlink
+          "${config.home.homeDirectory}/dotfiles/hyprpanel/modules.json";
+      };
     };
 
     packages = with pkgs; [
@@ -261,11 +269,14 @@ in {
       package = inputs.hyprpanel.packages.${pkgs.system}.hyprpanel;
 
       settings = {
-
         bar = {
           autoHide = "fullscreen";
           network.label = false;
           media.show_active_only = true;
+
+          bluetooth = { label = false; };
+
+          volume = { label = false; };
 
           clock = {
             icon = "";
@@ -275,6 +286,7 @@ in {
           customModules = {
             worldclock.format = "%I:%M %p %Z";
             worldclock.formatDiffDate = "%a %b %d  %I:%M %p %Z";
+            hypridle.label = false;
           };
 
           workspaces = {
@@ -292,6 +304,7 @@ in {
 
         notifications = {
           position = "top";
+          clearDelay = 0;
           showActionsOnHover = true;
         };
 

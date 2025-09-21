@@ -24,7 +24,6 @@ if pgrep wf-recorder >/dev/null; then
   pkill wf-recorder
 else
   # Start recording
-
   WORKSPACES="$(hyprctl monitors -j | jq -r 'map(.activeWorkspace.id)')"
   WINDOWS="$(hyprctl clients -j | jq -r --argjson workspaces "$WORKSPACES" 'map(select([.workspace.id] | inside($workspaces)))')"
   GEOM=$(echo "$WINDOWS" | jq -r '.[] | "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"' | slurp "$SLURP_ARGS")

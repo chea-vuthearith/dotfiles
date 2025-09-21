@@ -2,9 +2,9 @@
   imports = [ ../../home.nix ];
 
   programs.hyprpanel.settings.bar.layouts."*" = {
-    left = [ "notifications" "windowtitle" ];
+    left = [ "notifications" "windowtitle" "custom/screenRecordStatus" ];
     middle = [ "media" "workspaces" "clock" ];
-    right = [ "systray" "hypridle" "volume" "network" ];
+    right = [ "systray" "hypridle" "network" "volume" ];
   };
 
   programs.zsh.shellAliases = {

@@ -1,0 +1,14 @@
+@keyframes flash-red-white {
+  0% { color: #fff; }
+  50% { color: #f00; }
+  100% { color: #fff; }
+}
+
+.module-icon.cmodule-screenRecordStatus {
+  color: #f00;
+  animation: flash-red-white 2s ease-in-out infinite
+}
+
+.notification-card {
+  margin-bottom: 0.5em;
+}
