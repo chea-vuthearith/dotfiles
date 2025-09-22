@@ -20,7 +20,7 @@
   virtualisation = { libvirtd.enable = true; };
 
   systemd.sleep.extraConfig = ''
-    HibernateDelaySec=30m
+    HibernateDelaySec=30min
   '';
 
   powerManagement.enable = true;

@@ -305,7 +305,7 @@ in {
           };
 
           notifications = {
-            position = "top";
+            position = "bottom right";
             clearDelay = 0;
             showActionsOnHover = true;
           };
@@ -333,7 +333,7 @@ in {
             osd = {
               enable = true;
               orientation = "horizontal";
-              location = "top";
+              location = "bottom";
               icon_container = "#131315";
               icon = "#cdd6f4";
             };

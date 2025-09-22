@@ -8,19 +8,19 @@
 
   boot = {
     kernelModules = [ "hid_apple" ];
-    kernelParams = [ "resume_offset=185636864" ];
+    kernelParams = [ "resume_offset=89729024" ];
     extraModprobeConfig = ''
       options hid_apple fnmode=2
     '';
   };
 
   systemd.sleep.extraConfig = ''
-    HibernateDelaySec=1h
+    HibernateDelaySec=120min
   '';
 
   swapDevices = [{
     device = "/var/lib/swapfile";
-    size = 24 * 1024;
+    size = 34 * 1024;
   }];
 
   boot.resumeDevice = "/dev/nvme0n1p2";
