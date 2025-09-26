@@ -10,7 +10,10 @@ in {
     username = "kuro";
     homeDirectory = "/home/${config.home.username}";
     preferXdgDirectories = true;
-    sessionVariables = { NIXOS_OZONE_WL = "1"; };
+    sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+      TERMCMD = "wezterm start --always-new-process";
+    };
 
     file = {
       ".config/nvim" = {
@@ -32,6 +35,7 @@ in {
       gcc
       libgcc
       gnumake
+      gnused
       lua
       openjdk
       rustc
@@ -207,7 +211,7 @@ in {
       settings = {
         main = {
           dpi-aware = "no";
-          terminal = "wezterm";
+          terminal = "wezterm start --always-new-process";
           layer = "overlay";
           font = "System-ui";
         };
@@ -444,6 +448,24 @@ in {
 
   xdg = {
     enable = true;
+    portal = {
+      extraPortals = [ pkgs.xdg-desktop-portal-termfilechooser ];
+      config.common = {
+        "org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
+      };
+    };
+    configFile."xdg-desktop-portal-termfilechooser/config" = {
+      force = true;
+      text = ''
+        [filechooser]
+        cmd=${pkgs.xdg-desktop-portal-termfilechooser}/share/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
+        create_help_file=0
+        env=TERMCMD=wezterm start --always-new-process
+        default_dir=$HOME
+        open_mode=suggested
+        save_mode=last
+      '';
+    };
     userDirs = {
       createDirectories = true;
       enable = true;
