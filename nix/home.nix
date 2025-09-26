@@ -285,8 +285,8 @@ in {
             volume = { label = false; };
 
             clock = {
-              icon = "";
-              format = " %I:%M %p";
+              icon = "";
+              format = "%A %I:%M %p";
             };
 
             customModules = {
