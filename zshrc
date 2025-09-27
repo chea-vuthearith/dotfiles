@@ -92,9 +92,6 @@ zi ice depth"1"; zi snippet OMZP::git
 
 zi light romkatv/zsh-defer
 
-# start hyprland on login tty1
-# source ~/dotfiles/zshrc.d/auto-Hypr.sh
-
  ### End of plugins
 
  # aliases

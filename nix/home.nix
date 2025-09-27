@@ -338,11 +338,9 @@ in {
               enable = true;
               orientation = "horizontal";
               location = "bottom";
-              icon_container = "#131315";
-              icon = "#cdd6f4";
             };
             font = {
-              size = "1rem";
+              size = "0.875rem";
               weight = 400;
               name = "System-ui";
             };
@@ -352,10 +350,6 @@ in {
               buttons.y_margins = "0.4em";
               location = "bottom";
               buttons.background_opacity = 30;
-            };
-            notification = {
-              close_button.label = "#cdd6f4";
-              close_button.background = "#303032";
             };
           };
         };
