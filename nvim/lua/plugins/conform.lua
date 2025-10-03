@@ -17,7 +17,7 @@ return {
           configuration_path = vim.fn.expand("~/dotfiles/nvim/biome.json"),
         },
         command = "biome",
-        args = { "check", "--write", "$FILENAME" },
+        args = { "check", "--write", "--linter-enabled=false", "$FILENAME" },
         stdin = false,
         require_cwd = false,
       },
