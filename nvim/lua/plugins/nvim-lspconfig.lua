@@ -14,8 +14,9 @@ return {
         },
       },
       biome = {
-        cmd = { "biome", "lsp-proxy", "--config-path", vim.env.BIOME_CONFIG_PATH },
-        root_dir = vim.fn.getcwd(),
+        settings = {
+          configuration_path = vim.fn.expand("~/dotfiles/nvim/biome.json"),
+        },
       },
     },
   },

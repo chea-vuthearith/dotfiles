@@ -13,8 +13,11 @@ return {
     },
     formatters = {
       biome = {
+        settings = {
+          configuration_path = vim.fn.expand("~/dotfiles/nvim/biome.json"),
+        },
         command = "biome",
-        args = { "check", "--config-path", vim.env.BIOME_CONFIG_PATH, "--write", "$FILENAME" },
+        args = { "check", "--write", "$FILENAME" },
         stdin = false,
         require_cwd = false,
       },

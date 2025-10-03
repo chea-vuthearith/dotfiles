@@ -97,9 +97,6 @@ zi light romkatv/zsh-defer
  # aliases
  alias py="python3"
 
- # biome
- export BIOME_CONFIG_PATH="$HOME/dotfiles/nvim"
-
  # pager
  export PAGER="less -X -F"
 
