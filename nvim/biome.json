@@ -1,19 +1,5 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
-  "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
-  "files": { "ignoreUnknown": false, "includes": ["**"] },
-  "formatter": {
-    "enabled": true,
-    "useEditorconfig": true,
-    "formatWithErrors": true,
-    "indentStyle": "space",
-    "indentWidth": 2,
-    "lineEnding": "lf",
-    "lineWidth": 80,
-    "attributePosition": "auto",
-    "bracketSpacing": true,
-    "includes": ["**", "!**/node_modules/**/*"]
-  },
   "assist": {
     "actions": {
       "source": {
@@ -23,27 +9,36 @@
       }
     }
   },
+  "files": { "ignoreUnknown": false, "includes": ["**"] },
+  "formatter": {
+    "attributePosition": "auto",
+    "bracketSpacing": true,
+    "enabled": true,
+    "formatWithErrors": true,
+    "includes": ["**", "!**/node_modules/**/*"],
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 80,
+    "useEditorconfig": true
+  },
+  "javascript": {
+    "formatter": {
+      "arrowParentheses": "always",
+      "attributePosition": "auto",
+      "bracketSameLine": false,
+      "bracketSpacing": true,
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "semicolons": "always",
+      "trailingCommas": "all"
+    }
+  },
 
   "linter": {
     "enabled": true,
     "rules": {
-      "nursery": {
-        "useSortedClasses": { "level": "warn", "fix": "safe", "options": {} }
-      },
-      "recommended": true,
-      "style": {
-        "noParameterAssign": "off",
-        "noNonNullAssertion": "off",
-        "useAsConstAssertion": "error",
-        "useDefaultParameterLast": "error",
-        "useEnumInitializers": "error",
-        "useSelfClosingElements": "error",
-        "useSingleVarDeclarator": "error",
-        "noUnusedTemplateLiteral": "error",
-        "useNumberNamespace": "error",
-        "noInferrableTypes": "error",
-        "noUselessElse": "error"
-      },
+      "a11y": { "useKeyWithClickEvents": "off" },
       "complexity": {
         "noForEach": "warn"
       },
@@ -51,23 +46,32 @@
         "noUnusedImports": "warn",
         "useExhaustiveDependencies": "warn"
       },
-      "suspicious": {
-        "noExplicitAny": "off",
-        "noArrayIndexKey": "warn"
+      "nursery": {
+        "useSortedClasses": {
+          "fix": "safe",
+          "level": "warn",
+          "options": {}
+        }
       },
-      "a11y": { "useKeyWithClickEvents": "off" }
+      "recommended": true,
+      "style": {
+        "noInferrableTypes": "error",
+        "noNonNullAssertion": "off",
+        "noParameterAssign": "off",
+        "noUnusedTemplateLiteral": "error",
+        "noUselessElse": "error",
+        "useAsConstAssertion": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useNumberNamespace": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error"
+      },
+      "suspicious": {
+        "noArrayIndexKey": "warn",
+        "noExplicitAny": "off"
+      }
     }
   },
-  "javascript": {
-    "formatter": {
-      "jsxQuoteStyle": "double",
-      "quoteProperties": "asNeeded",
-      "trailingCommas": "all",
-      "semicolons": "always",
-      "arrowParentheses": "always",
-      "bracketSameLine": false,
-      "attributePosition": "auto",
-      "bracketSpacing": true
-    }
-  }
+  "vcs": { "clientKind": "git", "enabled": false, "useIgnoreFile": false }
 }
