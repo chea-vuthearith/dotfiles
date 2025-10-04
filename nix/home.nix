@@ -13,6 +13,7 @@ in {
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
       TERMCMD = "wezterm start --always-new-process";
+      NIXPKGS_ALLOW_UNFREE = 1;
     };
 
     file = {
@@ -60,6 +61,7 @@ in {
       xdg-user-dirs
       zip
       unzip
+      unrar
       openssl
       starship
       lsd
