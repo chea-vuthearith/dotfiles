@@ -14,6 +14,7 @@ return {
         },
       },
       biome = {
+        root_dir = vim.fn.getcwd(),
         settings = {
           configuration_path = vim.fn.expand("~/dotfiles/nvim/biome.json"),
         },
