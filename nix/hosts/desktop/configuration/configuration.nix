@@ -1,7 +1,14 @@
 { inputs, config, pkgs, ... }:
 
 {
-  imports = [ ../../configuration.nix ./rocm.nix ./rgb.nix ];
+  imports = [
+    ../../../configuration/modules/no-rgb.nix
+    ../../../configuration/modules/rocm.nix
+  ];
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = { kuro = import ../home-manager/home.nix; };
+  };
 
   hardware.graphics.enable = true;
   services = { xserver.videoDrivers = [ "modesetting" ]; };
@@ -24,9 +31,4 @@
   }];
 
   boot.resumeDevice = "/dev/nvme0n1p2";
-  home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    users = { kuro = import ./home.nix; };
-  };
-
 }

@@ -1,16 +1,15 @@
 { inputs, pkgs, ... }:
 
 {
-  imports = [ ../../configuration.nix ];
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = { kuro = import ../home-manager/home.nix; };
+  };
 
   environment.systemPackages = with pkgs; [ ciscoPacketTracer8 ];
   nixpkgs.config.permittedInsecurePackages =
     [ "libsoup-2.74.3" "libxml2-2.13.8" "ciscoPacketTracer8" "libxml2" ];
 
-  home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    users = { kuro = import ./home.nix; };
-  };
   hardware = {
     bluetooth = {
       enable = true;

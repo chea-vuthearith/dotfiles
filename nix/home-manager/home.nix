@@ -47,14 +47,15 @@ in {
       turbo
       sqlite
       postgresql
+      uv
 
       # Editors & IDEs
       vscode
       ios-webkit-debug-proxy
       anydesk
-      uv
 
       # Dev Utilities & CLI Tools
+      aria2
       fd
       fzf
       ripgrep
@@ -80,7 +81,6 @@ in {
       prisma-engines
       magic-wormhole
       croc
-      gitAndTools.gh
       sshfs
       mqttx
       redis
@@ -129,7 +129,6 @@ in {
   };
 
   # Nix Settings
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
 
   # Programs

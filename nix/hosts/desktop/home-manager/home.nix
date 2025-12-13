@@ -1,5 +1,5 @@
 { inputs, pkgs, config, ... }: {
-  imports = [ ../../home.nix ];
+  imports = [ ../../../home-manager/home.nix ];
 
   programs.hyprpanel.settings.bar.layouts."*" = {
     left = [ "notifications" "workspaces" ];

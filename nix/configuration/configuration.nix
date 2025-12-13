@@ -1,10 +1,7 @@
 { config, lib, pkgs, inputs, ... }:
 
 {
-  imports = [
-    /etc/nixos/hardware-configuration.nix
-    inputs.home-manager.nixosModules.default
-  ];
+  imports = [ /etc/nixos/hardware-configuration.nix ];
 
   # Boot configuration
   boot = {
@@ -43,7 +40,16 @@
 
   # Services
   services = {
-    aria2 = { settings = { enable-rpc = true; }; };
+    aria2 = {
+      enable = true;
+      settings = {
+        enable-rpc = true;
+        resume = true;
+        dir = "/home/kuro/Downloads";
+      };
+      rpcSecretFile = "/home/kuro/.aria2secret";
+
+    };
     logind.settings.Login.HandlePowerKey = "ignore";
     openssh.enable = true;
     pipewire = {
@@ -81,7 +87,7 @@
     users.kuro = {
       isNormalUser = true;
       extraGroups =
-        [ "wheel" "video" "audio" "docker" "networkmanager" "libvrtd" ];
+        [ "wheel" "video" "audio" "docker" "networkmanager" "libvrtd" "aria2" ];
       shell = pkgs.zsh;
       ignoreShellProgramCheck = true;
     };
@@ -102,10 +108,12 @@
 
   fonts.packages = with pkgs; [
     noto-fonts
-    noto-fonts-emoji
+    noto-fonts-color-emoji
     nerd-fonts.fira-code
     nerd-fonts.victor-mono
   ];
+
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # DO NOT CHANGE
   system.stateVersion = "24.11";

@@ -19,30 +19,23 @@
     };
   };
 
-  outputs = { self, nixpkgs, ... }@inputs:
-    let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs {
-        inherit system;
-        config = { allowUnfree = true; };
+  outputs = { self, nixpkgs, ... }@inputs: {
+    nixosConfigurations = {
+      desktop = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/desktop/configuration/configuration.nix
+          ./configuration/configuration.nix
+        ];
       };
-    in {
-      nixosConfigurations = {
-        desktop = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-            inherit system;
-          };
-          modules = [ ./hosts/desktop/configuration.nix ];
-        };
 
-        laptop = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-            inherit system;
-          };
-          modules = [ ./hosts/laptop/configuration.nix ];
-        };
+      laptop = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/laptop/configuration/configuration.nix
+          ./configuration/configuration.nix
+        ];
       };
     };
+  };
 }

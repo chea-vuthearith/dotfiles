@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  imports = [ ../../home.nix ];
+  imports = [ ../../../home-manager/home.nix ];
 
   home = { packages = with pkgs; [ cheese bluez bluez-tools virt-manager ]; };
   programs.hyprpanel.settings.bar.layouts."*" = {
