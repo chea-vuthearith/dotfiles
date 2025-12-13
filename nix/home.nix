@@ -43,7 +43,6 @@ in {
       cargo
       python3
       nodejs_24
-      aria2
       pnpm_10
       turbo
       sqlite
@@ -51,6 +50,9 @@ in {
 
       # Editors & IDEs
       vscode
+      ios-webkit-debug-proxy
+      anydesk
+      uv
 
       # Dev Utilities & CLI Tools
       fd
@@ -75,6 +77,7 @@ in {
       docker
       docker-compose
       prisma
+      prisma-engines
       magic-wormhole
       croc
       gitAndTools.gh

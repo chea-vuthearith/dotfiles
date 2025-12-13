@@ -43,6 +43,7 @@
 
   # Services
   services = {
+    aria2 = { settings = { enable-rpc = true; }; };
     logind.settings.Login.HandlePowerKey = "ignore";
     openssh.enable = true;
     pipewire = {
@@ -90,7 +91,10 @@
   programs = {
     zsh.enable = false;
     hyprland.enable = true;
-    nix-ld.enable = true;
+    nix-ld = {
+      enable = true;
+      libraries = with pkgs; [ stdenv.cc.cc.lib ];
+    };
   };
 
   # Environment
