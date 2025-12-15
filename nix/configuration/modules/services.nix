@@ -1,13 +1,13 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, username, ... }: {
   services = {
     aria2 = {
       enable = true;
       settings = {
         enable-rpc = true;
         resume = true;
-        dir = "/home/kuro/Downloads";
+        dir = "/home/${username}/Downloads";
       };
-      rpcSecretFile = "/home/kuro/.aria2secret";
+      rpcSecretFile = "/home/${username}/.aria2secret";
     };
     logind.settings.Login.HandlePowerKey = "ignore";
     openssh.enable = true;

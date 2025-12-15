@@ -1,4 +1,4 @@
-{ inputs, config, pkgs, ... }:
+{ inputs, config, pkgs, username, ... }:
 
 {
   imports = [
@@ -11,6 +11,6 @@
   ];
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
-    users = { kuro = import ../home-manager/home.nix; };
+    users = { ${username} = import ../home-manager/home.nix; };
   };
 }

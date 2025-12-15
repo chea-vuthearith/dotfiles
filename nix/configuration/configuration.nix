@@ -4,6 +4,7 @@
   imports = [
     inputs.home-manager.nixosModules.default
     /etc/nixos/hardware-configuration.nix
+    ./modules/nix-ld.nix
     ./modules/hardware.nix
     ./modules/hyprland.nix
     ./modules/boot.nix

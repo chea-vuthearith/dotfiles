@@ -1,6 +1,6 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, username, ... }: {
   users = {
-    users.kuro = {
+    users.${username} = {
       isNormalUser = true;
       extraGroups =
         [ "wheel" "video" "audio" "docker" "networkmanager" "libvrtd" "aria2" ];

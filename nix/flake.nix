@@ -19,23 +19,25 @@
     };
   };
 
-  outputs = { self, nixpkgs, ... }@inputs: {
-    nixosConfigurations = {
-      desktop = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/desktop/configuration/configuration.nix
-          ./configuration/configuration.nix
-        ];
-      };
+  outputs = { self, nixpkgs, ... }@inputs:
+    let username = "kuro";
+    in {
+      nixosConfigurations = {
+        desktop = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs username; };
+          modules = [
+            ./hosts/desktop/configuration/configuration.nix
+            ./configuration/configuration.nix
+          ];
+        };
 
-      laptop = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/laptop/configuration/configuration.nix
-          ./configuration/configuration.nix
-        ];
+        laptop = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs username; };
+          modules = [
+            ./hosts/laptop/configuration/configuration.nix
+            ./configuration/configuration.nix
+          ];
+        };
       };
     };
-  };
 }

@@ -2,8 +2,6 @@
   nixpkgs = { config = { allowUnfree = true; }; };
   home = {
     stateVersion = "24.11";
-    username = "kuro";
-    homeDirectory = "/home/${config.home.username}";
     preferXdgDirectories = true;
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
