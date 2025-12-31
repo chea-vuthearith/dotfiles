@@ -9,7 +9,7 @@
     ./modules/programs/wezterm.nix
     ./modules/programs/yazi.nix
     ./modules/programs/zoxide.nix
-    ./modules/programs/zsh.nix
+    ./modules/programs/zsh
     ./modules/environment.nix
     ./modules/hyprland.nix
     ./modules/packages.nix

@@ -21,7 +21,6 @@
       dl =
         "aria2c --console-log-level=error --max-connection-per-server=16 --max-concurrent-downloads=16 --split=16 --continue=true --dir=$HOME/Downloads";
     };
-    initContent =
-      lib.fileContents "${config.home.homeDirectory}/dotfiles/zshrc";
+    initContent = lib.fileContents "./zshrc";
   };
 }

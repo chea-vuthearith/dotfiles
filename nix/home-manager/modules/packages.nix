@@ -33,12 +33,15 @@
     openssl
     starship
     lsd
-    carapace
     keychain
     newt
     libgtop
     xorg.xrandr
+    arduino-cli
+    arduino-language-server
+    xh
     docker
+    docker-buildx
     docker-compose
     prisma
     prisma-engines
