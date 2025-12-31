@@ -16,6 +16,7 @@ init_after_zvm() {
 
 zi ice lucid wait depth"1"
 zi light zsh-users/zsh-completions
+
 init_autocomplete() {
   bindkey -M vicmd '^P' fzf-history-backward
   bindkey -M vicmd '^N' fzf-history-forward
