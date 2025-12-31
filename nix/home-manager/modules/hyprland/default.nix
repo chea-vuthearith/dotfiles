@@ -6,7 +6,6 @@
     plugins = [
       inputs.split-monitor-workspaces.packages.${pkgs.stdenv.hostPlatform.system}.split-monitor-workspaces
     ];
-    extraConfig = lib.fileContents
-      "${config.home.homeDirectory}/dotfiles/hypr/hyprland.conf";
+    extraConfig = builtins.readFile ./hyprland.conf;
   };
 }
