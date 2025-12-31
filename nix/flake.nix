@@ -20,28 +20,23 @@
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
-    let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs {
-        inherit system;
-        config = { allowUnfree = true; };
-      };
+    let username = "kuro";
     in {
       nixosConfigurations = {
         desktop = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-            inherit system;
-          };
-          modules = [ ./hosts/desktop/configuration.nix ];
+          specialArgs = { inherit inputs username; };
+          modules = [
+            ./hosts/desktop/configuration/configuration.nix
+            ./configuration/configuration.nix
+          ];
         };
 
         laptop = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-            inherit system;
-          };
-          modules = [ ./hosts/laptop/configuration.nix ];
+          specialArgs = { inherit inputs username; };
+          modules = [
+            ./hosts/laptop/configuration/configuration.nix
+            ./configuration/configuration.nix
+          ];
         };
       };
     };
