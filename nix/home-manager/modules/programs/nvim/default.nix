@@ -1,8 +1,8 @@
 { pkgs, config, ... }: {
   home.file = {
-    ".config/nvim" = {
+    "${config.xdg.configHome}/nvim" = {
       source = config.lib.file.mkOutOfStoreSymlink
-        "${config.home.homeDirectory}/dotfiles/nvim";
+        "${config.home.homeDirectory}/dotfiles/nix/home-manager/modules/programs/nvim/conf";
     };
   };
   programs.neovim = {

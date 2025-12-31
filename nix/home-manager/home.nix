@@ -6,8 +6,8 @@
     ./modules/programs/hyprlock
     ./modules/programs/starship
     ./modules/programs/hyprpanel
-    ./modules/programs/neovim.nix
-    ./modules/programs/wezterm.nix
+    ./modules/programs/nvim
+    ./modules/programs/wezterm
     ./modules/programs/yazi.nix
     ./modules/programs/zoxide.nix
     ./modules/programs/zsh
@@ -20,6 +20,5 @@
     ./modules/xdg.nix
   ];
 
-  config.wallpaperPath =
-    "${config.home.homeDirectory}/dotfiles/wallpaper/red-nebulae.jpg";
+  config.wallpaperPath = ./red-nebulae.jpg;
 }

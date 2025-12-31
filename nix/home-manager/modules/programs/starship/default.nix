@@ -5,7 +5,7 @@
     enableZshIntegration = true;
     settings = {
       git_status = {
-        stashed = "\\" + "\$" + "\${count}";
+        stashed = "\\$${count}";
         ahead = "⇡\${count}";
         behind = "⇣\${count}";
         diverged = "⇕\${count}";
