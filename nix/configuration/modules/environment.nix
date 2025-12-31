@@ -1,5 +1,6 @@
 { config, pkgs, ... }: {
-  environment.systemPackages = with pkgs; [ neovim wget dconf dbus ];
+  environment.systemPackages = with pkgs; [ neovim wget dconf dbus zinit];
+  programs.zsh.enableGlobalCompInit = false;
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-color-emoji

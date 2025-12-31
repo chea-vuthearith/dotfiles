@@ -11,6 +11,13 @@
       ignoreDups = true;
       findNoDups = true;
     };
+    plugins = [
+      {
+        name = "zinit";
+        src = pkgs.zinit;
+        file = "share/zinit/zinit.zsh";
+      }
+    ];
     shellAliases = {
       pysrc = "source .venv/bin/activate";
       pyenv = "py -m venv .venv && pysrc";

@@ -1,97 +1,125 @@
-### Added by Zinit's installer
-if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
-  print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-  command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
-  command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
-    print -P "%F{33} %F{34}Installation successful.%f%b" || \
-    print -P "%F{160} The clone has failed.%f%b"
-fi
-
-source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
+# Load annexes
 zinit light-mode for \
   zdharma-continuum/zinit-annex-as-monitor \
   zdharma-continuum/zinit-annex-bin-gem-node \
   zdharma-continuum/zinit-annex-patch-dl \
   zdharma-continuum/zinit-annex-rust
-### End of Zinit's installer chunk
 
-### Plugins
+# Plugins
+zi ice lucid wait depth"1" atload"init_after_zvm"
+zi light jeffreytse/zsh-vi-mode
 
-# vi-mode
-zi ice depth"1"; zi light chea-vuthearith/zsh-vi-mode
-zi ice depth"1"; zi snippet OMZL::clipboard.zsh
+ZVM_SYSTEM_CLIPBOARD_ENABLED=true
+ZVM_INIT_MODE=sourcing
 
-function zvm_get_cutbuffer() {
-  clippaste
+init_after_zvm() {
+  bindkey -M viins '^n' history-forwards-or-complete
+  bindkey -M viins '^p' history-backwards-or-complete
 }
 
-function zvm_set_cutbuffer() {
-  echo -n $1 | clipcopy
+zi ice lucid wait depth"1"
+zi light zsh-users/zsh-completions
+
+# FZF History Widgets
+fzf-history-backward() {
+  local selected
+  selected=$(fc -l 1 | sed 's/^[ ]*[0-9]\+\**[ ]*//' | fzf --tac +s --query "$LBUFFER")
+  if [[ -n $selected ]]; then
+    BUFFER="$selected"
+    CURSOR=${#BUFFER}
+    zle redisplay
+  fi
 }
+zle -N fzf-history-backward
 
-# fzf
-zi ice depth"1" wait"2" lucid; zi snippet OMZP::fzf
-zi ice depth"1"; zi light Aloxaf/fzf-tab
+fzf-history-forward() {
+  local selected
+  selected=$(fc -l 1 | sed 's/^[ ]*[0-9]\+\**[ ]*//' | fzf +s --query "$LBUFFER")
+  if [[ -n $selected ]]; then
+    BUFFER="$selected"
+    CURSOR=${#BUFFER}
+    zle redisplay
+  fi
+}
+zle -N fzf-history-forward
 
-export FZF_DEFAULT_OPTS="--bind=tab:accept -i -s"
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' menu no
-zstyle ':fzf-tab:*' fzf-flags --bind=tab:accept
+# Conditional history navigation
+history-backwards-or-complete() {
+  if [[ $LBUFFER == *[![:space:]]* ]]; then
+    zle menu-select
+  else
+    fzf-history-backward
+  fi
+}
+zle -N history-backwards-or-complete
 
-bindkey '^p' history-search-backward
-bindkey '^n' history-search-forward
-bindkey '^@' fzf-tab-complete
+history-forwards-or-complete() {
+  if [[ $LBUFFER == *[![:space:]]* ]]; then
+    zle menu-select
+  else
+    fzf-history-forward
+  fi
+}
+zle -N history-forwards-or-complete
 
-zi ice depth"1" wait"2" lucid; zi light zsh-users/zsh-syntax-highlighting
+# Keybindings for autocomplete
+init_autocomplete() {
+  bindkey -M vicmd '^P' fzf-history-backward
+  bindkey -M vicmd '^N' fzf-history-forward
+  bindkey -M menuselect '^N' menu-complete
+  bindkey -M menuselect '^P' reverse-menu-complete
+  bindkey -M menuselect '^I' complete-word
+  bindkey -M viins '^I' complete-word
+}
+zi ice lucid wait depth"1" atload"init_autocomplete"
+zi light marlonrichert/zsh-autocomplete
 
-zi ice depth"1" wait"2" lucid; zi light z-shell/zsh-lsd
+# Autocomplete styling
+zstyle ':autocomplete:*' append-semicolon no
+zstyle ':autocomplete:*' list-lines 8
+zstyle ':autocomplete:*' list-position below
+zstyle ':autocomplete:*' min-input 1
+zstyle ':autocomplete:*' delay 0.2
 
-zi ice depth"1" wait"2" lucid; zi light zsh-users/zsh-autosuggestions
+# More plugins
+zi ice lucid wait depth"1"
+zi snippet OMZP::fzf
 
-zi ice depth"1"; zi snippet OMZP::git
+zi ice lucid depth"1" wait atinit"zicompinit"
+zi light zsh-users/zsh-syntax-highlighting
 
+zi ice lucid depth"1" wait
+zi light z-shell/zsh-lsd
+
+zi ice lucid depth"1" wait
+zi snippet OMZP::git
+
+zi ice lucid wait atload"zsh-defer -t 2 init_keychain"
 zi light romkatv/zsh-defer
 
- ### End of plugins
+# Environment variables
+export PAGER="less -X -F"
+export EDITOR="nvim"
 
- # aliases
- alias py="python3"
-
- # pager
- export PAGER="less -X -F"
-
- # editor
- export EDITOR="nvim"
-
- timezsh() {
-   shell=${1-$SHELL}
-   for i in $(seq 1 10); do time $shell -i -c exit; done
- }
+# Utility functions
+timezsh() {
+  shell=${1-$SHELL}
+  for i in $(seq 1 10); do
+    time $shell -i -c exit
+  done
+}
 
 pfwd() {
   if [ $# -ne 2 ]; then
     echo "Usage: pfwd <port> <host>"
     return 1
   fi
-  ssh -fNL "$1":localhost:"$1" "$2"
-}
-
-serveo() {
-  if [ $# -ne 1 ]; then
-    echo "Usage: serveo <port>"
-    return 1
-  fi
-  ssh -R chea:80:localhost:"$1" serveo.net
 }
 
 init_keychain() {
-eval "$(keychain --quiet --eval id_ed25519)"
+  eval "$(keychain --quiet --eval id_ed25519)"
 }
 
-zsh-defer -t 2 init_keychain
+# Set cursor style
+echo -ne '\e[6 q'
+
