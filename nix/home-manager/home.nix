@@ -11,7 +11,7 @@
     ./modules/programs/zoxide.nix
     ./modules/programs/zsh
     ./modules/environment.nix
-    ./modules/hyprland.nix
+    ./modules/hyprland
     ./modules/packages.nix
     ./modules/services.nix
     ./modules/shared-vars.nix
