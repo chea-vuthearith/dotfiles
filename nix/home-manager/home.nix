@@ -20,5 +20,5 @@
     ./modules/xdg.nix
   ];
 
-  config.wallpaperPath = ./red-nebulae.jpg;
+  config.wallpaperPath = toString ../../wallpapers/red-nebulae.jpg;
 }

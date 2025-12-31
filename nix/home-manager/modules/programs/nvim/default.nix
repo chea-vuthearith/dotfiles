@@ -1,8 +1,8 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, lib, ... }: {
   home.file = {
-    "${config.xdg.configHome}/nvim" = {
+    ".config/nvim" = {
       source = config.lib.file.mkOutOfStoreSymlink
-        "${config.home.homeDirectory}/dotfiles/nix/home-manager/modules/programs/nvim/conf";
+        "${config.home.homeDirectory}/dotfiles/nix/home-manager/modules/programs/nvim/conf"; # lazy vim is self managed
     };
   };
   programs.neovim = {
