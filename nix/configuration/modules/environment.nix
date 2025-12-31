@@ -3,6 +3,7 @@
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-color-emoji
+    noto-fonts-cjk-sans
     nerd-fonts.fira-code
     nerd-fonts.victor-mono
   ];
