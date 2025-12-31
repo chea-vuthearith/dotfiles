@@ -31,7 +31,6 @@
     unrar
     bottom
     openssl
-    starship
     lsd
     keychain
     newt
