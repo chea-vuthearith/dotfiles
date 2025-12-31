@@ -1,19 +1,13 @@
 { pkgs, inputs, config, ... }: {
   home.file = {
-    ".config/hyprpanel/modules.scss" = {
-      source = config.lib.file.mkOutOfStoreSymlink
-        "${config.home.homeDirectory}/dotfiles/hyprpanel/modules.scss";
-    };
-    ".config/hyprpanel/modules.json" = {
-      source = config.lib.file.mkOutOfStoreSymlink
-        "${config.home.homeDirectory}/dotfiles/hyprpanel/modules.json";
-    };
+    ".config/hyprpanel/modules.scss" = { source = "./modules.scss"; };
+    ".config/hyprpanel/modules.json" = { source = "./modules.json"; };
   };
   programs.hyprpanel = {
     enable = true;
-    package = inputs.hyprpanel.packages.${pkgs.stdenv.hostPlatform.system}.hyprpanel;
-    settings = builtins.fromJSON (builtins.readFile
-      "${config.home.homeDirectory}/dotfiles/hyprpanel/catppuccin_mocha.json")
+    package =
+      inputs.hyprpanel.packages.${pkgs.stdenv.hostPlatform.system}.hyprpanel;
+    settings = builtins.fromJSON (builtins.readFile "./catppuccin_mocha.json")
       // {
         bar = {
           autoHide = "fullscreen";

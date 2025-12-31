@@ -4,7 +4,7 @@
     ./modules/programs/fuzzel.nix
     ./modules/programs/git.nix
     ./modules/programs/hyprlock.nix
-    ./modules/programs/hyprpanel.nix
+    ./modules/programs/hyprpanel
     ./modules/programs/neovim.nix
     ./modules/programs/wezterm.nix
     ./modules/programs/yazi.nix
