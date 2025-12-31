@@ -29,6 +29,10 @@
         "aria2c --console-log-level=error --max-connection-per-server=16 --max-concurrent-downloads=16 --split=16 --continue=true --dir=$HOME/Downloads";
     };
     dotDir = "${config.xdg.configHome}/zsh";
-    initContent = builtins.readFile ./zshrc;
+    initContent = ''
+      ${builtins.readFile ./widgets.sh}
+      ${builtins.readFile ./plugins.sh}
+      ${builtins.readFile ./zshrc.sh}
+    '';
   };
 }
