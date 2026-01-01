@@ -10,16 +10,16 @@ ZVM_INIT_MODE=sourcing
 zi ice lucid wait depth"1" atload"init_after_zvm"
 zi light jeffreytse/zsh-vi-mode
 init_after_zvm() {
-  bindkey -M viins '^n' history-forwards-or-complete
-  bindkey -M viins '^p' history-backwards-or-complete
+  bindkey -M viins '^n' history-or-complete
+  bindkey -M viins '^p' history-or-complete
 }
 
 zi ice lucid wait depth"1"
 zi light zsh-users/zsh-completions
 
 init_autocomplete() {
-  bindkey -M vicmd '^P' fzf-history-backward
-  bindkey -M vicmd '^N' fzf-history-forward
+  bindkey -M vicmd '^P' fzf-history-widget
+  bindkey -M vicmd '^N' fzf-history-widget
   bindkey -M menuselect '^N' menu-complete
   bindkey -M menuselect '^P' reverse-menu-complete
   bindkey -M menuselect '^I' complete-word
