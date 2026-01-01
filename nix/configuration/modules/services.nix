@@ -15,18 +15,6 @@
       enable = true;
       pulse.enable = true;
     };
-    displayManager = {
-      enable = true;
-      ly = {
-        enable = true;
-        settings = {
-          text_in_center = true;
-          hide_version_string = true;
-          hide_key_hints = true;
-          hide_borders = true;
-        };
-      };
-    };
   };
   virtualisation = {
     spiceUSBRedirection.enable = true;

@@ -5,6 +5,7 @@
     inputs.home-manager.nixosModules.default
     /etc/nixos/hardware-configuration.nix
     ./modules/nix-ld.nix
+    ./modules/greetd.nix
     ./modules/hardware.nix
     ./modules/hyprland.nix
     ./modules/boot.nix
