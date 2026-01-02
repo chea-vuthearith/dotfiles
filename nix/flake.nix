@@ -25,18 +25,12 @@
       nixosConfigurations = {
         desktop = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs username; };
-          modules = [
-            ./hosts/desktop/configuration/configuration.nix
-            ./configuration/configuration.nix
-          ];
+          modules = [ ./hosts/desktop/configuration ./configuration ];
         };
 
         laptop = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs username; };
-          modules = [
-            ./hosts/laptop/configuration/configuration.nix
-            ./configuration/configuration.nix
-          ];
+          modules = [ ./hosts/laptop/configuration ./configuration ];
         };
       };
     };

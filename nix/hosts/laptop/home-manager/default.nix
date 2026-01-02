@@ -1,6 +1,6 @@
 { pkgs, ... }: {
   imports = [
-    ../../../home-manager/home.nix
+    ../../../home-manager
     ./overrides/hyprpanel.nix
     ./overrides/packages.nix
     ./overrides/zsh.nix
