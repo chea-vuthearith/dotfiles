@@ -1,3 +1,3 @@
 { pkgs, ... }: {
-  home = { packages = with pkgs; [ cheese bluez bluez-tools virt-manager ]; };
+  home = { packages = with pkgs; [ cheese bluez bluez-tools]; };
 }
