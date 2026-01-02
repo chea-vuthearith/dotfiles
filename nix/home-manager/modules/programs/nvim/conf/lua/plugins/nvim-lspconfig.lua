@@ -1,4 +1,5 @@
 return {
+  -- download pretty-ts-errors-md binary
   {
     name = "pretty-ts-errors-installer",
     dir = vim.fn.stdpath("config"),
@@ -17,6 +18,7 @@ return {
     dependencies = { "pretty-ts-errors-installer" },
     opts = {
       inlay_hints = { enabled = false },
+      -- prettify ts errors
       diagnostics = {
         float = {
           format = (function()
@@ -48,6 +50,7 @@ return {
                   -- remove codeblock markers
                   result = result:gsub("```%w*\n", ""):gsub("\n```", "")
 
+                  -- cache result, so that focusing diagnostics doesnt run format again
                   if #cache_order >= 3 then
                     local oldest = table.remove(cache_order, 1)
                     cache[oldest] = nil
