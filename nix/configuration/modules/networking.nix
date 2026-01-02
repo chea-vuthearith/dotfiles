@@ -11,5 +11,5 @@
       };
     };
   };
-  systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
+  systemd.network.wait-online.enable = false;
 }

@@ -1,4 +1,4 @@
-{ inputs, config, pkgs, ... }: {
+{ inputs, config, pkgs, lib, ... }: {
   powerManagement.enable = true;
   services = {
     upower.enable = true;
@@ -16,5 +16,8 @@
 
       };
     };
+  };
+  systemd.services.upower = {
+    after = ["multi-user.target"];
   };
 }

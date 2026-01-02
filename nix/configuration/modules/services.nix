@@ -10,7 +10,6 @@
       rpcSecretFile = "/home/${username}/.aria2secret";
     };
     logind.settings.Login.HandlePowerKey = "ignore";
-    openssh.enable = true;
     pipewire = {
       enable = true;
       pulse.enable = true;

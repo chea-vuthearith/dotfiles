@@ -1,12 +1,17 @@
-{...}: {
+{ lib, pkgs, ... }: {
   hardware = {
     bluetooth = {
       enable = true;
       powerOnBoot = false;
     };
   };
-  systemd.sleep.extraConfig = ''
-    HibernateDelaySec=30min
-  '';
+  systemd = {
+    sleep.extraConfig = ''
+      HibernateDelaySec=30min
+    '';
+    services.bluetooth = {
+      after = ["multi-user.target"];
+    };
+  };
 
 }
