@@ -1,4 +1,5 @@
 { config, pkgs, lib, ... }: {
+  services.logind.settings.Login.HandlePowerKey = "ignore";
   boot = {
     kernelParams = [ "quiet" ];
     loader = {
