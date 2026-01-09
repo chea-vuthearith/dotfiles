@@ -1,16 +1,16 @@
 { inputs, config, lib, pkgs, ... }: {
   imports = [
-    ./modules/direnv.nix
-    ./modules/fuzzel.nix
-    ./modules/git.nix
     ./modules/hyprlock
     ./modules/starship
     ./modules/hyprpanel
     ./modules/nvim
     ./modules/wezterm
+    ./modules/git
+    ./modules/zsh
+    ./modules/direnv.nix
+    ./modules/fuzzel.nix
     ./modules/yazi.nix
     ./modules/zoxide.nix
-    ./modules/zsh
     ./modules/environment.nix
     ./modules/hyprland
     ./modules/packages.nix
