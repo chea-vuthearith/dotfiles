@@ -8,6 +8,7 @@
     ./modules/greetd.nix
     ./modules/hardware.nix
     ./modules/hyprland.nix
+    ./modules/aria2.nix
     ./modules/boot.nix
     ./modules/networking.nix
     ./modules/users.nix
