@@ -1,6 +1,6 @@
 { ... }: {
   nix.settings = {
-    substituters = [ "http://192.168.108.74:5000" ];
+    substituters = [ "http://192.168.100.108:5000" ];
     require-sigs = false;
   };
 }
