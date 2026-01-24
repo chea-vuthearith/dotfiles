@@ -1,4 +1,4 @@
-{ pkgs, username, ... }: {
+{ pkgs, ... }: {
   services.nix-serve = {
     enable = true;
     port = 5000;
