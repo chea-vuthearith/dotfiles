@@ -1,7 +1,6 @@
 { pkgs, ... }: {
   home.packages = with pkgs; [
     opencode
-    gh
     gcc
     libgcc
     gnumake

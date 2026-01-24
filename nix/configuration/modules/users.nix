@@ -4,6 +4,7 @@
       isNormalUser = true;
       extraGroups = [
         "wheel"
+        "input"
         "dialout"
         "video"
         "audio"
