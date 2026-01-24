@@ -8,6 +8,7 @@
     ./overrides/services.nix
     ./overrides/hibernate.nix
     ./overrides/keyboard.nix
+    ./overrides/cache-client.nix
   ];
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
