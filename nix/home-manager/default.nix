@@ -8,6 +8,7 @@
     ./modules/git
     ./modules/zsh
     ./modules/direnv.nix
+    ./modules/flutter.nix
     ./modules/fuzzel.nix
     ./modules/yazi.nix
     ./modules/zoxide.nix

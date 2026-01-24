@@ -7,6 +7,7 @@
     ./modules/nix-ld.nix
     ./modules/greetd.nix
     ./modules/hardware.nix
+    ./modules/android.nix
     ./modules/hyprland.nix
     ./modules/aria2.nix
     ./modules/sound.nix
