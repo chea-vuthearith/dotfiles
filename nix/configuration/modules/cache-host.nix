@@ -5,8 +5,5 @@
     package = pkgs.nix-serve-ng;
   };
 
-  nix.settings = {
-    connect-timeout = 5;
-    download-attempts = 1;
-  };
+  nix.settings = { require-sigs = false; };
 }
