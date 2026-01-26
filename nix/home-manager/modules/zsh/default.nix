@@ -11,18 +11,13 @@
       ignoreDups = true;
       findNoDups = true;
     };
-    plugins = [
-      {
-        name = "zinit";
-        src = pkgs.zinit;
-        file = "share/zinit/zinit.zsh";
-      }
-    ];
+    plugins = [{
+      name = "zinit";
+      src = pkgs.zinit;
+      file = "share/zinit/zinit.zsh";
+    }];
     shellAliases = {
-      pysrc = "source .venv/bin/activate";
-      pyenv = "py -m venv .venv && pysrc";
-      nsh = "nix-shell --run zsh";
-      ncf = "yazi ~/dotfiles/nix";
+      nsws = "nsw --option substitute true";
       wgu = "sudo systemctl start wg-quick-wg0.service";
       wgd = "sudo systemctl stop wg-quick-wg0.service";
       dl =
