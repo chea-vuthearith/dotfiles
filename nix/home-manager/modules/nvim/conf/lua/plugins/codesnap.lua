@@ -6,6 +6,7 @@ return {
     -- { "<leader>cs", "<cmd>CodeSnapSave<cr>", mode = "x", desc = "Save selected code snapshot in ~/Pictures" },
   },
   lazy = false,
+  vscode = true,
   opts = {
     radius = 0,
     code_font_family = "FiraCode Nerd Font",

@@ -41,3 +41,23 @@ end
 
 vim.keymap.del("n", "<S-H>")
 vim.keymap.del("n", "<S-L>")
+
+if vim.g.vscode then
+  local vscode = require("vscode")
+  vim.keymap.set("n", "<leader>e", function()
+    vscode.action("workbench.files.action.collapseExplorerFolders")
+    vscode.action("workbench.view.explorer")
+  end, { desc = "Collapse & Focus Explorer" })
+
+  vim.keymap.set("n", "<leader>aa", function()
+    vscode.action("workbench.action.chat.toggle")
+  end, { desc = "Toggle VS Code Chat" })
+
+  vim.keymap.set("n", "<leader>wo", function()
+    vscode.action("workbench.action.closeEditorsInOtherGroups")
+  end, { desc = "Close other editors" })
+
+  vim.keymap.set("n", "<leader>wd", function()
+    vscode.action("workbench.action.closeEditorsAndGroup")
+  end, { desc = "Close this editor" })
+end

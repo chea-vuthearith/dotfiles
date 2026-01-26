@@ -16,8 +16,6 @@
     sqlite
     postgresql
     uv
-    vscode
-    ios-webkit-debug-proxy
     anydesk
     aria2
     fd

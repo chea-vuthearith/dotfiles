@@ -4,6 +4,7 @@
     ./modules/starship
     ./modules/hyprpanel
     ./modules/nvim
+    ./modules/vscode
     ./modules/wezterm
     ./modules/git
     ./modules/zsh
