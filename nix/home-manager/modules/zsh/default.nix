@@ -17,7 +17,6 @@
       file = "share/zinit/zinit.zsh";
     }];
     shellAliases = {
-      nsws = "nsw --option substitute true";
       wgu = "sudo systemctl start wg-quick-wg0.service";
       wgd = "sudo systemctl stop wg-quick-wg0.service";
       dl =
