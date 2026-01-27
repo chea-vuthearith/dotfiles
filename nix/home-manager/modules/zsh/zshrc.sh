@@ -10,8 +10,7 @@ pfwd() {
     echo "Usage: pfwd <port> <host>"
     return 1
   fi
-
-  ssh -fNL "$1:localhost:$1" "$2"
+  ssh -fNL "${1}:localhost:${1}" "$2"
 }
 
 init_keychain() {
