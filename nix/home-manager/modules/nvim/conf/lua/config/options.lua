@@ -19,3 +19,4 @@ vim.g.ai_cmp = false
 -- neovide
 vim.g.neovide_cursor_animate_in_insert_mode = true
 vim.g.neovide_cursor_trail_size = 0.3
+vim.g.neovide_hide_mouse_when_typing = true

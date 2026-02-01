@@ -12,6 +12,7 @@ zi light jeffreytse/zsh-vi-mode
 init_after_zvm() {
   bindkey -M viins '^n' history-or-complete
   bindkey -M viins '^p' history-or-complete
+
 }
 
 zi ice lucid wait depth"1"
@@ -24,6 +25,10 @@ init_autocomplete() {
   bindkey -M menuselect '^P' reverse-menu-complete
   bindkey -M menuselect '^I' complete-word
   bindkey -M viins '^I' complete-word
+
+  # remove j and k for history, its annoying
+  bindkey -M vicmd -r 'j'
+  bindkey -M vicmd -r 'k'
 }
 zi ice lucid wait depth"1" atload"init_autocomplete"
 zi light marlonrichert/zsh-autocomplete
