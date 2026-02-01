@@ -9,6 +9,11 @@
       }
     }
   },
+  "html":{
+    "formatter": {
+      "enabled": true
+    }
+  },
   "files": { "ignoreUnknown": false, "includes": ["**"] },
   "formatter": {
     "attributePosition": "auto",

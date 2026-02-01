@@ -26,6 +26,7 @@ vim.api.nvim_set_keymap(
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
 
+-- tabs
 vim.keymap.set("n", "<leader><TAB>l", ":tabn<CR>", { desc = "Next Tab" })
 vim.keymap.set("n", "<leader><TAB>h", ":tabp<CR>", { desc = "Previous Tab" })
 
@@ -39,9 +40,11 @@ for _, key in ipairs({ "<Up>", "<Down>", "<Left>", "<Right>" }) do
   vim.keymap.set("v", key, "<Nop>", { noremap = true, silent = true })
 end
 
+-- disable tabs
 vim.keymap.del("n", "<S-H>")
 vim.keymap.del("n", "<S-L>")
 
+-- when using nvim in vscode
 if vim.g.vscode then
   local vscode = require("vscode")
   vim.keymap.set("n", "<leader>e", function()
@@ -60,4 +63,13 @@ if vim.g.vscode then
   vim.keymap.set("n", "<leader>wd", function()
     vscode.action("workbench.action.closeEditorsAndGroup")
   end, { desc = "Close this editor" })
+end
+
+-- :term
+vim.keymap.set("t", "<Esc><Esc>", [[<C-\><C-n>]], { noremap = true })
+
+if vim.g.neovide then
+  -- tabs
+  vim.keymap.set("n", "<a-l>", ":tabn<CR>", { desc = "Next Tab" })
+  vim.keymap.set("n", "<a-h>", ":tabp<CR>", { desc = "Previous Tab" })
 end

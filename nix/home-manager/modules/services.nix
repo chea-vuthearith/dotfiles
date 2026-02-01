@@ -32,13 +32,5 @@
       longitude = "104.888535";
       latitude = "11.562108";
     };
-    hyprpaper = {
-      enable = true;
-      settings = {
-        splash = false;
-        preload = [ config.wallpaperPath ];
-        wallpaper = [ ", ${config.wallpaperPath}" ];
-      };
-    };
   };
 }

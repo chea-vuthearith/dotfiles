@@ -9,9 +9,7 @@
     sleep.extraConfig = ''
       HibernateDelaySec=30min
     '';
-    services.bluetooth = {
-      after = ["multi-user.target"];
-    };
+    services.bluetooth = { after = [ "multi-user.target" ]; };
   };
 
 }

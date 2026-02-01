@@ -20,6 +20,7 @@
     ./modules/shared-vars.nix
     ./modules/theme.nix
     ./modules/xdg.nix
+    ./modules/wallpaper.nix
   ];
 
   config.wallpaperPath = toString ../../wallpapers/red-nebulae.jpg;
