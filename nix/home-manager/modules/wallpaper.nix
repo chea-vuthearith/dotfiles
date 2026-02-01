@@ -15,7 +15,7 @@ in {
   };
 
   home.activation.awwwWallpaper = ''
-    if ! pgrep -x awww-daemon > /dev/null; then
+    if ! ${pkgs.procps}/bin/pgrep -x awww-daemon > /dev/null; then
       (${awww}/bin/awww-daemon &)
     fi
     ${awww}/bin/awww img ${config.wallpaperPath}
