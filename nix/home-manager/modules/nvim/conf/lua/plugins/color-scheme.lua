@@ -2,6 +2,7 @@ return {
   {
     "catppuccin",
     opts = {
+      term_colors = true,
       transparent_background = true,
       float = {
         transparent = true,
