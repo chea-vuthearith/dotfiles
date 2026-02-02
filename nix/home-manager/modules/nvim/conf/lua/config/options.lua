@@ -21,3 +21,5 @@ vim.g.neovide_cursor_animate_in_insert_mode = true
 vim.g.neovide_cursor_trail_size = 0.3
 vim.g.neovide_hide_mouse_when_typing = true
 vim.g.neovide_refresh_rate_idle = 1
+vim.g.neovide_scroll_animation_far_lines = 0
+vim.g.neovide_scroll_animation_length = 0
