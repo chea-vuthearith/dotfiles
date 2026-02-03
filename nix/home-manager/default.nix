@@ -21,6 +21,7 @@
     ./modules/theme.nix
     ./modules/xdg.nix
     ./modules/wallpaper.nix
+    ./modules/nix-index.nix
   ];
 
   config.wallpaperPath = toString ../../wallpapers/red-nebulae.jpg;
