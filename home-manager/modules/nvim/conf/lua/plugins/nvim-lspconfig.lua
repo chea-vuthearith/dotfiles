@@ -75,10 +75,10 @@ return {
             },
             options = {
               nixos = {
-                expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.desktop.options",
+                expr = '(builtins.getFlake "github:chea-vuthearith/nix").nixosConfigurations.desktop.options',
               },
               home_manager = {
-                expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.desktop.options.home-manager.users.type.getSubOptions []",
+                expr = '(builtins.getFlake "github:chea-vuthearith/nix").nixosConfigurations.desktop.options.home-manager.users.type.getSubOptions []',
               },
             },
           },

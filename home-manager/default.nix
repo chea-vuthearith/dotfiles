@@ -30,5 +30,5 @@
     ./modules/nix-index.nix
   ];
 
-  config.wallpaperPath = toString ../../wallpapers/red-nebulae.jpg;
+  config.wallpaperPath = toString ../wallpapers/red-nebulae.jpg;
 }

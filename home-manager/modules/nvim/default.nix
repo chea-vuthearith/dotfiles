@@ -1,15 +1,17 @@
 {
   pkgs,
   config,
+  inputs,
   ...
 }: {
   home.packages = with pkgs; [neovim nixd alejandra statix];
+  nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"];
   programs.zsh.shellAliases = {vi = "nvim";};
   home.file = {
     ".config/nvim" = {
       source =
         config.lib.file.mkOutOfStoreSymlink
-        "${config.home.homeDirectory}/dotfiles/nix/home-manager/modules/nvim/conf"; # lazy vim is self managed
+        "${config.home.homeDirectory}/dotfiles/home-manager/modules/nvim/conf"; # lazy vim is self managed
     };
   };
 
