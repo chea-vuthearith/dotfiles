@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;
@@ -8,7 +8,7 @@
         run = "spot";
       }
       {
-        on = [ "g" "r" ];
+        on = ["g" "r"];
         run = ''shell -- ya emit cd "$(git rev-parse --show-toplevel)"'';
         desc = "Go to git root";
       }
@@ -35,15 +35,15 @@
       }
       {
         run = "quit";
-        on = [ "Z" "Z" ];
+        on = ["Z" "Z"];
       }
       {
         on = "<Down>";
-        run = [ "seek 1" ];
+        run = ["seek 1"];
       }
       {
         on = "<Up>";
-        run = [ "seek -1" ];
+        run = ["seek -1"];
       }
     ];
     settings = {

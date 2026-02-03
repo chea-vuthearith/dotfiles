@@ -1,6 +1,10 @@
-{ inputs, config, pkgs, username, ... }:
-
 {
+  inputs,
+  config,
+  pkgs,
+  username,
+  ...
+}: {
   imports = [
     ../../../configuration/modules/no-rgb.nix
     ../../../configuration/modules/rocm.nix
@@ -10,7 +14,7 @@
     ./overrides/keyboard.nix
   ];
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    users = { ${username} = import ../home-manager; };
+    extraSpecialArgs = {inherit inputs;};
+    users = {${username} = import ../home-manager;};
   };
 }

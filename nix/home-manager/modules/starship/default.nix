@@ -1,4 +1,4 @@
-{ ... }: {
+{...}: {
   programs.starship = {
     enable = true;
     enableTransience = true;
@@ -16,8 +16,6 @@
         staged = "+\${count}";
         untracked = "?\${count}";
       };
-
     };
   };
 }
-

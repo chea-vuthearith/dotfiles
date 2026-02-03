@@ -1,9 +1,14 @@
-{ pkgs, config, ... }: {
-  home.packages = with pkgs; [ neovim ];
-  programs.zsh.shellAliases = { vi = "nvim"; };
+{
+  pkgs,
+  config,
+  ...
+}: {
+  home.packages = with pkgs; [neovim nixd alejandra statix];
+  programs.zsh.shellAliases = {vi = "nvim";};
   home.file = {
     ".config/nvim" = {
-      source = config.lib.file.mkOutOfStoreSymlink
+      source =
+        config.lib.file.mkOutOfStoreSymlink
         "${config.home.homeDirectory}/dotfiles/nix/home-manager/modules/nvim/conf"; # lazy vim is self managed
     };
   };
@@ -12,8 +17,8 @@
     enable = true;
     settings = {
       font = {
-        normal = [ "FiraCode Nerd Font" "Noto Sans Khmer" ];
-        italic = [ "VictorMono Nerd Font" ];
+        normal = ["FiraCode Nerd Font" "Noto Sans Khmer"];
+        italic = ["VictorMono Nerd Font"];
         size = 12;
       };
     };

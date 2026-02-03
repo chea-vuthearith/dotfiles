@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   services.greetd = {
     enable = true;
     restart = true;
@@ -9,7 +9,7 @@
       };
     };
   };
-  systemd.services.greetd.after = [ "systemd-user-sessions.service" ];
+  systemd.services.greetd.after = ["systemd-user-sessions.service"];
   systemd.services.greetd.serviceConfig = {
     Type = "idle";
     StandardInput = "tty";

@@ -10,6 +10,7 @@ return {
       ["css"] = { "biome" },
       ["json"] = { "biome" },
       ["sh"] = { "beautysh" },
+      ["nix"] = { "alejandra" },
     },
     formatters = {
       biome = {

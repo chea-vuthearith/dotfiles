@@ -1,7 +1,7 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   programs.nix-index = {
     enable = true;
-    database.comma.enable = true;
+    enableZshIntegration = true;
   };
-  # home.packages = with pkgs; [ comma ];
+  home.packages = with pkgs; [comma];
 }

@@ -1,20 +1,26 @@
-{ pkgs, inputs, config, ... }: {
+{
+  pkgs,
+  inputs,
+  config,
+  ...
+}: {
   home.file = {
-    ".config/hyprpanel/modules.scss" = { source = ./modules.scss; };
-    ".config/hyprpanel/modules.json" = { source = ./modules.json; };
+    ".config/hyprpanel/modules.scss" = {source = ./modules.scss;};
+    ".config/hyprpanel/modules.json" = {source = ./modules.json;};
   };
   programs.hyprpanel = {
     enable = true;
     package =
       inputs.hyprpanel.packages.${pkgs.stdenv.hostPlatform.system}.hyprpanel;
-    settings = builtins.fromJSON (builtins.readFile ./catppuccin_mocha.json)
+    settings =
+      builtins.fromJSON (builtins.readFile ./catppuccin_mocha.json)
       // {
         bar = {
           autoHide = "fullscreen";
           network.label = false;
           media.show_active_only = true;
-          bluetooth = { label = false; };
-          volume = { label = false; };
+          bluetooth = {label = false;};
+          volume = {label = false;};
           clock = {
             icon = "";
             format = "%A %I:%M %p";

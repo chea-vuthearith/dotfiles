@@ -1,5 +1,9 @@
-{ config, pkgs, ... }: {
-  environment.systemPackages = with pkgs; [ neovim wget dconf dbus zinit ];
+{
+  config,
+  pkgs,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [neovim wget dconf dbus zinit];
   programs.zsh.enableGlobalCompInit = false;
   fonts.packages = with pkgs; [
     noto-fonts
@@ -9,7 +13,7 @@
     nerd-fonts.victor-mono
   ];
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = ["nix-command" "flakes"];
     max-jobs = "auto";
     cores = 0;
     auto-optimise-store = true;

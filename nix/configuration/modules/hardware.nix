@@ -1,1 +1,5 @@
-{ config, pkgs, ... }: { hardware.i2c.enable = true; }
+{
+  config,
+  pkgs,
+  ...
+}: {hardware.i2c.enable = true;}

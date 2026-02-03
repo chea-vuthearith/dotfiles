@@ -1,8 +1,12 @@
-{ pkgs, config, ... }: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   xdg = {
     enable = true;
     portal = {
-      extraPortals = [ pkgs.xdg-desktop-portal-termfilechooser ];
+      extraPortals = [pkgs.xdg-desktop-portal-termfilechooser];
       config.common = {
         "org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
       };
@@ -28,7 +32,7 @@
         name = "Power Off";
         comment = "Shut down the computer";
         exec = "poweroff";
-        categories = [ "System" "Utility" ];
+        categories = ["System" "Utility"];
       };
     };
   };

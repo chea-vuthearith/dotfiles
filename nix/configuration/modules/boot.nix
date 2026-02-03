@@ -1,7 +1,12 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   services.logind.settings.Login.HandlePowerKey = "ignore";
   boot = {
-    kernelParams = [ "quiet" ];
+    kernelParams = ["quiet"];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;

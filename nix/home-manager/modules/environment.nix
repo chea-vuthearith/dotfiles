@@ -1,5 +1,9 @@
-{ config, pkgs, ... }: {
-  nixpkgs = { config = { allowUnfree = true; }; };
+{
+  config,
+  pkgs,
+  ...
+}: {
+  nixpkgs = {config = {allowUnfree = true;};};
   home = {
     stateVersion = "24.11";
     preferXdgDirectories = true;
@@ -11,5 +15,4 @@
       NIXPKGS_ALLOW_UNFREE = 1;
     };
   };
-
 }

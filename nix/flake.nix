@@ -20,19 +20,23 @@
     };
   };
 
-  outputs = { self, nixpkgs, ... }@inputs:
-    let username = "kuro";
-    in {
-      nixosConfigurations = {
-        desktop = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs username; };
-          modules = [ ./hosts/desktop/configuration ./configuration ];
-        };
+  outputs = {
+    self,
+    nixpkgs,
+    ...
+  } @ inputs: let
+    username = "kuro";
+  in {
+    nixosConfigurations = {
+      desktop = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs username;};
+        modules = [./hosts/desktop/configuration ./configuration];
+      };
 
-        laptop = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs username; };
-          modules = [ ./hosts/laptop/configuration ./configuration ];
-        };
+      laptop = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs username;};
+        modules = [./hosts/laptop/configuration ./configuration];
       };
     };
+  };
 }

@@ -1,4 +1,10 @@
-{ inputs, config, pkgs, lib, ... }: {
+{
+  inputs,
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   powerManagement.enable = true;
   services = {
     upower.enable = true;
@@ -13,7 +19,6 @@
       enable = true;
       settings = {
         STOP_CHARGE_THRESH_BAT0 = 80;
-
       };
     };
   };

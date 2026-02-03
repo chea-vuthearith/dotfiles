@@ -1,8 +1,14 @@
-{ config, pkgs, lib, username, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  username,
+  ...
+}: {
   virtualisation = {
     spiceUSBRedirection.enable = true;
     docker = {
-      extraPackages = [ pkgs.docker-buildx ];
+      extraPackages = [pkgs.docker-buildx];
       enable = true;
       enableOnBoot = false;
     };

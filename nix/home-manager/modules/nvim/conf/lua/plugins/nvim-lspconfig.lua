@@ -66,6 +66,23 @@ return {
         },
       },
       servers = {
+        ["nil_ls"] = false,
+        nixd = {
+          nixpkgs = {
+            expr = "import <nixpkgs> { }",
+            formatting = {
+              command = { "alejandra" },
+            },
+            options = {
+              nixos = {
+                expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.desktop.options",
+              },
+              home_manager = {
+                expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.desktop.options.home-manager.users.type.getSubOptions []",
+              },
+            },
+          },
+        },
         vtsls = { settings = { typescript = { preferences = { importModuleSpecifier = "non-relative" } } } },
         biome = {},
       },

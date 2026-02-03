@@ -1,10 +1,9 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
+  environment.systemPackages = with pkgs; [lact clinfo];
+  boot.kernelParams = ["amdgpu.ppfeaturemask=0xffffffff"];
 
-  environment.systemPackages = with pkgs; [ lact clinfo ];
-  boot.kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" ];
-
-  systemd.packages = [ pkgs.lact ];
-  systemd.services.lactd.wantedBy = [ "multi-user.target" ];
+  systemd.packages = [pkgs.lact];
+  systemd.services.lactd.wantedBy = ["multi-user.target"];
 
   hardware.graphics.extraPackages = with pkgs; [
     rocmPackages.clr.icd
@@ -13,7 +12,6 @@
   ];
 
   environment = {
-    sessionVariables = { HSA_OVERRIDE_GFX_VERSION = "10.3.1"; };
+    sessionVariables = {HSA_OVERRIDE_GFX_VERSION = "10.3.1";};
   };
-
 }

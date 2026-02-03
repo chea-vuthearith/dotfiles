@@ -1,7 +1,7 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   programs.hyprpanel.settings.bar.layouts."*" = {
-    left = [ "notifications" "workspaces" ];
-    middle = [ "clock" ];
+    left = ["notifications" "workspaces"];
+    middle = ["clock"];
     right = [
       "custom/screenRecordStatus"
       "battery"
@@ -12,5 +12,4 @@
       "volume"
     ];
   };
-
 }

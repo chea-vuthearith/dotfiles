@@ -1,4 +1,4 @@
-{ username, ... }: {
+{username, ...}: {
   services.aria2 = {
     enable = true;
     settings = {

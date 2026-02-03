@@ -1,3 +1,3 @@
-{ pkgs, ... }: {
-  home = { packages = with pkgs; [ cheese bluez bluez-tools ]; };
+{pkgs, ...}: {
+  home = {packages = with pkgs; [cheese bluez bluez-tools];};
 }

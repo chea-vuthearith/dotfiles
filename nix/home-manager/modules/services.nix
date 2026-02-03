@@ -1,4 +1,8 @@
-{ config, pkgs, ... }: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   services = {
     cliphist.enable = true;
     hyprpolkitagent.enable = true;
