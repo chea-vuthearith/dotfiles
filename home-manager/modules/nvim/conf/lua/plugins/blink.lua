@@ -1,6 +1,6 @@
 return {
   "saghen/blink.cmp",
-  build = "cargo build --release",
+  build = "nix run .#build-plugin",
   opts = {
     completion = {
       list = {
