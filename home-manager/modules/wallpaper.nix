@@ -6,17 +6,15 @@
 }: let
   awww = inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww;
 in {
-  home.packages = [awww];
-  systemd.user.services.awww-daemon = {
-    Unit = {
-      Description = "Awww Wallpaper Daemon";
-      After = ["graphical-session.target"];
+  services.swww = {
+    enable = true;
+    package = pkgs.symlinkJoin {
+      name = "awww-with-swww-daemon";
+      paths = [awww];
+      postBuild = ''
+        ln -s $out/bin/awww-daemon $out/bin/swww-daemon
+      '';
     };
-    Service = {
-      ExecStart = "${awww}/bin/awww-daemon";
-      Restart = "always";
-    };
-    Install = {WantedBy = ["default.target"];};
   };
 
   home.activation.awwwWallpaper = ''
