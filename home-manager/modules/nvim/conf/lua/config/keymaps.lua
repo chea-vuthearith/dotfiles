@@ -72,7 +72,11 @@ if vim.g.neovide then
   -- tabs
   vim.keymap.set("n", "<a-l>", ":tabn<CR>", { desc = "Next Tab" })
   vim.keymap.set("n", "<a-h>", ":tabp<CR>", { desc = "Previous Tab" })
-  vim.keymap.set("n", "<leader><tab>t", "<Cmd>tabnew<CR><Cmd>term<CR>i", { desc = "New Terminal Tab" })
+  vim.keymap.set("n", "<leader><tab>t", function()
+    vim.cmd.tabnew()
+    vim.cmd.term()
+    vim.cmd.startinsert()
+  end, { desc = "New Terminal Tab" })
   vim.keymap.set({ "n", "v", "s", "x", "o", "i", "l", "c", "t" }, "<C-S-v>", function()
     vim.api.nvim_paste(vim.fn.getreg("+"), true, -1)
   end, { noremap = true, silent = true })
