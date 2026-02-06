@@ -1,7 +1,9 @@
 {
   "workbench.editor.showTabs": "none",
   "keyboard.dispatch": "keyCode",
+  "editor.cursorSmoothCaretAnimation": "on",
   "editor.lineNumbers": "relative",
+  "editor.cursorBlinking": "phase",
   "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
   },
