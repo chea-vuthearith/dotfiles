@@ -20,33 +20,15 @@ config.font_rules = {
 	},
 }
 
-config.color_scheme = "Catppuccin Mocha"
+-- config.color_scheme = "Catppuccin Mocha"
 config.window_background_opacity = 0.9
 config.window_decorations = "NONE"
 
-local bg_color = "#000"
 config.hide_tab_bar_if_only_one_tab = true
 config.use_fancy_tab_bar = true
 config.window_frame = {
 	active_titlebar_bg = "transparent",
 	inactive_titlebar_bg = "transparent",
-}
-
-local active_tab = wezterm.get_builtin_color_schemes()[config.color_scheme]["tab_bar"].active_tab
-config.colors = {
-	background = bg_color,
-	tab_bar = {
-		inactive_tab = {
-			fg_color = "#CDD6F4",
-			bg_color = "transparent",
-		},
-		active_tab = active_tab,
-		inactive_tab_edge = "transparent",
-		new_tab = {
-			fg_color = "transparent",
-			bg_color = "transparent",
-		},
-	},
 }
 
 config.tab_bar_at_bottom = true
@@ -95,7 +77,6 @@ config.keys = {
 	{ key = "v", mods = "LEADER", action = action.ActivateCopyMode },
 
 	-- workspaces
-	-- keytable
 	{
 		key = "s",
 		mods = "LEADER",

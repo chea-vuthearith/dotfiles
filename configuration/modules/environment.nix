@@ -9,8 +9,6 @@
     noto-fonts
     noto-fonts-color-emoji
     noto-fonts-cjk-sans
-    nerd-fonts.fira-code
-    nerd-fonts.victor-mono
   ];
   nix.settings = {
     experimental-features = ["nix-command" "flakes"];

@@ -1,6 +1,7 @@
 {pkgs, ...}: {
+  programs.opencode.enable = true;
+  programs.brave.enable = true;
   home.packages = with pkgs; [
-    opencode
     gcc
     libgcc
     gnumake
@@ -64,9 +65,7 @@
     brightnessctl
     dragon-drop
     hyprpaper
-    hypridle
     abiword
-    brave
     discord
     telegram-desktop
     grim

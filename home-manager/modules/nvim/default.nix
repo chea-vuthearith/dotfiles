@@ -25,7 +25,7 @@
     lua-language-server
     stylua
 
-    # Markdown
+    #a Markdown
     markdown-toc
     markdownlint-cli2
     marksman

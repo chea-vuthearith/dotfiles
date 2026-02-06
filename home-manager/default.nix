@@ -6,9 +6,10 @@
   ...
 }: {
   imports = [
+    ./modules/theme.nix
     ./modules/hyprlock
     ./modules/starship
-    ./modules/hyprpanel
+    ./modules/bar
     ./modules/nvim
     ./modules/vscode
     ./modules/wezterm
@@ -16,19 +17,14 @@
     ./modules/zsh
     ./modules/direnv.nix
     ./modules/flutter.nix
-    ./modules/fuzzel.nix
     ./modules/yazi.nix
     ./modules/zoxide.nix
     ./modules/environment.nix
     ./modules/hyprland
     ./modules/packages.nix
     ./modules/services.nix
-    ./modules/shared-vars.nix
-    ./modules/theme.nix
+    ./modules/fuzzel.nix
     ./modules/xdg.nix
-    ./modules/wallpaper.nix
     ./modules/nix-index.nix
   ];
-
-  config.wallpaperPath = toString ../wallpapers/red-nebulae.jpg;
 }

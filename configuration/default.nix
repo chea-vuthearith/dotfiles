@@ -14,5 +14,6 @@
     ./modules/users.nix
     ./modules/virtualization.nix
     ./modules/environment.nix
+    ./modules/theme.nix
   ];
 }
