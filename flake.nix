@@ -2,6 +2,7 @@
   description = "Nixos config flake";
 
   inputs = {
+    apple-fonts.url = "github:Lyndeno/apple-fonts.nix";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -32,9 +33,11 @@
     ...
   } @ inputs: let
     username = "kuro";
-    lib = nixpkgs.lib.extend (final: prev: 
-      let utils = import ./lib/utils.nix {lib = final;};
-      in utils
+    lib = nixpkgs.lib.extend (
+      final: prev: let
+        utils = import ./lib/utils.nix {lib = final;};
+      in
+        utils
     );
     specialArgs = {inherit inputs username;};
     sharedModules = [

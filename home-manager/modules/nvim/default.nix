@@ -6,9 +6,14 @@
 }: let
   nvimConfDir = "${config.home.homeDirectory}/dotfiles/home-manager/modules/nvim/conf";
 in {
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    PAGER = "nvimpager";
+  };
   home.packages = with pkgs; [
     # General/Editor
     neovim
+    nvimpager
 
     # Hypr
     hyprls

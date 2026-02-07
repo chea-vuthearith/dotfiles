@@ -1,4 +1,9 @@
-{pkgs, ...}: {
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}: {
   home.packages = with pkgs; [
     nerd-fonts.fira-code
     nerd-fonts.victor-mono
@@ -14,14 +19,11 @@
         popups = 12;
       };
       serif = {
-        package = pkgs.dejavu_fonts;
-        name = "DejaVu Serif";
+        package = inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd;
+        name = "SFProDisplay Nerd Font";
       };
 
-      sansSerif = {
-        package = pkgs.dejavu_fonts;
-        name = "DejaVu Sans";
-      };
+      sansSerif = config.stylix.fonts.serif;
 
       monospace = {
         package = pkgs.nerd-fonts.fira-code;
