@@ -5,6 +5,7 @@
   ...
 }: {
   home.packages = with pkgs; [
+    inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd
     nerd-fonts.fira-code
     nerd-fonts.victor-mono
   ];
@@ -37,14 +38,18 @@
     };
 
     targets = {
-      wezterm.colors.override.base00 = "#000000";
+      wezterm.colors.override.base00 = "000000";
+      opencode.colors.override.base00 = "000000";
       hyprland.hyprpaper.enable = false; # managed by caelestia;
       hyprlock.image.enable = false;
       neovide.fonts.enable = false;
       neovim.enable = false;
       fuzzel = {
+        fonts.override.size = 20;
+        opacity.override.popups = 0.9;
         colors.override = {
-          base0D-hex = "#000000";
+          base0D-hex = "#000000"; # border
+          base00-hex = "#000000"; # bg
         };
       };
     };
