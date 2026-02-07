@@ -3,14 +3,6 @@
   pkgs,
   ...
 }: {
-  programs.nix-ld = {
-    libraries = with pkgs; [
-      alsa-lib
-      libpulseaudio
-      pipewire
-      icu
-    ];
-  };
   home.packages = with pkgs; [mono umu-launcher];
   xdg.desktopEntries = {
     "Elden Ring" = {
