@@ -7,7 +7,6 @@
 }: {
   imports = [
     ./modules/theme.nix
-    ./modules/hyprlock
     ./modules/starship
     ./modules/bar
     ./modules/nvim
