@@ -9,6 +9,7 @@
     ../../../configuration/modules/no-rgb.nix
     ../../../configuration/modules/rocm.nix
     ./overrides/hardware.nix
+    ./overrides/bar.nix
     ./overrides/services.nix
     ./overrides/hibernate.nix
     ./overrides/keyboard.nix
