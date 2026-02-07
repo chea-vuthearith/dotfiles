@@ -61,7 +61,7 @@ for _, key in ipairs({ "<Up>", "<Down>", "<Left>", "<Right>" }) do
   set("v", key, "<Nop>", { noremap = true, silent = true })
 end
 
--- disable tabs
+-- disable buffer tabs
 del("n", "<S-H>")
 del("n", "<S-L>")
 
