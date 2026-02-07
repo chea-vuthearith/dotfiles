@@ -21,7 +21,7 @@
         maxGenerations = 3;
       };
       efi.canTouchEfiVariables = true;
-      timeout = 0;
+      timeout = 1;
     };
     plymouth = {
       enable = true;
