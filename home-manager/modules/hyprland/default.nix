@@ -13,8 +13,8 @@
       inputs.split-monitor-workspaces.packages.${pkgs.stdenv.hostPlatform.system}.split-monitor-workspaces
     ];
     extraConfig = "
-      source=${./conf/general.conf}
-      source=${./conf/rules.conf}
-      source=${./conf/keybinds.conf}";
+      source=${./hypr/general.conf}
+      source=${./hypr/rules.conf}
+      source=${./hypr/keybinds.conf}";
   };
 }

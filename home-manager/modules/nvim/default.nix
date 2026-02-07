@@ -10,6 +10,9 @@ in {
     # General/Editor
     neovim
 
+    # Hypr
+    hyprls
+
     # Nix
     nixd
     alejandra
