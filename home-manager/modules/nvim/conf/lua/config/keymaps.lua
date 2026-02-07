@@ -2,84 +2,114 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
-vim.api.nvim_set_keymap(
-  "v",
-  "<leader>tr",
-  [[:s#\v(\d+)px#\=printf("%grem", 1.0/16*submatch(1))#g<CR>]],
-  { noremap = true, silent = true, desc = "px to rem" }
-)
+local set = vim.keymap.set
+local del = vim.keymap.del
+local fn = vim.fn
+local cmd = vim.cmd
+local isVSCode = vim.g.vscode
+local isNeovide = vim.g.neovide
 
-vim.api.nvim_set_keymap(
-  "v",
-  "<leader>ts",
-  [[:s/\v\a@<=(\u)/\L_\1/g<CR>]],
-  { noremap = true, silent = true, desc = "to snake_case" }
-)
+set("v", "<leader>tr", function()
+  local start_pos = fn.getpos("'<")
+  local end_pos = fn.getpos("'>")
+  local lines = fn.getline(start_pos[2], end_pos[2])
+  for i, line in ipairs(lines) do
+    lines[i] = line:gsub("(%d+)px", function(n)
+      return string.format("%grem", n / 16)
+    end)
+  end
+  fn.setline(start_pos[2], lines)
+end, { noremap = true, silent = true, desc = "px to rem" })
 
-vim.api.nvim_set_keymap(
-  "v",
-  "<leader>tc",
-  [[:s/\v_(\a)/\u\1/g<CR>]],
-  { noremap = true, silent = true, desc = "to camelCase" }
-)
+set("v", "<leader>ts", function()
+  local start_pos = fn.getpos("'<")
+  local end_pos = fn.getpos("'>")
+  local lines = fn.getline(start_pos[2], end_pos[2])
+  for i, line in ipairs(lines) do
+    lines[i] = line:gsub("(%u)", "_%1"):lower()
+  end
+  fn.setline(start_pos[2], lines)
+end, { noremap = true, silent = true, desc = "to snake_case" })
+
+set("v", "<leader>tc", function()
+  local start_pos = fn.getpos("'<")
+  local end_pos = fn.getpos("'>")
+  local lines = fn.getline(start_pos[2], end_pos[2])
+  for i, line in ipairs(lines) do
+    lines[i] = line:gsub("_([a-z])", function(c)
+      return c:upper()
+    end)
+  end
+  fn.setline(start_pos[2], lines)
+end, { noremap = true, silent = true, desc = "to camelCase" })
+
 -- jumps
-vim.keymap.set("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true })
-vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
+set("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true })
+set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
 
 -- tabs
-vim.keymap.set("n", "<leader><TAB>l", ":tabn<CR>", { desc = "Next Tab" })
-vim.keymap.set("n", "<leader><TAB>h", ":tabp<CR>", { desc = "Previous Tab" })
+set("n", "<leader><TAB>l", cmd.tabnext, { desc = "Next Tab" })
+set("n", "<leader><TAB>h", cmd.tabprevious, { desc = "Previous Tab" })
 
-vim.keymap.del("n", "<leader><TAB>]")
-vim.keymap.del("n", "<leader><TAB>[")
+del("n", "<leader><TAB>]")
+del("n", "<leader><TAB>[")
 
 -- Disable arrow keys in all modes
 for _, key in ipairs({ "<Up>", "<Down>", "<Left>", "<Right>" }) do
-  vim.keymap.set("", key, "<Nop>", { noremap = true, silent = true })
-  vim.keymap.set("i", key, "<Nop>", { noremap = true, silent = true })
-  vim.keymap.set("v", key, "<Nop>", { noremap = true, silent = true })
+  set("", key, "<Nop>", { noremap = true, silent = true })
+  set("i", key, "<Nop>", { noremap = true, silent = true })
+  set("v", key, "<Nop>", { noremap = true, silent = true })
 end
 
 -- disable tabs
-vim.keymap.del("n", "<S-H>")
-vim.keymap.del("n", "<S-L>")
+del("n", "<S-H>")
+del("n", "<S-L>")
 
 -- when using nvim in vscode
-if vim.g.vscode then
+if isVSCode then
   local vscode = require("vscode")
-  vim.keymap.set("n", "<leader>e", function()
+  set("n", "<leader>e", function()
     vscode.action("workbench.files.action.collapseExplorerFolders")
     vscode.action("workbench.view.explorer")
   end, { desc = "Collapse & Focus Explorer" })
 
-  vim.keymap.set("n", "<leader>aa", function()
+  set("n", "<leader>aa", function()
     vscode.action("workbench.action.chat.toggle")
   end, { desc = "Toggle VS Code Chat" })
 
-  vim.keymap.set("n", "<leader>wo", function()
+  set("n", "<leader>wo", function()
     vscode.action("workbench.action.closeEditorsInOtherGroups")
   end, { desc = "Close other editors" })
 
-  vim.keymap.set("n", "<leader>wd", function()
+  set("n", "<leader>wd", function()
     vscode.action("workbench.action.closeEditorsAndGroup")
   end, { desc = "Close this editor" })
 end
 
 -- :term
-vim.keymap.set("t", "<Esc><Esc>", [[<C-\><C-n>]], { noremap = true })
+set("t", "<Esc><Esc>", [[<C-\><C-n>]], { noremap = true })
 
-if vim.g.neovide then
+if isNeovide then
   -- tabs
-  vim.keymap.set("n", "<a-l>", ":tabn<CR>", { desc = "Next Tab" })
-  vim.keymap.set("n", "<a-h>", ":tabp<CR>", { desc = "Previous Tab" })
-  vim.keymap.set("n", "<a-s-h>", ":tabmove -1<CR>", { desc = "Move Tab Left" })
-  vim.keymap.set("n", "<a-s-l>", ":tabmove +1<CR>", { desc = "Move Tab Right" })
-  vim.keymap.set("n", "<leader><tab>t", function()
-    vim.cmd.tabnew()
-    vim.cmd.term()
-    vim.cmd.startinsert()
+  set("n", "<a-l>", cmd.tabnext, { desc = "Next Tab" })
+  set("n", "<a-h>", cmd.tabprevious, { desc = "Previous Tab" })
+  set("n", "<a-s-h>", function()
+    if fn.tabpagenr() > 1 then
+      cmd("tabmove -1")
+    end
+  end, { desc = "Move Tab Left" })
+
+  set("n", "<a-s-l>", function()
+    if fn.tabpagenr() < fn.tabpagenr("$") then
+      cmd("tabmove +1")
+    end
+  end, { desc = "Move Tab Right" })
+  set("n", "<leader><tab>t", function()
+    cmd.tabnew()
+    cmd.term()
+    cmd.startinsert()
   end, { desc = "New Terminal Tab" })
-  vim.keymap.set({ "n", "v", "s", "x", "o", "i", "l", "c", "t" }, "<C-S-v>", function()
-    vim.api.nvim_paste(vim.fn.getreg("+"), true, -1)
+  set({ "n", "v", "s", "x", "o", "i", "l", "c", "t" }, "<C-S-v>", function()
+    vim.api.nvim_paste(fn.getreg("+"), true, -1)
   end, { noremap = true, silent = true })
 end
