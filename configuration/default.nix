@@ -4,7 +4,7 @@
     /etc/nixos/hardware-configuration.nix
     ./modules/nix-ld.nix
     ./modules/cache-host.nix
-    ./modules/greetd.nix
+    ./modules/display-manager.nix
     ./modules/hardware.nix
     ./modules/hyprland.nix
     ./modules/aria2.nix

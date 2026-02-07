@@ -8,7 +8,6 @@
     enable = true;
 
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
-    override.base00 = "#000000";
 
     polarity = "dark";
 
@@ -38,6 +37,8 @@
     };
 
     targets = {
+      wezterm.colors.override.base00 = "#000000";
+      hyprland.hyprpaper.enable = false; # managed by caelestia;
       hyprlock.image.enable = false;
       neovide.fonts.enable = false;
       neovim.enable = false;
@@ -55,26 +56,6 @@
     };
   };
 
-  # home.pointerCursor = {
-  #   gtk.enable = true;
-  #   package = pkgs.bibata-cursors;
-  #   name = "Bibata-Modern-Classic";
-  #   size = 16;
-  # };
-  # gtk = {
-  #   enable = true;
-  #   theme = {
-  #     package = pkgs.gnome-themes-extra;
-  #     name = "Adwaita-dark";
-  #   };
-  #   iconTheme = {
-  #     package = pkgs.yaru-theme;
-  #     name = "Yaru-purple";
-  #   };
-  # };
-  # qt = {
-  #   enable = true;
-  #   platformTheme.name = "adwaita";
-  #   style.name = "adwaita-dark";
-  # };
+  gtk.enable = true;
+  qt.enable = true;
 }
