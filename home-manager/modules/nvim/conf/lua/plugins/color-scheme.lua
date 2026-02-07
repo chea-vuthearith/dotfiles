@@ -1,15 +1,15 @@
 return {
-  -- {
-  --   "catppuccin",
-  --   opts = {
-  --     term_colors = true,
-  --     transparent_background = true,
-  --     float = {
-  --       transparent = true,
-  --     },
-  --   },
-  -- },
-  { "LazyVim/LazyVim", opts = { colorscheme = function() end } },
+  {
+    "catppuccin",
+    opts = {
+      term_colors = true,
+      transparent_background = true,
+      float = {
+        transparent = true,
+      },
+    },
+  },
+  { "LazyVim/LazyVim", opts = { colorscheme = "catppuccin" } },
   {
     "folke/noice.nvim",
     config = {
