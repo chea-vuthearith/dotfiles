@@ -6,6 +6,8 @@
 
   stylix = {
     image = ../../wallpapers/red-nebulae.jpg;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+    polarity = "dark";
     enable = true;
     fonts = {
       sizes = {

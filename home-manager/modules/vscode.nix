@@ -2,7 +2,7 @@
   programs.vscode = {
     enable = true;
     profiles.default = {
-      settings = {
+      userSettings = {
         workbench.editor.showTabs = "none";
         keyboard.dispatch = "keyCode";
         editor = {
@@ -10,9 +10,7 @@
           lineNumbers = "relative";
           cursorBlinking = "phase";
         };
-        extensions.experimental.affinity = {
-          asvetliakov.vscode-neovim = 1;
-        };
+        extensions.experimental.affinity.asvetliakov.vscode-neovim = 1;
         editor.minimap.enabled = false;
         explorer.confirmDragAndDrop = false;
         github.copilot.nextEditSuggestions.enabled = true;

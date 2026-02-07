@@ -7,7 +7,7 @@
         name = "chea-vuthearith";
         email = "cheavuthearith0@gmail.com";
       };
-      core.excludesfile = builtins.toString ./gitignore;
+      core.excludesfile = toString ./gitignore;
       credential."https://github.com".helper = "!${pkgs.coreutils}/bin/env gh auth git-credential";
       credential."https://gist.github.com".helper = "!${pkgs.coreutils}/bin/env gh auth git-credential";
       safe.directory = "*";
