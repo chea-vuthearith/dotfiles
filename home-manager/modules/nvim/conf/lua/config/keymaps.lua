@@ -72,6 +72,8 @@ if vim.g.neovide then
   -- tabs
   vim.keymap.set("n", "<a-l>", ":tabn<CR>", { desc = "Next Tab" })
   vim.keymap.set("n", "<a-h>", ":tabp<CR>", { desc = "Previous Tab" })
+  vim.keymap.set("n", "<a-s-h>", ":tabmove -1<CR>", { desc = "Move Tab Left" })
+  vim.keymap.set("n", "<a-s-l>", ":tabmove +1<CR>", { desc = "Move Tab Right" })
   vim.keymap.set("n", "<leader><tab>t", function()
     vim.cmd.tabnew()
     vim.cmd.term()
