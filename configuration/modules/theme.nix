@@ -2,7 +2,7 @@
   stylix = {
     enable = true;
     image = ../../wallpapers/red-nebulae.jpg;
-    polarity = "dark";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
     targets = {
       chromium.enable = false;
       plymouth = {
@@ -14,9 +14,7 @@
         };
       };
       console.colors.override.base00-hex = "000000";
-      limine = {
-        colors.override.base00 = "#000000";
-      };
+      limine.colors.override.base00 = "#000000";
     };
   };
 }
