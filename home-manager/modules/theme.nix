@@ -5,12 +5,13 @@
   ...
 }: {
   home.packages = with pkgs; [
-    inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd
+    inputs.apple-fonts.packages.${pkgs.stdenv.hostPlatform.system}.sf-pro-nerd
     nerd-fonts.fira-code
     nerd-fonts.victor-mono
   ];
 
   stylix = {
+    opacity.terminal = 0.9;
     image = ../../wallpapers/red-nebulae.jpg;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
     polarity = "dark";
@@ -20,7 +21,7 @@
         popups = 12;
       };
       serif = {
-        package = inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd;
+        package = inputs.apple-fonts.packages.${pkgs.stdenv.hostPlatform.system}.sf-pro-nerd;
         name = "SFProDisplay Nerd Font";
       };
 
@@ -39,13 +40,13 @@
 
     targets = {
       wezterm.colors.override.base00 = "000000";
-      opencode.colors.override.base00 = "000000";
+      opencode.colors.override.withHashtag.base00 = "#000000";
       hyprland.hyprpaper.enable = false; # managed by caelestia;
       hyprlock.image.enable = false;
       neovide.fonts.enable = false;
       neovim.enable = false;
       fuzzel = {
-        fonts.override.size = 20;
+        fonts.override.sizes.popups = 14;
         opacity.override.popups = 0.9;
         colors.override = {
           base0D-hex = "#000000"; # border
