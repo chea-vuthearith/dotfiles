@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   programs.opencode.enable = true;
+  programs.mpv.enabled = true;
   programs.chromium = {
     enable = true;
     package = pkgs.brave;
@@ -57,7 +58,6 @@
     sshfs
     mqttx
     redis
-    mpv
     ffmpeg
     imagemagick
     playerctl

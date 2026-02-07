@@ -1,10 +1,10 @@
 {pkgs, ...}: {
   stylix = {
     enable = true;
-    image = ../../wallpapers/red-nebulae.jpg;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
     targets = {
-      chromium.enable = false;
+      nixos-icons.enable = true;
+      chromium.enable = false; # inherit theme from gtk
       plymouth = {
         logoAnimated = false;
         colors.override = {
@@ -14,7 +14,10 @@
         };
       };
       console.colors.override.base00-hex = "000000";
-      limine.colors.override.base00 = "#000000";
+      limine = {
+        image.enable = false;
+        colors.override.base00 = "#000000";
+      };
     };
   };
 }

@@ -5,6 +5,7 @@
   ];
 
   stylix = {
+    image = ../../wallpapers/red-nebulae.jpg;
     enable = true;
     fonts = {
       sizes = {
