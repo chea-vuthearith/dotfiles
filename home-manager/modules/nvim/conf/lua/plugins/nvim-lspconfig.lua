@@ -85,6 +85,7 @@ return {
         },
         vtsls = { settings = { typescript = { preferences = { importModuleSpecifier = "non-relative" } } } },
         biome = {},
+        hyprls = {},
       },
     },
   },
