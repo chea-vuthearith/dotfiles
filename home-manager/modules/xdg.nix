@@ -27,13 +27,5 @@
       createDirectories = true;
       enable = true;
     };
-    desktopEntries = {
-      "poweroff" = {
-        name = "Power Off";
-        comment = "Shut down the computer";
-        exec = "poweroff";
-        categories = ["System" "Utility"];
-      };
-    };
   };
 }
