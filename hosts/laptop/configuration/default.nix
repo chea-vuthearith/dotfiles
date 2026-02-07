@@ -1,13 +1,14 @@
 {
   inputs,
-  config,
-  pkgs,
   username,
+  lib,
   ...
 }: {
-  imports = [./overrides/power.nix ./overrides/hardware.nix ./overrides/boot.nix];
+  imports = lib.collectModules ./overrides;
   home-manager = {
-    extraSpecialArgs = {inherit inputs;};
+    extraSpecialArgs = {
+      inherit inputs;
+    };
     users = {${username} = import ../home-manager;};
   };
 }

@@ -1,5 +1,4 @@
 {
-  pkgs,
   inputs,
   config,
   ...
@@ -9,7 +8,7 @@
   ];
   home.file = {
     "${config.xdg.stateHome}/caelestia/wallpaper/path.txt" = {
-      text = toString ../../../wallpapers/red-nebulae.jpg;
+      text = toString config.stylix.image;
     };
   };
 
@@ -55,9 +54,6 @@
           showMicrophone = true;
           showKbLayout = false;
           showNetwork = true;
-          showWifi = true;
-          showBluetooth = true;
-          showBattery = true;
           showLockStatus = false;
         };
         tray = {compact = true;};
@@ -114,7 +110,7 @@
         };
       };
       paths = {
-        wallpaperDir = ../../../wallpapers;
+        wallpaperDir = ../../wallpapers;
         mediaGif = "";
       };
     };

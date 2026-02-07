@@ -1,6 +1,5 @@
 {...}: {
-  programs.caelestia.
-    settings.bar.status = {
+  programs.caelestia.settings.bar.status = {
     showWifi = false;
     showBluetooth = false;
     showBattery = false;

@@ -1,29 +1,5 @@
-{
-  inputs,
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
-  imports = [
-    ./modules/theme.nix
-    ./modules/starship
-    ./modules/bar
-    ./modules/nvim
-    ./modules/vscode
-    ./modules/wezterm
-    ./modules/git
-    ./modules/zsh
-    ./modules/direnv.nix
-    ./modules/flutter.nix
-    ./modules/yazi.nix
-    ./modules/zoxide.nix
-    ./modules/environment.nix
-    ./modules/hyprland
-    ./modules/packages.nix
-    ./modules/services.nix
-    ./modules/fuzzel.nix
-    ./modules/xdg.nix
-    ./modules/nix-index.nix
-  ];
+{lib, ...}: {
+  imports =
+    lib.collectModules
+    ./modules;
 }

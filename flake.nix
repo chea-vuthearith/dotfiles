@@ -32,24 +32,31 @@
     ...
   } @ inputs: let
     username = "kuro";
+    lib = nixpkgs.lib.extend (final: prev: 
+      let utils = import ./lib/utils.nix {lib = final;};
+      in utils
+    );
+    specialArgs = {inherit inputs username;};
+    sharedModules = [
+      inputs.stylix.nixosModules.stylix
+      ./configuration
+    ];
   in {
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs username;};
-        modules = [
-          inputs.stylix.nixosModules.stylix
-          ./hosts/desktop/configuration
-          ./configuration
-        ];
+        inherit lib;
+        inherit specialArgs;
+        modules =
+          sharedModules
+          ++ [./hosts/desktop/configuration];
       };
 
       laptop = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs username;};
-        modules = [
-          inputs.stylix.nixosModules.stylix
-          ./hosts/laptop/configuration
-          ./configuration
-        ];
+        inherit lib;
+        inherit specialArgs;
+        modules =
+          sharedModules
+          ++ [./hosts/laptop/configuration];
       };
     };
   };
