@@ -1,5 +1,5 @@
 {pkgs, ...}: {
-  displayManager = {
+  services.displayManager = {
     enable = true;
     ly = {
       enable = true;
