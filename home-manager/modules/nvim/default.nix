@@ -12,6 +12,8 @@ in {
     };
     packages = with pkgs; [
       nvimpager
+      tmux
+      lsof
 
       # Hypr
       hyprls
