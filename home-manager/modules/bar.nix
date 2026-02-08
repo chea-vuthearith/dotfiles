@@ -197,7 +197,7 @@
       general = {
         apps = {
           terminal = ["wezterm"];
-          explorer = ["yazi"];
+          explorer = ["wezterm" "start" "--always-new-process" "yazi"];
         };
       };
 
