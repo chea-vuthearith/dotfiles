@@ -46,7 +46,7 @@
       neovide.fonts.enable = false;
       neovim.enable = false;
       fuzzel = {
-        fonts.override.sizes.popups = 14;
+        fonts.override.sizes.popups = config.lib.fonts.sizes.applications;
         opacity.override.popups = 0.9;
         colors.override = {
           base0D-hex = "#000000"; # border
