@@ -1,8 +1,4 @@
 {pkgs, ...}: {
-  services.nix-serve = {
-    enable = true;
-    port = 5000;
-    package = pkgs.nix-serve-ng;
-  };
+  services.harmonia.enable = true;
   networking.firewall.allowedTCPPorts = [5000];
 }
