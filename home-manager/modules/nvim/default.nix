@@ -65,10 +65,13 @@ in {
     file = {
       "${config.xdg.configHome}/nvim/lua".source =
         config.lib.file.mkOutOfStoreSymlink "${nvimConfDir}/lua"; # lazy vim is self managed
+
       "${config.xdg.configHome}/nvim/lazy-lock.json".source =
-        config.lib.file.mkOutOfStoreSymlink "${nvimConfDir}/lua/lazy-lock.json";
+        config.lib.file.mkOutOfStoreSymlink "${nvimConfDir}/lazy-lock.json";
+
       "${config.xdg.configHome}/nvim/lazyvim.json".source =
         config.lib.file.mkOutOfStoreSymlink "${nvimConfDir}/lazyvim.json";
+
       "${config.xdg.configHome}/nvim/stylua.toml".source =
         config.lib.file.mkOutOfStoreSymlink "${nvimConfDir}/stylua.toml";
     };
