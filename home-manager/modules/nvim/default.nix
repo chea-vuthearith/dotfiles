@@ -111,6 +111,8 @@ in {
       '';
       "${config.xdg.configHome}/nvimpager/lua/color-scheme.lua".source =
         config.lib.file.mkOutOfStoreSymlink "${nvimConfDir}/lua/plugins/color-scheme.lua";
+      "${config.xdg.dataHome}/nvimpager".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.xdg.dataHome}/nvim";
     };
   };
 
