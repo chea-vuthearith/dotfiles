@@ -4,4 +4,5 @@
     port = 5000;
     package = pkgs.nix-serve-ng;
   };
+  networking.firewall.allowedTCPPorts = [5000];
 }

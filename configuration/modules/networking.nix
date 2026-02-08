@@ -7,9 +7,6 @@
     };
     firewall = {
       enable = true;
-      allowedTCPPorts = [
-        99 # ssh
-      ];
     };
     wg-quick.interfaces = {
       wg0 = {
