@@ -1,6 +1,6 @@
 return {
   "nanotee/zoxide.vim",
   keys = {
-    { "<leader>z", "<cmd>Zi<cr>", desc = "Run Zoxide Interactively" },
+    { "<leader>z", "<cmd>Tzi<cr>", desc = "Run Zoxide Interactively" },
   },
 }

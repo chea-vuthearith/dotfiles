@@ -12,6 +12,10 @@
       url = "github:caelestia-dots/shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    caelestia-cli = {
+      url = "github:chea-vuthearith/cli?ref=feat/record-to-clip";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -27,11 +31,7 @@
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    ...
-  } @ inputs: let
+  outputs = {nixpkgs, ...} @ inputs: let
     system = "x86_64-linux";
     username = "kuro";
     lib = nixpkgs.lib.extend (
@@ -48,16 +48,14 @@
   in {
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
-        inherit lib specialArgs;
-        system = "x86_64-linux";
+        inherit lib specialArgs system;
         modules =
           sharedModules
           ++ [./hosts/desktop/configuration];
       };
 
       laptop = nixpkgs.lib.nixosSystem {
-        inherit lib specialArgs;
-        system = "x86_64-linux";
+        inherit lib specialArgs system;
         modules =
           sharedModules
           ++ [./hosts/laptop/configuration];
