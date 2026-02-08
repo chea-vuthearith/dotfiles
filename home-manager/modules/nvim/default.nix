@@ -33,7 +33,7 @@ in {
       lua-language-server
       stylua
 
-      #a Markdown
+      # Markdown
       markdown-toc
       markdownlint-cli2
       marksman
@@ -63,8 +63,10 @@ in {
     ];
 
     file = {
-      "${config.xdg.configHome}/nvim/lua".source =
-        config.lib.file.mkOutOfStoreSymlink "${nvimConfDir}/lua"; # lazy vim is self managed
+      "${config.xdg.configHome}/nvim/lua" = {
+        source = config.lib.file.mkOutOfStoreSymlink "${nvimConfDir}/lua";
+        recursive = true;
+      }; # lazy vim is self managed
 
       "${config.xdg.configHome}/nvim/lazy-lock.json".source =
         config.lib.file.mkOutOfStoreSymlink "${nvimConfDir}/lazy-lock.json";

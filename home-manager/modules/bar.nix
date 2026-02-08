@@ -404,7 +404,7 @@
         toasts = {
           configLoaded = false;
           numLockChanged = false;
-          nowPlaying = true;
+          nowPlaying = false;
         };
         vpn.enabled = false;
       };
