@@ -32,6 +32,7 @@
     nixpkgs,
     ...
   } @ inputs: let
+    system = "x86_64-linux";
     username = "kuro";
     lib = nixpkgs.lib.extend (
       final: prev: let
@@ -47,16 +48,16 @@
   in {
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
-        inherit lib;
-        inherit specialArgs;
+        inherit lib specialArgs;
+        system = "x86_64-linux";
         modules =
           sharedModules
           ++ [./hosts/desktop/configuration];
       };
 
       laptop = nixpkgs.lib.nixosSystem {
-        inherit lib;
-        inherit specialArgs;
+        inherit lib specialArgs;
+        system = "x86_64-linux";
         modules =
           sharedModules
           ++ [./hosts/laptop/configuration];

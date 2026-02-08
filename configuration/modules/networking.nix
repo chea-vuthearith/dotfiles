@@ -1,14 +1,16 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
+{...}: {
   networking = {
-    hosts = {"auth.localhost" = ["127.0.0.1"];};
     hostName = "nixos";
-    networkmanager.enable = true;
-    firewall.enable = false;
+    networkmanager = {
+      enable = true;
+      wifi.backend = "iwd"; # faster than wpa_supplicant
+    };
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [
+        99 # ssh
+      ];
+    };
     wg-quick.interfaces = {
       wg0 = {
         configFile = "/etc/wireguard/wg0.conf";
@@ -16,5 +18,12 @@
       };
     };
   };
-  systemd.network.wait-online.enable = false;
+
+  systemd.network.wait-online.enable = false; # network dont block boot
+
+  services.resolved = {
+    enable = true;
+    dnssec = "false";
+    fallbackDns = ["1.1.1.1" "1.0.0.1"];
+  };
 }

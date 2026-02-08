@@ -15,7 +15,7 @@
         "audio"
         "docker"
         "networkmanager"
-        "libvrtd"
+        "libvirtd"
         "aria2"
       ];
       shell = pkgs.zsh;
