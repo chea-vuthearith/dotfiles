@@ -1,4 +1,6 @@
 {pkgs, ...}: {
+  services = {xserver.videoDrivers = ["modesetting"];};
+  hardware.graphics.enable = true;
   environment.systemPackages = with pkgs; [lact clinfo];
   boot.kernelParams = ["amdgpu.ppfeaturemask=0xffffffff"];
 

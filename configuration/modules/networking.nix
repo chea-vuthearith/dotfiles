@@ -25,4 +25,15 @@
       FallbackDNS = ["1.1.1.1" "1.0.0.1"];
     };
   };
+
+  boot = {
+    # faster wifi
+    kernelModules = ["tcp_bbr"];
+    kernel.sysctl = {
+      # network performance
+      "net.core.netdev_max_backlog" = 16384;
+      "net.ipv4.tcp_fastopen" = 3;
+      "net.ipv4.tcp_congestion_control" = "bbr";
+    };
+  };
 }

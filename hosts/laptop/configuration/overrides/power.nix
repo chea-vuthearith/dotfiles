@@ -1,10 +1,4 @@
-{
-  inputs,
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
+{...}: {
   powerManagement.enable = true;
   services = {
     upower.enable = true;

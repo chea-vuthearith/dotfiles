@@ -1,10 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  username,
-  ...
-}: {
+{pkgs, ...}: {
   virtualisation = {
     spiceUSBRedirection.enable = true;
     docker = {
