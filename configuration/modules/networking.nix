@@ -23,7 +23,9 @@
 
   services.resolved = {
     enable = true;
-    dnssec = "false";
-    fallbackDns = ["1.1.1.1" "1.0.0.1"];
+    settings.Resolve = {
+      DNSSEC = "false";
+      FallbackDNS = ["1.1.1.1" "1.0.0.1"];
+    };
   };
 }

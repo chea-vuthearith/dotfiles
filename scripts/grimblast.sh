@@ -18,6 +18,7 @@
 ## hyprctl equivalents.
 ## https://github.com/swaywm/sway/blob/master/contrib/grimshot
 getTargetDirectory() {
+  # shellcheck source=/dev/null
   test -f "${XDG_CONFIG_HOME:-$HOME/.config}/user-dirs.dirs" &&
     . "${XDG_CONFIG_HOME:-$HOME/.config}/user-dirs.dirs"
 
