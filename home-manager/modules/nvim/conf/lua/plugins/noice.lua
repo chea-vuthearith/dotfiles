@@ -2,7 +2,7 @@ return {
   { "LazyVim/LazyVim", opts = { colorscheme = "catppuccin" } },
   {
     "folke/noice.nvim",
-    config = {
+    opts = {
       cmdline = {
         view = "cmdline",
       },
