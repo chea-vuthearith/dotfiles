@@ -64,9 +64,9 @@
       };
     };
 
-    packages = {
+    packages.${system} = {
       nvim = pkgs.callPackage ./home-manager/modules/nvim/portable.nix {
-        inherit pkgs;
+        inherit pkgs lib;
       };
     };
   };
