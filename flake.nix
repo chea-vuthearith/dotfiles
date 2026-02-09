@@ -36,6 +36,8 @@
       in
         utils
     );
+
+    pkgs = import nixpkgs {inherit system;};
     specialArgs = {inherit inputs username;};
     sharedModules = [
       inputs.stylix.nixosModules.stylix
@@ -43,19 +45,23 @@
     ];
   in {
     nixosConfigurations = {
-      desktop = nixpkgs.lib.nixosSystem {
+      desktop = pkgs.lib.nixosSystem {
         inherit lib specialArgs system;
         modules =
           sharedModules
           ++ [./hosts/desktop/configuration];
       };
 
-      laptop = nixpkgs.lib.nixosSystem {
+      laptop = pkgs.lib.nixosSystem {
         inherit lib specialArgs system;
         modules =
           sharedModules
           ++ [./hosts/laptop/configuration];
       };
+    };
+
+    packages = {
+      nvim = pkgs.callPackage ./home-manager/modules/nvim/portable.nix {inherit pkgs;};
     };
   };
 }

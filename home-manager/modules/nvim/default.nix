@@ -8,61 +8,9 @@
 in {
   home = {
     sessionVariables = {
-      PAGER = "nvimpager";
+      PAGER = "less -X -F";
     };
-    packages = with pkgs; [
-      nvimpager
-      tmux
-      lsof
-
-      # Hypr
-      hyprls
-
-      # Nix
-      nixd
-      alejandra
-      statix
-
-      # Python
-      pyright
-      ruff
-
-      # JavaScript/TypeScript
-      vtsls
-      biome
-
-      # Lua
-      lua-language-server
-      stylua
-
-      # Markdown
-      markdown-toc
-      markdownlint-cli2
-      marksman
-
-      # Shell/Bash
-      bash-language-server
-      shellcheck
-      shfmt
-
-      # Docker
-      docker-compose-language-service
-      dockerfile-language-server
-      hadolint
-
-      # SQL
-      sqlfluff
-      prisma-language-server
-
-      # CSS/HTML/Frontend
-      tailwindcss-language-server
-
-      # Tree-sitter
-      tree-sitter
-
-      # YAML
-      yaml-language-server
-    ];
+    packages = import ./extra-packages.nix {inherit pkgs;};
 
     file = {
       "${config.xdg.configHome}/nvim/lua" = {
@@ -78,41 +26,6 @@ in {
 
       "${config.xdg.configHome}/nvim/stylua.toml".source =
         config.lib.file.mkOutOfStoreSymlink "${nvimConfDir}/stylua.toml";
-
-      # pager config, should only include theme
-      "${config.xdg.configHome}/nvimpager/init.lua".text = ''
-        local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-        if not (vim.uv or vim.loop).fs_stat(lazypath) then
-          local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-          local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-          if vim.v.shell_error ~= 0 then
-            vim.api.nvim_echo({
-              { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-              { out, "WarningMsg" },
-              { "\nPress any key to exit..." },
-            }, true, {})
-            vim.fn.getchar()
-            os.exit(1)
-          end
-        end
-        vim.opt.rtp:prepend(lazypath)
-
-        vim.g.mapleader = " "
-        vim.g.maplocalleader = "\\"
-
-        require("lazy").setup({
-          spec = {
-            { import = "color-scheme" },
-          },
-          checker = { enabled = false },
-        })
-
-        vim.cmd.colorscheme "catppuccin-mocha"
-      '';
-      "${config.xdg.configHome}/nvimpager/lua/color-scheme.lua".source =
-        config.lib.file.mkOutOfStoreSymlink "${nvimConfDir}/lua/plugins/color-scheme.lua";
-      "${config.xdg.dataHome}/nvimpager".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.xdg.dataHome}/nvim";
     };
   };
 

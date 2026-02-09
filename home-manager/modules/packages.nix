@@ -31,9 +31,6 @@
     uv
     anydesk
     aria2
-    fd
-    fzf
-    ripgrep
     jq
     glib
     xdg-user-dirs
