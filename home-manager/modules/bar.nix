@@ -171,7 +171,6 @@
         };
       };
     };
-    packages = with pkgs; [material-symbols];
   };
 
   programs.caelestia = {
