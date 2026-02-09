@@ -7,9 +7,12 @@
   imports = [
     inputs.caelestia-shell.homeManagerModules.default
   ];
-  home.file = {
-    "${config.xdg.stateHome}/caelestia/wallpaper/path.txt" = {
-      text = toString config.stylix.image;
+  home = {
+    file = {
+      "${config.xdg.stateHome}/caelestia/wallpaper/path.txt" = {
+        text = toString config.stylix.image;
+      };
+      packages = with pkgs; [material-symbols];
     };
 
     "${config.xdg.stateHome}/caelestia/scheme.json" = {
