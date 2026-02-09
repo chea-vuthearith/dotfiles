@@ -7,7 +7,6 @@
   home.packages = with pkgs; [
     inputs.apple-fonts.packages.${pkgs.stdenv.hostPlatform.system}.sf-pro-nerd
     nerd-fonts.fira-code
-    nerd-fonts.victor-mono
   ];
 
   stylix = {
@@ -39,7 +38,7 @@
     };
 
     targets = {
-      wezterm.colors.override.base00 = "000000";
+      wezterm.fonts.enable = false;
       opencode.colors.override.withHashtag.base00 = "#000000";
       hyprland.hyprpaper.enable = false; # managed by caelestia;
       hyprlock.image.enable = false;

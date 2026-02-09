@@ -40,16 +40,5 @@ in {
         require("config.lazy")
       '';
     };
-
-    neovide = {
-      enable = true;
-      settings = {
-        font = {
-          normal = ["FiraCode Nerd Font" "Noto Sans Khmer"];
-          italic = ["VictorMono Nerd Font"];
-          size = 12;
-        };
-      };
-    };
   };
 }

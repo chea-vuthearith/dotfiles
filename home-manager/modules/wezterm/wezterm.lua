@@ -1,29 +1,11 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
-
+wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
 -- theme
-config.font_size = 12
-config.font = wezterm.font("FiraCode Nerd Font")
-config.font_rules = {
-	{
-		intensity = "Bold",
-		font = wezterm.font("FiraCode Nerd Font", { weight = "Bold" }),
-	},
-	{
-		italic = true,
-		font = wezterm.font("VictorMono Nerd Font", { weight = "Regular", style = "Italic" }),
-	},
-	{
-		italic = true,
-		intensity = "Bold",
-		font = wezterm.font("VictorMono Nerd Font", { weight = "DemiBold", style = "Italic" }),
-	},
-}
-
 config.window_decorations = "NONE"
 
 config.hide_tab_bar_if_only_one_tab = true
-config.use_fancy_tab_bar = true
+config.use_fancy_tab_bar = false
 config.window_frame = {
 	active_titlebar_bg = "transparent",
 	inactive_titlebar_bg = "transparent",
@@ -311,5 +293,3 @@ local smart_splits_keys = {
 for _, x in pairs(smart_splits_keys) do
 	table.insert(config.keys, x)
 end
-
-return config
