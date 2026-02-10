@@ -13,11 +13,11 @@
           base00-dec-b = "0";
         };
       };
-      console.colors.override.base00-hex = "000000";
-      limine = {
-        image.enable = false;
-        colors.override.base00 = "#000000";
+      grub = {
+        enable = false;
+        useWallpaper = false;
       };
+      console.colors.override.base00-hex = "000000";
     };
   };
 }

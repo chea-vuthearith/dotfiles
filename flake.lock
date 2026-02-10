@@ -160,11 +160,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1769740633,
-        "narHash": "sha256-W4gMgX8RsDeJioRPQHhUgXD/TxqAQxdZjkhjHRX70Pk=",
+        "lastModified": 1770345569,
+        "narHash": "sha256-aXzEWD44Htg0kHdrT/j2Odxt1EXqdJR9s8fDpEAEZtY=",
         "owner": "caelestia-dots",
         "repo": "cli",
-        "rev": "90fc2a981e587d38edc5a899011eca7979ecf124",
+        "rev": "2395347d36dc12c4ad7471bcec030d75538c128c",
         "type": "github"
       },
       "original": {
@@ -207,15 +207,16 @@
         "quickshell": "quickshell_2"
       },
       "locked": {
-        "lastModified": 1770192250,
-        "narHash": "sha256-L2aKAiPfm6REIQyoHxAu0BXuiR07MH523byykjUE2EA=",
-        "owner": "caelestia-dots",
+        "lastModified": 1770734809,
+        "narHash": "sha256-JhSADVPaCtuUd7h8ZF25gJhJo8IDAuQDLHCJ3DY4pd8=",
+        "owner": "chea-vuthearith",
         "repo": "shell",
-        "rev": "7a41a85954a40366bd25ed4e33d1cd9146507ad4",
+        "rev": "fa02cd5e550e4d6970b27a93a04bc28b66419f72",
         "type": "github"
       },
       "original": {
-        "owner": "caelestia-dots",
+        "owner": "chea-vuthearith",
+        "ref": "fix/chromium-icon",
         "repo": "shell",
         "type": "github"
       }

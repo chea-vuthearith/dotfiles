@@ -3,11 +3,19 @@
   pkgs,
   inputs,
   ...
-}: {
-  home.packages = with pkgs; [
-    inputs.apple-fonts.packages.${pkgs.stdenv.hostPlatform.system}.sf-pro-nerd
-    nerd-fonts.fira-code
-  ];
+}: let
+  iconPkg = pkgs.tela-circle-icon-theme;
+  iconName = "Tela-circle-dark";
+in {
+  home = {
+    packages = with pkgs; [
+      inputs.apple-fonts.packages.${pkgs.stdenv.hostPlatform.system}.sf-pro-nerd
+      nerd-fonts.fira-code
+    ];
+    sessionVariables = {
+      QS_ICON_THEME = iconName;
+    };
+  };
 
   stylix = {
     opacity.terminal = 0.9;
@@ -47,8 +55,7 @@
         fonts.override.sizes.popups = config.stylix.fonts.sizes.applications;
         opacity.override.popups = 0.9;
         colors.override = {
-          base0D-hex = "#000000"; # border
-          base00-hex = "#000000"; # bg
+          base0D-hex = config.lib.stylix.colors.base00-hex; # border
         };
       };
     };
@@ -61,9 +68,8 @@
 
     icons = {
       enable = true;
-      package = pkgs.tela-circle-icon-theme;
-      dark = "Tela-circle-dark";
-      light = "Tela-circle-light";
+      package = iconPkg;
+      dark = iconName;
     };
   };
 

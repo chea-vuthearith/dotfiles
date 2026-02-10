@@ -178,7 +178,6 @@
     systemd = {
       enable = true;
       target = "graphical-session.target";
-      environment = [];
     };
     settings = {
       background = {

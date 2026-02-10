@@ -11,7 +11,7 @@
     };
 
     caelestia-shell = {
-      url = "github:caelestia-dots/shell";
+      url = "github:chea-vuthearith/shell?ref=fix/chromium-icon";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
