@@ -11,12 +11,12 @@
     };
 
     caelestia-shell = {
-      url = "github:chea-vuthearith/shell?ref=fix/chromium-icon";
+      url = "github:caelestia-dots/shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     caelestia-cli = {
-      url = "github:chea-vuthearith/cli?ref=feat/record-to-clip";
+      url = "github:caelestia-dots/cli";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
