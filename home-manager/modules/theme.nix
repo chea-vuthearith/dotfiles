@@ -58,6 +58,13 @@
       name = "Bibata-Modern-Ice";
       size = 12;
     };
+
+    icons = {
+      enable = true;
+      package = pkgs.tela-circle-icon-theme;
+      dark = "Tela-circle-dark";
+      light = "Tela-circle-light";
+    };
   };
 
   gtk.enable = true;
