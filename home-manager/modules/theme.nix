@@ -12,9 +12,6 @@ in {
       inputs.apple-fonts.packages.${pkgs.stdenv.hostPlatform.system}.sf-pro-nerd
       nerd-fonts.fira-code
     ];
-    sessionVariables = {
-      QS_ICON_THEME = iconName;
-    };
   };
 
   stylix = {
