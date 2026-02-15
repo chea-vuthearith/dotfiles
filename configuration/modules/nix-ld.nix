@@ -9,7 +9,7 @@
       libpulseaudio
       pipewire
       icu
-      xorg.libxcb
+      libxcb
       zlib
       libGL
       glib

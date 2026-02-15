@@ -415,7 +415,6 @@
     };
     cli = {
       enable = true;
-      package = inputs.caelestia-cli.packages.${pkgs.stdenv.hostPlatform.system}.default;
       settings = {
         theme = {
           # managed by stylix

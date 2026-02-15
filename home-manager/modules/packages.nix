@@ -43,7 +43,6 @@
     keychain
     newt
     libgtop
-    xorg.xrandr
     arduino-cli
     arduino-language-server
     xh
