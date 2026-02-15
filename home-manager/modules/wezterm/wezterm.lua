@@ -1,5 +1,11 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
+
+config.enable_wayland = true
+
+-- local multiplexing
+config.default_gui_startup_args = { "connect", "unix" }
+
 -- theme
 config.window_decorations = "NONE"
 
