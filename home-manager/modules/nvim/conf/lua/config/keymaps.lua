@@ -7,7 +7,7 @@ local del = vim.keymap.del
 local fn = vim.fn
 local cmd = vim.cmd
 local isVSCode = vim.g.vscode
-local isNeovide = vim.g.neovide
+-- local isNeovide = vim.g.neovide
 
 set("v", "<leader>tr", function()
   local start_pos = fn.getpos("'<")
@@ -89,27 +89,27 @@ end
 -- :term
 set("t", "<Esc><Esc>", [[<C-\><C-n>]], { noremap = true })
 
-if isNeovide then
-  -- tabs
-  set("n", "<a-l>", cmd.tabnext, { desc = "Next Tab" })
-  set("n", "<a-h>", cmd.tabprevious, { desc = "Previous Tab" })
-  set("n", "<a-s-h>", function()
-    if fn.tabpagenr() > 1 then
-      cmd("tabmove -1")
-    end
-  end, { desc = "Move Tab Left" })
-
-  set("n", "<a-s-l>", function()
-    if fn.tabpagenr() < fn.tabpagenr("$") then
-      cmd("tabmove +1")
-    end
-  end, { desc = "Move Tab Right" })
-  set("n", "<leader><tab>t", function()
-    cmd.tabnew()
-    cmd.term()
-    cmd.startinsert()
-  end, { desc = "New Terminal Tab" })
-  set({ "n", "v", "s", "x", "o", "i", "l", "c", "t" }, "<C-S-v>", function()
-    vim.api.nvim_paste(fn.getreg("+"), true, -1)
-  end, { noremap = true, silent = true })
-end
+-- if isNeovide then
+--   -- tabs
+--   set("n", "<a-l>", cmd.tabnext, { desc = "Next Tab" })
+--   set("n", "<a-h>", cmd.tabprevious, { desc = "Previous Tab" })
+--   set("n", "<a-s-h>", function()
+--     if fn.tabpagenr() > 1 then
+--       cmd("tabmove -1")
+--     end
+--   end, { desc = "Move Tab Left" })
+--
+--   set("n", "<a-s-l>", function()
+--     if fn.tabpagenr() < fn.tabpagenr("$") then
+--       cmd("tabmove +1")
+--     end
+--   end, { desc = "Move Tab Right" })
+--   set("n", "<leader><tab>t", function()
+--     cmd.tabnew()
+--     cmd.term()
+--     cmd.startinsert()
+--   end, { desc = "New Terminal Tab" })
+--   set({ "n", "v", "s", "x", "o", "i", "l", "c", "t" }, "<C-S-v>", function()
+--     vim.api.nvim_paste(fn.getreg("+"), true, -1)
+--   end, { noremap = true, silent = true })
+-- end
