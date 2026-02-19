@@ -10,11 +10,12 @@ vim.opt.conceallevel = 1
 vim.opt.termguicolors = true
 vim.opt.wrap = true
 vim.opt.mouse = ""
-vim.opt.clipboard = "unnamedplus"
 
 vim.g.snacks_animate = false
 vim.g.lazyvim_blink_main = true
 vim.g.ai_cmp = false
+
+vim.g.lazyvim_python_lsp = "basedpyright"
 
 -- neovide
 -- vim.g.neovide_cursor_animate_in_insert_mode = true

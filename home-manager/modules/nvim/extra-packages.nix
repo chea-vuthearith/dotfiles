@@ -16,7 +16,7 @@ with pkgs; [
   statix
 
   # Python
-  pyright
+  basedpyright
   ruff
 
   # JavaScript/TypeScript
