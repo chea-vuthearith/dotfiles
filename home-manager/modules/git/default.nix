@@ -2,6 +2,7 @@
   home.packages = with pkgs; [git-lfs gh];
   programs.git = {
     enable = true;
+    lfs.enable = true;
     settings = {
       user = {
         name = "chea-vuthearith";
