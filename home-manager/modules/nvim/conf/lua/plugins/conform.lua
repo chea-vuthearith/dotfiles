@@ -11,6 +11,7 @@ return {
       ["json"] = { "biome" },
       ["sh"] = { "beautysh" },
       ["nix"] = { "alejandra" },
+      ["kdl"] = { "kdlfmt" },
     },
     formatters = {
       biome = {
