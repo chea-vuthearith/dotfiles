@@ -1,7 +1,7 @@
 {pkgs}:
 with pkgs; [
-  fd
   fzf
+  fd
   ripgrep
 
   tmux
@@ -18,6 +18,9 @@ with pkgs; [
   # Python
   basedpyright
   ruff
+
+  #kdl
+  kdlfmt
 
   # JavaScript/TypeScript
   vtsls

@@ -6,6 +6,21 @@
   home.packages = with pkgs; [
     nerd-fonts.victor-mono
   ];
+
+  systemd.user.services.wezterm-server = {
+    Unit = {
+      Description = "WezTerm Server Multiplexer";
+      After = ["graphical-session.target"];
+    };
+    Service = {
+      Type = "forking";
+      ExecStart = "${pkgs.wezterm}/bin/wezterm-mux-server --daemonize";
+      Restart = "always";
+    };
+    Install = {
+      WantedBy = ["graphical-session.target"];
+    };
+  };
   programs.wezterm = {
     enable = true;
     enableZshIntegration = true;
