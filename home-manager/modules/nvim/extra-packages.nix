@@ -4,7 +4,6 @@ with pkgs; [
   fd
   ripgrep
 
-  tmux
   lsof
 
   # Hypr
