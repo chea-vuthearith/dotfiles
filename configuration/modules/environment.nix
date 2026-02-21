@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  username,
+  pkgs,
+  ...
+}: {
   environment.systemPackages = with pkgs; [neovim wget dconf dbus zinit];
   programs.zsh.enableGlobalCompInit = false;
   fonts.packages = with pkgs; [
@@ -9,6 +13,7 @@
 
   nix = {
     settings = {
+      trusted-users = ["root" username];
       experimental-features = ["nix-command" "flakes"];
       max-jobs = "auto";
       cores = 0;
