@@ -7,7 +7,7 @@ ui {
 }
 keybinds clear-defaults=true {
     locked {
-        bind "Alt l" {
+        bind "Alt g" {
             SwitchToMode "normal"
         }
     }
@@ -379,7 +379,7 @@ keybinds clear-defaults=true {
         }
     }
     shared_except "locked" "entersearch" "renametab" "renamepane" "prompt" "tmux" {
-        bind "Alt l" {
+        bind "Alt g" {
             SwitchToMode "locked"
         }
         bind "Alt q" {
@@ -457,7 +457,7 @@ keybinds clear-defaults=true {
             MoveFocus "up"
         }
         bind "Alt l" {
-            MoveFocusOrTab "right"
+            MoveFocus "right"
         }
     }
     shared_except "normal" "locked" "entersearch" {
