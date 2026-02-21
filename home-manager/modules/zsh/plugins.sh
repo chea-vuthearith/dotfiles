@@ -55,7 +55,7 @@ zi light z-shell/zsh-lsd
 zi ice lucid depth"1" wait
 zi snippet OMZP::git
 
-zi ice lucid wait atload"zsh-defer -t 2 init_keychain"
+zi ice lucid wait
 zi light romkatv/zsh-defer
 
 zi ice lucid wait depth"1"
