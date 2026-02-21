@@ -40,20 +40,12 @@
     bottom
     openssl
     lsd
-    keychain
-    newt
     libgtop
-    arduino-cli
-    arduino-language-server
     xh
     docker
     docker-buildx
     docker-compose
-    prisma
-    prisma-engines
     magic-wormhole
-    croc
-    sshfs
     mqttx
     redis
     ffmpeg
@@ -62,9 +54,7 @@
     tesseract
     wf-recorder
     swappy
-    matugen
     hyprpicker
-    ags
     mesa
     linux-firmware
     libnotify
