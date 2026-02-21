@@ -1,11 +1,23 @@
 return {
-  "dmmulroy/tsc.nvim",
-  ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-  keys = {
-    { "<leader>ct", "<cmd>TSC<cr>", desc = "Run TSC" },
+  {
+    "dmmulroy/tsc.nvim",
+    ft = { "typescript", "typescriptreact" },
+    lazy = true,
+    opts = {
+      use_diagnostics = true,
+      use_trouble_qflist = true,
+    },
   },
-  opts = {
-    use_diagnostics = true,
-    use_trouble_qflist = true,
+  {
+    "nvim-lspconfig",
+    opts = {
+      servers = {
+        vtsls = {
+          keys = {
+            { "<leader>ct", ":TSC<cr>", desc = "Run TSC" },
+          },
+        },
+      },
+    },
   },
 }

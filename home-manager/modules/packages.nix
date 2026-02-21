@@ -16,6 +16,7 @@
   home.packages = with pkgs; [
     gcc
     libgcc
+    newt
     gnumake
     gnused
     lua
