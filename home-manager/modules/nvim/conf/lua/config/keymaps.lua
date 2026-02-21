@@ -7,41 +7,8 @@ local del = vim.keymap.del
 local fn = vim.fn
 local cmd = vim.cmd
 local isVSCode = vim.g.vscode
+
 -- local isNeovide = vim.g.neovide
-
-set("v", "<leader>tr", function()
-  local start_pos = fn.getpos("'<")
-  local end_pos = fn.getpos("'>")
-  local lines = fn.getline(start_pos[2], end_pos[2])
-  for i, line in ipairs(lines) do
-    lines[i] = line:gsub("(%d+)px", function(n)
-      return string.format("%grem", n / 16)
-    end)
-  end
-  fn.setline(start_pos[2], lines)
-end, { noremap = true, silent = true, desc = "px to rem" })
-
-set("v", "<leader>ts", function()
-  local start_pos = fn.getpos("'<")
-  local end_pos = fn.getpos("'>")
-  local lines = fn.getline(start_pos[2], end_pos[2])
-  for i, line in ipairs(lines) do
-    lines[i] = line:gsub("(%u)", "_%1"):lower()
-  end
-  fn.setline(start_pos[2], lines)
-end, { noremap = true, silent = true, desc = "to snake_case" })
-
-set("v", "<leader>tc", function()
-  local start_pos = fn.getpos("'<")
-  local end_pos = fn.getpos("'>")
-  local lines = fn.getline(start_pos[2], end_pos[2])
-  for i, line in ipairs(lines) do
-    lines[i] = line:gsub("_([a-z])", function(c)
-      return c:upper()
-    end)
-  end
-  fn.setline(start_pos[2], lines)
-end, { noremap = true, silent = true, desc = "to camelCase" })
 
 -- jumps
 set("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true })

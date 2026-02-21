@@ -1,15 +1,19 @@
 return {
   "mistricky/codesnap.nvim",
   tag = "v1.6.3",
+  event = "BufEnter",
+  build = "make",
   keys = {
-    { "<leader>cs", "<cmd>'<,'>CodeSnap<cr>", mode = "v", desc = "Save selected code snapshot into clipboard" },
-    -- { "<leader>cs", "<cmd>CodeSnapSave<cr>", mode = "x", desc = "Save selected code snapshot in ~/Pictures" },
+    {
+      "<leader>cs",
+      ":CodeSnap<cr>",
+      mode = "x",
+      desc = "Save selected code snapshot into clipboard",
+    },
   },
-  lazy = false,
-  vscode = true,
   opts = {
     radius = 0,
-    code_font_family = "FiraCode Nerd Font",
+    editor_font_family = "FiraCode Nerd Font",
     mac_window_bar = false,
     has_line_number = true,
     has_breadcrumbs = true,
