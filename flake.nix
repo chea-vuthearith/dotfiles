@@ -40,7 +40,7 @@
         utils
     );
 
-    specialArgs = {inherit inputs username;};
+    sharedArgs = {inherit inputs username;};
     sharedModules = [
       inputs.stylix.nixosModules.stylix
       ./configuration
@@ -48,12 +48,14 @@
   in {
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
-        inherit lib specialArgs system;
+        inherit lib system;
+        specialArgs = sharedArgs // {hostname = "desktop";};
         modules = sharedModules ++ [./hosts/desktop/configuration];
       };
 
       laptop = nixpkgs.lib.nixosSystem {
-        inherit lib specialArgs system;
+        inherit lib system;
+        specialArgs = sharedArgs // {hostname = "laptop";};
         modules = sharedModules ++ [./hosts/laptop/configuration];
       };
     };
