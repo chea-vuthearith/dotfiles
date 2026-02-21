@@ -1,4 +1,5 @@
 mouse_mode false
+default_layout "compact"
 show_startup_tips false
 ui {
     pane_frames {
@@ -361,7 +362,7 @@ keybinds clear-defaults=true {
         bind "alt L" {
             MoveTab "right"
         }
-        bind "alt h" {
+        bind "alt l" {
             GoToNextTab
         }
         bind "alt h" {
