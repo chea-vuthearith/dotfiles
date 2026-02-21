@@ -17,7 +17,7 @@
         [filechooser]
         cmd=${pkgs.xdg-desktop-portal-termfilechooser}/share/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
         create_help_file=0
-        env=TERMCMD=wezterm start --always-new-process
+        env=TERMCMD=ghostty -e
         default_dir=$HOME
         open_mode=suggested
         save_mode=last

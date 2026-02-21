@@ -4,7 +4,6 @@
     settings = {
       main = {
         dpi-aware = "no";
-        terminal = "wezterm start --always-new-process";
         layer = "overlay";
       };
       border = {

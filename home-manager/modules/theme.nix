@@ -43,7 +43,6 @@ in {
     };
 
     targets = {
-      wezterm.fonts.enable = false;
       hyprland.hyprpaper.enable = false; # managed by caelestia;
       hyprlock.image.enable = false;
       neovide.fonts.enable = false;

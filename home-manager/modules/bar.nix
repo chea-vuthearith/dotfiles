@@ -195,8 +195,8 @@
 
       general = {
         apps = {
-          terminal = ["wezterm"];
-          explorer = ["wezterm" "start" "--always-new-process" "yazi"];
+          terminal = ["ghostty"];
+          explorer = ["ghostty" "-e" "yazi"];
         };
       };
 
