@@ -7,6 +7,7 @@ zinit light-mode for \
 # Plugins
 ZVM_SYSTEM_CLIPBOARD_ENABLED=true
 ZVM_INIT_MODE=sourcing
+KEYTIMEOUT=1
 zi ice lucid wait depth"1" atload"init_after_zvm"
 zi light jeffreytse/zsh-vi-mode
 init_after_zvm() {
