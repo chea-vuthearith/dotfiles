@@ -412,6 +412,26 @@
         wallpaperDir = ../../wallpapers;
         mediaGif = "";
       };
+      idle = {
+        lockBeforeSleep = true;
+        inhibitWhenAudio = true;
+        timeouts = [
+          {
+            timeout = 3 * 60;
+            idleAction = "dpms off";
+            returnAction = "dpms on";
+          }
+          {
+            timeout = 5 * 60;
+            idleAction = "lock";
+          }
+
+          {
+            timeout = 10 * 60;
+            idleAction = ["systemctl" "suspend-then-hibernate"];
+          }
+        ];
+      };
     };
     cli = {
       enable = true;
