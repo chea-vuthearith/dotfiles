@@ -1,5 +1,4 @@
 return {
-  { "LazyVim/LazyVim", opts = { colorscheme = "catppuccin" } },
   {
     "folke/noice.nvim",
     opts = {

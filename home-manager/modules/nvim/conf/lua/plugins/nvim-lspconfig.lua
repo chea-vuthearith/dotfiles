@@ -4,6 +4,18 @@ return {
     opts = {
       inlay_hints = { enabled = false },
       servers = {
+        lua_ls = {
+          settings = {
+            Lua = {
+              runtime = { version = "LuaJIT" },
+              workspace = {
+                library = vim.api.nvim_get_runtime_file("", true),
+                checkThirdParty = false,
+              },
+              diagnostics = { globals = { "vim" } },
+            },
+          },
+        },
         tsgo = {},
         vtsls = {
           enabled = false,
