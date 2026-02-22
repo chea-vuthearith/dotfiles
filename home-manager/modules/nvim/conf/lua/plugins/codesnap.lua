@@ -10,6 +10,12 @@ return {
       mode = "x",
       desc = "Save selected code snapshot into clipboard",
     },
+    {
+      "<leader>ch",
+      ":CodeSnapHighlight<cr>",
+      mode = "x",
+      desc = "Highlight selected code snapshot and save into clipboard",
+    },
   },
   opts = {
     radius = 0,

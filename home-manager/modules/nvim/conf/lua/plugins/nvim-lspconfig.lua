@@ -1,11 +1,13 @@
 return {
   {
     "neovim/nvim-lspconfig",
-    dependencies = { "pretty-ts-errors-installer" },
     opts = {
       inlay_hints = { enabled = false },
       servers = {
-        ["nil_ls"] = false,
+        tsgo = {},
+        vtsls = {
+          enabled = false,
+        },
         nixd = {
           nixpkgs = {
             expr = "import <nixpkgs> { }",
@@ -20,7 +22,7 @@ return {
             },
           },
         },
-        vtsls = { settings = { typescript = { preferences = { importModuleSpecifier = "non-relative" } } } },
+        -- vtsls = { settings = { typescript = { preferences = { importModuleSpecifier = "non-relative" } } } },
         biome = {},
         hyprls = {},
       },

@@ -313,7 +313,7 @@ keybinds clear-defaults=true {
     }
     normal {
         bind "Ctrl left" {
-            MoveFocusOrTab "left"
+            MoveFocus "left"
         }
         bind "Ctrl down" {
             MoveFocus "down"
@@ -322,7 +322,7 @@ keybinds clear-defaults=true {
             MoveFocus "up"
         }
         bind "Ctrl right" {
-            MoveFocusOrTab "right"
+            MoveFocus "right"
         }
         bind "Ctrl h" {
             MoveFocus "left"
@@ -419,7 +419,7 @@ keybinds clear-defaults=true {
     }
     shared_except "normal" "locked" {
         bind "Alt left" {
-            MoveFocusOrTab "left"
+            MoveFocus "left"
         }
         bind "Alt down" {
             MoveFocus "down"
@@ -544,7 +544,7 @@ keybinds clear-defaults=true {
             SwitchToMode "move"
         }
         bind "Alt h" {
-            MoveFocusOrTab "left"
+            MoveFocus "left"
         }
         bind "Ctrl n" {
             SwitchToMode "resize"

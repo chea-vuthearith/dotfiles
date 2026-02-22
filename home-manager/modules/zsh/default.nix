@@ -30,9 +30,9 @@
     };
     dotDir = "${config.xdg.configHome}/zsh";
     initContent = ''
-      ${builtins.readFile ./widgets.sh}
       ${builtins.readFile ./plugins.sh}
       ${builtins.readFile ./zshrc.sh}
+      ${builtins.readFile ./keys.sh}
     '';
   };
 }

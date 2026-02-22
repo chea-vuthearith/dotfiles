@@ -1,6 +1,5 @@
 {pkgs}:
 with pkgs; [
-  fzf
   fd
   ripgrep
 
@@ -22,7 +21,8 @@ with pkgs; [
   kdlfmt
 
   # JavaScript/TypeScript
-  vtsls
+  vtsls # just in case tsgo breaks
+  typescript-go
   biome
 
   # Lua

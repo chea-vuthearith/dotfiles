@@ -12,6 +12,3 @@ pfwd() {
   fi
   ssh -fNL "${1}:localhost:${1}" "$2"
 }
-
-# Set cursor style
-echo -ne '\e[6 q'
