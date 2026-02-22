@@ -12,6 +12,7 @@ zi light zsh-users/zsh-completions
 zi ice lucid wait depth"1"
 zi light "kutsan/zsh-system-clipboard"
 
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
 zi ice lucid wait depth"1"
 zi light "Aloxaf/fzf-tab"
 
