@@ -1,3 +1,4 @@
+session_serialization false
 mouse_mode false
 default_layout "compact"
 show_startup_tips false
@@ -252,9 +253,22 @@ keybinds clear-defaults=true {
             EditScrollback
             SwitchToMode "normal"
         }
+        bind "G" {
+            ScrollToBottom
+        }
+        bind "g" {
+            // so that we can use "gg"
+            SwitchToMode "tmux"
+        }
         bind "/" {
             SwitchToMode "entersearch"
             SearchInput 0
+        }
+    }
+    tmux {
+        bind "g" {
+            ScrollToTop
+            SwitchToMode "scroll"
         }
     }
     search {
@@ -310,6 +324,9 @@ keybinds clear-defaults=true {
             }
             SwitchToMode "normal"
         }
+        bind "q" {
+            Quit
+        }
     }
     normal {
         bind "Ctrl left" {
@@ -353,9 +370,6 @@ keybinds clear-defaults=true {
         bind "alt ]" {
             NextSwapLayout
         }
-        bind "Ctrl f" {
-            ToggleFloatingPanes
-        }
         bind "alt H" {
             MoveTab "left"
         }
@@ -383,12 +397,9 @@ keybinds clear-defaults=true {
         bind "Alt g" {
             SwitchToMode "locked"
         }
-        bind "Alt q" {
-            Quit
-        }
     }
     shared_except "entersearch" "renametab" "renamepane" "session" "prompt" "tmux" {
-        bind "Alt o" {
+        bind "Alt s" {
             SwitchToMode "session"
         }
     }
@@ -398,7 +409,7 @@ keybinds clear-defaults=true {
         }
     }
     shared_except "scroll" "entersearch" "renametab" "renamepane" "prompt" "tmux" {
-        bind "Alt s" {
+        bind "Alt v" {
             SwitchToMode "scroll"
         }
     }
@@ -552,20 +563,14 @@ keybinds clear-defaults=true {
         bind "Alt n" {
             NewPane
         }
-        bind "Ctrl o" {
-            SwitchToMode "session"
-        }
         bind "Alt o" {
-            MoveTab "right"
+            SwitchToMode "session"
         }
         bind "Ctrl p" {
             SwitchToMode "pane"
         }
         bind "Alt p" {
             TogglePaneInGroup
-        }
-        bind "Ctrl q" {
-            Quit
         }
         bind "Ctrl s" {
             SwitchToMode "scroll"
@@ -594,80 +599,6 @@ keybinds clear-defaults=true {
     shared_among "session" "tmux" {
         bind "d" {
             Detach
-        }
-    }
-    tmux {
-        bind "left" {
-            MoveFocus "left"
-            SwitchToMode "normal"
-        }
-        bind "down" {
-            MoveFocus "down"
-            SwitchToMode "normal"
-        }
-        bind "up" {
-            MoveFocus "up"
-            SwitchToMode "normal"
-        }
-        bind "right" {
-            MoveFocus "right"
-            SwitchToMode "normal"
-        }
-        bind "space" {
-            NextSwapLayout
-        }
-        bind "\"" {
-            NewPane "down"
-            SwitchToMode "normal"
-        }
-        bind "%" {
-            NewPane "right"
-            SwitchToMode "normal"
-        }
-        bind "," {
-            SwitchToMode "renametab"
-        }
-        bind "[" {
-            SwitchToMode "scroll"
-        }
-        bind "Ctrl b" {
-            Write 2
-            SwitchToMode "normal"
-        }
-        bind "c" {
-            NewTab
-            SwitchToMode "normal"
-        }
-        bind "h" {
-            MoveFocus "left"
-            SwitchToMode "normal"
-        }
-        bind "j" {
-            MoveFocus "down"
-            SwitchToMode "normal"
-        }
-        bind "k" {
-            MoveFocus "up"
-            SwitchToMode "normal"
-        }
-        bind "l" {
-            MoveFocus "right"
-            SwitchToMode "normal"
-        }
-        bind "n" {
-            GoToNextTab
-            SwitchToMode "normal"
-        }
-        bind "o" {
-            FocusNextPane
-        }
-        bind "p" {
-            GoToPreviousTab
-            SwitchToMode "normal"
-        }
-        bind "z" {
-            ToggleFocusFullscreen
-            SwitchToMode "normal"
         }
     }
 }
