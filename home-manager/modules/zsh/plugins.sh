@@ -27,3 +27,6 @@ zi light z-shell/zsh-lsd
 
 zi ice lucid wait depth"1"
 zi snippet OMZP::git
+
+zi ice lucid wait depth"1"
+zi light chisui/zsh-nix-shell
