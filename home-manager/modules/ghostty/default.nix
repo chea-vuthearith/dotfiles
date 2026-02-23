@@ -11,6 +11,7 @@
     enableZshIntegration = true;
     systemd.enable = true;
     settings = {
+      shell-integration-features = "ssh-env, title";
       font-family = config.stylix.fonts.monospace.name;
       font-family-italic = "VictorMono Nerd Font";
       font-family-bold-italic = "VictorMono Nerd Font";
