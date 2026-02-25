@@ -192,6 +192,13 @@
           sans = config.stylix.fonts.sansSerif.name;
         };
       };
+      notifs = {
+        actionOnClick = true;
+      };
+
+      dashboard = {
+        showOnHover = false;
+      };
 
       general = {
         apps = {
@@ -238,7 +245,7 @@
           showLockStatus = false;
         };
         tray = {compact = true;};
-        showOnHover = true;
+        showOnHover = false;
         entries = [
           {
             id = "logo";
@@ -427,7 +434,10 @@
           numLockChanged = false;
           nowPlaying = false;
         };
-        vpn.enabled = false;
+        vpn = {
+          enabled = false;
+          provider = [];
+        };
       };
       paths = {
         wallpaperDir = ../../wallpapers;
