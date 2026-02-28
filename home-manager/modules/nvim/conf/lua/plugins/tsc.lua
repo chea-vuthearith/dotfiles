@@ -1,8 +1,16 @@
+local keys = {
+  {
+    "<leader>ct",
+    function()
+      require("tsc").run()
+    end,
+    desc = "Run TSC",
+  },
+}
 return {
   {
     "dmmulroy/tsc.nvim",
-    ft = { "typescript", "typescriptreact" },
-    lazy = true,
+    cmd = "TSC",
     opts = {
       use_diagnostics = true,
       use_trouble_qflist = true,
@@ -13,9 +21,10 @@ return {
     opts = {
       servers = {
         vtsls = {
-          keys = {
-            { "<leader>ct", ":TSC<cr>", desc = "Run TSC" },
-          },
+          keys = keys,
+        },
+        tsgo = {
+          keys = keys,
         },
       },
     },

@@ -1,6 +1,5 @@
 return {
   "swaits/zellij-nav.nvim",
-  lazy = true,
   event = "VeryLazy",
   keys = {
     { "<c-h>", "<cmd>ZellijNavigateLeftTab<cr>", { silent = true, desc = "navigate left or tab" } },

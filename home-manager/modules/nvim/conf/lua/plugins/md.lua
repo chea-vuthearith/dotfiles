@@ -1,27 +1,26 @@
 return {
-  {
-    "MeanderingProgrammer/render-markdown.nvim",
-    ---@type render.md.UserConfig
-    opts = {
-      code = {
-        sign = false,
-        width = "block",
-        right_pad = 1,
-      },
+  "MeanderingProgrammer/render-markdown.nvim",
+  ft = { "markdown" },
+  ---@type render.md.UserConfig
+  opts = {
+    code = {
+      sign = false,
+      width = "block",
+      right_pad = 1,
+    },
 
-      bullet = {
-        right_pad = 1,
-      },
+    bullet = {
+      right_pad = 1,
+    },
 
-      checkbox = {
-        enabled = true,
-      },
+    checkbox = {
+      enabled = true,
+    },
 
-      heading = {
-        enabled = true,
-        sign = true,
-        icons = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },
-      },
+    heading = {
+      enabled = true,
+      sign = true,
+      icons = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },
     },
   },
 }

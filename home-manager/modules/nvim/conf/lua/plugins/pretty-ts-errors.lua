@@ -11,6 +11,7 @@ return {
 
       vim.fn.system(install_cmd)
     end,
+    ft = { "typescript", "typescriptreact" },
   },
   {
     "neovim/nvim-lspconfig",

@@ -18,5 +18,4 @@ return {
       require("trouble").open("qflist")
     end,
   },
-  lazy = false,
 }

@@ -32,6 +32,9 @@ in {
   nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"]; # for nixd lsp
 
   programs = {
+    helix = {
+      enable = true;
+    };
     neovim = {
       enable = true;
       viAlias = true;

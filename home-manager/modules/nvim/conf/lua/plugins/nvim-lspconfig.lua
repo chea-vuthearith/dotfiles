@@ -16,8 +16,11 @@ return {
             },
           },
         },
-        tsgo = {},
+        tsgo = {
+          settings = { typescript = { preferences = { importModuleSpecifier = "non-relative" } } },
+        },
         vtsls = {
+          settings = { typescript = { preferences = { importModuleSpecifier = "non-relative" } } },
           enabled = false,
         },
         nixd = {
@@ -34,7 +37,6 @@ return {
             },
           },
         },
-        -- vtsls = { settings = { typescript = { preferences = { importModuleSpecifier = "non-relative" } } } },
         biome = {},
         hyprls = {},
       },
