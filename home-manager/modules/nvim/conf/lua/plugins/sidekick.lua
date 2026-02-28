@@ -10,6 +10,9 @@ return {
     },
   },
   opts = {
+    nes = {
+      enabled = false,
+    },
     cli = {
       mux = {
         backend = "zellij",
