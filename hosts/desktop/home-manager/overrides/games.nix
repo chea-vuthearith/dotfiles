@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: {
-  home.packages = with pkgs; [mono umu-launcher];
+  home.packages = with pkgs; [mono umu-launcher rpcs3];
   xdg.desktopEntries = {
     "Elden Ring" = {
       name = "Elden Ring";
