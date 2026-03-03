@@ -17,6 +17,8 @@
         "networkmanager"
         "libvirtd"
         "aria2"
+        "kvm"
+        "adbusers"
       ];
       shell = pkgs.zsh;
       ignoreShellProgramCheck = true;

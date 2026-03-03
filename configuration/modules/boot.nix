@@ -21,6 +21,7 @@
 in {
   services.logind.settings.Login.HandlePowerKey = "ignore";
   boot = {
+    kernelModules = ["kvm-intel"];
     # Silent boot configuration
     kernelParams = [
       "quiet"

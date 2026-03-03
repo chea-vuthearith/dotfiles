@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   virtualisation = {
+    libvirtd.enable = true;
     spiceUSBRedirection.enable = true;
     docker = {
       extraPackages = [pkgs.docker-buildx];
