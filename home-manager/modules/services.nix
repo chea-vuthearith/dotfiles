@@ -4,7 +4,11 @@
   ...
 }: {
   services = {
-    cliphist.enable = true;
+    cliphist = {
+      enable = true;
+      systemdTargets = ["hyprland-session.target"];
+    };
+
     hyprpolkitagent.enable = true;
     gammastep = {
       enable = true;
