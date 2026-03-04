@@ -1,5 +1,9 @@
 {...}: {
   nixpkgs = {config = {allowUnfree = true;};};
+  services.ssh-agent = {
+    enable = true;
+    enableZshIntegration = true;
+  };
   programs.keychain = {
     enable = true;
     enableZshIntegration = true;
