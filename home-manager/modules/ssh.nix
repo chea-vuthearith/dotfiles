@@ -1,3 +1,8 @@
 {inputs, ...}: {
-  programs.ssh.extraConfig = builtins.readFile inputs.secrets.sshConfig;
+  programs = {
+    ssh = {
+      enable = true;
+      extraConfig = inputs.secrets.sshConfig;
+    };
+  };
 }

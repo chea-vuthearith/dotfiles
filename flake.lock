@@ -828,8 +828,24 @@
         "hyprland": "hyprland",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_4",
+        "secrets": "secrets",
         "split-monitor-workspaces": "split-monitor-workspaces",
         "stylix": "stylix"
+      }
+    },
+    "secrets": {
+      "locked": {
+        "lastModified": 1772687646,
+        "narHash": "sha256-KfshFw2OvjwhBc2xPHqxRE4iFU5g09M3ghnL2tI0HoQ=",
+        "owner": "chea-vuthearith",
+        "repo": "secrets",
+        "rev": "cfe9dfd7754567e8948e2620183f759097e1b8b3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "chea-vuthearith",
+        "repo": "secrets",
+        "type": "github"
       }
     },
     "sf-arabic": {
