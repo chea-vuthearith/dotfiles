@@ -3,6 +3,7 @@
 
   inputs = {
     secrets.url = "github:chea-vuthearith/secrets";
+    direnv-instant.url = "github:Mic92/direnv-instant";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {
       url = "github:nix-community/home-manager";
