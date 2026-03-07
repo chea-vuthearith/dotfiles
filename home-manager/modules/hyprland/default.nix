@@ -2,9 +2,13 @@
   config,
   pkgs,
   inputs,
-  lib,
   ...
 }: {
+  home.file."${config.home.homeDirectory}/.config/hypr/xdph.conf".text = ''
+    screencopy {
+      allow_token_by_default = true
+    }
+  '';
   wayland.windowManager.hyprland = {
     enable = true;
     package =
