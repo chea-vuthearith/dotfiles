@@ -2,7 +2,7 @@
   description = "Nixos config flake";
 
   inputs = {
-    secrets.url = "github:chea-vuthearith/secrets";
+    secrets.url = "git+ssh://git@github.com/chea-vuthearith/secrets.git";
     direnv-instant.url = "github:Mic92/direnv-instant";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {

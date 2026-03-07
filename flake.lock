@@ -895,15 +895,15 @@
       "locked": {
         "lastModified": 1772687646,
         "narHash": "sha256-KfshFw2OvjwhBc2xPHqxRE4iFU5g09M3ghnL2tI0HoQ=",
-        "owner": "chea-vuthearith",
-        "repo": "secrets",
+        "ref": "refs/heads/main",
         "rev": "cfe9dfd7754567e8948e2620183f759097e1b8b3",
-        "type": "github"
+        "revCount": 4,
+        "type": "git",
+        "url": "ssh://git@github.com/chea-vuthearith/secrets.git"
       },
       "original": {
-        "owner": "chea-vuthearith",
-        "repo": "secrets",
-        "type": "github"
+        "type": "git",
+        "url": "ssh://git@github.com/chea-vuthearith/secrets.git"
       }
     },
     "sf-arabic": {
