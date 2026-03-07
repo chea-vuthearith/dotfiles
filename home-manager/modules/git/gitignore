@@ -1,6 +1,4 @@
 .envrc
-shell.nix
 .direnv
-pyrightconfig.json
 
 
