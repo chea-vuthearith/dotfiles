@@ -43,6 +43,7 @@ in {
     };
 
     targets = {
+      tmux.enable = false;
       ghostty.fonts.enable = false;
       hyprland.hyprpaper.enable = false; # managed by caelestia;
       hyprlock.image.enable = false;
