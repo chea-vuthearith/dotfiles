@@ -14,6 +14,7 @@
     tmux = {
       enable = true;
       newSession = true;
+
       plugins = with pkgs.tmuxPlugins; [
         {
           plugin = catppuccin;
