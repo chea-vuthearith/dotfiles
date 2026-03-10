@@ -1,12 +1,6 @@
-{
-  pkgs,
-  config,
-  ...
-}: {
+{pkgs, ...}: {
   # TODO: tmux on remote sessions
-  # colors
   # fzf session switcher
-  # auto launch
   # resize panes
   # ssh auth agent refresh
   programs = {
