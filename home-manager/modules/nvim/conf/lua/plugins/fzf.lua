@@ -7,6 +7,9 @@ return {
   ---@type fzf-lua.Config|{}
   ---@diagnostic disable: missing-fields
   opts = {
+    defaults = {
+      profile = "fzf-tmux",
+    },
     files = {
       cmd = "fd --type f --hidden --follow --exclude .git",
     },

@@ -1,6 +1,5 @@
-# disable j k for history, its annoying
-bindkey -M vicmd -r 'j'
-bindkey -M vicmd -r 'k'
+bindkey -M vicmd 'k' up-line
+bindkey -M vicmd 'j' down-line
 
 bindkey -M viins '^n' fzf-history-widget
 bindkey -M viins '^p' fzf-history-widget

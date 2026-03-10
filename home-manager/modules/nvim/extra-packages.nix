@@ -1,5 +1,6 @@
 {pkgs}:
 with pkgs; [
+  bat
   fd
   ripgrep
 
