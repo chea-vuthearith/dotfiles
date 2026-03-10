@@ -15,7 +15,7 @@ vim.g.snacks_animate = false
 vim.g.lazyvim_blink_main = true
 vim.g.ai_cmp = false
 
-vim.g.lazyvim_python_lsp = "basedpyright"
+vim.g.lazyvim_python_lsp = "pyright"
 vim.g.lazyvim_picker = "fzf"
 
 -- neovide

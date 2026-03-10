@@ -14,7 +14,7 @@ with pkgs; [
   statix
 
   # Python
-  basedpyright
+  pyright
   ruff
 
   #kdl
