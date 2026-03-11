@@ -30,14 +30,29 @@
     (builtins.readFile ./tmux-remote-extras.conf)
   ]);
 in {
-  # TODO: ssh auth agent refresh
   programs = {
     zsh.initContent = lib.mkOrder 1500 ''
       sst() {
           local config=${remote-conf}
           local remote_tmp="/tmp/remote-tmux-conf-$$"
+          local session_name="main"
+
           scp "$config" "$1:$remote_tmp" || return 1
-          ssh -t "$1" "tmux -f $remote_tmp new-session -A -s main; rm -f $remote_tmp"
+
+          ssh -t "$1" '
+              # symlink auth sock so tmux can resolve on re-attach
+              if [ -S "$SSH_AUTH_SOCK" ] && [ ! -h "$SSH_AUTH_SOCK" ]; then
+                  ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+              fi
+
+              # create session if it doesnt exist
+              tmux has-session -t '"$session_name"' 2>/dev/null || tmux -f '"$remote_tmp"' new-session -d -s '"$session_name"'
+
+              rm -f '"$remote_tmp"'
+              tmux send-keys -t '"$session_name"' "export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock" C-m
+
+              tmux attach -t '"$session_name"'
+          '
       }
 
       compdef sst=ssh
@@ -50,6 +65,7 @@ in {
         {
           plugin = tmux-suspend;
           extraConfig = ''
+            set -g @suspend_key 'M-Escape'
             set -g @suspend_suspended_options " \
               status-left::#[fg=#{@thm_fg} bold]TMUX (#S) #[fg=#{@thm_rosewater} bold]SUSPEND , \
             "
