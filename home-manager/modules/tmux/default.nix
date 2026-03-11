@@ -14,13 +14,23 @@
       sha256 = "sha256-HOzy+DX1+1ZrWnqWivpV2spoTeMncdokUruXUm8lBcE=";
     };
   };
+  tmux-suspend = pkgs.tmuxPlugins.mkTmuxPlugin {
+    pluginName = "suspend";
+    version = "1.0.0";
+    src = pkgs.fetchFromGitHub {
+      owner = "MunifTanjim";
+      repo = "tmux-suspend";
+      rev = "1a2f806666e0bfed37535372279fa00d27d50d14";
+      sha256 = "sha256-+1fKkwDmr5iqro0XeL8gkjOGGB/YHBD25NG+w3iW+0g=";
+    };
+  };
   remote-conf = pkgs.writeText "remote-tmux.conf" (builtins.concatStringsSep "\n" [
-    (builtins.readFile ./tmux.conf)
-    (builtins.readFile ./remote-overrides.conf)
+    (builtins.readFile ./tmux-base.conf)
+    (builtins.readFile ./tmux-keys.conf)
+    (builtins.readFile ./tmux-remote-extras.conf)
   ]);
 in {
-  # TODO: tmux on remote sessions
-  # ssh auth agent refresh
+  # TODO: ssh auth agent refresh
   programs = {
     zsh.initContent = lib.mkOrder 1500 ''
       sst() {
@@ -37,6 +47,14 @@ in {
       enable = true;
       newSession = true;
       plugins = with pkgs.tmuxPlugins; [
+        {
+          plugin = tmux-suspend;
+          extraConfig = ''
+            set -g @suspend_suspended_options " \
+            set -ga status-left "#[fg=#{@thm_rosewater} bold]SUSPEND "
+            "
+          '';
+        }
         {
           plugin = tmux-sessionx;
           extraConfig = ''
@@ -86,7 +104,11 @@ in {
         sensible
         yank
       ];
-      extraConfig = builtins.readFile ./tmux.conf;
+      extraConfig = builtins.concatStringsSep "\n" [
+        (builtins.readFile ./tmux-base.conf)
+        (builtins.readFile ./tmux-styling.conf)
+        (builtins.readFile ./tmux-keys.conf)
+      ];
     };
   };
 }
