@@ -43,16 +43,17 @@ in {
           local session="main"
           local tmp="/tmp/remote-tmux-$$"
 
-          ssh -t "$1" bash -lc "'
-              cat > $tmp << TMUXCONF
+          ssh -t "$1" "
+              export PATH=\$PATH:~/bin
+              cat > $tmp << 'TMUXCONF'
       $(cat ${remote-conf})
       TMUXCONF
               [ -S \"\$SSH_AUTH_SOCK\" ] && [ ! -h \"\$SSH_AUTH_SOCK\" ] && ln -sf \"\$SSH_AUTH_SOCK\" ~/.ssh/ssh_auth_sock
               tmux has-session -t $session 2>/dev/null || tmux -f $tmp new-session -d -s $session
-              tmux send-keys -t $session \"export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock\" C-m 2>/dev/null
+              tmux send-keys -t $session 'export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock' C-m 2>/dev/null
               rm -f $tmp
               exec tmux attach -t $session
-          '"
+          "
       }
       compdef sst=ssh
     '';
