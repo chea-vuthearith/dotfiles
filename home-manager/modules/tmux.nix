@@ -1,7 +1,22 @@
-{pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: let
+  smart-splits = pkgs.tmuxPlugins.mkTmuxPlugin {
+    pluginName = "smart-splits";
+    version = "1.0.0";
+    rtpFilePath = "smart-splits.tmux";
+    src = pkgs.fetchFromGitHub {
+      owner = "mrjones2014";
+      repo = "smart-splits.nvim";
+      rev = "25bf40abf79720ebfa98e09259b7c42942055f4c";
+      sha256 = "sha256-HOzy+DX1+1ZrWnqWivpV2spoTeMncdokUruXUm8lBcE=";
+    };
+  };
+in {
   # TODO: tmux on remote sessions
   # fzf session switcher
-  # resize panes
   # ssh auth agent refresh
   programs = {
     bat.enable = true;
@@ -10,6 +25,24 @@
       newSession = true;
 
       plugins = with pkgs.tmuxPlugins; [
+        {
+          plugin = smart-splits;
+          extraConfig = ''
+            set -g @smart-splits_no_wrap "" # to disable wrapping. (any value disables wrapping)
+
+            set -g @smart-splits_move_left_key  "C-h"
+            set -g @smart-splits_move_down_key  "C-j"
+            set -g @smart-splits_move_up_key    "C-k"
+            set -g @smart-splits_move_right_key "C-l"
+
+            set -g @smart-splits_resize_left_key  "C-left"
+            set -g @smart-splits_resize_down_key  "C-down"
+            set -g @smart-splits_resize_up_key    "C-up"
+            set -g @smart-splits_resize_right_key "C-right"
+
+            set -g @smart-splits_resize_step_size "3"
+          '';
+        }
         {
           plugin = catppuccin;
           extraConfig = ''
@@ -28,22 +61,13 @@
             set -g @catppuccin_window_right_separator "#[fg=#{@_ctp_status_bg},reverse]#[none]"
           '';
         }
-        {
-          plugin = vim-tmux-navigator;
-          extraConfig = ''
-            set -g @vim_navigator_mapping_left "C-h"
-            set -g @vim_navigator_mapping_right "C-l"
-            set -g @vim_navigator_mapping_up "C-k"
-            set -g @vim_navigator_mapping_down "C-j"
-            set -g @vim_navigator_mapping_prev ""  # removes the C-\ binding
-          '';
-        }
         sensible
         yank
       ];
       extraConfig = ''
         # styling
         set pane-border-indicators off
+        set -g status-position top
         set -g window-status-separator ""
         set -g status-left-length 0
         set -g status-left "#[fg=#{@thm_fg} bold]TMUX (#S) "
