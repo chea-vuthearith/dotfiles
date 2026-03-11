@@ -1,8 +1,4 @@
-{
-  lib,
-  pkgs,
-  ...
-}: let
+{pkgs, ...}: let
   smart-splits = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "smart-splits";
     version = "1.0.0";
@@ -16,7 +12,6 @@
   };
 in {
   # TODO: tmux on remote sessions
-  # fzf session switcher
   # ssh auth agent refresh
   programs = {
     bat.enable = true;
@@ -25,6 +20,16 @@ in {
       newSession = true;
 
       plugins = with pkgs.tmuxPlugins; [
+        {
+          plugin = tmux-sessionx;
+          extraConfig = ''
+            set -g @sessionx-bind 's'
+            set -g @sessionx-filter-current 'false'
+            set -g @sessionx-ls-command 'lsd --tree --color=always --icon=always'
+            set -g @sessionx-bind-select-up 'ctrl-p'
+            set -g @sessionx-bind-select-down 'ctrl-n'
+          '';
+        }
         {
           plugin = smart-splits;
           extraConfig = ''
@@ -50,9 +55,9 @@ in {
             set -g @catppuccin_window_number_position "right"
             set -g @catppuccin_window_current_number_color "#{@thm_mauve}"
             set -g @catppuccin_window_text ""
-            set -g @catppuccin_window_number "#[bold]Tab ###I "
+            set -g @catppuccin_window_number "#[bold]#W#{?window_zoomed_flag, ,} "
             set -g @catppuccin_window_current_text ""
-            set -g @catppuccin_window_current_number "#[bold]Tab ###I "
+            set -g @catppuccin_window_current_number "#[bold]#W#{?window_zoomed_flag, ,} "
 
             set -g @catppuccin_window_status_style "custom"
             set -g @catppuccin_window_left_separator ""
@@ -81,11 +86,11 @@ in {
         set-option -g renumber-windows on
 
         # bindings
-        unbind C-b
         set -g prefix M-w
         bind M-w send-prefix
 
         # unbinds
+        unbind C-b
         unbind [          # default copy mode
         unbind c          # default new window
         unbind %          # default split vertical
