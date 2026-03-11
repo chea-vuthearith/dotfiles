@@ -24,37 +24,36 @@
       sha256 = "sha256-+1fKkwDmr5iqro0XeL8gkjOGGB/YHBD25NG+w3iW+0g=";
     };
   };
-  remote-conf = pkgs.writeText "remote-tmux.conf" (builtins.concatStringsSep "\n" [
+  # to keep the remote conf small, fast to transfer
+  minify = s: let
+    lines = lib.splitString "\n" s;
+    keep = l: let t = lib.trim l; in t != "" && !(lib.hasPrefix "#" t);
+  in
+    builtins.concatStringsSep "\n" (builtins.filter keep lines);
+  remote-conf = pkgs.writeText "remote-tmux.conf" (minify (builtins.concatStringsSep "\n" [
     (builtins.readFile ./tmux-base.conf)
     (builtins.readFile ./tmux-keys.conf)
+    (builtins.readFile ./tmux-styling.conf)
     (builtins.readFile ./tmux-remote-extras.conf)
-  ]);
+  ]));
 in {
   programs = {
     zsh.initContent = lib.mkOrder 1500 ''
       sst() {
-          local config=${remote-conf}
-          local remote_tmp="/tmp/remote-tmux-conf-$$"
-          local session_name="main"
+          local session="main"
+          local tmp="/tmp/remote-tmux-$$"
 
-          scp "$config" "$1:$remote_tmp" || return 1
-
-          ssh -t "$1" '
-              # symlink auth sock so tmux can resolve on re-attach
-              if [ -S "$SSH_AUTH_SOCK" ] && [ ! -h "$SSH_AUTH_SOCK" ]; then
-                  ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
-              fi
-
-              # create session if it doesnt exist
-              tmux has-session -t '"$session_name"' 2>/dev/null || tmux -f '"$remote_tmp"' new-session -d -s '"$session_name"'
-
-              rm -f '"$remote_tmp"'
-              tmux send-keys -t '"$session_name"' "export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock" C-m
-
-              tmux attach -t '"$session_name"'
-          '
+          ssh -t "$1" "
+              cat > $tmp << 'TMUXCONF'
+      $(cat ${remote-conf})
+      TMUXCONF
+              [ -S \"\$SSH_AUTH_SOCK\" ] && [ ! -h \"\$SSH_AUTH_SOCK\" ] && ln -sf \"\$SSH_AUTH_SOCK\" ~/.ssh/ssh_auth_sock
+              tmux has-session -t $session 2>/dev/null || tmux -f $tmp new-session -d -s $session
+              tmux send-keys -t $session 'export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock' C-m 2>/dev/null
+              rm -f $tmp
+              exec tmux attach -t $session
+          "
       }
-
       compdef sst=ssh
     '';
     sesh.enable = true;
@@ -67,7 +66,7 @@ in {
           extraConfig = ''
             set -g @suspend_key 'M-Escape'
             set -g @suspend_suspended_options " \
-              status-left::#[fg=#{@thm_fg} bold]TMUX (#S) #[fg=#{@thm_rosewater} bold]SUSPEND , \
+              status-left::#[fg=#{@thm_fg} bold]TMUX (#S) #[fg=#{@thm_subtext_1} bold]SUSPEND , \
             "
           '';
         }
