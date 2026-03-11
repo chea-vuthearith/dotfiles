@@ -15,24 +15,22 @@
     };
   };
   remote-conf = pkgs.writeText "remote-tmux.conf" (builtins.concatStringsSep "\n" [
-    builtins.readFile
-    ./tmux.conf
-    builtins.readFile
-    ./remote-overrides.conf
+    (builtins.readFile ./tmux.conf)
+    (builtins.readFile ./remote-overrides.conf)
   ]);
 in {
   # TODO: tmux on remote sessions
   # ssh auth agent refresh
   programs = {
     zsh.initContent = lib.mkOrder 1500 ''
-      ssh_tmux() {
+      sst() {
           local config=${remote-conf}
           local remote_tmp="/tmp/remote-tmux-conf-$$"
           scp "$config" "$1:$remote_tmp" || return 1
-          ssh -t "$1" "tmux new-session -A -s main 'tmux source $remote_tmp; rm $remote_tmp; exec \$SHELL'"
+          ssh -t "$1" "tmux -f $remote_tmp new-session -A -s main; rm -f $remote_tmp"
       }
 
-      compdef ssh_tmux=ssh
+      compdef sst=ssh
     '';
     bat.enable = true;
     tmux = {
