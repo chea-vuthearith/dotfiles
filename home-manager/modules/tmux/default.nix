@@ -14,36 +14,30 @@
       sha256 = "sha256-HOzy+DX1+1ZrWnqWivpV2spoTeMncdokUruXUm8lBcE=";
     };
   };
+  remote-conf = pkgs.writeText "remote-tmux.conf" (builtins.concatStringsSep "\n" [
+    builtins.readFile
+    ./tmux.conf
+    builtins.readFile
+    ./remote-overrides.conf
+  ]);
 in {
   # TODO: tmux on remote sessions
   # ssh auth agent refresh
   programs = {
-    zsh.initContent = lib.mkOrder 1000 ''
+    zsh.initContent = lib.mkOrder 1500 ''
       ssh_tmux() {
-          # If no argument, just list hosts
-          if [ -z "$1" ]; then
-              echo "Usage: ssh_tmux <host>"
-              return 1
-          fi
-
-          # Pipe local tmux.conf into remote tmux
-          ssh "$1" -t < ${./remote-bindings.conf} "tmux -f /dev/stdin new-session -A -s main"
+          local config=${remote-conf}
+          local remote_tmp="/tmp/remote-tmux-conf-$$"
+          scp "$config" "$1:$remote_tmp" || return 1
+          ssh -t "$1" "tmux new-session -A -s main 'tmux source $remote_tmp; rm $remote_tmp; exec \$SHELL'"
       }
 
-      if type _ssh &>/dev/null; then
-          _ssh_tmux() {
-              # Use ssh completion for the first argument
-              _ssh
-          }
-          complete -F _ssh_tmux ssh_tmux
-      fi
+      compdef ssh_tmux=ssh
     '';
     bat.enable = true;
     tmux = {
       enable = true;
       newSession = true;
-      terminal = "screen-256color";
-
       plugins = with pkgs.tmuxPlugins; [
         {
           plugin = tmux-sessionx;
@@ -94,61 +88,7 @@ in {
         sensible
         yank
       ];
-      extraConfig = ''
-        # styling
-        set pane-border-indicators off
-        set -g status-position top
-        set -g window-status-separator ""
-        set -g status-left-length 0
-        set -g status-left "#[fg=#{@thm_fg} bold]TMUX (#S) "
-        set -ga status-left "#{?client_prefix,#[fg=#{@thm_red} bold]PREFIX ,#{?#{==:#{pane_mode},copy-mode},#[fg=#{@thm_yellow} bold]COPY ,#[fg=#{@thm_mauve} bold]NORMAL }}"
-        set -g status-right ""
-
-        # etc
-        set -g base-index 1
-        set -g pane-base-index 1
-        set-window-option -g pane-base-index 1
-        set-option -g renumber-windows on
-
-        # bindings
-        set -g prefix M-w
-        bind M-w send-prefix
-
-        # unbinds
-        unbind C-b
-        unbind [          # default copy mode
-        unbind c          # default new window
-        unbind %          # default split vertical
-        unbind '"'        # default split horizontal
-        unbind x          # default kill pane
-        unbind &          # default kill window
-
-        # copy mode
-        set-window-option -g mode-keys vi
-        bind v copy-mode
-        bind-key -T copy-mode-vi v send-keys -X begin-selection
-        bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
-        bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
-        bind-key -T copy-mode-vi / command-prompt -p "(search down)" "send -X search-forward \"%%%\""
-        bind-key -T copy-mode-vi ? command-prompt -p "(search up)" "send -X search-backward \"%%%\""
-        bind-key -T copy-mode-vi n send-keys -X search-again
-        bind-key -T copy-mode-vi N send-keys -X search-reverse
-        bind-key -T copy-mode-vi Escape send-keys -X cancel
-
-        # tabs
-        bind Tab switch-client -T tab-prefix
-        bind -T tab-prefix Tab new-window -c "#{pane_current_path}"
-        bind -T tab-prefix d kill-window
-        bind -n M-h previous-window
-        bind -n M-l next-window
-
-        # panes
-        bind w switch-client -T w-prefix
-        bind '-' split-window -v -c "#{pane_current_path}"
-        bind '|' split-window -h -c "#{pane_current_path}"
-        bind -T w-prefix w split-window -h -c "#{pane_current_path}"
-        bind -T w-prefix d kill-pane
-      '';
+      extraConfig = builtins.readFile ./tmux.conf;
     };
   };
 }
