@@ -18,6 +18,7 @@ in {
     tmux = {
       enable = true;
       newSession = true;
+      terminal = "screen-256color";
 
       plugins = with pkgs.tmuxPlugins; [
         {
