@@ -1,38 +1,46 @@
 {
   pkgs,
   config,
-  lib,
   ...
 }: {
-  programs.zsh = {
-    enable = true;
-    history = {
-      size = 10000;
-      append = true;
-      share = true;
-      ignoreSpace = true;
-      ignoreAllDups = true;
-      saveNoDups = true;
-      ignoreDups = true;
-      findNoDups = true;
+  home.packages = with pkgs; [
+    eza
+  ];
+  programs = {
+    bat.enable = true;
+    zsh = {
+      enable = true;
+      history = {
+        size = 10000;
+        append = true;
+        share = true;
+        ignoreSpace = true;
+        ignoreAllDups = true;
+        saveNoDups = true;
+        ignoreDups = true;
+        findNoDups = true;
+      };
+      plugins = [
+        {
+          name = "zinit";
+          src = pkgs.zinit;
+          file = "share/zinit/zinit.zsh";
+        }
+      ];
+      shellAliases = {
+        cat = "bat";
+        ls = "eza --icons";
+        lt = "eza --tree --icons";
+        wgu = "sudo systemctl start wg-quick-wg0.service";
+        wgd = "sudo systemctl stop wg-quick-wg0.service";
+        dl = "aria2c --console-log-level=error --max-connection-per-server=16 --max-concurrent-downloads=16 --split=16 --continue=true --dir=$HOME/Downloads";
+      };
+      dotDir = "${config.xdg.configHome}/zsh";
+      initContent = ''
+        ${builtins.readFile ./plugins.sh}
+        ${builtins.readFile ./zshrc.sh}
+        ${builtins.readFile ./keys.sh}
+      '';
     };
-    plugins = [
-      {
-        name = "zinit";
-        src = pkgs.zinit;
-        file = "share/zinit/zinit.zsh";
-      }
-    ];
-    shellAliases = {
-      wgu = "sudo systemctl start wg-quick-wg0.service";
-      wgd = "sudo systemctl stop wg-quick-wg0.service";
-      dl = "aria2c --console-log-level=error --max-connection-per-server=16 --max-concurrent-downloads=16 --split=16 --continue=true --dir=$HOME/Downloads";
-    };
-    dotDir = "${config.xdg.configHome}/zsh";
-    initContent = ''
-      ${builtins.readFile ./plugins.sh}
-      ${builtins.readFile ./zshrc.sh}
-      ${builtins.readFile ./keys.sh}
-    '';
   };
 }

@@ -23,9 +23,6 @@ zi ice lucid wait depth"1"
 zi light zsh-users/zsh-syntax-highlighting
 
 zi ice lucid wait depth"1"
-zi light z-shell/zsh-lsd
-
-zi ice lucid wait depth"1"
 zi snippet OMZP::git
 
 zi ice lucid wait depth"1"

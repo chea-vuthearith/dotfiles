@@ -57,7 +57,7 @@ in {
 
       compdef sst=ssh
     '';
-    bat.enable = true;
+    sesh.enable = true;
     tmux = {
       enable = true;
       newSession = true;
@@ -69,16 +69,6 @@ in {
             set -g @suspend_suspended_options " \
               status-left::#[fg=#{@thm_fg} bold]TMUX (#S) #[fg=#{@thm_rosewater} bold]SUSPEND , \
             "
-          '';
-        }
-        {
-          plugin = tmux-sessionx;
-          extraConfig = ''
-            set -g @sessionx-bind 's'
-            set -g @sessionx-filter-current 'false'
-            set -g @sessionx-ls-command 'lsd --tree --color=always --icon=always'
-            set -g @sessionx-bind-select-up 'ctrl-p'
-            set -g @sessionx-bind-select-down 'ctrl-n'
           '';
         }
         {
