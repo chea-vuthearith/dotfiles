@@ -51,7 +51,7 @@ in {
           plugin = tmux-suspend;
           extraConfig = ''
             set -g @suspend_suspended_options " \
-            set -ga status-left "#[fg=#{@thm_rosewater} bold]SUSPEND "
+              status-left::#[fg=#{@thm_fg} bold]TMUX (#S) #[fg=#{@thm_rosewater} bold]SUSPEND , \
             "
           '';
         }
