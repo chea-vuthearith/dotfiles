@@ -11,8 +11,8 @@
     enableZshIntegration = true;
     systemd.enable = true;
     settings = {
-      window-padding-x = "10";
-      window-padding-y = "10,0";
+      window-padding-x = "5";
+      window-padding-y = "0";
       shell-integration-features = "ssh-env, title";
       font-family = config.stylix.fonts.monospace.name;
       font-family-italic = "VictorMono Nerd Font";
