@@ -72,7 +72,7 @@ in {
           extraConfig = ''
             set -g @suspend_key 'M-Escape'
             set -g @suspend_suspended_options " \
-              status-left::#[fg=#{@thm_fg} bold]TMUX (#S) #[fg=#{@thm_subtext_1} bold]SUSPEND , \
+              status::off
             "
           '';
         }
