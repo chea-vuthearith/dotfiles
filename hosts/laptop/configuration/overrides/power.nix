@@ -16,7 +16,13 @@
       };
     };
   };
-  systemd.services.upower = {
-    after = ["multi-user.target"];
+
+  systemd = {
+    sleep.extraConfig = ''
+      HibernateDelaySec=30min
+    '';
+    services.upower = {
+      after = ["multi-user.target"];
+    };
   };
 }
