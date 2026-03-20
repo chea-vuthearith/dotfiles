@@ -107,24 +107,6 @@ in {
             set -g @smart-splits_resize_step_size "3"
           '';
         }
-        {
-          plugin = catppuccin;
-          extraConfig = ''
-            set -g @catppuccin_flavour "mocha"
-            set -g @catppuccin_window_number_position "right"
-            set -g @catppuccin_window_current_number_color "#{@thm_mauve}"
-            set -g @catppuccin_window_text ""
-            set -g @catppuccin_window_number "#[bold]#W#{?window_zoomed_flag, ,} "
-            set -g @catppuccin_window_current_text ""
-            set -g @catppuccin_window_current_number "#[bold]#W#{?window_zoomed_flag, ,} "
-
-            set -g @catppuccin_window_status_style "custom"
-            set -g @catppuccin_window_left_separator ""
-            set -g @catppuccin_window_middle_separator "#[bg=#{@catppuccin_window_number_color},fg=#{@_ctp_status_bg}]"
-            set -g @catppuccin_window_current_middle_separator "#[bg=#{@catppuccin_window_current_number_color},fg=#{@_ctp_status_bg}]"
-            set -g @catppuccin_window_right_separator "#[fg=#{@_ctp_status_bg},reverse]#[none]"
-          '';
-        }
         sensible
         yank
       ];
