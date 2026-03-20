@@ -16,6 +16,7 @@ vim.g.lazyvim_blink_main = true
 vim.g.ai_cmp = false
 
 vim.g.lazyvim_python_lsp = "pyright"
+vim.opt.diffopt:append("vertical")
 vim.g.lazyvim_picker = "fzf"
 
 -- neovide

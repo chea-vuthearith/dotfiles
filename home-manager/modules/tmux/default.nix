@@ -44,6 +44,19 @@ in {
         sc = "sesh connect";
       };
       initContent = lib.mkOrder 1500 ''
+        __sesh_prefix() {
+          local key
+          read -k key
+          case $key in
+            s) BUFFER='s'; zle accept-line ;;
+            .) BUFFER='sesh connect .'; zle accept-line ;;
+            *) zle -U "w$key" ;;
+          esac
+        }
+        zle -N __sesh_prefix
+        bindkey -M viins '\ew' __sesh_prefix
+        bindkey -M vicmd '\ew' __sesh_prefix
+
         sst() {
             local session="main"
             local tmp="/tmp/remote-tmux-$$"
