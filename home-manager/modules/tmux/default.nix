@@ -78,7 +78,6 @@ in {
     };
     tmux = {
       enable = true;
-      newSession = true;
       plugins = with pkgs.tmuxPlugins; [
         {
           plugin = tmux-suspend;
