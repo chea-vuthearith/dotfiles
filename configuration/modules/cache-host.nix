@@ -1,4 +1,4 @@
 {pkgs, ...}: {
-  services.harmonia.enable = true;
+  services.harmonia.cache.enable = true;
   networking.firewall.allowedTCPPorts = [5000];
 }

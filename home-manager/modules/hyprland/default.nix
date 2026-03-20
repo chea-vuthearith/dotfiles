@@ -15,7 +15,7 @@
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     plugins = [
       inputs.split-monitor-workspaces.packages.${pkgs.stdenv.hostPlatform.system}.split-monitor-workspaces
-      inputs.hypr-dynamic-cursors.packages.${pkgs.stdenv.hostPlatform.system}.hypr-dynamic-cursors
+      pkgs.hyprlandPlugins.hypr-dynamic-cursors
     ];
     extraConfig = "
       source=${./hypr/general.conf}

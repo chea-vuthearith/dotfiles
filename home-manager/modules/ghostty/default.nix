@@ -11,9 +11,6 @@
     enableZshIntegration = true;
     systemd.enable = true;
     settings = {
-      custom-shader = ./starfield.glsl;
-      notify-on-command-finish = "always";
-      notify-on-command-finish-action = "no-bell,notify";
       window-padding-x = "5";
       window-padding-y = "0";
       shell-integration-features = "ssh-env, title";

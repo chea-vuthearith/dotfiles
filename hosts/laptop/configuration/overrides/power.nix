@@ -18,9 +18,9 @@
   };
 
   systemd = {
-    sleep.extraConfig = ''
-      HibernateDelaySec=30min
-    '';
+    sleep.settings.Sleep = {
+      HibernateDelaySec = "120min";
+    };
     services.upower = {
       after = ["multi-user.target"];
     };

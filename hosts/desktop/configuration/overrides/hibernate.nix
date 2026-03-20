@@ -1,7 +1,7 @@
 {...}: {
-  systemd.sleep.extraConfig = ''
-    HibernateDelaySec=120min
-  '';
+  systemd.sleep.settings.Sleep = {
+    HibernateDelaySec = "120min";
+  };
   swapDevices = [
     {
       device = "/var/lib/swapfile";
