@@ -127,6 +127,7 @@ in {
         (builtins.readFile ./tmux-base.conf)
         (builtins.readFile ./tmux-styling.conf)
         (builtins.readFile ./tmux-keys.conf)
+        (builtins.readFile ./tmux-local-extras.conf)
       ];
     };
   };
