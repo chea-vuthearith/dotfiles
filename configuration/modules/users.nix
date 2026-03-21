@@ -6,7 +6,7 @@
   security.sudo = {
     enable = true;
     extraConfig = ''
-      Defaults env_keep += "SSH_AUTH_SOCK"
+      Defaults env_keep+=SSH_AUTH_SOCK
     '';
   };
   users = {
