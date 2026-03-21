@@ -1,3 +1,3 @@
 {lib, ...}: {
-  imports = lib.collectModules ./. ./default.nix;
+  imports = lib.collectModules ./langs;
 }
