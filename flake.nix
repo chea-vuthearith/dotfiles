@@ -20,7 +20,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland = {
-      url = "github:hyprwm/Hyprland/v0.53.0";
+      url = "github:hyprwm/Hyprland/v0.54.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hypr-dynamic-cursors = {
@@ -30,6 +30,10 @@
     };
     hyprsplit = {
       url = "github:shezdy/hyprsplit";
+      inputs.hyprland.follows = "hyprland";
+    };
+    hyprtasking = {
+      url = "github:raybbian/hyprtasking";
       inputs.hyprland.follows = "hyprland";
     };
   };

@@ -19,8 +19,8 @@
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     plugins = [
       inputs.hyprsplit.packages.${pkgs.stdenv.hostPlatform.system}.hyprsplit
-      # inputs.hypr-dynamic-cursors.packages.${pkgs.stdenv.hostPlatform.system}.hypr-dynamic-cursors
-      # pkgs.hyprlandPlugins.hyprspace
+      inputs.hyprtasking.packages.${pkgs.stdenv.hostPlatform.system}.hyprtasking
+      inputs.hypr-dynamic-cursors.packages.${pkgs.stdenv.hostPlatform.system}.hypr-dynamic-cursors
     ];
     extraConfig = ''
       source=${lib.toLocal ./hypr/general.conf}
