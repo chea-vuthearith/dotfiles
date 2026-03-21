@@ -7,6 +7,6 @@
     enable = true;
     package =
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portal.enable = true;
   };
-  portal.enable = true;
 }
