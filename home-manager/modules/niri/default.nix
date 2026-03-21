@@ -1,5 +1,6 @@
 {...}: {
-  wayland.windowManager.niri = {
+  programs.niri = {
     enable = true;
+    useNautilus = false;
   };
 }
