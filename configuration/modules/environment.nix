@@ -33,7 +33,10 @@
       warn-dirty = false;
       build-use-substitutes = true;
     };
-
+    gc = {
+      automatic = true;
+      dates = ["weekly"];
+    };
     optimise = {
       automatic = true;
       dates = ["weekly"];
