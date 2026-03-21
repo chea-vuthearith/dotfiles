@@ -12,9 +12,6 @@
     systemd.enable = true;
     settings = {
       window-padding-x = "5";
-      notify-on-command-finish = "unfocused";
-      notify-on-command-finish-action = "bell,notify";
-      notify-on-command-finish-after = "4s";
       window-padding-y = "0";
       shell-integration-features = "ssh-env, title";
       font-family = config.stylix.fonts.monospace.name;
