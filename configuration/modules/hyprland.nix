@@ -7,6 +7,6 @@
     enable = true;
     package =
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    portalPackage = pkgs.xdg-desktop-portal-hyprland;
   };
+  portal.enable = true;
 }
