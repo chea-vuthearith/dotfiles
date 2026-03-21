@@ -11,5 +11,4 @@
     };
     users = {${username} = import ../home-manager;};
   };
-  programs.nh.flake = "/home/${username}/dotfiles#desktop";
 }

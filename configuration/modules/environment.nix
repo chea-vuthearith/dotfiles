@@ -3,7 +3,18 @@
   pkgs,
   ...
 }: {
-  environment.systemPackages = with pkgs; [neovim wget dconf dbus zinit];
+  environment.systemPackages = with pkgs; [
+    neovim
+    wget
+    dconf
+    dbus
+
+    # libs
+    glib
+    libgtop
+    linux-firmware
+    libnotify
+  ];
   programs.zsh.enableGlobalCompInit = false;
   fonts.packages = with pkgs; [
     noto-fonts

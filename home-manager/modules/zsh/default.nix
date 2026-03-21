@@ -3,11 +3,7 @@
   config,
   ...
 }: {
-  home.packages = with pkgs; [
-    eza
-  ];
   programs = {
-    bat.enable = true;
     zsh = {
       enable = true;
       history = {

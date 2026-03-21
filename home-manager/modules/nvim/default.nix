@@ -31,8 +31,6 @@ in {
     };
   };
 
-  nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"]; # for nixd lsp
-
   programs = {
     neovim = {
       enable = true;

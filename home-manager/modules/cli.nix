@@ -1,5 +1,16 @@
 {pkgs, ...}: {
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+  bat.enable = true;
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+    tmux.enableShellIntegration = true;
+  };
   home.packages = with pkgs; [
+    eza
     fd
     ripgrep
     lsof

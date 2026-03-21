@@ -15,11 +15,6 @@
   };
   home.packages = with pkgs; [
     anydesk
-    glib
-    libgtop
-    mesa
-    linux-firmware
-    libnotify
     discord
     telegram-desktop
   ];

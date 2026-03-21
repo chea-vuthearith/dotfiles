@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 rm -rf ~/.local/share/Trash/*
-nsw --upgrade
+nsw --update

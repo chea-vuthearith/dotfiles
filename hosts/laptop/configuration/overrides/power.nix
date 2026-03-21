@@ -19,7 +19,7 @@
 
   systemd = {
     sleep.settings.Sleep = {
-      HibernateDelaySec = "120min";
+      HibernateDelaySec = "60min";
     };
     services.upower = {
       after = ["multi-user.target"];
