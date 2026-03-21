@@ -1,9 +1,13 @@
 {lib}: {
-  collectModules = path:
+  collectModules = {
+    path,
+    callerFile ? null,
+  }:
     builtins.filter
     (file: let
       fileType = builtins.readFileType file;
     in
-      fileType == "directory" || lib.strings.hasSuffix ".nix" (toString file))
+      (callerFile == null || file != callerFile)
+      && (fileType == "directory" || lib.strings.hasSuffix ".nix" (toString file)))
     (map (name: path + "/${name}") (builtins.attrNames (builtins.readDir path)));
 }
