@@ -1,0 +1,29 @@
+{pkgs}: {
+  home.packages = with pkgs; [
+    fd
+    ripgrep
+    lsof
+    zip
+    unzip
+    unrar
+    bottom
+    swappy
+    aria2
+    jq
+    xh
+    magic-wormhole
+    playerctl
+    wf-recorder
+    tesseract
+    ffmpeg
+    hyprpicker
+    pavucontrol
+    brightnessctl
+    imagemagick
+    newt
+    dragon-drop
+    grim
+    slurp
+    wl-clipboard
+  ];
+}

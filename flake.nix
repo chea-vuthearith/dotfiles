@@ -58,11 +58,5 @@
         modules = sharedModules ++ [./hosts/laptop/configuration];
       };
     };
-
-    packages.${system} = {
-      nvim = pkgs.callPackage ./home-manager/modules/nvim/portable.nix {
-        inherit pkgs lib;
-      };
-    };
   };
 }

@@ -10,7 +10,9 @@ in {
     sessionVariables = {
       PAGER = "less -X -F";
     };
-    packages = import ./extra-packages.nix {inherit pkgs;};
+    packages = with pkgs; [
+      tree-sitter
+    ];
 
     file = {
       "${config.xdg.configHome}/nvim/lua" = {

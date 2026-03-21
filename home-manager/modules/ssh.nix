@@ -1,4 +1,11 @@
-{inputs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
+  home.packages = with pkgs; [
+    openssl
+  ];
   programs = {
     ssh = {
       enable = true;
