@@ -1,11 +1,9 @@
 {
   pkgs,
   config,
-  inputs,
+  lib,
   ...
-}: let
-  nvimConfDir = "${config.home.homeDirectory}/dotfiles/home-manager/modules/nvim/conf";
-in {
+}: {
   home = {
     sessionVariables = {
       PAGER = "less -X -F";
@@ -16,18 +14,18 @@ in {
 
     file = {
       "${config.xdg.configHome}/nvim/lua" = {
-        source = config.lib.file.mkOutOfStoreSymlink "${nvimConfDir}/lua";
+        source = config.lib.file.mkOutOfStoreSymlink (lib.toLocal ./conf/lua);
         recursive = true;
       }; # lazy vim is self managed
 
       "${config.xdg.configHome}/nvim/lazy-lock.json".source =
-        config.lib.file.mkOutOfStoreSymlink "${nvimConfDir}/lazy-lock.json";
+        config.lib.file.mkOutOfStoreSymlink (lib.toLocal ./conf/lazy-lock.json);
 
       "${config.xdg.configHome}/nvim/lazyvim.json".source =
-        config.lib.file.mkOutOfStoreSymlink "${nvimConfDir}/lazyvim.json";
+        config.lib.file.mkOutOfStoreSymlink (lib.toLocal ./conf/lazyvim.json);
 
       "${config.xdg.configHome}/nvim/stylua.toml".source =
-        config.lib.file.mkOutOfStoreSymlink "${nvimConfDir}/stylua.toml";
+        config.lib.file.mkOutOfStoreSymlink (lib.toLocal ./conf/stylua.toml);
     };
   };
 

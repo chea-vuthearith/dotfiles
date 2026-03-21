@@ -1,7 +1,5 @@
 {lib, ...}: {
   imports =
-    [
-      ../../../home-manager
-    ]
+    [../../../home-manager]
     ++ lib.collectModules ./overrides;
 }

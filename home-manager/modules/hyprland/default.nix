@@ -2,25 +2,30 @@
   config,
   pkgs,
   inputs,
+  lib,
   ...
 }: {
-  home.file."${config.home.homeDirectory}/.config/hypr/xdph.conf".text = ''
-    screencopy {
-      allow_token_by_default = true
-    }
-  '';
+  home.file = {
+    "${config.xdg.configHome}/hypr/xdph.conf".text = ''
+      screencopy {
+        allow_token_by_default = true
+      }
+    '';
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
     package =
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     plugins = [
-      # inputs.split-monitor-workspaces.packages.${pkgs.stdenv.hostPlatform.system}.split-monitor-workspaces
+      inputs.hyprsplit.packages.${pkgs.stdenv.hostPlatform.system}.hyprsplit
       # inputs.hypr-dynamic-cursors.packages.${pkgs.stdenv.hostPlatform.system}.hypr-dynamic-cursors
       # pkgs.hyprlandPlugins.hyprspace
     ];
-    extraConfig = "
-      source=${./hypr/general.conf}
-      source=${./hypr/rules.conf}
-      source=${./hypr/keybinds.conf}";
+    extraConfig = ''
+      source=${lib.toLocal ./hypr/general.conf}
+      source=${lib.toLocal ./hypr/keybinds.conf}
+      source=${lib.toLocal ./hypr/rules.conf}
+    '';
   };
 }
