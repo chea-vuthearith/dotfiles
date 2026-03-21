@@ -43,10 +43,7 @@
     );
 
     sharedArgs = {inherit inputs username;};
-    sharedModules = [
-      inputs.stylix.nixosModules.stylix
-      ./configuration
-    ];
+    sharedModules = [./configuration];
   in {
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {

@@ -1,11 +1,4 @@
-{
-  inputs,
-  config,
-  ...
-}: {
-  imports = [
-    inputs.caelestia-shell.homeManagerModules.default
-  ];
+{config, ...}: {
   home = {
     file = {
       "${config.xdg.stateHome}/caelestia/wallpaper/path.txt".text = toString config.stylix.image;

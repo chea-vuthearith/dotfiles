@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   services = {xserver.videoDrivers = ["modesetting"];};
   hardware.graphics.enable = true;
-  environment.systemPackages = with pkgs; [lact clinfo];
   boot.kernelParams = ["amdgpu.ppfeaturemask=0xffffffff"];
 
   systemd.packages = [pkgs.lact];
@@ -15,5 +14,6 @@
 
   environment = {
     sessionVariables = {HSA_OVERRIDE_GFX_VERSION = "10.3.1";};
+    systemPackages = with pkgs; [lact clinfo];
   };
 }

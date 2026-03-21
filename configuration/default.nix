@@ -4,9 +4,10 @@
   ...
 }: {
   imports =
-    lib.collectModules ./modules
-    ++ [
+    [
       inputs.home-manager.nixosModules.default
-      /etc/nixos/hardware-configuration.nix
-    ];
+      inputs.nixos-hardware.nixosModules.common-gpu-intel
+      inputs.stylix.nixosModules.stylix
+    ]
+    ++ lib.collectModules ./modules ++ [/etc/nixos/hardware-configuration.nix];
 }

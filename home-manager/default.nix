@@ -1,5 +1,11 @@
-{lib, ...}: {
+{
+  inputs,
+  lib,
+  ...
+}: {
   imports =
-    lib.collectModules
-    ./modules;
+    [
+      inputs.caelestia-shell.homeManagerModules.default
+    ]
+    ++ lib.collectModules ./modules;
 }
