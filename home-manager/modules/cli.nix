@@ -1,13 +1,20 @@
 {pkgs, ...}: {
-  programs.zoxide = {
-    enable = true;
-    enableZshIntegration = true;
-  };
-  bat.enable = true;
-  programs.fzf = {
-    enable = true;
-    enableZshIntegration = true;
-    tmux.enableShellIntegration = true;
+  programs = {
+    bat.enable = true;
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+      tmux.enableShellIntegration = true;
+    };
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+    zsh.shellAliases = {
+      cat = "bat";
+      ls = "eza --icons";
+      lt = "eza --tree --icons";
+    };
   };
   home.packages = with pkgs; [
     eza

@@ -24,12 +24,8 @@
         }
       ];
       shellAliases = {
-        cat = "bat";
-        ls = "eza --icons";
-        lt = "eza --tree --icons";
         wgu = "sudo systemctl start wg-quick-wg0.service";
         wgd = "sudo systemctl stop wg-quick-wg0.service";
-        dl = "aria2c --console-log-level=error --max-connection-per-server=16 --max-concurrent-downloads=16 --split=16 --continue=true --dir=$HOME/Downloads";
       };
       dotDir = "${config.xdg.configHome}/zsh";
       initContent = ''
