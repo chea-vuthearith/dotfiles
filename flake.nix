@@ -35,8 +35,6 @@
     system = "x86_64-linux";
     username = "kuro";
 
-    pkgs = import nixpkgs {inherit system;};
-
     lib = nixpkgs.lib.extend (
       final: prev: let
         utils = import ./lib/utils.nix {lib = final;};
