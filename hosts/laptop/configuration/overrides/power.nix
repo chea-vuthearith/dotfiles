@@ -1,6 +1,7 @@
 {...}: {
   powerManagement.enable = true;
   services = {
+    tuned.enable = true;
     upower.enable = true;
     thermald.enable = true;
     logind = {
