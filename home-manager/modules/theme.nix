@@ -60,7 +60,7 @@ in {
 
     cursor = {
       package = pkgs.catppuccin-cursors.mochaLavender;
-      name = "Catppuccin-Mocha-Lavender-Cursors";
+      name = "catppuccin-mocha-lavender-cursors";
       size = 12;
     };
 
