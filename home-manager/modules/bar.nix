@@ -277,6 +277,9 @@
           }
         ];
         persistent = false;
+        workspaces = {
+          maxWindowIcons = 3;
+        };
       };
       launcher = {
         actions = [
