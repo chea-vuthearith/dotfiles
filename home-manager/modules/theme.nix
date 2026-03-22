@@ -1,15 +1,11 @@
 {
   config,
   pkgs,
-  inputs,
   ...
-}: let
-  iconPkg = pkgs.tela-circle-icon-theme;
-  iconName = "Tela-circle-dark";
-in {
+}: {
   home = {
     packages = with pkgs; [
-      inputs.apple-fonts.packages.${pkgs.stdenv.hostPlatform.system}.sf-pro-nerd
+      pkgs.sf-pro-nerd
       nerd-fonts.fira-code
     ];
   };
@@ -25,7 +21,7 @@ in {
         popups = 12;
       };
       serif = {
-        package = inputs.apple-fonts.packages.${pkgs.stdenv.hostPlatform.system}.sf-pro-nerd;
+        package = pkgs.sf-pro-nerd;
         name = "SFProDisplay Nerd Font";
       };
 
@@ -66,8 +62,8 @@ in {
 
     icons = {
       enable = true;
-      package = iconPkg;
-      dark = iconName;
+      package = pkgs.tela-circle-icon-theme;
+      dark = "Tela-circle-dark";
     };
   };
 
