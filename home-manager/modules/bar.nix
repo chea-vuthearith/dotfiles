@@ -222,7 +222,7 @@
 
       border = {
         rounding = 16;
-        thickness = 8;
+        thickness = 0;
       };
 
       bar = {
