@@ -565,11 +565,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1774119820,
-        "narHash": "sha256-NFMLZmM6lM7v6WFcewOp7pKPlr6ampX/MB/kGxt/gPE=",
+        "lastModified": 1774127134,
+        "narHash": "sha256-Ffpl76nLbBikVkX1AkdiN2TWvBy64IOXDyyAURo1iXo=",
         "owner": "shezdy",
         "repo": "hyprsplit",
-        "rev": "1972e9ef373ea56bfcc50f86a0f7c52f7f5b00a1",
+        "rev": "b129f9b0f045fcd481867912d31453a4509f5952",
         "type": "github"
       },
       "original": {
