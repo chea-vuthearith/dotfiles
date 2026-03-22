@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  inputs,
   lib,
   ...
 }: {
@@ -15,7 +14,6 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
-    package = pkgs.hyprland;
     plugins = [
       pkgs.hyprlandPlugins.hyprsplit
       pkgs.hyprlandPlugins.hyprtasking
