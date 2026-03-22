@@ -192,6 +192,10 @@
         showOnHover = false;
       };
 
+      lock = {
+        recolourLogo = true;
+      };
+
       general = {
         apps = {
           terminal = ["ghostty"];
