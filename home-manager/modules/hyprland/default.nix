@@ -23,6 +23,7 @@
       source=${lib.toLocal ./hypr/general.conf}
       source=${lib.toLocal ./hypr/keybinds.conf}
       source=${lib.toLocal ./hypr/rules.conf}
+      plugin:hyprtasking:bg_color=0xff${config.lib.stylix.colors.base00}
     '';
   };
 }
