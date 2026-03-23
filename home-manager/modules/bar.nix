@@ -173,8 +173,7 @@
     };
     settings = {
       session = {
-        enabled = true;
-        vimKeybinds = true;
+        enabled = false;
       };
       background = {
         desktopClock = {
