@@ -160,11 +160,11 @@
         "quickshell": "quickshell"
       },
       "locked": {
-        "lastModified": 1773956481,
-        "narHash": "sha256-7DErLDyuLMnJs1/MY7ctO7XHyueqJ1QkyxmShQt+9yY=",
+        "lastModified": 1774213775,
+        "narHash": "sha256-2FVG7I8SfiGxHifveX5fU39zC1Yy/qeOFUPWX1g+AGE=",
         "owner": "PixelKhaos",
         "repo": "shell",
-        "rev": "c1adb6f7b8e8f516419988a87942d7c83de1bdcf",
+        "rev": "749d15c29a377a620eb36c14e6d0e361f40dd2df",
         "type": "github"
       },
       "original": {
