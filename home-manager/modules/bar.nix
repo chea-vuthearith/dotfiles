@@ -172,6 +172,10 @@
       target = "graphical-session.target";
     };
     settings = {
+      session = {
+        enabled = true;
+        vimKeybinds = true;
+      };
       background = {
         desktopClock = {
           enabled = true;

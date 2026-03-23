@@ -16,7 +16,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     caelestia-shell = {
-      url = "github:PixelKhaos/shell?ref=clip-center";
+      url = "github:chea-vuthearith/shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland = {

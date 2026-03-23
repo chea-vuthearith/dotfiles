@@ -160,16 +160,15 @@
         "quickshell": "quickshell"
       },
       "locked": {
-        "lastModified": 1774213775,
-        "narHash": "sha256-2FVG7I8SfiGxHifveX5fU39zC1Yy/qeOFUPWX1g+AGE=",
-        "owner": "PixelKhaos",
+        "lastModified": 1774281580,
+        "narHash": "sha256-hOh3Q/SgQ/9zWsdBW1V2/eJua87Dbc4iDJxkyRb4bQQ=",
+        "owner": "chea-vuthearith",
         "repo": "shell",
-        "rev": "749d15c29a377a620eb36c14e6d0e361f40dd2df",
+        "rev": "d54fd2f17a59e71b1bf7b4028aa042122222bcb0",
         "type": "github"
       },
       "original": {
-        "owner": "PixelKhaos",
-        "ref": "clip-center",
+        "owner": "chea-vuthearith",
         "repo": "shell",
         "type": "github"
       }
