@@ -26,6 +26,7 @@
       shellAliases = {
         wgu = "sudo systemctl start wg-quick-wg0.service";
         wgd = "sudo systemctl stop wg-quick-wg0.service";
+        nswu = "nix flake update --flake ~/dotfiles && nsw --upgrade";
       };
       dotDir = "${config.xdg.configHome}/zsh";
       initContent = ''
