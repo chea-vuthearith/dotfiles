@@ -226,6 +226,9 @@
       };
 
       bar = {
+        workspaces = {
+          maxWindowIcons = 3;
+        };
         clock = {
           showIcon = false;
         };
