@@ -429,6 +429,7 @@
       };
       services = {
         useFahrenheit = false;
+        useFahrenheitPerformance = false;
         useTwelveHourClock = true;
       };
       utilities = {
