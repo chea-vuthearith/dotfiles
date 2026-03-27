@@ -182,6 +182,11 @@
         enabled = true;
       };
       appearance = {
+        transparency = {
+          enabled = true;
+          base = 0.70;
+          layers = 0.70;
+        };
         font.family = {
           mono = config.stylix.fonts.monospace.name;
           sans = config.stylix.fonts.sansSerif.name;
@@ -225,7 +230,7 @@
 
       border = {
         rounding = 16;
-        thickness = 0;
+        # thickness = 0;
       };
 
       bar = {
