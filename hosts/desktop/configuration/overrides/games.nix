@@ -1,7 +1,7 @@
 {...}: {
   security.pam.loginLimits = [
     {
-      domain = "*"; # replace with your user
+      domain = "*";
       type = "soft";
       item = "memlock";
       value = "unlimited";
