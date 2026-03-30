@@ -20,7 +20,6 @@
         "audio"
         "docker"
         "networkmanager"
-        "libvirtd"
         "aria2"
         "kvm"
         "adbusers"
