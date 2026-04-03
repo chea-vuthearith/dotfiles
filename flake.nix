@@ -19,6 +19,10 @@
       url = "github:PixelKhaos/shell/clip-center";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    caelestia-cli = {
+      url = "github:caelestia-dots/cli";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hyprland = {
       url = "github:hyprwm/Hyprland/v0.54.2";
       inputs.nixpkgs.follows = "nixpkgs";

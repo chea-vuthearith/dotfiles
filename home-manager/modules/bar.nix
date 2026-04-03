@@ -1,4 +1,40 @@
-{config, ...}: {
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}: let
+  screen-share-dnd = pkgs.writeShellScript "screenshare-dnd" ''
+    trap '${lib.getExe pkgs.caelestia-cli} shell notifs disableDnd' EXIT
+    stdbuf -oL \
+      ${lib.getExe pkgs.socat} STDOUT UNIX-CONNECT:"$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock" \
+    | while IFS= read -r event; do
+        case "$event" in
+          screencast\>\>1*)
+            ${lib.getExe pkgs.caelestia-cli} shell notifs enableDnd
+            ;;
+          screencast\>\>0*)
+            ${lib.getExe pkgs.caelestia-cli} shell notifs disableDnd
+            ;;
+        esac
+      done
+  '';
+in {
+  systemd.user.services.screenshare-dnd = {
+    Unit = {
+      Description = "Toggle DnD on screenshare";
+      After = ["graphical-session.target"];
+      PartOf = ["graphical-session.target"];
+    };
+
+    Service = {
+      ExecStart = screen-share-dnd;
+      Restart = "on-failure";
+      PassEnvironment = ["HYPRLAND_INSTANCE_SIGNATURE" "XDG_RUNTIME_DIR"];
+    };
+
+    Install.WantedBy = ["graphical-session.target"];
+  };
   home = {
     file = {
       "${config.xdg.stateHome}/caelestia/wallpaper/path.txt".text = toString config.stylix.image;

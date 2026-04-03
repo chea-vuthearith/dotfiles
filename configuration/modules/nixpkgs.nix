@@ -14,6 +14,9 @@
       };
     });
 
+    inherit (inputs.caelestia-shell.packages.${system}) caelestia-shell;
+    inherit (inputs.caelestia-cli.packages.${system}) caelestia-cli;
+
     inherit (inputs.hyprland.packages.${system}) hyprland;
     inherit (inputs.apple-fonts.packages.${system}) sf-pro-nerd;
 
