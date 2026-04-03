@@ -20,7 +20,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     caelestia-cli = {
-      url = "github:caelestia-dots/cli";
+      url = "github:chea-vuthearith/cli/feat/dnd-on-screen-record";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland = {

@@ -488,6 +488,7 @@ in {
       };
     };
     cli = {
+      package = pkgs.caelestia-cli;
       enable = true;
       settings = {
         theme = {
