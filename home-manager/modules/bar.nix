@@ -194,6 +194,7 @@
       };
       notifs = {
         actionOnClick = true;
+        fullscreen = "all";
       };
 
       dashboard = {
@@ -434,6 +435,7 @@
       };
       utilities = {
         toasts = {
+          fullscreen = "all";
           configLoaded = false;
           numLockChanged = false;
           nowPlaying = false;
