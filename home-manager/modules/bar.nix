@@ -472,6 +472,7 @@ in {
       utilities = {
         toasts = {
           fullscreen = "all";
+          dndChanged = false;
           configLoaded = false;
           numLockChanged = false;
           nowPlaying = false;
