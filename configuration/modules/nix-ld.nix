@@ -12,8 +12,8 @@
       libxcb
       zlib
       libGL
+      stdenv.cc.cc.lib
       glib
-      stdenv.cc.cc
     ];
   };
 }
