@@ -1,7 +1,5 @@
-{pkgs, ...}: {
-  environment.systemPackages = with pkgs; [
-    valent
-  ];
+{...}: {
+  programs.kdeconnect.enable = true;
   networking.firewall = rec {
     allowedTCPPortRanges = [
       {
