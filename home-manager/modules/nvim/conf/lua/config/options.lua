@@ -4,9 +4,6 @@
 
 -- vim.lsp.set_log_level("off")
 
--- for obsidian
-vim.opt.conceallevel = 1
-
 vim.opt.termguicolors = true
 vim.opt.wrap = true
 vim.opt.mouse = ""

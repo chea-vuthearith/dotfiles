@@ -1,6 +1,5 @@
 {pkgs, ...}: {
   programs = {
-    opencode.enable = true;
     mpv.enable = true;
     chromium = {
       enable = true;
