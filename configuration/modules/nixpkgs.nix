@@ -25,7 +25,7 @@
       // {
         inherit (inputs.hyprsplit.packages.${system}) hyprsplit;
         inherit (inputs.hyprtasking.packages.${system}) hyprtasking;
-        inherit (inputs.hypr-dynamic-cursors.packages.${system}) hypr-dynamic-cursors;
+        # inherit (inputs.hypr-dynamic-cursors.packages.${system}) hypr-dynamic-cursors;
       };
   };
 in {
