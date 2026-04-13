@@ -67,6 +67,9 @@
     };
   };
 
-  gtk.enable = true;
+  gtk = {
+    enable = true;
+    gtk4.theme = null;
+  };
   qt.enable = true;
 }

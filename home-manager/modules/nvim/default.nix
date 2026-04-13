@@ -31,6 +31,8 @@
 
   programs = {
     neovim = {
+      withRuby = true;
+      withPython3 = true;
       enable = true;
       viAlias = true;
       defaultEditor = true;

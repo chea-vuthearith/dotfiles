@@ -20,8 +20,9 @@
       '';
     };
     userDirs = {
-      createDirectories = true;
       enable = true;
+      createDirectories = true;
+      setSessionVariables = true;
     };
   };
 }
