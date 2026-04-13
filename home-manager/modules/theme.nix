@@ -43,7 +43,6 @@
       ghostty.fonts.enable = false;
       hyprland.hyprpaper.enable = false; # managed by caelestia;
       hyprlock.image.enable = false;
-      neovide.fonts.enable = false;
       neovim.enable = false;
       fuzzel = {
         fonts.override.sizes.popups = config.stylix.fonts.sizes.applications;
