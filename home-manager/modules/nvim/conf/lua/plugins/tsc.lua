@@ -14,6 +14,7 @@ return {
     opts = {
       use_diagnostics = true,
       use_trouble_qflist = true,
+      flags = "-b",
     },
   },
   {

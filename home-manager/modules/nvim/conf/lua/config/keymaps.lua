@@ -10,6 +10,8 @@ local isVSCode = vim.g.vscode
 
 -- local isNeovide = vim.g.neovide
 
+set("n", "<leader>qr", ":restart<CR>", { noremap = true, silent = true, desc = "Restart Neovim" })
+
 -- jumps
 set("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true })
 set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
