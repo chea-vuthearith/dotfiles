@@ -12,6 +12,7 @@
           base00-dec-b = "0";
         };
       };
+      console.colors.override.base00-hex = "000000";
       grub = {
         enable = false;
         useWallpaper = false;
