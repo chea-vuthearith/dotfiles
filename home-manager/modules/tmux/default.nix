@@ -37,8 +37,16 @@
     (builtins.readFile ./tmux-remote-extras.conf)
   ]));
 in {
+  xdg.configFile."tmuxinator" = {
+    source = ./tmuxinator;
+    recursive = true;
+  };
+
   programs = {
-    sesh.enable = true;
+    sesh = {
+      enable = true;
+      enableTmuxIntegration = false; # custom command defined in ./tmux-local-extras.conf
+    };
     zsh = {
       shellAliases = {
         sc = "sesh connect";
@@ -46,14 +54,11 @@ in {
       initContent = lib.mkOrder 1500 ''
         __sesh_fzf() {
           sesh list --icons | fzf-tmux -p 80%,70% \
-            --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
-            --header '  ^a all ^t tmux ^g configs ^x zoxide ^d kill/stop ^f find' \
-            --bind 'tab:down,btab:up' \
+            --no-sort --ansi\
+            --header '  ^a all ^t tmux ^x zoxide ^d kill' \
             --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
-            --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t --icons)' \
-            --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh list -c --icons)' \
-            --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z --icons)' \
-            --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
+            --bind 'ctrl-t:change-prompt(  )+reload(sesh list -t --icons)' \
+            --bind 'ctrl-x:change-prompt(󰈞  )+reload(sesh list -z --icons)' \
             --bind 'ctrl-d:execute(
               name={2..};
               if sesh list -T | grep -qxF "$name"; then
@@ -98,12 +103,7 @@ in {
       '';
     };
     tmux = {
-      tmuxinator = {
-        enable = true;
-        # projects = {
-        #   root = "~/code/work/groundup/GinaV2";
-        # };
-      };
+      tmuxinator.enable = true;
       enable = true;
       plugins = with pkgs.tmuxPlugins; [
         {
