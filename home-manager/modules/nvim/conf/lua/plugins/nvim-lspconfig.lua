@@ -51,6 +51,7 @@ return {
         },
         biome = {},
         hyprls = {},
+        taplo = {},
       },
     },
   },
