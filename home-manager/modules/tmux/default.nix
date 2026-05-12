@@ -54,9 +54,10 @@ in {
       initContent = lib.mkOrder 1500 ''
         __sesh_fzf() {
           sesh list --icons | fzf-tmux -p 80%,70% \
-            --no-sort --ansi\
+            --no-sort \
+            --ansi \
             --header '  ^a all ^t tmux ^x zoxide ^d kill' \
-            --bind 'ctrl-a:reload(sesh list --icons)' \
+            --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
             --bind 'ctrl-t:change-prompt(  )+reload(sesh list -t --icons)' \
             --bind 'ctrl-x:change-prompt(󰈞  )+reload(sesh list -z --icons)' \
             --bind 'ctrl-d:execute(
@@ -66,17 +67,33 @@ in {
               else
                 tmux kill-session -t "$name";
               fi
-            )+reload(sesh list --icons)' \
+            )+change-prompt(⚡  )+reload(sesh list --icons)' \
             --preview-window 'right:55%' \
             --preview 'sesh preview {}'
         }
+
         __sesh_prefix() {
-          local key
+          local key selected
+
           read -k key
-          case $key in
-            s) BUFFER="sesh connect $(__sesh_fzf)"; zle accept-line ;;
-            .) BUFFER='sesh connect .'; zle accept-line ;;
-            *) zle -U "w$key" ;;
+
+          case "$key" in
+            s)
+              selected="$(__sesh_fzf)" || return 0
+              [[ -n "$selected" ]] || return 0
+
+              BUFFER="sesh connect \"$selected\""
+              zle accept-line
+              ;;
+
+            .)
+              BUFFER='sesh connect .'
+              zle accept-line
+              ;;
+
+            *)
+              zle -U "w$key"
+              ;;
           esac
         }
         zle -N __sesh_prefix
