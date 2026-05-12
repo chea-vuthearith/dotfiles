@@ -56,7 +56,7 @@ in {
           sesh list --icons | fzf-tmux -p 80%,70% \
             --no-sort --ansi\
             --header '  ^a all ^t tmux ^x zoxide ^d kill' \
-            --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
+            --bind 'ctrl-a:reload(sesh list --icons)' \
             --bind 'ctrl-t:change-prompt(  )+reload(sesh list -t --icons)' \
             --bind 'ctrl-x:change-prompt(󰈞  )+reload(sesh list -z --icons)' \
             --bind 'ctrl-d:execute(
