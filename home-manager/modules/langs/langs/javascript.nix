@@ -4,6 +4,7 @@
     pnpm_10
     turbo
     vtsls # just in case tsgo breaks
+    bun
     typescript-go
     biome
     tailwindcss-language-server

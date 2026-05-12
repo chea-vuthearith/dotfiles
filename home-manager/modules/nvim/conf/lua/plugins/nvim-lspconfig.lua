@@ -17,7 +17,19 @@ return {
           },
         },
         tsgo = {
-          settings = { typescript = { preferences = { importModuleSpecifier = "non-relative" } } },
+          enabled = true,
+          settings = {
+            typescript = {
+              preferences = {
+                importModuleSpecifier = "non-relative",
+                preferences = {
+                  autoImportSpecifierExcludeRegexes = {
+                    "^@mui/[^/]+$",
+                  },
+                },
+              },
+            },
+          },
         },
         vtsls = {
           settings = { typescript = { preferences = { importModuleSpecifier = "non-relative" } } },
