@@ -66,7 +66,7 @@ in {
               else
                 tmux kill-session -t "$name";
               fi
-            )+change-prompt(⚡  )+reload(sesh list --icons)' \
+            )+reload(sesh list --icons)' \
             --preview-window 'right:55%' \
             --preview 'sesh preview {}'
         }
