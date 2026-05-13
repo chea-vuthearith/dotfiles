@@ -1,7 +1,3 @@
-vim.pack.add({
-	{ src = "https://github.com/linux-cultist/venv-selector.nvim" },
-})
-
 require("venv-selector").setup({})
 
 vim.api.nvim_create_autocmd("FileType", {

@@ -1,11 +1,3 @@
-local treesitter_commit = vim.fn.has("nvim-0.12") == 0 and "7caec274fd19c12b55902a5b795100d21531391f" or nil
-
-vim.pack.add({
-	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", branch = "main", commit = treesitter_commit },
-	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
-	"https://github.com/windwp/nvim-ts-autotag",
-})
-
 local TS = require("nvim-treesitter")
 local install_dir = vim.fn.stdpath("data") .. "/site"
 local opts = {
@@ -81,7 +73,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		end
 
 		if enabled("highlight") then
-			pcall(vim.treesitter.start, ev.buf)
+			vim.treesitter.start(ev.buf)
 		end
 
 		if enabled("indent") then
@@ -110,9 +102,8 @@ local textobjects_opts = {
 	},
 }
 
-local ok, textobjects = pcall(require, "nvim-treesitter-textobjects")
-if ok and textobjects.setup then
-	textobjects.setup(textobjects_opts)
+local textobjects = require("nvim-treesitter-textobjects")
+textobjects.setup(textobjects_opts)
 
 	local function attach(buf)
 		local moves = vim.tbl_get(textobjects_opts, "move", "keys") or {}
@@ -149,5 +140,4 @@ if ok and textobjects.setup then
 			attach(ev.buf)
 		end,
 	})
-	vim.tbl_map(attach, vim.api.nvim_list_bufs())
-end
+ 	vim.tbl_map(attach, vim.api.nvim_list_bufs())

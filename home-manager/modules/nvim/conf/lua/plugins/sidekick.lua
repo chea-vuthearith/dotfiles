@@ -1,7 +1,3 @@
-vim.pack.add({
-	{ src = "https://github.com/folke/sidekick.nvim" },
-})
-
 require("sidekick").setup({
 	nes = {
 		enabled = false,

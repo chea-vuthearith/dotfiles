@@ -1,4 +1,3 @@
-vim.pack.add({ "https://github.com/monaqa/dial.nvim" })
 vim.keymap.set("n", "<C-a>", function()
 	require("dial.map").manipulate("increment", "normal")
 end, { desc = "Increment" })

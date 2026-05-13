@@ -1,7 +1,3 @@
-vim.pack.add({
-	{ src = "https://github.com/mistricky/codesnap.nvim", version = "v1.6.3" },
-})
-
 require("codesnap").setup({
 	radius = 0,
 	editor_font_family = "FiraCode Nerd Font",

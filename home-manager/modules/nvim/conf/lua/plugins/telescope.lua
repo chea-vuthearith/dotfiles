@@ -1,10 +1,3 @@
-vim.pack.add({
-	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
-	"https://github.com/nvim-lua/plenary.nvim",
-	"https://github.com/stevearc/dressing.nvim",
-	"https://github.com/folke/trouble.nvim",
-})
-
 local open_with_trouble = require("trouble.sources.telescope").open
 
 local actions = require("telescope.actions")
@@ -24,6 +17,10 @@ require("telescope").setup({
 	},
 })
 
+require("telescope").load_extension("fzf")
+
 vim.keymap.set("n", "<leader><leader>", function()
 	require("telescope.builtin").find_files()
 end, { desc = "Find Files" })
+
+vim.keymap.set("n", "<leader>sk", "<cmd>Telescope keymaps<cr>", { desc = "Key Maps" })

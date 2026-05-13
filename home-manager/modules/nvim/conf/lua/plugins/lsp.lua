@@ -1,8 +1,3 @@
-vim.pack.add({
-	{ src = "https://github.com/neovim/nvim-lspconfig" },
-	{ src = "https://github.com/folke/snacks.nvim" },
-})
-
 local snacks = require("snacks")
 local icons = {
 	Error = " ",
@@ -35,8 +30,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(ev)
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		local bufnr = ev.buf
-		local map = function(modes, lhs, rhs, desc)
-			vim.keymap.set(modes, lhs, rhs, { buffer = bufnr, silent = true, desc = desc })
+		local map = function(modes, lhs, rhs, desc, opts)
+			vim.keymap.set(
+				modes,
+				lhs,
+				rhs,
+				vim.tbl_extend("force", { buffer = bufnr, silent = true, desc = desc }, opts or {})
+			)
 		end
 
 		if client and client:supports_method("textDocument/inlayHint") and vim.bo[bufnr].filetype ~= "vue" then
@@ -44,7 +44,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 
 		if client and client.name == "copilot" and vim.lsp.inline_completion then
-			pcall(vim.lsp.inline_completion.enable, true)
+			vim.lsp.inline_completion.enable(true)
 		end
 
 		-- Folding (requires server-side fold provider)
@@ -58,19 +58,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- 	map("n", "<leader>cC", vim.lsp.codelens.refresh, "Refresh & Display Codelens")
 		-- end
 
-		local ok, telescope = pcall(require, "telescope.builtin")
-		local lsp_definitions = ok and telescope.lsp_definitions or vim.lsp.buf.definition
-		local lsp_declarations = ok and telescope.lsp_declarations or vim.lsp.buf.declaration
-		local lsp_implementations = ok and telescope.lsp_implementations or vim.lsp.buf.implementation
-		local lsp_type_definitions = ok and telescope.lsp_type_definitions or vim.lsp.buf.type_definition
-		local lsp_references = ok and telescope.lsp_references or vim.lsp.buf.references
-
 		-- Navigation
-		map("n", "gd", lsp_definitions, "Goto Definition")
-		map("n", "gr", lsp_references, "References")
-		map("n", "gI", lsp_implementations, "Goto Implementation")
-		map("n", "gy", lsp_type_definitions, "Goto T[y]pe Definition")
-		map("n", "gD", lsp_declarations, "Goto Declaration")
+		map("n", "gd", function()
+			require("telescope.builtin").lsp_definitions({ reuse_win = true })
+		end, "Goto Definition")
+		map("n", "gr", "<cmd>Telescope lsp_references<cr>", "References", { nowait = true })
+		map("n", "gI", function()
+			require("telescope.builtin").lsp_implementations({ reuse_win = true })
+		end, "Goto Implementation")
+		map("n", "gy", function()
+			require("telescope.builtin").lsp_type_definitions({ reuse_win = true })
+		end, "Goto T[y]pe Definition")
+		map("n", "gD", vim.lsp.buf.declaration, "Goto Declaration")
 
 		-- Hover / signature
 		map("n", "K", vim.lsp.buf.hover, "Hover")

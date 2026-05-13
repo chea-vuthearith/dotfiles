@@ -1,8 +1,3 @@
-vim.pack.add({
-  { src = "https://github.com/ThePrimeagen/harpoon", version = "harpoon2" },
-  "https://github.com/nvim-lua/plenary.nvim",
-})
-
 vim.keymap.set("n", "<leader>hl", function()
   require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
 end, { desc = "Open harpoon window" })

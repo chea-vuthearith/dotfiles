@@ -1,8 +1,3 @@
-vim.pack.add({
-  { src = "https://github.com/mrjones2014/smart-splits.nvim" },
-  { src = "https://github.com/nvim-treesitter/nvim-treesitter-context" },
-})
-
 require("smart-splits").setup({
   at_edge = "stop",
 })

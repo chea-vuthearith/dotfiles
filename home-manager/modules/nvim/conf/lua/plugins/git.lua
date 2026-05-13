@@ -1,7 +1,3 @@
-vim.pack.add({
-	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
-})
-
 require("gitsigns").setup({
 	signs = {
 		add = { text = "▎" },
@@ -65,19 +61,11 @@ require("gitsigns").setup({
 	end,
 })
 
-vim.pack.add({
-	"https://github.com/akinsho/git-conflict.nvim",
-})
-
 require("git-conflict").setup({
 	default_mappings = false,
 	list_opener = function()
-		local ok, trouble = pcall(require, "trouble")
-			if ok then
-				trouble.open("qflist")
-			else
-				vim.notify("Trouble not available for quickfix list", vim.log.levels.WARN)
-			end
+		local trouble = require("trouble")
+		trouble.open("qflist")
 	end,
 })
 

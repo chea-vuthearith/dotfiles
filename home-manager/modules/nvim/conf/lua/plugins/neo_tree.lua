@@ -1,14 +1,3 @@
-vim.pack.add({
-	{
-		src = "https://github.com/nvim-neo-tree/neo-tree.nvim",
-		version = vim.version.range("3"),
-	},
-	"https://github.com/nvim-lua/plenary.nvim",
-	"https://github.com/MunifTanjim/nui.nvim",
-	"https://github.com/nvim-mini/mini.icons",
-	"https://github.com/folke/snacks.nvim",
-})
-
 local events = require("neo-tree.events")
 local on_move = function(data)
 	Snacks.rename.on_rename_file(data.source, data.destination)

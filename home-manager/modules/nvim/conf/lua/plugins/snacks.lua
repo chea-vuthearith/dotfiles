@@ -1,10 +1,6 @@
-vim.pack.add({
-	{ src = "https://github.com/folke/snacks.nvim" },
-})
+local snacks = require("snacks")
 
-local Snacks = require("snacks")
-
-Snacks.setup({
+snacks.setup({
 	dashboard = { enabled = false },
 	animate = { enabled = false },
 	bigfile = { enabled = true },
@@ -17,35 +13,35 @@ Snacks.setup({
 })
 
 vim.keymap.set("n", "<leader>n", function()
-	if Snacks.config.picker and Snacks.config.picker.enabled then
-		Snacks.picker.notifications()
+	if snacks.config.picker and snacks.config.picker.enabled then
+		snacks.picker.notifications()
 	else
-		Snacks.notifier.show_history()
+		snacks.notifier.show_history()
 	end
 end, { desc = "Notification History" })
 
 vim.keymap.set("n", "<leader>bd", function()
-	Snacks.bufdelete()
+	snacks.bufdelete()
 end, { desc = "Delete Buffer" })
 vim.keymap.set("n", "<leader>bo", function()
-	Snacks.bufdelete.other()
+	snacks.bufdelete.other()
 end, { desc = "Delete Other Buffers" })
 vim.keymap.set("n", "<leader>bD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
 
 vim.keymap.set("n", "<leader>gL", function()
-	Snacks.picker.git_log()
+	snacks.picker.git_log()
 end, { desc = "Git Log (cwd)" })
 vim.keymap.set("n", "<leader>gb", function()
-	Snacks.picker.git_log_line()
+	snacks.picker.git_log_line()
 end, { desc = "Git Blame Line" })
 vim.keymap.set("n", "<leader>gf", function()
-	Snacks.picker.git_log_file()
+	snacks.picker.git_log_file()
 end, { desc = "Git Current File History" })
 vim.keymap.set({ "n", "x" }, "<leader>gB", function()
-	Snacks.gitbrowse()
+	snacks.gitbrowse()
 end, { desc = "Git Browse (open)" })
 vim.keymap.set({ "n", "x" }, "<leader>gY", function()
-	Snacks.gitbrowse({
+	snacks.gitbrowse({
 		open = function(url)
 			vim.fn.setreg("+", url)
 		end,
@@ -54,29 +50,29 @@ vim.keymap.set({ "n", "x" }, "<leader>gY", function()
 end, { desc = "Git Browse (copy)" })
 
 vim.keymap.set({ "n", "t" }, "<C-_>", function()
-	Snacks.terminal.focus(nil, { cwd = vim.fn.getcwd() })
+	snacks.terminal.focus(nil, { cwd = vim.fn.getcwd() })
 end, { desc = "Terminal (Root Dir)" })
 
-Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
-Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
-Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
-Snacks.toggle.diagnostics():map("<leader>ud")
-Snacks.toggle.line_number():map("<leader>ul")
-Snacks.toggle
+snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
+snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
+snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
+snacks.toggle.diagnostics():map("<leader>ud")
+snacks.toggle.line_number():map("<leader>ul")
+snacks.toggle
 	.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2, name = "Conceal Level" })
 	:map("<leader>uc")
-Snacks.toggle
+snacks.toggle
 	.option("showtabline", { off = 0, on = vim.o.showtabline > 0 and vim.o.showtabline or 2, name = "Tabline" })
 	:map("<leader>uA")
-Snacks.toggle.treesitter():map("<leader>uT")
-Snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }):map("<leader>ub")
-Snacks.toggle.dim():map("<leader>uD")
-Snacks.toggle.animate():map("<leader>ua")
-Snacks.toggle.indent():map("<leader>ug")
-Snacks.toggle.scroll():map("<leader>uS")
-Snacks.toggle.profiler():map("<leader>dpp")
-Snacks.toggle.profiler_highlights():map("<leader>dph")
+snacks.toggle.treesitter():map("<leader>uT")
+snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }):map("<leader>ub")
+snacks.toggle.dim():map("<leader>uD")
+snacks.toggle.animate():map("<leader>ua")
+snacks.toggle.indent():map("<leader>ug")
+snacks.toggle.scroll():map("<leader>uS")
+snacks.toggle.profiler():map("<leader>dpp")
+snacks.toggle.profiler_highlights():map("<leader>dph")
 
 if vim.lsp.inlay_hint then
-	Snacks.toggle.inlay_hints():map("<leader>uh")
+	snacks.toggle.inlay_hints():map("<leader>uh")
 end

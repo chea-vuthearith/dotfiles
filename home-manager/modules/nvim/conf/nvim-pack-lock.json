@@ -17,7 +17,7 @@
       "src": "https://github.com/catppuccin/nvim"
     },
     "codesnap.nvim": {
-      "rev": "881f1c7e76d9c1e3f4eacc955561e7d70d485d8f",
+      "rev": "da475d35a9be9a0670f8145a8b13ff8aa9356108",
       "src": "https://github.com/mistricky/codesnap.nvim",
       "version": "'v1.6.3'"
     },
@@ -76,8 +76,11 @@
     },
     "neo-tree.nvim": {
       "rev": "84c75e7a7e443586f60508d12fc50f90d9aee14e",
-      "src": "https://github.com/nvim-neo-tree/neo-tree.nvim",
-      "version": "3.0.0 - 4.0.0"
+      "src": "https://github.com/nvim-neo-tree/neo-tree.nvim"
+    },
+    "noice": {
+      "rev": "7bfd942445fb63089b59f97ca487d605e715f155",
+      "src": "https://github.com/folke/noice.nvim"
     },
     "noice.nvim": {
       "rev": "7bfd942445fb63089b59f97ca487d605e715f155",
@@ -142,6 +145,10 @@
     "snacks.nvim": {
       "rev": "ad9ede6a9cddf16cedbd31b8932d6dcdee9b716e",
       "src": "https://github.com/folke/snacks.nvim"
+    },
+    "telescope-fzf-native.nvim": {
+      "rev": "b25b749b9db64d375d782094e2b9dce53ad53a40",
+      "src": "https://github.com/nvim-telescope/telescope-fzf-native.nvim"
     },
     "telescope.nvim": {
       "rev": "f04ab730b8f9c6bf3f54a206d0dcddfd70c52d59",

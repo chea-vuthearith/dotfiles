@@ -1,7 +1,3 @@
-vim.pack.add({
-	{ src = "https://github.com/gbprod/yanky.nvim" },
-})
-
 require("yanky").setup({
 	system_clipboard = {
 		sync_with_ring = vim.env.SSH_CONNECTION == nil,
@@ -12,14 +8,12 @@ require("yanky").setup({
 local map = vim.keymap.set
 
 map({ "n", "x" }, "<leader>p", function()
-	local ok, telescope = pcall(require, "telescope")
-	if ok then
-		pcall(telescope.load_extension, "yank_history")
-		local ext = telescope.extensions and telescope.extensions.yank_history
-		if ext and ext.yank_history then
-			ext.yank_history({})
-			return
-		end
+	local telescope = require("telescope")
+	telescope.load_extension("yank_history")
+	local ext = telescope.extensions and telescope.extensions.yank_history
+	if ext and ext.yank_history then
+		ext.yank_history({})
+		return
 	end
 	vim.cmd.YankyRingHistory()
 end, { desc = "Open Yank History" })

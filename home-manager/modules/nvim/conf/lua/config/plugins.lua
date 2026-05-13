@@ -1,9 +1,73 @@
+local function run_build(spec, path)
+	local build = spec.data and spec.data.build
+	if not build then
+		return
+	end
+
+	vim.system({ "sh", "-c", build }, {
+		cwd = path,
+		text = true,
+	})
+end
+
+vim.api.nvim_create_autocmd("PackChanged", {
+	callback = function(ev)
+		if ev.data.kind == "install" or ev.data.kind == "update" then
+			run_build(ev.data.spec, ev.data.path)
+		end
+	end,
+})
+
 local current_file = debug.getinfo(1, "S").source:sub(2)
 local config_dir = vim.fn.fnamemodify(current_file, ":h")
 local plugins_dir = vim.fn.fnamemodify(config_dir, ":h") .. "/plugins"
 
 local plugin_files = vim.fn.glob(plugins_dir .. "/*.lua", false, true)
 table.sort(plugin_files)
+
+vim.pack.add({
+	{ src = "https://github.com/tpope/vim-abolish" },
+	{ src = "https://github.com/saghen/blink.cmp" },
+	{ src = "https://github.com/saghen/blink.lib" },
+	{ src = "https://github.com/chrisgrieser/nvim-early-retirement" },
+	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
+	{ src = "https://github.com/mistricky/codesnap.nvim", version = "v1.6.3", data = { build = "make" } },
+	{ src = "https://github.com/stevearc/conform.nvim" },
+	{ src = "https://github.com/kristijanhusak/vim-dadbod-ui" },
+	{ src = "https://github.com/tpope/vim-dadbod" },
+	{ src = "https://github.com/kristijanhusak/vim-dadbod-completion" },
+	{ src = "https://github.com/monaqa/dial.nvim" },
+	{ src = "https://github.com/ibhagwan/fzf-lua" },
+	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
+	{ src = "https://github.com/akinsho/git-conflict.nvim" },
+	{ src = "https://github.com/ThePrimeagen/harpoon", version = "harpoon2" },
+	{ src = "https://github.com/nvim-lua/plenary.nvim" },
+	{ src = "https://github.com/neovim/nvim-lspconfig" },
+	{ src = "https://github.com/folke/snacks.nvim" },
+	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
+	{ src = "https://github.com/MeanderingProgrammer/render-markdown.nvim" },
+	{ src = "https://github.com/iamcco/markdown-preview.nvim" },
+	{ src = "https://github.com/nvim-mini/mini.icons" },
+	{ src = "https://github.com/nvim-neo-tree/neo-tree.nvim" },
+	{ src = "https://github.com/MunifTanjim/nui.nvim" },
+	{ src = "https://github.com/folke/noice.nvim" },
+	{ src = "https://github.com/folke/sidekick.nvim" },
+	{ src = "https://github.com/nvim-mini/mini.surround" },
+	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
+	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim", data = { build = "make" } },
+	{ src = "https://github.com/stevearc/dressing.nvim" },
+	{ src = "https://github.com/folke/trouble.nvim" },
+	{ src = "https://github.com/mrjones2014/smart-splits.nvim" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-context" },
+	{ src = "https://github.com/folke/todo-comments.nvim" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", branch = "main" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
+	{ src = "https://github.com/windwp/nvim-ts-autotag" },
+	{ src = "https://github.com/dmmulroy/tsc.nvim" },
+	{ src = "https://github.com/linux-cultist/venv-selector.nvim" },
+	{ src = "https://github.com/folke/which-key.nvim" },
+	{ src = "https://github.com/gbprod/yanky.nvim" },
+})
 
 for _, file in ipairs(plugin_files) do
 	local module = "plugins." .. vim.fn.fnamemodify(file, ":t:r")
