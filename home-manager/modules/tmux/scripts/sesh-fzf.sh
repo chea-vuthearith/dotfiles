@@ -2,7 +2,6 @@ sesh list --icons | fzf-tmux -p 80%,70% \
   --no-sort \
   --ansi \
   --header "  ^a all ^t tmux ^x zoxide ^d kill" \
-  --bind 'tab:down,btab:up' \
   --bind 'ctrl-a:reload(sesh list --icons)' \
   --bind 'ctrl-t:change-prompt(  )+reload(sesh list -t --icons)' \
   --bind 'ctrl-x:change-prompt(󰈞  )+reload(sesh list -z --icons)' \
