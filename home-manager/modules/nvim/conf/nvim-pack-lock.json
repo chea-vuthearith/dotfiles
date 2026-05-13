@@ -159,6 +159,10 @@
       "rev": "e083bcf1e54bc3af7df92b33235efb334e8c782c",
       "src": "https://github.com/dmmulroy/tsc.nvim"
     },
+    "venv-selector.nvim": {
+      "rev": "bcb2f58533c59b01565285eba49693f00bc460f5",
+      "src": "https://github.com/linux-cultist/venv-selector.nvim"
+    },
     "vim-abolish": {
       "rev": "dcbfe065297d31823561ba787f51056c147aa682",
       "src": "https://github.com/tpope/vim-abolish"

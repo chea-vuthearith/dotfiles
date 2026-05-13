@@ -189,6 +189,7 @@ vim.lsp.config("nixd", {
 vim.lsp.enable("nixd")
 
 vim.lsp.enable("biome")
+vim.lsp.enable("pyright")
 vim.lsp.enable("hyprls")
 vim.lsp.enable("taplo")
 vim.lsp.enable("copilot")
