@@ -34,6 +34,9 @@ end
 del("n", "<S-H>")
 del("n", "<S-L>")
 
+-- :term
+set("t", "<Esc><Esc>", [[<C-\><C-n>]], { noremap = true })
+
 -- when using nvim in vscode
 if isVSCode then
   local vscode = require("vscode")
@@ -54,9 +57,6 @@ if isVSCode then
     vscode.action("workbench.action.closeEditorsAndGroup")
   end, { desc = "Close this editor" })
 end
-
--- :term
-set("t", "<Esc><Esc>", [[<C-\><C-n>]], { noremap = true })
 
 -- if isNeovide then
 --   -- tabs
