@@ -2,15 +2,144 @@ vim.pack.add({
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 })
 
+local icons = {
+	Error = " ",
+	Warn = " ",
+	Hint = " ",
+	Info = " ",
+}
+
+vim.diagnostic.config({
+	underline = true,
+	update_in_insert = false,
+	severity_sort = true,
+	virtual_text = {
+		spacing = 4,
+		source = "if_many",
+		prefix = "●",
+	},
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = icons.Error,
+			[vim.diagnostic.severity.WARN] = icons.Warn,
+			[vim.diagnostic.severity.HINT] = icons.Hint,
+			[vim.diagnostic.severity.INFO] = icons.Info,
+		},
+	},
+})
+
+-- ── On-attach (keymaps + hints + folds) ──────────────────────────────────────
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(ev)
+		local client = vim.lsp.get_client_by_id(ev.data.client_id)
+		local bufnr = ev.buf
+		local map = function(modes, lhs, rhs, desc)
+			vim.keymap.set(modes, lhs, rhs, { buffer = bufnr, silent = true, desc = desc })
+		end
+
+		if client and client:supports_method("textDocument/inlayHint") and vim.bo[bufnr].filetype ~= "vue" then
+			vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+		end
+
+		-- Folding (requires server-side fold provider)
+		vim.wo.foldmethod = "expr"
+		vim.wo.foldexpr = "v:lua.vim.lsp.foldexpr()"
+
+		-- Codelens (disabled; uncomment to enable)
+		-- if client and client:supports_method("textDocument/codeLens") then
+		-- 	vim.lsp.codelens.refresh({ bufnr = bufnr })
+		-- 	map({ "n", "x" }, "<leader>cc", vim.lsp.codelens.run, "Run Codelens")
+		-- 	map("n", "<leader>cC", vim.lsp.codelens.refresh, "Refresh & Display Codelens")
+		-- end
+
+		local ok, telescope = pcall(require, "telescope.builtin")
+		local lsp_definitions = ok and telescope.lsp_definitions or vim.lsp.buf.definition
+		local lsp_declarations = ok and telescope.lsp_declarations or vim.lsp.buf.declaration
+		local lsp_implementations = ok and telescope.lsp_implementations or vim.lsp.buf.implementation
+		local lsp_type_definitions = ok and telescope.lsp_type_definitions or vim.lsp.buf.type_definition
+		local lsp_references = ok and telescope.lsp_references or vim.lsp.buf.references
+
+		-- Navigation
+		map("n", "gd", lsp_definitions, "Goto Definition")
+		map("n", "gr", lsp_references, "References")
+		map("n", "gI", lsp_implementations, "Goto Implementation")
+		map("n", "gy", lsp_type_definitions, "Goto T[y]pe Definition")
+		map("n", "gD", lsp_declarations, "Goto Declaration")
+
+		-- Hover / signature
+		map("n", "K", vim.lsp.buf.hover, "Hover")
+		map("n", "gK", vim.lsp.buf.signature_help, "Signature Help")
+		map("i", "<c-k>", vim.lsp.buf.signature_help, "Signature Help")
+
+		-- Actions
+		map({ "n", "x" }, "<leader>ca", vim.lsp.buf.code_action, "Code Action")
+		map("n", "<leader>cr", vim.lsp.buf.rename, "Rename")
+
+		-- Source / organize imports
+		map({ "n", "x" }, "<leader>cA", function()
+			vim.lsp.buf.code_action({ context = { only = { "source" } } })
+		end, "Source Action")
+
+		map("n", "<leader>co", function()
+			vim.lsp.buf.code_action({
+				apply = true,
+				context = { only = { "source.organizeImports" }, diagnostics = {} },
+			})
+		end, "Organize Imports")
+
+		-- File rename (native; swap for Snacks if you keep it)
+		map("n", "<leader>cR", function()
+			local old = vim.api.nvim_buf_get_name(bufnr)
+			local new = vim.fn.input("New name: ", old)
+			if new ~= "" and new ~= old then
+				vim.lsp.util.rename(old, new)
+			end
+		end, "Rename File")
+
+		-- Reference jumping (native; swap for Snacks.words if you keep it)
+		map("n", "]]", function()
+			vim.lsp.buf.document_highlight()
+		end, "Next Reference")
+		map("n", "[[", function()
+			vim.lsp.buf.clear_references()
+		end, "Prev Reference")
+
+		-- LSP info (native; was Snacks.picker.lsp_config)
+		map("n", "<leader>cl", "<cmd>LspInfo<cr>", "Lsp Info")
+	end,
+})
+
+vim.lsp.config("*", {
+	capabilities = {
+		workspace = {
+			fileOperations = {
+				didRename = true,
+				willRename = true,
+			},
+		},
+	},
+})
+
 vim.lsp.config("lua_ls", {
 	settings = {
 		Lua = {
 			runtime = { version = "LuaJIT" },
+			codeLens = { enable = true },
+			completion = { callSnippet = "Replace" },
+			doc = { privateName = { "^_" } },
 			workspace = {
 				library = vim.api.nvim_get_runtime_file("", true),
 				checkThirdParty = false,
 			},
 			diagnostics = { globals = { "vim" } },
+			hint = {
+				enable = true,
+				setType = false,
+				paramType = true,
+				paramName = "Disable",
+				semicolon = "Disable",
+				arrayIndex = "Disable",
+			},
 		},
 	},
 })

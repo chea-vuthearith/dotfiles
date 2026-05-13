@@ -42,14 +42,11 @@ map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
 map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
 
-map("x", "<", "<gv")
-map("x", ">", ">gv")
+map("x", "<", "<gv", { desc = "Indent Left and Reselect" })
+map("x", ">", ">gv", { desc = "Indent Right and Reselect" })
 
 map("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Below" })
 map("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Above" })
-
-map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
-map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
 local diagnostic_goto = function(next, severity)
 	return function()
@@ -78,10 +75,10 @@ map("n", "<leader>wo", "<C-W>o", { desc = "Only Window", remap = true })
 
 map("n", "<leader>qr", cmd.restart, { noremap = true, silent = true, desc = "Restart Neovim" })
 
-map("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true })
-map("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
+map("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true, desc = "Scroll Up and Center" })
+map("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true, desc = "Scroll Down and Center" })
 
 map("n", "<leader><TAB>l", cmd.tabnext, { desc = "Next Tab" })
 map("n", "<leader><TAB>h", cmd.tabprevious, { desc = "Previous Tab" })
 
-map("t", "<Esc><Esc>", [[<C-\><C-n>]], { noremap = true })
+map("t", "<Esc><Esc>", [[<C-\><C-n>]], { noremap = true, desc = "Exit Terminal Mode" })

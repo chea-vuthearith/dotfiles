@@ -6,6 +6,7 @@ vim.pack.add({
 	"https://github.com/nvim-lua/plenary.nvim",
 	"https://github.com/MunifTanjim/nui.nvim",
 	"https://github.com/nvim-tree/nvim-web-devicons",
+	"https://github.com/nvim-mini/mini.icons",
 	"https://github.com/folke/snacks.nvim",
 })
 
@@ -49,7 +50,7 @@ require("neo-tree").setup({
 				end,
 				desc = "Open with System Application",
 			},
-			["P"] = { "toggle_preview", config = { use_float = false } },
+			["P"] = { "toggle_preview", config = { use_float = false }, desc = "Toggle Preview" },
 		},
 	},
 })
