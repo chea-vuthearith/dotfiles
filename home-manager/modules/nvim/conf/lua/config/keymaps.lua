@@ -85,3 +85,7 @@ map("n", "<leader><TAB>l", cmd.tabnext, { desc = "Next Tab" })
 map("n", "<leader><TAB>h", cmd.tabprevious, { desc = "Previous Tab" })
 
 map("t", "<Esc><Esc>", [[<C-\><C-n>]], { noremap = true, desc = "Exit Terminal Mode" })
+
+map("i", "<S-Tab>", function()
+	vim.lsp.inline_completion.get()
+end, { expr = true, desc = "Accept Inline Completion" })

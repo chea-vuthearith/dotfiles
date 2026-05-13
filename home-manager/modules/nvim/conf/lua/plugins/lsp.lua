@@ -43,6 +43,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
 		end
 
+		if client and client.name == "copilot" and vim.lsp.inline_completion then
+			pcall(vim.lsp.inline_completion.enable, true)
+		end
+
 		-- Folding (requires server-side fold provider)
 		vim.wo.foldmethod = "expr"
 		vim.wo.foldexpr = "v:lua.vim.lsp.foldexpr()"
@@ -88,15 +92,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 				context = { only = { "source.organizeImports" }, diagnostics = {} },
 			})
 		end, "Organize Imports")
-
-		if client and client.name == "tsgo" then
-			map("n", "<leader>cM", function()
-				vim.lsp.buf.code_action({
-					apply = true,
-					context = { only = { "source.addMissingImports" }, diagnostics = {} },
-				})
-			end, "Add Missing Imports")
-		end
 
 		-- File rename (native; swap for Snacks if you keep it)
 		map("n", "<leader>cR", function()
@@ -192,4 +187,10 @@ vim.lsp.enable("biome")
 vim.lsp.enable("pyright")
 vim.lsp.enable("hyprls")
 vim.lsp.enable("taplo")
+
+vim.lsp.config("copilot", {
+	telemetry = {
+		telemetryLevel = "none",
+	},
+})
 vim.lsp.enable("copilot")
