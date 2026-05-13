@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: let
-  sesh-fzf = pkgs.writeShellScript "sesh-fzf" ./scripts/sesh-fzf.sh;
+  sesh-fzf = pkgs.writeShellScript "sesh-fzf" (builtins.readFile ./scripts/sesh-fzf.sh);
   smart-splits = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "smart-splits";
     version = "1.0.0";
