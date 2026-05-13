@@ -23,5 +23,5 @@ windows:
       panes:
         -
         - >
-          docker compose -f docker-compose.data.yml -f docker-compose.auth.yml --profile local --profile minio up -d --wait;
+          docker compose -f docker-compose.data.yml -f docker-compose.auth.yml --profile local-psql --profile minio up -d --wait;
           docker compose -f docker-compose.app.yml -f docker-compose.dev.yml up api frontend-client frontend-owner --build -w
