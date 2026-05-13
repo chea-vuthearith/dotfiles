@@ -3,39 +3,7 @@
   pkgs,
   ...
 }: let
-  sesh-fzf = pkgs.writeShellScript "sesh-fzf" ''
-    sesh list --icons | fzf-tmux -p 80%,70% \
-      --no-sort \
-      --ansi \
-      --header "  ^a all ^t tmux ^x zoxide ^d kill" \
-      --bind "tab:down,btab:up" \
-      --bind "ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)" \
-      --bind "ctrl-t:change-prompt(  )+reload(sesh list -t --icons)" \
-      --bind "ctrl-x:change-prompt(󰈞  )+reload(sesh list -z --icons)" \
-      --bind "ctrl-d:execute(
-        name={2..};
-        if sesh list -T | grep -qxF \"$name\"; then
-          (
-            if output=$(tmuxinator stop \"$name\" 2>&1); then
-              notify-send \"tmuxinator\" \"Stopped $name\"
-            else
-              notify-send -u critical \"tmuxinator\" \"Failed to stop $name\n\n$output\"
-            fi
-          ) &
-        else
-          (
-            if output=$(tmux kill-session -t \"$name\" 2>&1); then
-              notify-send \"tmux\" \"Killed $name\"
-            else
-              notify-send -u critical \"tmux\" \"Failed to kill $name\n\n$output\"
-            fi
-          ) &
-        fi
-      )+reload(sesh list --icons)" \
-      --preview-window "right:55%" \
-      --preview "sesh preview {}" \
-      -- --ansi
-  '';
+  sesh-fzf = pkgs.writeShellScript "sesh-fzf" ./scripts/sesh-fzf.sh;
   smart-splits = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "smart-splits";
     version = "1.0.0";
