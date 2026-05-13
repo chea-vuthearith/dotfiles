@@ -17,7 +17,7 @@
       "src": "https://github.com/catppuccin/nvim"
     },
     "codesnap.nvim": {
-      "rev": "da475d35a9be9a0670f8145a8b13ff8aa9356108",
+      "rev": "881f1c7e76d9c1e3f4eacc955561e7d70d485d8f",
       "src": "https://github.com/mistricky/codesnap.nvim",
       "version": "'v1.6.3'"
     },

@@ -7,5 +7,8 @@ table.sort(plugin_files)
 
 for _, file in ipairs(plugin_files) do
 	local module = "plugins." .. vim.fn.fnamemodify(file, ":t:r")
-	require(module)
+	local ok, err = pcall(require, module)
+	if not ok then
+		vim.notify(("Failed to load %s: %s"):format(module, err), vim.log.levels.ERROR)
+	end
 end
