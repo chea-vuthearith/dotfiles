@@ -1,7 +1,9 @@
 vim.pack.add({
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
+	{ src = "https://github.com/folke/snacks.nvim" },
 })
 
+local snacks = require("snacks")
 local icons = {
 	Error = " ",
 	Warn = " ",
@@ -87,6 +89,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			})
 		end, "Organize Imports")
 
+		if client and client.name == "tsgo" then
+			map("n", "<leader>cM", function()
+				vim.lsp.buf.code_action({
+					apply = true,
+					context = { only = { "source.addMissingImports" }, diagnostics = {} },
+				})
+			end, "Add Missing Imports")
+		end
+
 		-- File rename (native; swap for Snacks if you keep it)
 		map("n", "<leader>cR", function()
 			local old = vim.api.nvim_buf_get_name(bufnr)
@@ -105,7 +116,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end, "Prev Reference")
 
 		-- LSP info (native; was Snacks.picker.lsp_config)
-		map("n", "<leader>cl", "<cmd>LspInfo<cr>", "Lsp Info")
+		map("n", "<leader>cl", snacks.picker.lsp_config, "Lsp Info")
 	end,
 })
 

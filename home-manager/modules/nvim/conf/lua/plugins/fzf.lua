@@ -12,3 +12,4 @@ require("fzf-lua").setup({
 })
 
 vim.keymap.set("n", "<leader>z", "<cmd>FzfLua zoxide<cr>", { desc = "List Zoxide Directories" })
+vim.keymap.set("n", "<leader>/", "<cmd>FzfLua live_grep<cr>", { desc = "Grep Project" })
