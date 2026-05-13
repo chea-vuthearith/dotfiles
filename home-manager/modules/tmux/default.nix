@@ -3,6 +3,39 @@
   pkgs,
   ...
 }: let
+  sesh-fzf = pkgs.writeShellScript "sesh-fzf" ''
+    sesh list --icons | fzf-tmux -p 80%,70% \
+      --no-sort \
+      --ansi \
+      --header "  ^a all ^t tmux ^x zoxide ^d kill" \
+      --bind "tab:down,btab:up" \
+      --bind "ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)" \
+      --bind "ctrl-t:change-prompt(  )+reload(sesh list -t --icons)" \
+      --bind "ctrl-x:change-prompt(󰈞  )+reload(sesh list -z --icons)" \
+      --bind "ctrl-d:execute(
+        name={2..};
+        if sesh list -T | grep -qxF \"$name\"; then
+          (
+            if output=$(tmuxinator stop \"$name\" 2>&1); then
+              notify-send \"tmuxinator\" \"Stopped $name\"
+            else
+              notify-send -u critical \"tmuxinator\" \"Failed to stop $name\n\n$output\"
+            fi
+          ) &
+        else
+          (
+            if output=$(tmux kill-session -t \"$name\" 2>&1); then
+              notify-send \"tmux\" \"Killed $name\"
+            else
+              notify-send -u critical \"tmux\" \"Failed to kill $name\n\n$output\"
+            fi
+          ) &
+        fi
+      )+reload(sesh list --icons)" \
+      --preview-window "right:55%" \
+      --preview "sesh preview {}" \
+      -- --ansi
+  '';
   smart-splits = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "smart-splits";
     version = "1.0.0";
@@ -31,10 +64,10 @@
   in
     builtins.concatStringsSep "\n" (builtins.filter keep lines);
   remote-conf = pkgs.writeText "remote-tmux.conf" (minify (builtins.concatStringsSep "\n" [
-    (builtins.readFile ./tmux-base.conf)
-    (builtins.readFile ./tmux-keys.conf)
-    (builtins.readFile ./tmux-styling.conf)
-    (builtins.readFile ./tmux-remote-extras.conf)
+    (builtins.readFile ./conf/tmux-base.conf)
+    (builtins.readFile ./conf/tmux-keys.conf)
+    (builtins.readFile ./conf/tmux-styling.conf)
+    (builtins.readFile ./conf/tmux-remote-extras.conf)
   ]));
 in {
   xdg.configFile."tmuxinator" = {
@@ -53,23 +86,7 @@ in {
       };
       initContent = lib.mkOrder 1500 ''
         __sesh_fzf() {
-          sesh list --icons | fzf-tmux -p 80%,70% \
-            --no-sort \
-            --ansi \
-            --header '  ^a all ^t tmux ^x zoxide ^d kill' \
-            --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
-            --bind 'ctrl-t:change-prompt(  )+reload(sesh list -t --icons)' \
-            --bind 'ctrl-x:change-prompt(󰈞  )+reload(sesh list -z --icons)' \
-            --bind 'ctrl-d:execute(
-              name={2..};
-              if sesh list -T | grep -qxF "$name"; then
-                tmuxinator stop "$name";
-              else
-                tmux kill-session -t "$name";
-              fi
-            )+change-prompt(⚡  )+reload(sesh list --icons)' \
-            --preview-window 'right:55%' \
-            --preview 'sesh preview {}'
+          ${sesh-fzf}
         }
 
         __sesh_prefix() {
@@ -154,10 +171,10 @@ in {
         yank
       ];
       extraConfig = builtins.concatStringsSep "\n" [
-        (builtins.readFile ./tmux-base.conf)
-        (builtins.readFile ./tmux-styling.conf)
-        (builtins.readFile ./tmux-keys.conf)
-        (builtins.readFile ./tmux-local-extras.conf)
+        (builtins.readFile ./conf/tmux-base.conf)
+        (builtins.readFile ./conf/tmux-styling.conf)
+        (builtins.readFile ./conf/tmux-keys.conf)
+        (builtins.replaceStrings ["@sesh_fzf@"] ["${sesh-fzf}"] (builtins.readFile ./conf/tmux-local-extras.conf))
       ];
     };
   };
