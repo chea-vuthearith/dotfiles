@@ -1,17 +1,17 @@
 vim.pack.add({
-  { src = "https://github.com/akinsho/git-conflict.nvim", version = "*" },
+	"https://github.com/akinsho/git-conflict.nvim",
 })
 
 require("git-conflict").setup({
-  default_mappings = false,
-  list_opener = function()
-    local ok, trouble = pcall(require, "trouble")
-    if ok then
-      trouble.open("qflist")
-    else
-      vim.cmd("copen")
-    end
-  end,
+	default_mappings = false,
+	list_opener = function()
+		local ok, trouble = pcall(require, "trouble")
+		if ok then
+			trouble.open("qflist")
+		else
+			vim.cmd("copen")
+		end
+	end,
 })
 
 vim.keymap.set("n", "<leader>gal", ":GitConflictListQf<CR>", { desc = "List Conflicts" })

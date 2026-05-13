@@ -6,6 +6,6 @@ local plugin_files = vim.fn.glob(plugins_dir .. "/*.lua", false, true)
 table.sort(plugin_files)
 
 for _, file in ipairs(plugin_files) do
-  local module = "plugins." .. vim.fn.fnamemodify(file, ":t:r")
-  require(module)
+	local module = "plugins." .. vim.fn.fnamemodify(file, ":t:r")
+	require(module)
 end

@@ -1,18 +1,14 @@
-return {
-  "ibhagwan/fzf-lua",
-  keys = {
-    { "<leader>z", "<cmd>FzfLua zoxide<cr>", desc = "List Zoxide Directories" },
+vim.pack.add({
+  { src = "https://github.com/ibhagwan/fzf-lua" },
+})
+
+require("fzf-lua").setup({
+  defaults = {
+    profile = "fzf-tmux",
   },
-  ---@module "fzf-lua"
-  ---@type fzf-lua.Config|{}
-  ---@diagnostic disable: missing-fields
-  opts = {
-    defaults = {
-      profile = "fzf-tmux",
-    },
-    files = {
-      cmd = "fd --type f --hidden --follow --exclude .git",
-    },
+  files = {
+    cmd = "fd --type f --hidden --follow --exclude .git",
   },
-  ---@diagnostic enable: missing-fields
-}
+})
+
+vim.keymap.set("n", "<leader>z", "<cmd>FzfLua zoxide<cr>", { desc = "List Zoxide Directories" })

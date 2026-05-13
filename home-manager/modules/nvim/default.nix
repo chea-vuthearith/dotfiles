@@ -30,7 +30,7 @@
     #
   };
 
-  xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink (lib.toLocal ./conf/init.lua);
+  xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink (lib.toLocal ./conf);
 
   programs = {
     neovim = {

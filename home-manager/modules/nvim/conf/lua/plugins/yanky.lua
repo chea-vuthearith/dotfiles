@@ -1,0 +1,43 @@
+vim.pack.add({
+	{ src = "https://github.com/gbprod/yanky.nvim" },
+})
+
+require("yanky").setup({
+	system_clipboard = {
+		sync_with_ring = vim.env.SSH_CONNECTION == nil,
+	},
+	highlight = { timer = 150 },
+})
+
+local map = vim.keymap.set
+
+map({ "n", "x" }, "<leader>p", function()
+	local ok, telescope = pcall(require, "telescope")
+	if ok then
+		pcall(telescope.load_extension, "yank_history")
+		local ext = telescope.extensions and telescope.extensions.yank_history
+		if ext and ext.yank_history then
+			ext.yank_history({})
+			return
+		end
+	end
+	vim.cmd.YankyRingHistory()
+end, { desc = "Open Yank History" })
+
+map({ "n", "x" }, "y", "<Plug>(YankyYank)", { desc = "Yank Text" })
+map({ "n", "x" }, "p", "<Plug>(YankyPutAfter)", { desc = "Put Text After Cursor" })
+map({ "n", "x" }, "P", "<Plug>(YankyPutBefore)", { desc = "Put Text Before Cursor" })
+map({ "n", "x" }, "gp", "<Plug>(YankyGPutAfter)", { desc = "Put Text After Selection" })
+map({ "n", "x" }, "gP", "<Plug>(YankyGPutBefore)", { desc = "Put Text Before Selection" })
+map("n", "[y", "<Plug>(YankyCycleForward)", { desc = "Cycle Forward Through Yank History" })
+map("n", "]y", "<Plug>(YankyCycleBackward)", { desc = "Cycle Backward Through Yank History" })
+map("n", "]p", "<Plug>(YankyPutIndentAfterLinewise)", { desc = "Put Indented After Cursor (Linewise)" })
+map("n", "[p", "<Plug>(YankyPutIndentBeforeLinewise)", { desc = "Put Indented Before Cursor (Linewise)" })
+map("n", "]P", "<Plug>(YankyPutIndentAfterLinewise)", { desc = "Put Indented After Cursor (Linewise)" })
+map("n", "[P", "<Plug>(YankyPutIndentBeforeLinewise)", { desc = "Put Indented Before Cursor (Linewise)" })
+map("n", ">p", "<Plug>(YankyPutIndentAfterShiftRight)", { desc = "Put and Indent Right" })
+map("n", "<p", "<Plug>(YankyPutIndentAfterShiftLeft)", { desc = "Put and Indent Left" })
+map("n", ">P", "<Plug>(YankyPutIndentBeforeShiftRight)", { desc = "Put Before and Indent Right" })
+map("n", "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)", { desc = "Put Before and Indent Left" })
+map("n", "=p", "<Plug>(YankyPutAfterFilter)", { desc = "Put After Applying a Filter" })
+map("n", "=P", "<Plug>(YankyPutBeforeFilter)", { desc = "Put Before Applying a Filter" })

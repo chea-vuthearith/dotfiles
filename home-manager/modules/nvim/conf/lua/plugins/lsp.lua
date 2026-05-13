@@ -2,9 +2,7 @@ vim.pack.add({
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 })
 
-local lspconfig = require("lspconfig")
-
-lspconfig.lua_ls.setup({
+vim.lsp.config("lua_ls", {
 	settings = {
 		Lua = {
 			runtime = { version = "LuaJIT" },
@@ -16,8 +14,9 @@ lspconfig.lua_ls.setup({
 		},
 	},
 })
+vim.lsp.enable("lua_ls")
 
-lspconfig.tsgo.setup({
+vim.lsp.config("tsgo", {
 	settings = {
 		typescript = {
 			preferences = {
@@ -31,8 +30,9 @@ lspconfig.tsgo.setup({
 		},
 	},
 })
+vim.lsp.enable("tsgo")
 
-lspconfig.nixd.setup({
+vim.lsp.config("nixd", {
 	nixpkgs = {
 		expr = "import <nixpkgs> { }",
 		formatting = { command = { "alejandra" } },
@@ -46,8 +46,9 @@ lspconfig.nixd.setup({
 		},
 	},
 })
+vim.lsp.enable("nixd")
 
-lspconfig.biome.setup({})
-lspconfig.hyprls.setup({})
-lspconfig.taplo.setup({})
-lspconfig.copilot.setup({})
+vim.lsp.enable("biome")
+vim.lsp.enable("hyprls")
+vim.lsp.enable("taplo")
+vim.lsp.enable("copilot")
