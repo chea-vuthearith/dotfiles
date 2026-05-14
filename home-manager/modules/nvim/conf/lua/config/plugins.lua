@@ -15,6 +15,7 @@ local function run_build(spec, path)
 	})
 end
 
+-- build plugins whose sepc has data.build
 vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function(ev)
 		if ev.data.kind == "install" or ev.data.kind == "update" then
@@ -28,8 +29,6 @@ local config_dir = vim.fn.fnamemodify(current_file, ":h")
 local plugins_dir = vim.fn.fnamemodify(config_dir, ":h") .. "/plugins"
 
 local plugin_files = vim.fn.glob(plugins_dir .. "/*.lua", false, true)
-table.sort(plugin_files)
-
 vim.pack.add({
 	{ src = "https://github.com/tpope/vim-abolish" },
 	{ src = "https://github.com/saghen/blink.cmp" },

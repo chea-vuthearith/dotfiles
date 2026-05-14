@@ -24,4 +24,6 @@ windows:
         -
         - >
           docker compose -f docker-compose.data.yml -f docker-compose.auth.yml --profile local-psql --profile minio up -d --wait;
-          docker compose -f docker-compose.app.yml -f docker-compose.dev.yml up api frontend-client frontend-owner --build -w
+          docker compose -f docker-compose.app.yml -f docker-compose.dev.yml up api frontend-client frontend-owner --build -w &;
+          lazydocker -f docker-compose.data.yml -f docker-compose.auth.yml -f docker-compose.app.yml -f docker-compose.dev.yml;
+

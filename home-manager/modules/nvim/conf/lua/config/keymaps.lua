@@ -1,10 +1,6 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
-vim.diagnostic.config({
-	virtual_text = true,
-})
-
 local map = vim.keymap.set
 local cmd = vim.cmd
 
