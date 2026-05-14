@@ -7,7 +7,6 @@ require("nvim-treesitter").setup({
 require("nvim-treesitter")
 	.install({
 		"bash",
-		"c",
 		"diff",
 		"html",
 		"javascript",
@@ -15,20 +14,15 @@ require("nvim-treesitter")
 		"json",
 		"lua",
 		"luadoc",
-		"luap",
 		"markdown",
-		"markdown_inline",
-		"printf",
 		"nix",
 		"python",
-		"query",
-		"regex",
 		"toml",
+		"git",
 		"tsx",
 		"typescript",
 		"vim",
 		"vimdoc",
-		"xml",
 		"yaml",
 	})
 	:wait(300000) -- wait max. 5 minutes
@@ -38,7 +32,6 @@ require("nvim-ts-autotag").setup({})
 vim.api.nvim_create_autocmd("FileType", {
 	group = vim.api.nvim_create_augroup("treesitter_features", { clear = true }),
 	callback = function(ev)
-		local ft = ev.match
 		-- skip special buffers
 		if vim.bo[ev.buf].buftype ~= "" then
 			return
