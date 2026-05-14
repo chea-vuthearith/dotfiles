@@ -51,6 +51,7 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
 	{ src = "https://github.com/MeanderingProgrammer/render-markdown.nvim" },
 	{ src = "https://github.com/iamcco/markdown-preview.nvim" },
+	{ src = "https://github.com/nvim-mini/mini.ai" },
 	{ src = "https://github.com/nvim-mini/mini.icons" },
 	{ src = "https://github.com/nvim-neo-tree/neo-tree.nvim" },
 	{ src = "https://github.com/MunifTanjim/nui.nvim" },
@@ -71,12 +72,20 @@ vim.pack.add({
 	{ src = "https://github.com/linux-cultist/venv-selector.nvim" },
 	{ src = "https://github.com/folke/which-key.nvim" },
 	{ src = "https://github.com/gbprod/yanky.nvim" },
+	"https://github.com/folke/lazydev.nvim",
 })
 
+local errors = {}
 for _, file in ipairs(plugin_files) do
 	local module = "plugins." .. vim.fn.fnamemodify(file, ":t:r")
 	local ok, err = pcall(require, module)
 	if not ok then
-		vim.notify(("Failed to load %s: %s"):format(module, err), vim.log.levels.ERROR)
+		table.insert(errors, ("Failed to load %s: %s"):format(module, err))
 	end
+end
+
+if #errors > 0 then
+	vim.schedule(function()
+		vim.notify(table.concat(errors, "\n"), vim.log.levels.ERROR)
+	end)
 end

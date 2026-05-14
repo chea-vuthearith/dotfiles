@@ -107,29 +107,29 @@ vim.lsp.config("*", {
 	},
 })
 
-vim.lsp.config("lua_ls", {
-	settings = {
-		Lua = {
-			runtime = { version = "LuaJIT" },
-			codeLens = { enable = true },
-			completion = { callSnippet = "Replace" },
-			doc = { privateName = { "^_" } },
-			workspace = {
-				library = vim.api.nvim_get_runtime_file("", true),
-				checkThirdParty = false,
-			},
-			diagnostics = { globals = { "vim" } },
-			hint = {
-				enable = true,
-				setType = false,
-				paramType = true,
-				paramName = "Disable",
-				semicolon = "Disable",
-				arrayIndex = "Disable",
-			},
-		},
-	},
-})
+-- vim.lsp.config("lua_ls", {
+-- 	settings = {
+-- 		Lua = {
+-- 			runtime = { version = "LuaJIT" },
+-- 			codeLens = { enable = true },
+-- 			completion = { callSnippet = "Replace" },
+-- 			doc = { privateName = { "^_" } },
+-- 			workspace = {
+-- 				library = vim.api.nvim_get_runtime_file("", true),
+-- 				checkThirdParty = false,
+-- 			},
+-- 			diagnostics = { globals = { "vim" } },
+-- 			hint = {
+-- 				enable = true,
+-- 				setType = false,
+-- 				paramType = true,
+-- 				paramName = "Disable",
+-- 				semicolon = "Disable",
+-- 				arrayIndex = "Disable",
+-- 			},
+-- 		},
+-- 	},
+-- })
 vim.lsp.enable("lua_ls")
 
 vim.lsp.config("tsgo", {

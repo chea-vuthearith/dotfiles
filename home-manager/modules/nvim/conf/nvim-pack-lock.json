@@ -58,6 +58,10 @@
       "rev": "0074b551a17338ccdcd299bd86687cc651bcb33d",
       "src": "https://github.com/smjonas/inc-rename.nvim"
     },
+    "lazydev.nvim": {
+      "rev": "ff2cbcba459b637ec3fd165a2be59b7bbaeedf0d",
+      "src": "https://github.com/folke/lazydev.nvim"
+    },
     "lualine.nvim": {
       "rev": "131a558e13f9f28b15cd235557150ccb23f89286",
       "src": "https://github.com/nvim-lualine/lualine.nvim"
@@ -65,6 +69,10 @@
     "markdown-preview.nvim": {
       "rev": "a923f5fc5ba36a3b17e289dc35dc17f66d0548ee",
       "src": "https://github.com/iamcco/markdown-preview.nvim"
+    },
+    "mini.ai": {
+      "rev": "a783ce6e1a5b3bc90519f20b51f4a5f6702734af",
+      "src": "https://github.com/nvim-mini/mini.ai"
     },
     "mini.icons": {
       "rev": "9c7b1b90b15bdd69c52f6e31889dbc9987c30ec4",
@@ -77,6 +85,10 @@
     "neo-tree.nvim": {
       "rev": "ff84e6e1608b24773f1b73cd4182e0bcf2b3d637",
       "src": "https://github.com/nvim-neo-tree/neo-tree.nvim"
+    },
+    "neogit": {
+      "rev": "99326a1310fb2d616b455d2fd16d01bf00682f06",
+      "src": "https://github.com/neogitorg/neogit"
     },
     "noice": {
       "rev": "7bfd942445fb63089b59f97ca487d605e715f155",
