@@ -37,22 +37,30 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.wo.foldexpr = "v:lua.vim.lsp.foldexpr()"
 
 		map("n", "gd", function()
-			require("fzf-lua").lsp_definitions()
+			Snacks.picker.lsp_definitions()
 		end, { desc = "Goto Definition" })
 
 		map("n", "gr", function()
-			require("fzf-lua").lsp_references()
+			Snacks.picker.lsp_references()
 		end, { desc = "References", nowait = true })
 
 		map("n", "gI", function()
-			require("fzf-lua").lsp_implementations()
+			Snacks.picker.lsp_implementations()
 		end, { desc = "Goto Implementation" })
 
 		map("n", "gy", function()
-			require("fzf-lua").lsp_typedefs()
+			Snacks.picker.lsp_type_definitions()
 		end, { desc = "Goto T[y]pe Definition" })
 
-		map("n", "gD", require("fzf-lua").lsp_declarations, { desc = "Goto Declaration" })
+		map("n", "gD", Snacks.picker.lsp_declarations, { desc = "Goto Declaration" })
+
+		map("n", "gi", Snacks.picker.lsp_incoming_calls, { desc = "Incoming Calls" })
+
+		map("n", "go", Snacks.picker.lsp_outgoing_calls, { desc = "Outgoing calls" })
+
+		map("n", "<leader>ss", Snacks.picker.lsp_symbols, { desc = "Symbols" })
+
+		map("n", "<leader>sS", Snacks.picker.lsp_workspace_symbols, { desc = "Symbols (Workspace)" })
 
 		map("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
 
@@ -60,7 +68,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		map("i", "<c-k>", vim.lsp.buf.signature_help, { desc = "Signature Help" })
 
-		map({ "n", "x" }, "<leader>ca", require("fzf-lua").lsp_code_actions, {
+		map({ "n", "x" }, "<leader>ca", vim.lsp.buf.code_action, {
 			desc = "Code Action",
 		})
 

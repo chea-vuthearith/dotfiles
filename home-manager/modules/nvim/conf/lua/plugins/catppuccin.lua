@@ -28,11 +28,17 @@ require("catppuccin").setup({
 		snacks = {
 			enabled = true,
 		},
+		lsp_trouble = true,
 		dadbod_ui = true,
 		which_key = true,
 		fzf = true,
+		treesitter_context = true,
+		gitsigns = {
+			enabled = true,
+			transparent = true,
+		},
 		blink_cmp = {
-			style = "bordered",
+			style = "solid",
 		},
 	},
 })

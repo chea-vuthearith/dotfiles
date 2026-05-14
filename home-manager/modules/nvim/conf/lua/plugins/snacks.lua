@@ -10,37 +10,63 @@ snacks.setup({
 	words = { enabled = true },
 	indent = { enabed = true },
 	statuscolumn = { enabed = true },
+	scope = { enabled = true },
+	picker = {
+		enabled = true,
+		actions = require("trouble.sources.snacks").actions,
+		layout = { preset = "telescope" },
+		sources = {
+			files = {
+				hidden = true,
+				follow = true,
+			},
+		},
+		win = {
+			input = {
+				keys = {
+					["<c-u>"] = { "preview_scroll_up", mode = { "i", "n" } },
+					["<c-d>"] = { "preview_scroll_down", mode = { "i", "n" } },
+					["<a-i>"] = { "toggle_ignored", mode = { "n", "i" } },
+					["<a-.>"] = { "toggle_hidden", mode = { "n", "i" } },
+					["<a-f>"] = { "toggle_follow", mode = { "n", "i" } },
+					["<esc>"] = { "cancel", mode = { "n", "i" } },
+					["<c-t>"] = {
+						"trouble_open",
+						mode = { "n", "i" },
+					},
+				},
+			},
+		},
+	},
 })
 
-vim.keymap.set("n", "<leader>n", function()
-	if snacks.config.picker and snacks.config.picker.enabled then
-		snacks.picker.notifications()
-	else
-		snacks.notifier.show_history()
-	end
+local map = vim.keymap.set
+
+map("n", "<leader>n", function()
+	snacks.picker.notifications()
 end, { desc = "Notification History" })
 
-vim.keymap.set("n", "<leader>bd", function()
+map("n", "<leader>bd", function()
 	snacks.bufdelete()
 end, { desc = "Delete Buffer" })
-vim.keymap.set("n", "<leader>bo", function()
+map("n", "<leader>bo", function()
 	snacks.bufdelete.other()
 end, { desc = "Delete Other Buffers" })
-vim.keymap.set("n", "<leader>bD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
+map("n", "<leader>bD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
 
-vim.keymap.set("n", "<leader>gL", function()
+map("n", "<leader>gL", function()
 	snacks.picker.git_log()
 end, { desc = "Git Log (cwd)" })
-vim.keymap.set("n", "<leader>gb", function()
+map("n", "<leader>gb", function()
 	snacks.picker.git_log_line()
 end, { desc = "Git Blame Line" })
-vim.keymap.set("n", "<leader>gf", function()
+map("n", "<leader>gf", function()
 	snacks.picker.git_log_file()
 end, { desc = "Git Current File History" })
-vim.keymap.set({ "n", "x" }, "<leader>gB", function()
+map({ "n", "x" }, "<leader>gB", function()
 	snacks.gitbrowse()
 end, { desc = "Git Browse (open)" })
-vim.keymap.set({ "n", "x" }, "<leader>gY", function()
+map({ "n", "x" }, "<leader>gY", function()
 	snacks.gitbrowse({
 		open = function(url)
 			vim.fn.setreg("+", url)
@@ -49,9 +75,33 @@ vim.keymap.set({ "n", "x" }, "<leader>gY", function()
 	})
 end, { desc = "Git Browse (copy)" })
 
-vim.keymap.set({ "n", "t" }, "<C-_>", function()
+map({ "n", "t" }, "<C-_>", function()
 	snacks.terminal.focus(nil, { cwd = vim.fn.getcwd() })
 end, { desc = "Terminal (Root Dir)" })
+
+map({ "n" }, "<leader>z", function()
+	snacks.picker.zoxide()
+end, { desc = "Zoxide" })
+
+map({ "n" }, "<leader>p", function()
+	snacks.picker.cliphist()
+end, { desc = "Clip history" })
+
+map("n", "<leader><leader>", function()
+	Snacks.picker.files()
+end, { desc = "Find Files" })
+
+map("n", "<leader>sk", function()
+	Snacks.picker.keymaps()
+end, { desc = "Key Maps" })
+
+map("n", "<leader>/", function()
+	Snacks.picker.grep()
+end, { desc = "Grep Project" })
+
+map("n", "<leader>fc", function()
+	Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
+end, { desc = "Find Config File" })
 
 snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
 snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
@@ -72,7 +122,3 @@ snacks.toggle.indent():map("<leader>ug")
 snacks.toggle.scroll():map("<leader>uS")
 snacks.toggle.profiler():map("<leader>dpp")
 snacks.toggle.profiler_highlights():map("<leader>dph")
-
-if vim.lsp.inlay_hint then
-	snacks.toggle.inlay_hints():map("<leader>uh")
-end

@@ -7,8 +7,6 @@ require("yanky").setup({
 
 local map = vim.keymap.set
 
-map({ "n", "x" }, "<leader>p", vim.cmd.YankyRingHistory, { desc = "Open Yank History" })
-
 map({ "n", "x" }, "y", "<Plug>(YankyYank)", { desc = "Yank Text" })
 map({ "n", "x" }, "p", "<Plug>(YankyPutAfter)", { desc = "Put Text After Cursor" })
 map({ "n", "x" }, "P", "<Plug>(YankyPutBefore)", { desc = "Put Text Before Cursor" })

@@ -29,7 +29,9 @@ local config_dir = vim.fn.fnamemodify(current_file, ":h")
 local plugins_dir = vim.fn.fnamemodify(config_dir, ":h") .. "/plugins"
 
 local plugin_files = vim.fn.glob(plugins_dir .. "/*.lua", false, true)
-vim.pack.add({
+
+--- @type (string|vim.pack.Spec)[]
+local specs = {
 	{ src = "https://github.com/tpope/vim-abolish" },
 	{ src = "https://github.com/saghen/blink.cmp" },
 	{ src = "https://github.com/saghen/blink.lib" },
@@ -41,7 +43,6 @@ vim.pack.add({
 	{ src = "https://github.com/tpope/vim-dadbod" },
 	{ src = "https://github.com/kristijanhusak/vim-dadbod-completion" },
 	{ src = "https://github.com/monaqa/dial.nvim" },
-	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
 	{ src = "https://github.com/akinsho/git-conflict.nvim" },
 	{ src = "https://github.com/ThePrimeagen/harpoon", version = "harpoon2" },
@@ -49,8 +50,7 @@ vim.pack.add({
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/folke/snacks.nvim" },
 	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
-	{ src = "https://github.com/MeanderingProgrammer/render-markdown.nvim" },
-	{ src = "https://github.com/iamcco/markdown-preview.nvim" },
+	{ src = "https://github.com/OXY2DEV/markview.nvim" },
 	{ src = "https://github.com/nvim-mini/mini.ai" },
 	{ src = "https://github.com/nvim-mini/mini.comment" },
 	{ src = "https://github.com/nvim-mini/mini.icons" },
@@ -74,8 +74,24 @@ vim.pack.add({
 	"https://github.com/folke/lazydev.nvim",
 	"https://github.com/rafamadriz/friendly-snippets",
 	{ src = "https://github.com/L3MON4D3/LuaSnip", data = { build = "make install_jsregexp" } },
-})
+}
 
+local removed = {}
+local on_disk = vim.pack.get()
+if #on_disk ~= #specs then
+	local expected = {}
+	for _, spec in ipairs(specs) do
+		expected[type(spec) == "string" and spec or spec.src] = true
+	end
+	for _, plugin in ipairs(on_disk) do
+		if not expected[plugin.spec.src] then
+			table.insert(removed, plugin.spec.name)
+			vim.pack.del({ plugin.spec.name })
+		end
+	end
+end
+
+vim.pack.add(specs)
 local errors = {}
 for _, file in ipairs(plugin_files) do
 	local module = "plugins." .. vim.fn.fnamemodify(file, ":t:r")
@@ -83,6 +99,12 @@ for _, file in ipairs(plugin_files) do
 	if not ok then
 		table.insert(errors, ("Failed to load %s: %s"):format(module, err))
 	end
+end
+
+if #removed > 0 then
+	vim.schedule(function()
+		vim.notify("Plugins removed: " .. table.concat(removed, ", "), vim.log.levels.WARN)
+	end)
 end
 
 if #errors > 0 then

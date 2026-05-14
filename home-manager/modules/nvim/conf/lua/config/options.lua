@@ -1,4 +1,4 @@
--- vim.opt.timeoutlen = 50
+vim.opt.timeoutlen = 50
 
 vim.g.autoformat = true
 vim.g.snacks_animate = false
@@ -66,5 +66,3 @@ opt.winminwidth = 5
 opt.diffopt:append("vertical")
 opt.mouse = ""
 opt.wrap = true
-
-vim.g.markdown_recommended_style = 0
