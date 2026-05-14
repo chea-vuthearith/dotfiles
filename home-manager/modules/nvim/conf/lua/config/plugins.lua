@@ -15,7 +15,7 @@ local function run_build(spec, path)
 	})
 end
 
--- build plugins whose sepc has data.build
+-- build plugins whose spec has data.build
 vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function(ev)
 		if ev.data.kind == "install" or ev.data.kind == "update" then
