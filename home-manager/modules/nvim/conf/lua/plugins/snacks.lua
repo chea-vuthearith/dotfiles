@@ -14,7 +14,8 @@ snacks.setup({
 	picker = {
 		enabled = true,
 		actions = require("trouble.sources.snacks").actions,
-		layout = { preset = "telescope" },
+		-- layout = { preset = "telescope" },
+		-- reverse = false,
 		sources = {
 			files = {
 				hidden = true,

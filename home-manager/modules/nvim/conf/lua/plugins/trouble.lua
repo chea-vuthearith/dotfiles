@@ -1,6 +1,6 @@
 require("trouble").setup({})
 
-vim.keymap.set("n", "<leader>cS", "<cmd>Trouble symbols toggle<cr>", { desc = "Symbols Tree" })
+vim.keymap.set("n", "<leader>cs", "<cmd>Trouble symbols toggle<cr>", { desc = "Symbols Tree" })
 
 local map = vim.keymap.set
 map("n", "[q", function()
