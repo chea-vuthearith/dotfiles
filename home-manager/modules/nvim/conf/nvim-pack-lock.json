@@ -17,7 +17,7 @@
       "src": "https://github.com/catppuccin/nvim"
     },
     "codesnap.nvim": {
-      "rev": "da475d35a9be9a0670f8145a8b13ff8aa9356108",
+      "rev": "0a0941340376439a25d6cd8a4d1d2b372edbfdbd",
       "src": "https://github.com/mistricky/codesnap.nvim",
       "version": "'v1.6.3'"
     },
@@ -75,7 +75,7 @@
       "src": "https://github.com/nvim-mini/mini.surround"
     },
     "neo-tree.nvim": {
-      "rev": "84c75e7a7e443586f60508d12fc50f90d9aee14e",
+      "rev": "ff84e6e1608b24773f1b73cd4182e0bcf2b3d637",
       "src": "https://github.com/nvim-neo-tree/neo-tree.nvim"
     },
     "noice": {

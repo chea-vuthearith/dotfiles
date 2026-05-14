@@ -4,6 +4,11 @@ local function run_build(spec, path)
 		return
 	end
 
+	if type(build) == "string" and build:sub(1, 1) == ":" then
+		vim.cmd(build:sub(2))
+		return
+	end
+
 	vim.system({ "sh", "-c", build }, {
 		cwd = path,
 		text = true,
@@ -60,7 +65,7 @@ vim.pack.add({
 	{ src = "https://github.com/mrjones2014/smart-splits.nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-context" },
 	{ src = "https://github.com/folke/todo-comments.nvim" },
-	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", branch = "main" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", branch = "main", data = { build = ":TSUpdate" } },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
 	{ src = "https://github.com/windwp/nvim-ts-autotag" },
 	{ src = "https://github.com/dmmulroy/tsc.nvim" },
