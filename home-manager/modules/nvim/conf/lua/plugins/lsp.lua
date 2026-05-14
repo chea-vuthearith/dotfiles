@@ -24,19 +24,11 @@ vim.diagnostic.config({
 		},
 	},
 })
+local map = vim.keymap.set
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(ev)
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		local bufnr = ev.buf
-		local map = function(modes, lhs, rhs, desc, opts)
-			vim.keymap.set(
-				modes,
-				lhs,
-				rhs,
-				vim.tbl_extend("force", { buffer = bufnr, silent = true, desc = desc }, opts or {})
-			)
-		end
-
 		if client and client.name == "copilot" and vim.lsp.inline_completion then
 			vim.lsp.inline_completion.enable(true)
 		end
@@ -46,50 +38,63 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		map("n", "gd", function()
 			require("telescope.builtin").lsp_definitions({ reuse_win = true })
-		end, "Goto Definition")
-		map("n", "gr", "<cmd>Telescope lsp_references<cr>", "References", { nowait = true })
+		end, { desc = "Goto Definition" })
+
+		map("n", "gr", "<cmd>Telescope lsp_references<cr>", {
+			desc = "References",
+			nowait = true,
+		})
+
 		map("n", "gI", function()
 			require("telescope.builtin").lsp_implementations({ reuse_win = true })
-		end, "Goto Implementation")
+		end, { desc = "Goto Implementation" })
+
 		map("n", "gy", function()
 			require("telescope.builtin").lsp_type_definitions({ reuse_win = true })
-		end, "Goto T[y]pe Definition")
-		map("n", "gD", vim.lsp.buf.declaration, "Goto Declaration")
+		end, { desc = "Goto T[y]pe Definition" })
 
-		map("n", "K", vim.lsp.buf.hover, "Hover")
-		map("n", "gK", vim.lsp.buf.signature_help, "Signature Help")
-		map("i", "<c-k>", vim.lsp.buf.signature_help, "Signature Help")
+		map("n", "gD", vim.lsp.buf.declaration, { desc = "Goto Declaration" })
 
-		map({ "n", "x" }, "<leader>ca", vim.lsp.buf.code_action, "Code Action")
-		map("n", "<leader>cr", vim.lsp.buf.rename, "Rename")
+		map("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
+
+		map("n", "gK", vim.lsp.buf.signature_help, { desc = "Signature Help" })
+
+		map("i", "<c-k>", vim.lsp.buf.signature_help, { desc = "Signature Help" })
+
+		map({ "n", "x" }, "<leader>ca", vim.lsp.buf.code_action, {
+			desc = "Code Action",
+		})
+
+		map("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
 
 		map({ "n", "x" }, "<leader>cA", function()
 			vim.lsp.buf.code_action({ context = { only = { "source" } } })
-		end, "Source Action")
+		end, { desc = "Source Action" })
 
 		map("n", "<leader>co", function()
 			vim.lsp.buf.code_action({
 				apply = true,
 				context = { only = { "source.organizeImports" }, diagnostics = {} },
 			})
-		end, "Organize Imports")
+		end, { desc = "Organize Imports" })
 
 		map("n", "<leader>cR", function()
 			local old = vim.api.nvim_buf_get_name(bufnr)
 			local new = vim.fn.input("New name: ", old)
 			snacks.rename.on_rename_file(old, new)
-		end, "Rename File")
+		end, { desc = "Rename File" })
 
 		map("n", "]]", function()
 			snacks.words.jump(vim.v.count1)
-		end, "Next Reference")
+		end, { desc = "Next Reference" })
+
 		map("n", "[[", function()
 			snacks.words.jump(-vim.v.count1)
-		end, "Prev Reference")
+		end, { desc = "Prev Reference" })
 	end,
 })
 
-map("n", "<leader>cl", snacks.picker.lsp_config, "Lsp Info")
+map("n", "<leader>cl", snacks.picker.lsp_config, { desc = "Lsp Info" })
 
 vim.lsp.config("*", {
 	capabilities = {
