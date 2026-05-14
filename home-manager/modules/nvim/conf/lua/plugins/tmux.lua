@@ -1,5 +1,5 @@
 require("smart-splits").setup({
-  at_edge = "stop",
+	at_edge = "stop",
 })
 
 vim.keymap.set("n", "<C-Left>", function()
@@ -40,6 +40,3 @@ end, { desc = "Swap Buffer Up" })
 vim.keymap.set("n", "<C-S-L>", function()
 	require("smart-splits").swap_buf_right()
 end, { desc = "Swap Buffer Right" })
-
-vim.api.nvim_set_hl(0, "TreesitterContextBottom", { underline = false })
-vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom", { underline = false })

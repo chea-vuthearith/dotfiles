@@ -4,39 +4,39 @@ require("nvim-treesitter").setup({
 	folds = { enable = true },
 	install_dir = vim.fn.stdpath("data") .. "/site",
 })
-	require("nvim-treesitter")
-		.install({
-			"bash",
-			"c",
-			"cpp",
-			"css",
-			"diff",
-			"gitattributes",
-			"gitcommit",
-			"git_config",
-			"gitignore",
-			"git_rebase",
-			"go",
-			"html",
-			"java",
-			"javascript",
-			"json",
-			"lua",
-			"markdown",
-			"markdown_inline",
-			"nix",
-			"python",
-			"query",
-			"regex",
-			"rust",
-			"sql",
-			"toml",
-			"tsx",
-			"typescript",
-			"vim",
-			"vimdoc",
-			"yaml",
-		})
+require("nvim-treesitter")
+	.install({
+		"bash",
+		"c",
+		"cpp",
+		"css",
+		"diff",
+		"gitattributes",
+		"gitcommit",
+		"git_config",
+		"gitignore",
+		"git_rebase",
+		"go",
+		"html",
+		"java",
+		"javascript",
+		"json",
+		"lua",
+		"markdown",
+		"markdown_inline",
+		"nix",
+		"python",
+		"query",
+		"regex",
+		"rust",
+		"sql",
+		"toml",
+		"tsx",
+		"typescript",
+		"vim",
+		"vimdoc",
+		"yaml",
+	})
 	:wait(300000) -- wait max. 5 minutes
 
 require("nvim-ts-autotag").setup({})
@@ -110,3 +110,6 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 vim.tbl_map(attach, vim.api.nvim_list_bufs())
+
+vim.api.nvim_set_hl(0, "TreesitterContextBottom", { underline = false })
+vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom", { underline = false })
