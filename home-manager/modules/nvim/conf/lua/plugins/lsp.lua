@@ -37,23 +37,22 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.wo.foldexpr = "v:lua.vim.lsp.foldexpr()"
 
 		map("n", "gd", function()
-			require("telescope.builtin").lsp_definitions({ reuse_win = true })
+			require("fzf-lua").lsp_definitions()
 		end, { desc = "Goto Definition" })
 
-		map("n", "gr", "<cmd>Telescope lsp_references<cr>", {
-			desc = "References",
-			nowait = true,
-		})
+		map("n", "gr", function()
+			require("fzf-lua").lsp_references()
+		end, { desc = "References", nowait = true })
 
 		map("n", "gI", function()
-			require("telescope.builtin").lsp_implementations({ reuse_win = true })
+			require("fzf-lua").lsp_implementations()
 		end, { desc = "Goto Implementation" })
 
 		map("n", "gy", function()
-			require("telescope.builtin").lsp_type_definitions({ reuse_win = true })
+			require("fzf-lua").lsp_typedefs()
 		end, { desc = "Goto T[y]pe Definition" })
 
-		map("n", "gD", vim.lsp.buf.declaration, { desc = "Goto Declaration" })
+		map("n", "gD", require("fzf-lua").lsp_declarations, { desc = "Goto Declaration" })
 
 		map("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
 
@@ -61,15 +60,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		map("i", "<c-k>", vim.lsp.buf.signature_help, { desc = "Signature Help" })
 
-		map({ "n", "x" }, "<leader>ca", vim.lsp.buf.code_action, {
+		map({ "n", "x" }, "<leader>ca", require("fzf-lua").lsp_code_actions, {
 			desc = "Code Action",
 		})
 
 		map("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
-
-		map({ "n", "x" }, "<leader>cA", function()
-			vim.lsp.buf.code_action({ context = { only = { "source" } } })
-		end, { desc = "Source Action" })
 
 		map("n", "<leader>co", function()
 			vim.lsp.buf.code_action({

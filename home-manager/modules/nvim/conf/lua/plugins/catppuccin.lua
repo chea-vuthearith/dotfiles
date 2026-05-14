@@ -30,9 +30,7 @@ require("catppuccin").setup({
 		},
 		dadbod_ui = true,
 		which_key = true,
-		telescope = {
-			enabled = true,
-		},
+		fzf = true,
 		blink_cmp = {
 			style = "bordered",
 		},

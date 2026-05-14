@@ -7,16 +7,7 @@ require("yanky").setup({
 
 local map = vim.keymap.set
 
-map({ "n", "x" }, "<leader>p", function()
-	local telescope = require("telescope")
-	telescope.load_extension("yank_history")
-	local ext = telescope.extensions and telescope.extensions.yank_history
-	if ext and ext.yank_history then
-		ext.yank_history({})
-		return
-	end
-	vim.cmd.YankyRingHistory()
-end, { desc = "Open Yank History" })
+map({ "n", "x" }, "<leader>p", vim.cmd.YankyRingHistory, { desc = "Open Yank History" })
 
 map({ "n", "x" }, "y", "<Plug>(YankyYank)", { desc = "Yank Text" })
 map({ "n", "x" }, "p", "<Plug>(YankyPutAfter)", { desc = "Put Text After Cursor" })

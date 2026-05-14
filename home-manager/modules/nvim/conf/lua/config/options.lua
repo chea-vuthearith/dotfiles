@@ -1,4 +1,4 @@
-vim.opt.timeoutlen = 0 -- i dont have overlapping keybinds
+-- vim.opt.timeoutlen = 50
 
 vim.g.autoformat = true
 vim.g.snacks_animate = false
