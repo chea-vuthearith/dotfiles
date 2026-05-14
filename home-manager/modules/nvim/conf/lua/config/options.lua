@@ -1,3 +1,5 @@
+vim.opt.timeoutlen = 0 -- i dont have overlapping keybinds
+
 vim.g.autoformat = true
 vim.g.snacks_animate = false
 vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }

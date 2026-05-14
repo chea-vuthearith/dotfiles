@@ -1,6 +1,6 @@
 require("which-key").setup({
 	preset = "helix",
-	delay = 0,
+	timeoutlen = 50,
 })
 
 vim.keymap.set("n", "<leader>?", function()
