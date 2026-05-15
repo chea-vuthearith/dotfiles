@@ -152,17 +152,19 @@ local function diffget_conflict(target, label)
 	vim.cmd(("%d,%ddiffget %s"):format(start_line, end_line, target))
 end
 
-map("n", "<leader>gat", function()
-	diffget_conflict("RE", "theirs")
-end, { desc = "Accept Theirs" })
+if os.getenv("NVIM_MERGETOOL") then
+	map("n", "<leader>gat", function()
+		diffget_conflict("RE", "theirs")
+	end, { desc = "Accept Theirs" })
 
-map("n", "<leader>gao", function()
-	diffget_conflict("LO", "ours")
-end, { desc = "Accept Ours" })
+	map("n", "<leader>gao", function()
+		diffget_conflict("LO", "ours")
+	end, { desc = "Accept Ours" })
 
-map("n", "<leader>ga0", function()
-	diffget_conflict("BA", "base")
-end, { desc = "Accept None" })
+	map("n", "<leader>ga0", function()
+		diffget_conflict("BA", "base")
+	end, { desc = "Accept None" })
+end
 
 map("n", "<leader>gam", function()
 	local file = vim.fn.expand("%:p")
