@@ -12,6 +12,7 @@ require("sidekick").setup({
 
 local map = vim.keymap.set
 
+local maincli = "opencode"
 map("n", "<leader>a", "", { desc = "+ai" })
 
 map({ "n", "t", "i", "x" }, "<C-.>", function()
@@ -19,7 +20,7 @@ map({ "n", "t", "i", "x" }, "<C-.>", function()
 end, { desc = "Sidekick Focus" })
 
 map("n", "<leader>aa", function()
-	require("sidekick.cli").toggle({ name = "opencode" })
+	require("sidekick.cli").toggle({ name = maincli })
 end, { desc = "Sidekick Toggle CLI" })
 
 map("n", "<leader>as", function()
@@ -31,17 +32,17 @@ map("n", "<leader>ad", function()
 end, { desc = "Detach a CLI Session" })
 
 map({ "x", "n" }, "<leader>at", function()
-	require("sidekick.cli").send({ msg = "{this}" })
+	require("sidekick.cli").send({ msg = "{this}", name = maincli })
 end, { desc = "Send This" })
 
 map("n", "<leader>af", function()
-	require("sidekick.cli").send({ msg = "{file}" })
+	require("sidekick.cli").send({ msg = "{file}", name = maincli })
 end, { desc = "Send File" })
 
 map("x", "<leader>av", function()
-	require("sidekick.cli").send({ msg = "{selection}" })
+	require("sidekick.cli").send({ msg = "{selection}", name = maincli })
 end, { desc = "Send Visual Selection" })
 
 map({ "n", "x" }, "<leader>ap", function()
-	require("sidekick.cli").prompt()
+	require("sidekick.cli").prompt({ name = maincli })
 end, { desc = "Sidekick Select Prompt" })
