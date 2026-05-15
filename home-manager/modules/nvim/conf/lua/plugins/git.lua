@@ -61,8 +61,6 @@ require("gitsigns").setup({
 	end,
 })
 
-local map = vim.keymap.set
-
 -- disable diagnostics in merge tool
 if os.getenv("NVIM_MERGETOOL") then
 	vim.api.nvim_create_autocmd("LspAttach", {
@@ -75,78 +73,151 @@ if os.getenv("NVIM_MERGETOOL") then
 	})
 end
 
+local map = vim.keymap.set
+
+local markers = {
+	start = "^<<<<<<< ",
+	["end"] = "^>>>>>>> ",
+}
+
+local function jump_conflict(pattern, flags, label)
+	local pos = vim.fn.search(pattern, flags)
+
+	if pos > 0 then
+		vim.cmd("normal! zz")
+		return
+	end
+
+	vim.notify(("No %s conflict found"):format(label), vim.log.levels.INFO, {
+		title = "Git Conflict",
+	})
+end
+
 map("n", "]x", function()
-	local pos = vim.fn.search("^<<<<<<<", "W")
-	if pos > 0 then
-		vim.cmd("normal! zz")
-	end
+	jump_conflict(markers.start, "W", "next")
 end, { desc = "Next Conflict Start" })
+
 map("n", "[x", function()
-	local pos = vim.fn.search("^<<<<<<<", "bW")
-	if pos > 0 then
-		vim.cmd("normal! zz")
-	end
+	jump_conflict(markers.start, "bW", "previous")
 end, { desc = "Prev Conflict Start" })
+
 map("n", "]X", function()
-	local pos = vim.fn.search("^>>>>>>>", "W")
-	if pos > 0 then
-		vim.cmd("normal! zz")
-	end
+	jump_conflict(markers["end"], "W", "next end")
 end, { desc = "Next Conflict End" })
+
 map("n", "[X", function()
-	local pos = vim.fn.search("^>>>>>>>", "bW")
-	if pos > 0 then
-		vim.cmd("normal! zz")
-	end
+	jump_conflict(markers["end"], "bW", "previous end")
 end, { desc = "Prev Conflict End" })
 
-map("n", "<leader>gat", function()
-	if vim.wo.diff then
-		vim.cmd("diffget RE")
-	end
-end, { desc = "Accept Theirs" })
-map("n", "<leader>gao", function()
-	if vim.wo.diff then
-		vim.cmd("diffget LO")
-	end
-end, { desc = "Accept Ours" })
-map("n", "<leader>ga0", function()
-	if vim.wo.diff then
-		vim.cmd("diffget BA")
-	end
-end, { desc = "Accept None" })
-map("n", "<leader>gam", function()
-	local file = vim.fn.expand("%:p")
-	vim.fn.system({ "tmux", "neww", "env", "NVIM_MERGETOOL=1", "git", "mergetool", file })
-end, { desc = "Mergetool Current File (tmux)" })
-map("n", "<leader>gal", function()
-	if require("trouble").is_open() then
-		require("trouble").close()
-	end
-	local lines = vim.fn.systemlist("git diff --check")
-	local items = {}
-	local git_root = require("snacks").git.get_root()
-	if not git_root then
-		vim.notify("Not in a git repo", vim.log.levels.ERROR, { title = "Git" })
-		return
-	end
-	for _, line in ipairs(lines) do
-		local filename, lnum_str, msg = line:match("^(.-):(%d+):%s*(.*)$")
-		if filename then
-			local lnum = tonumber(lnum_str)
-			if lnum and lnum > 0 then
-				table.insert(items, {
-					filename = git_root .. "/" .. filename,
-					lnum = lnum,
-					text = msg,
-				})
-			end
+local function conflict_range()
+	local cursor = vim.api.nvim_win_get_cursor(0)[1]
+	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+
+	local start_line
+	for i = cursor, 1, -1 do
+		if lines[i]:match(markers.start) then
+			start_line = i
+			break
 		end
 	end
-	if #items == 0 then
-		vim.notify("No conflicts found", vim.log.levels.INFO, { title = "Git" })
+
+	if not start_line then
 		return
 	end
+
+	for i = cursor, #lines do
+		if lines[i]:match(markers["end"]) then
+			return start_line, i
+		end
+	end
+end
+
+local function diffget_conflict(target, label)
+	if not vim.wo.diff then
+		vim.notify("Not in diff mode", vim.log.levels.WARN, {
+			title = "Git Conflict",
+		})
+		return
+	end
+
+	local start_line, end_line = conflict_range()
+
+	if not start_line or not end_line then
+		vim.notify("No conflict block under cursor", vim.log.levels.INFO, {
+			title = "Git Conflict",
+		})
+		return
+	end
+
+	vim.cmd(("%d,%ddiffget %s"):format(start_line, end_line, target))
+end
+
+map("n", "<leader>gat", function()
+	diffget_conflict("RE", "theirs")
+end, { desc = "Accept Theirs" })
+
+map("n", "<leader>gao", function()
+	diffget_conflict("LO", "ours")
+end, { desc = "Accept Ours" })
+
+map("n", "<leader>ga0", function()
+	diffget_conflict("BA", "base")
+end, { desc = "Accept None" })
+
+map("n", "<leader>gam", function()
+	local file = vim.fn.expand("%:p")
+
+	vim.fn.system({
+		"tmux",
+		"neww",
+		"env",
+		"NVIM_MERGETOOL=1",
+		"git",
+		"mergetool",
+		file,
+	})
+end, { desc = "Mergetool Current File (tmux)" })
+
+map("n", "<leader>gal", function()
+	local trouble = require("trouble")
+
+	if trouble.is_open() then
+		trouble.close()
+	end
+
+	local git_root = require("snacks").git.get_root()
+
+	if not git_root then
+		vim.notify("Not in a git repo", vim.log.levels.ERROR, {
+			title = "Git",
+		})
+		return
+	end
+
+	local lines = vim.fn.systemlist("git diff --check")
+	local items = {}
+
+	for _, line in ipairs(lines) do
+		local filename, lnum_str, msg = line:match("^(.-):(%d+):%s*(.*)$")
+
+		local lnum = tonumber(lnum_str)
+
+		if filename and lnum and lnum > 0 then
+			items[#items + 1] = {
+				filename = git_root .. "/" .. filename,
+				lnum = lnum,
+				text = msg,
+			}
+		end
+	end
+
+	if vim.tbl_isempty(items) then
+		vim.notify("No conflicts found", vim.log.levels.INFO, {
+			title = "Git",
+		})
+		return
+	end
+
 	vim.fn.setloclist(0, items)
-	require("trouble").open({ mode = "loclist" })
+	trouble.open({ mode = "loclist" })
 end, { desc = "List Conflicts" })
