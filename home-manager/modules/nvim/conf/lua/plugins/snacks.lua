@@ -21,7 +21,7 @@ snacks.setup({
 			explorer = {
 				actions = {
 					explorer_find_files = function(picker)
-						Snacks.picker.files({ cwd = picker:dir() })
+						Snacks.picker.files({ cwd = picker:cwd() })
 					end,
 				},
 				hidden = true,
