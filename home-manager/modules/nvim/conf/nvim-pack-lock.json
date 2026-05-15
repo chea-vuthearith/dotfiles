@@ -65,10 +65,6 @@
       "rev": "990ce30f724d08e79670107de6b915a3f1bb9a9b",
       "src": "https://github.com/nvim-mini/mini.surround"
     },
-    "neo-tree.nvim": {
-      "rev": "ff84e6e1608b24773f1b73cd4182e0bcf2b3d637",
-      "src": "https://github.com/nvim-neo-tree/neo-tree.nvim"
-    },
     "noice": {
       "rev": "7bfd942445fb63089b59f97ca487d605e715f155",
       "src": "https://github.com/folke/noice.nvim"
