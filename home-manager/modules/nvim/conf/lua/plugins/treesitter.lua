@@ -7,6 +7,7 @@ require("nvim-treesitter").setup({
 require("nvim-treesitter")
 	.install({
 		"bash",
+		"dotenv",
 		"c",
 		"cpp",
 		"css",
@@ -49,7 +50,10 @@ vim.api.nvim_create_autocmd("FileType", {
 			return
 		end
 
-		vim.treesitter.start(ev.buf)
+		local ok = pcall(vim.treesitter.start, ev.buf)
+		if not ok then
+			return
+		end
 		vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 		for _, win in ipairs(vim.fn.win_findbuf(ev.buf)) do
 			vim.wo[win].foldmethod = "expr"

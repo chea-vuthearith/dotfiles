@@ -169,8 +169,9 @@ vim.lsp.enable("nixd")
 
 vim.lsp.enable("biome")
 vim.lsp.enable("pyright")
-vim.lsp.enable("hyprls")
+vim.lsp.enable("yamlls")
 vim.lsp.enable("taplo")
+vim.lsp.enable("prismals")
 
 vim.lsp.config("copilot", {
 	telemetry = {
