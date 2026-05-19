@@ -47,6 +47,7 @@ local specs = {
 	{ src = "https://github.com/nvim-mini/mini.ai" },
 	{ src = "https://github.com/nvim-mini/mini.comment" },
 	{ src = "https://github.com/nvim-mini/mini.icons" },
+	{ src = "https://github.com/MagicDuck/grug-far.nvim" },
 	{ src = "https://github.com/MunifTanjim/nui.nvim" },
 	{ src = "https://github.com/folke/noice.nvim", name = "noice" },
 	{ src = "https://github.com/folke/sidekick.nvim" },

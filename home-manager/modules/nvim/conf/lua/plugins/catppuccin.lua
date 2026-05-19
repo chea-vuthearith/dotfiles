@@ -22,6 +22,7 @@ require("catppuccin").setup({
 	},
 	integrations = {
 		harpoon = true,
+		grug_far = true,
 		markview = true,
 		neotree = false,
 		noice = true,

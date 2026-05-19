@@ -81,3 +81,7 @@ map("t", "<Esc><Esc>", [[<C-\><C-n>]], { noremap = true, desc = "Exit Terminal M
 map("i", "<S-Tab>", function()
 	vim.lsp.inline_completion.get()
 end, { expr = true, desc = "Accept Inline Completion" })
+
+-- unmap buffer swapping
+vim.keymap.del("n", "H")
+vim.keymap.del("n", "L")

@@ -9,6 +9,7 @@ require("nvim-treesitter")
 		"bash",
 		"dotenv",
 		"c",
+		"prisma",
 		"cpp",
 		"css",
 		"diff",

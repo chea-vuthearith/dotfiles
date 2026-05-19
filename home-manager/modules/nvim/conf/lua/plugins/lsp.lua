@@ -141,6 +141,7 @@ vim.lsp.config("tsgo", {
 			preferences = {
 				importModuleSpecifier = "non-relative",
 				preferences = {
+					importModuleSpecifierPreference = "non-relative",
 					autoImportSpecifierExcludeRegexes = {
 						"^@mui/[^/]+$",
 					},
