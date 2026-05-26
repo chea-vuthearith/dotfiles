@@ -7,7 +7,7 @@ require("conform").setup({
 		html = { "biome" },
 		css = { "biome" },
 		json = { "biome" },
-		sh = { "beautysh" },
+		sh = { "shfmt" },
 		nix = { "alejandra" },
 		kdl = { "kdlfmt" },
 		lua = { "stylua" },

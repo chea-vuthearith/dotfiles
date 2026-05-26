@@ -28,11 +28,11 @@
       difftool.prompt = false;
       merge = {
         tool = "nvimdiff";
-        conflictstyle = "zdiff3";
+        # conflictstyle = "zdiff3";
       };
       mergetool = {
         nvimdiff = {
-          layout = "LOCAL,BASE,REMOTE / MERGED";
+          layout = "LOCAL,REMOTE / MERGED";
           trustExitCode = true;
         };
         keepBackup = false;

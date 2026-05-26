@@ -1,4 +1,6 @@
 vim.opt.timeoutlen = 50
+vim.opt.wildmenu = true
+vim.opt.wildmode = { "longest:list", "full" }
 
 vim.g.autoformat = true
 vim.g.snacks_animate = false
@@ -61,7 +63,6 @@ opt.undofile = true
 opt.undolevels = 10000
 opt.updatetime = 200
 opt.virtualedit = "block"
-opt.wildmode = "longest:full,full"
 opt.winminwidth = 5
 opt.diffopt:append("vertical")
 opt.mouse = ""
