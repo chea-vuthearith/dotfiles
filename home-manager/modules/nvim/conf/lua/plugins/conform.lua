@@ -9,22 +9,26 @@ require("conform").setup({
 		json = { "biome" },
 		sh = { "shfmt" },
 		nix = { "alejandra" },
+		markdown = { "prettierd", "injected" },
 		kdl = { "kdlfmt" },
 		lua = { "stylua" },
 		python = { "ruff_format", "ruff_fix", "ruff_organize_imports" },
 	},
+
 	format_on_save = {
 		timeout_ms = 500,
 		lsp_format = "fallback",
 	},
+
 	formatters = {
-		ruff_format = {
-			exit_codes = { 0, 1 },
-		},
 		biome = {
 			command = "biome",
 			args = { "check", "--write", "$FILENAME" },
 			stdin = false,
+		},
+
+		ruff_format = {
+			exit_codes = { 0, 1 },
 		},
 	},
 })

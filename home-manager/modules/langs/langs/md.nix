@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
+    prettierd
     markdown-toc
-    markdownlint-cli2
     marksman
   ];
 }
