@@ -27,6 +27,7 @@ vim.api.nvim_create_autocmd("PackChanged", {
 --- @type (string|vim.pack.Spec)[]
 local specs = {
 	{ src = "https://github.com/tpope/vim-abolish" },
+	"https://github.com/MeanderingProgrammer/render-markdown.nvim",
 	{ src = "https://github.com/saghen/blink.cmp" },
 	{ src = "https://github.com/saghen/blink.lib" },
 	{ src = "https://github.com/chrisgrieser/nvim-early-retirement" },
@@ -43,7 +44,6 @@ local specs = {
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/folke/snacks.nvim" },
 	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
-	{ src = "https://github.com/OXY2DEV/markview.nvim" },
 	{ src = "https://github.com/nvim-mini/mini.ai" },
 	{ src = "https://github.com/nvim-mini/mini.comment" },
 	{ src = "https://github.com/nvim-mini/mini.icons" },
