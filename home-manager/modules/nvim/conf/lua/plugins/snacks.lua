@@ -2,7 +2,7 @@ local snacks = require("snacks")
 snacks.setup({
 	dashboard = { enabled = false },
 	animate = { enabled = false },
-	bigfile = { enabled = true },
+	bigfile = { enabled = false },
 	image = { enabled = true },
 	notifier = { enabled = true },
 	quickfile = { enabled = true },
@@ -19,6 +19,9 @@ snacks.setup({
 
 		sources = {
 			explorer = {
+				hidden = true,
+				ignored = true,
+				follow = true,
 				actions = {
 					explorer_find_files = function(picker)
 						Snacks.picker.files({ cwd = picker:cwd() })

@@ -153,22 +153,32 @@ vim.lsp.config("tsgo", {
 vim.lsp.enable("tsgo")
 
 vim.lsp.config("nixd", {
-	nixpkgs = {
-		expr = "import <nixpkgs> { }",
-		formatting = { command = { "alejandra" } },
-		options = {
-			nixos = {
-				expr = '(builtins.getFlake "github:chea-vuthearith/dotfiles").nixosConfigurations.desktop.options',
+	---@type lspconfig.settings.nixd
+	settings = {
+		nixd = {
+			nixpkgs = {
+				expr = "import <nixpkgs> { }",
+				formatting = { command = { "alejandra" } },
+				options = {
+					nixos = {
+						expr = '(builtins.getFlake "github:chea-vuthearith/dotfiles").nixosConfigurations.desktop.options',
+					},
+					home_manager = {
+						expr = '(builtins.getFlake "github:chea-vuthearith/dotfiles").nixosConfigurations.desktop.options.home-manager.users.type.getSubOptions []',
+					},
+				},
 			},
-			home_manager = {
-				expr = '(builtins.getFlake "github:chea-vuthearith/dotfiles").nixosConfigurations.desktop.options.home-manager.users.type.getSubOptions []',
-			},
-		},
+		}
+,
 	},
 })
 vim.lsp.enable("nixd")
 
 vim.lsp.enable("biome")
+vim.lsp.config("pyright", {
+	---@type lspconfig.settings.pyright
+	settings = {},
+})
 vim.lsp.enable("pyright")
 vim.lsp.enable("yamlls")
 vim.lsp.enable("taplo")
