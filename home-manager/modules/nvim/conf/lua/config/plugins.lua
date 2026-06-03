@@ -28,6 +28,7 @@ vim.api.nvim_create_autocmd("PackChanged", {
 local specs = {
 	{ src = "https://github.com/tpope/vim-abolish" },
 	"https://github.com/MeanderingProgrammer/render-markdown.nvim",
+	"https://github.com/nvim-mini/mini.hipatterns",
 	{ src = "https://github.com/saghen/blink.cmp" },
 	{ src = "https://github.com/saghen/blink.lib" },
 	{ src = "https://github.com/chrisgrieser/nvim-early-retirement" },

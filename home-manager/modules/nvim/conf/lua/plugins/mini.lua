@@ -1,5 +1,11 @@
-local ai = require("mini.ai")
+local hipatterns = require("mini.hipatterns")
+hipatterns.setup({
+	highlighters = {
+		hex_color = hipatterns.gen_highlighter.hex_color(),
+	},
+})
 
+local ai = require("mini.ai")
 ai.setup({
 	n_lines = 500,
 	custom_textobjects = {
@@ -24,5 +30,30 @@ ai.setup({
 		end,
 		u = ai.gen_spec.function_call(),
 		U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }),
+	},
+})
+require("mini.comment").setup({
+	options = {
+		custom_commentstring = function()
+			return require("ts_context_commentstring.internal").calculate_commentstring() or vim.bo.commentstring
+		end,
+	},
+})
+
+require("ts_context_commentstring").setup({
+	enable_autocmd = false,
+})
+package.preload["nvim-web-devicons"] = function()
+	require("mini.icons").mock_nvim_web_devicons()
+	return package.loaded["nvim-web-devicons"]
+end
+
+require("mini.icons").setup({
+	file = {
+		[".keep"] = { glyph = "󰊢", hl = "MiniIconsGrey" },
+		["devcontainer.json"] = { glyph = "", hl = "MiniIconsAzure" },
+	},
+	filetype = {
+		dotenv = { glyph = "", hl = "MiniIconsYellow" },
 	},
 })
