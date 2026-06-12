@@ -4,6 +4,9 @@
   ...
 }: {
   imports =
-    [inputs.caelestia-shell.homeManagerModules.default]
+    [
+      inputs.dms.homeModules.default
+      inputs.dms-plugin-registry.homeModules.default
+    ]
     ++ lib.collectModules ./modules;
 }

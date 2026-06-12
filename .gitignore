@@ -24,3 +24,5 @@ Thumbs.db
 secrets/
 *.key
 *.pem
+
+__pycache__/  

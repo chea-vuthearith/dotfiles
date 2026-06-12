@@ -1,13 +1,9 @@
-{...}: {
-  services.displayManager = {
+{username, ...}: {
+  services.displayManager.dms-greeter = {
     enable = true;
-    ly = {
-      enable = true;
-      settings = {
-        hide_version_string = true;
-        hide_key_hints = true;
-        hide_borders = true;
-      };
+    compositor = {
+      name = "hyprland";
     };
+    configHome = "/home/${username}";
   };
 }

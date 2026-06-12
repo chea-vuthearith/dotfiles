@@ -1,5 +1,6 @@
 {
   config,
+  osConfig,
   pkgs,
   ...
 }: {
@@ -13,13 +14,14 @@
   stylix = {
     opacity.terminal = 0.9;
     image = ../../wallpapers/red-nebulae.jpg;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+    base16Scheme = osConfig.stylix.base16Scheme;
+    override = {
+      base0D = osConfig.lib.stylix.colors.base0E;
+      base0E = osConfig.lib.stylix.colors.base0D;
+    };
     polarity = "dark";
     enable = true;
     fonts = {
-      sizes = {
-        popups = 12;
-      };
       serif = {
         package = pkgs.sf-pro-nerd;
         name = "SFProDisplay Nerd Font";
@@ -41,16 +43,8 @@
     targets = {
       tmux.enable = false;
       ghostty.fonts.enable = false;
-      hyprland.hyprpaper.enable = false; # managed by caelestia;
-      hyprlock.image.enable = false;
+      hyprland.hyprpaper.enable = false; # managed by dms;
       neovim.enable = false;
-      fuzzel = {
-        fonts.override.sizes.popups = config.stylix.fonts.sizes.applications;
-        opacity.override.popups = 0.9;
-        colors.override = {
-          base0D-hex = config.lib.stylix.colors.base00-hex; # border
-        };
-      };
     };
 
     cursor = {

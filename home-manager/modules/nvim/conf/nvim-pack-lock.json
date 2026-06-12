@@ -13,7 +13,7 @@
       "src": "https://github.com/saghen/blink.lib"
     },
     "catppuccin": {
-      "rev": "426dbebe06b5c69fd846ceb17b42e12f890aedf1",
+      "rev": "0303a7208dba448c459767486a38a6ec05c4216b",
       "src": "https://github.com/catppuccin/nvim"
     },
     "conform.nvim": {

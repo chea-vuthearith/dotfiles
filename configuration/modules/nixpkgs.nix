@@ -24,13 +24,13 @@
     inherit (inputs.hyprland.packages.${system}) hyprland;
     inherit (inputs.apple-fonts.packages.${system}) sf-pro-nerd;
 
-    hyprlandPlugins =
-      prev.hyprlandPlugins
-      // {
-        inherit (inputs.hyprsplit.packages.${system}) hyprsplit;
-        inherit (inputs.hyprtasking.packages.${system}) hyprtasking;
-        # inherit (inputs.hypr-dynamic-cursors.packages.${system}) hypr-dynamic-cursors;
-      };
+    # hyprlandPlugins =
+    #   prev.hyprlandPlugins
+    #   // {
+    # inherit (inputs.hyprsplit.packages.${system}) hyprsplit;
+    # inherit (inputs.hyprtasking.packages.${system}) hyprtasking;
+    # inherit (inputs.hypr-dynamic-cursors.packages.${system}) hypr-dynamic-cursors;
+    # };
   };
 in {
   nixpkgs = {

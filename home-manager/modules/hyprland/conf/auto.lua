@@ -1,0 +1,7 @@
+-- hl.on("screenshare.state", function(a, t, n)
+-- 	if a then
+-- 		hl.dsp.exec_cmd("caelestia shell notifs enableDnd")
+-- 	else
+-- 		hl.dsp.exec_cmd("caelestia shell notifs disableDnd")
+-- 	end
+-- end)

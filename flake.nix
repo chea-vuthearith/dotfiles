@@ -16,16 +16,16 @@
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    caelestia-shell = {
-      url = "github:PixelKhaos/shell/clip-center";
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    caelestia-cli = {
-      url = "github:chea-vuthearith/cli/feat/dnd-on-screen-record";
+    dms-plugin-registry = {
+      url = "github:AvengeMedia/dms-plugin-registry";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland = {
-      url = "github:hyprwm/Hyprland/v0.54.3";
+      url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # hypr-dynamic-cursors = {
@@ -33,10 +33,10 @@
     #   inputs.nixpkgs.follows = "nixpkgs";
     #   inputs.hyprland.follows = "hyprland";
     # };
-    hyprsplit = {
-      url = "github:shezdy/hyprsplit";
-      inputs.hyprland.follows = "hyprland";
-    };
+    # hyprsplit = {
+    #   url = "github:shezdy/hyprsplit";
+    #   inputs.hyprland.follows = "hyprland";
+    # };
     # hyprtasking = {
     #   url = "github:raybbian/hyprtasking";
     #   inputs.hyprland.follows = "hyprland";

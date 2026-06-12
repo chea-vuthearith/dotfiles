@@ -1,8 +1,19 @@
 {
   lib,
   pkgs,
+  config,
   ...
 }: let
+  colors = config.lib.stylix.colors;
+  tmuxColors = lib.concatStringsSep "\n" [
+    ''set -ogq @thm_bg    "#${colors.base00}"''
+    ''set -ogq @thm_alt_bg "#${colors.base01}"''
+    ''set -ogq @thm_muted  "#${colors.base03}"''
+    ''set -ogq @thm_fg    "#${colors.base05}"''
+    ''set -ogq @thm_red   "#${colors.base08}"''
+    ''set -ogq @thm_yellow "#${colors.base0A}"''
+    ''set -ogq @thm_accent "#${colors.base0D}"''
+  ];
   sesh-fzf = pkgs.writeShellScript "sesh-fzf" (builtins.readFile ./scripts/sesh-fzf.sh);
   smart-splits = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "smart-splits";
@@ -32,6 +43,7 @@
   in
     builtins.concatStringsSep "\n" (builtins.filter keep lines);
   remote-conf = pkgs.writeText "remote-tmux.conf" (minify (builtins.concatStringsSep "\n" [
+    tmuxColors
     (builtins.readFile ./conf/tmux-base.conf)
     (builtins.readFile ./conf/tmux-keys.conf)
     (builtins.readFile ./conf/tmux-styling.conf)
@@ -139,6 +151,7 @@ in {
         yank
       ];
       extraConfig = builtins.concatStringsSep "\n" [
+        tmuxColors
         (builtins.readFile ./conf/tmux-base.conf)
         (builtins.readFile ./conf/tmux-styling.conf)
         (builtins.readFile ./conf/tmux-keys.conf)

@@ -21,7 +21,7 @@
     ssh = {
       enable = true;
       enableDefaultConfig = false;
-      matchBlocks."*" = {};
+      settings."*" = {};
       extraConfig = inputs.secrets.sshConfig;
     };
   };
