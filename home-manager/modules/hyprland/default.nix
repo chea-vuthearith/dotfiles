@@ -15,9 +15,9 @@
   wayland.windowManager.hyprland = {
     enable = true;
     plugins = [
-      pkgs.hyprlandPlugins.hyprsplit
-      pkgs.hyprlandPlugins.hyprtasking
-      pkgs.hyprlandPlugins.hypr-dynamic-cursors
+      # pkgs.hyprlandPlugins.hyprsplit
+      # pkgs.hyprlandPlugins.hyprtasking
+      # pkgs.hyprlandPlugins.hypr-dynamic-cursors
     ];
     extraConfig = ''
       source=${lib.toLocal ./hypr/general.conf}

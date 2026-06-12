@@ -4,6 +4,9 @@
   ...
 }: let
   inherit (pkgs.stdenv.hostPlatform) system;
+  bravePkgs = import inputs.brave-origin-nixpkgs {
+    inherit system;
+  };
   overlay = final: prev: {
     tela-circle-icon-theme = prev.tela-circle-icon-theme.overrideAttrs (oldAttrs: {
       src = prev.fetchFromGitHub {
@@ -14,6 +17,7 @@
       };
     });
 
+    inherit (bravePkgs) brave-origin;
     inherit (inputs.caelestia-shell.packages.${system}) caelestia-shell;
     inherit (inputs.caelestia-cli.packages.${system}) caelestia-cli;
 
