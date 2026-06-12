@@ -81,7 +81,19 @@ in {
           borderThickness = 1;
           bottomGap = 0;
           centerWidgets = [
-            "clock"
+            {
+              id = "spacer";
+              enabled = true;
+              size = 20;
+            }
+            {
+              id = "clock";
+              enabled = true;
+            }
+            {
+              id = "privacyIndicator";
+              enabled = true;
+            }
           ];
           enabled = true;
           fontScale = 1;
@@ -91,7 +103,18 @@ in {
           id = "default";
           innerPadding = 4;
           leftWidgets = [
-            "workspaceSwitcher"
+            {
+              id = "workspaceSwitcher";
+              enabled = true;
+            }
+            {
+              id = "separator";
+              enabled = true;
+            }
+            {
+              id = "notificationButton";
+              enabled = true;
+            }
             {
               id = "githubNotifier";
               enabled = true;
@@ -110,17 +133,17 @@ in {
               enabled = true;
             }
             {
-              id = "battery";
-              enabled = true;
-            }
-            {
               id = "controlCenterButton";
               enabled = true;
               showAudioIcon = false;
               showAudioPercent = false;
             }
             {
-              id = "notificationButton";
+              id = "idleInhibitor";
+              enabled = true;
+            }
+            {
+              id = "battery";
               enabled = true;
             }
           ];
@@ -170,7 +193,7 @@ in {
     enableVPN = false;
     enableDynamicTheming = false;
     enableAudioWavelength = false;
-    enableCalendarEvents = true;
+    enableCalendarEvents = false;
     enableClipboardPaste = true;
   };
 }
