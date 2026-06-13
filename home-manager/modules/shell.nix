@@ -1,4 +1,8 @@
-{...}: let
+{
+  pkgs,
+  lib,
+  ...
+}: let
 in {
   programs.dank-material-shell = {
     enable = true;
@@ -25,8 +29,15 @@ in {
       };
       screenRecorder = {
         enable = true;
+        src = lib.mkForce (pkgs.fetchFromGitHub {
+          owner = "chea-vuthearith";
+          repo = "dms-screen-recorder";
+          rev = "4bf9e5d20b9a582b06bbb518d0a67552ce3fdd7a";
+          sha256 = "sha256-Q+TTG7h2LPvB/M4O/WuEmLHRjHJFalFspu/0bQte/Yg=";
+        });
         settings = {
           captureSource = "screen";
+          postRecordCommand = "wl-copy --type text/uri-list \"file://$1\"";
         };
       };
       githubNotifier = {
