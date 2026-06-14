@@ -1,8 +1,9 @@
-local mainMod = "SUPER"
+local hs = require("hyprsplit")
 
--- ##! Utilities
--- Screenshot, Record, OCR, Color picker, Clipboard history
---
+local mainMod = "SUPER"
+local browserCmd =
+	"brave-origin --hide-crash-restore-bubble --test-type -enable-features=UseOzonePlatform --ozone-platform=wayland"
+local totalMonitors = #hl.get_monitors()
 
 -- # Emoji picker
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("dms ipc call clipboard toggle"))
@@ -26,8 +27,8 @@ hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("dms ipc call screenRecorder 
 -- ##! Workspace navigation
 for i = 1, 10 do
 	local key = i % 10
-	hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }), { submap_universal = true })
-	hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }), { submap_universal = true })
+	hl.bind(mainMod .. " + " .. key, hs.dsp.focus({ workspace = i }), { submap_universal = true })
+	hl.bind(mainMod .. " + SHIFT + " .. key, hs.dsp.window.move({ workspace = i }), { submap_universal = true })
 end
 
 hl.define_submap("overview", function()
@@ -43,8 +44,7 @@ hl.bind(mainMod .. " + Tab", function()
 end)
 
 -- dynamic-cursors magnify
--- hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("plugin:dynamic-cursors:magnify"), { repeatable = true })
---
+hl.bind(mainMod .. " + Z", hl.plugin.dynamic_cursors.dsp_magnify({ duration = 100, size = 4.0 }), { repeating = true })
 
 -- ##! System Controls
 hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_SOURCE@ toggle"), { locked = true })
@@ -111,15 +111,14 @@ hl.bind(mainMod .. " + I", hl.dsp.exec_cmd("dms ipc call settings toggle"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("ghostty -e yazi"))
 
 hl.bind(mainMod .. " + Escape", function()
-	local count = #hl.get_monitors()
-	for i = 0, count - 1 do
+	for i = 0, totalMonitors - 1 do
 		hl.dispatch(hl.dsp.exec_cmd(string.format("dms ipc call bar toggle index %d", i)))
 	end
 end)
 hl.bind("CTRL + " .. mainMod .. " + V", hl.dsp.exec_cmd("pavucontrol"))
 hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd("dms ipc call launcher toggle"))
-hl.bind(mainMod .. " + B", hl.dsp.exec_cmd('brave-origin --profile-directory="Default"'))
-hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd('brave-origin --profile-directory="Profile 1"'))
+hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browserCmd .. ' --profile-directory="Default"'))
+hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd(browserCmd .. ' --profile-directory="Profile 1"'))
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd("ghostty"))
 
 -- ##! Layout

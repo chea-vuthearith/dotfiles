@@ -418,6 +418,29 @@
         "type": "github"
       }
     },
+    "hypr-dynamic-cursors": {
+      "inputs": {
+        "hyprland": [
+          "hyprland"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1781206900,
+        "narHash": "sha256-V1L8UwNNRc/1xLu9ZJ/Pmlpjoqpq7O4Fhz4KsU2H4QU=",
+        "owner": "VirtCode",
+        "repo": "hypr-dynamic-cursors",
+        "rev": "dad494f06e2cf344bb5ca2b801b6747082d99cb8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "VirtCode",
+        "repo": "hypr-dynamic-cursors",
+        "type": "github"
+      }
+    },
     "hyprcursor": {
       "inputs": {
         "hyprlang": [
@@ -605,6 +628,29 @@
       "original": {
         "owner": "hyprwm",
         "repo": "hyprlang",
+        "type": "github"
+      }
+    },
+    "hyprsplit": {
+      "inputs": {
+        "hyprland": [
+          "hyprland"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1781205112,
+        "narHash": "sha256-PaoUtmk+qIP/ESdxkxnY7mUMpMHjix88qu22R5GLQqE=",
+        "owner": "shezdy",
+        "repo": "hyprsplit",
+        "rev": "6b00b677d8905fb38779c91e12d6294e0e586a44",
+        "type": "github"
+      },
+      "original": {
+        "owner": "shezdy",
+        "repo": "hyprsplit",
         "type": "github"
       }
     },
@@ -887,7 +933,9 @@
         "dms": "dms",
         "dms-plugin-registry": "dms-plugin-registry",
         "home-manager": "home-manager",
+        "hypr-dynamic-cursors": "hypr-dynamic-cursors",
         "hyprland": "hyprland",
+        "hyprsplit": "hyprsplit",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_4",
         "secrets": "secrets",

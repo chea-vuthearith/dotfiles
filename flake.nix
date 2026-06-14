@@ -28,19 +28,16 @@
       url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # hypr-dynamic-cursors = {
-    #   url = "github:VirtCode/hypr-dynamic-cursors";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    #   inputs.hyprland.follows = "hyprland";
-    # };
-    # hyprsplit = {
-    #   url = "github:shezdy/hyprsplit";
-    #   inputs.hyprland.follows = "hyprland";
-    # };
-    # hyprtasking = {
-    #   url = "github:raybbian/hyprtasking";
-    #   inputs.hyprland.follows = "hyprland";
-    # };
+    hyprsplit = {
+      url = "github:shezdy/hyprsplit";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.hyprland.follows = "hyprland";
+    };
+    hypr-dynamic-cursors = {
+      url = "github:VirtCode/hypr-dynamic-cursors";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.hyprland.follows = "hyprland";
+    };
   };
 
   outputs = {

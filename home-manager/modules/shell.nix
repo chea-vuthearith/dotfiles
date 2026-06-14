@@ -192,7 +192,7 @@ in {
       updaterIntervalSeconds = 86400;
       use24HourClock = false;
       weatherEnabled = false;
-      workspaceFollowFocus = true;
+      workspaceFollowFocus = false;
     };
     session = {
       nightModeAutoEnabled = true;

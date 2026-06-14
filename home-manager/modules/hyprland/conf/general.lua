@@ -114,3 +114,16 @@ hl.animation({ leaf = "border", enabled = true, speed = 1, bezier = "liner" })
 hl.animation({ leaf = "borderangle", enabled = true, speed = 30, bezier = "liner", style = "loop" })
 hl.animation({ leaf = "fade", enabled = true, speed = 10, bezier = "default" })
 hl.animation({ leaf = "workspaces", enabled = true, speed = 5, bezier = "wind", style = "slidefade 20%" })
+
+if hl.plugin.dynamic_cursors then
+	hl.config({
+		plugin = {
+			dynamic_cursors = {
+				mode = "stretch",
+				shake = {
+					threshold = 99999, -- disable shake to magnify but enable by keybind
+				},
+			},
+		},
+	})
+end
