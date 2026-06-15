@@ -47,9 +47,9 @@ in {
     };
 
     settings = rec {
-      acLockTimeout = 900;
-      acMonitorTimeout = 600;
-      acPostLockMonitorTimeout = 600;
+      acLockTimeout = 600;
+      acMonitorTimeout = 900;
+      acPostLockMonitorTimeout = 900;
       acSuspendTimeout = 3600;
       batteryLockTimeout = acLockTimeout;
       batteryMonitorTimeout = acMonitorTimeout;
