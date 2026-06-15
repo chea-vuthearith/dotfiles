@@ -1,5 +1,6 @@
 {
   pkgs,
+  config,
   lib,
   ...
 }: let
@@ -46,6 +47,15 @@ in {
     };
 
     settings = {
+      acLockTimeout = 900;
+      acMonitorTimeout = 600;
+      acPostLockMonitorTimeout = 600;
+      acSuspendTimeout = 3600;
+      batteryLockTimeout = config.programs.dank-material-shell.settings.acLockTimeout;
+      batteryMonitorTimeout = config.programs.dank-material-shell.settings.acMonitorTimeout;
+      batteryPostLockMonitorTimeout = config.programs.dank-material-shell.settings.acPostLockMonitorTimeout;
+      batterySuspendTimeout = config.programs.dank-material-shell.settings.acSuspendTimeout;
+
       builtInPluginSettings = {
         dms_settings_search = {
           trigger = "?";
