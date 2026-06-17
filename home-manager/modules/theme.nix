@@ -13,7 +13,7 @@
 
   stylix = {
     opacity.terminal = 0.9;
-    image = ../../wallpapers/red-nebulae.jpg;
+    image = ../../wallpapers/waterfall.jpg;
     base16Scheme = osConfig.stylix.base16Scheme;
     override = {
       base0D = osConfig.lib.stylix.colors.base0E;
@@ -41,10 +41,10 @@
     };
 
     targets = {
-      tmux.enable = false;
-      ghostty.fonts.enable = false;
+      tmux.enable = false; # self managed
+      ghostty.fonts.enable = false; # self managed
       hyprland.hyprpaper.enable = false; # managed by dms;
-      neovim.enable = false;
+      neovim.enable = false; # not good enough for nvim
     };
 
     cursor = {
