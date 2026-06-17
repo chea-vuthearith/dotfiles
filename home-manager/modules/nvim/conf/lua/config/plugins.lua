@@ -26,6 +26,7 @@ vim.api.nvim_create_autocmd("PackChanged", {
 
 --- @type (string|vim.pack.Spec)[]
 local specs = {
+	"https://github.com/akinsho/git-conflict.nvim",
 	{ src = "https://github.com/tpope/vim-abolish" },
 	"https://github.com/MeanderingProgrammer/render-markdown.nvim",
 	"https://github.com/nvim-mini/mini.hipatterns",
