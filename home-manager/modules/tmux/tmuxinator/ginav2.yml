@@ -8,21 +8,35 @@ on_project_stop: >
 
 windows:
   - frontend:
-      root: ~/code/work/groundup/GinaV2/Frontend
       panes:
-        - nvim src/App.tsx
+        - nvim Frontend/src/App.tsx
 
   - backend:
-      root: ~/code/work/groundup/GinaV2/Backend
       panes:
-        - nvim API/src/main.py
+        - nvim Backend/API/src/main.py
+
+  - dev-server:
+      panes:
+        - sst GroundupDev
 
   - services:
-      root: ~/code/work/groundup/GinaV2
       layout: even-horizontal
       panes:
         -
-        - >
-          docker compose -f docker-compose.data.yml -f docker-compose.auth.yml --profile local-psql --profile minio up -d --wait;
-          docker compose -f docker-compose.app.yml -f docker-compose.dev.yml up api frontend-client frontend-owner --build -w > /dev/null 2>&1 &
-          lazydocker -f docker-compose.data.yml -f docker-compose.auth.yml -f docker-compose.app.yml -f docker-compose.dev.yml;
+        - |
+          ssh -fN $(for var in API_PORT AUTHENTIK_HTTP_PORT; do
+            port="${!var}"
+            printf -- "-L %s:localhost:%s " "$port" "$port"
+          done) GroundupOffice
+
+          docker compose \
+            -f docker-compose.app.yml \
+            -f docker-compose.dev.yml \
+            up api frontend-client frontend-owner --build -w \
+            >/dev/null 2>&1 &
+
+          lazydocker \
+            -f docker-compose.data.yml \
+            -f docker-compose.auth.yml \
+            -f docker-compose.app.yml \
+            -f docker-compose.dev.yml
