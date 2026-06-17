@@ -51,7 +51,7 @@
   ]));
 in {
   xdg.configFile."tmuxinator" = {
-    source = config.lib.file.mkOutOfStoreSymlink ./tmuxinator;
+    source = config.lib.file.mkOutOfStoreSymlink (lib.toLocal ./tmuxinator);
     recursive = true;
   };
 
