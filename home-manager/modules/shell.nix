@@ -47,14 +47,17 @@ in {
     };
 
     settings = rec {
-      acLockTimeout = 600;
-      acMonitorTimeout = 900;
-      acPostLockMonitorTimeout = 900;
-      acSuspendTimeout = 3600;
+      acLockTimeout = 60 * 10;
+      acMonitorTimeout = 60 * 15;
+      acPostLockMonitorTimeout = 60 * 3;
+      acSuspendTimeout = 60 * 60;
+      acSuspendBehavior = 2; # suspend then hibernate
+
       batteryLockTimeout = acLockTimeout;
       batteryMonitorTimeout = acMonitorTimeout;
       batteryPostLockMonitorTimeout = acPostLockMonitorTimeout;
       batterySuspendTimeout = acSuspendTimeout;
+      batterySuspendBehavior = acSuspendBehavior;
 
       builtInPluginSettings = {
         dms_settings_search = {
