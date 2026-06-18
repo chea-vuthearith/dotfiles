@@ -72,14 +72,15 @@ require("git-conflict").setup({
 	},
 })
 
-vim.keymap.set("n", "gco", "<Plug>(git-conflict-ours)", { desc = "Accept ours" })
-vim.keymap.set("n", "gct", "<Plug>(git-conflict-theirs)", { desc = "Accept theirs" })
-vim.keymap.set("n", "gcb", "<Plug>(git-conflict-both)", { desc = "Accept both" })
-vim.keymap.set("n", "gc0", "<Plug>(git-conflict-none)", { desc = "Accept none" })
+vim.keymap.set("n", "<leader>ga", "", { desc = "Git Conflicts" })
+vim.keymap.set("n", "<leader>gao", "<Plug>(git-conflict-ours)", { desc = "Accept ours" })
+vim.keymap.set("n", "<leader>gat", "<Plug>(git-conflict-theirs)", { desc = "Accept theirs" })
+vim.keymap.set("n", "<leader>gab", "<Plug>(git-conflict-both)", { desc = "Accept both" })
+vim.keymap.set("n", "<leader>ga0", "<Plug>(git-conflict-none)", { desc = "Accept none" })
 
 vim.keymap.set("n", "[x", "<Plug>(git-conflict-prev-conflict)", { desc = "Previous conflict" })
 vim.keymap.set("n", "]x", "<Plug>(git-conflict-next-conflict)", { desc = "Next conflict" })
 
-vim.keymap.set("n", "gal", function()
+vim.keymap.set("n", "<leader>gal", function()
 	vim.cmd("GitConflictListQf")
 end, { desc = "List conflicts" })

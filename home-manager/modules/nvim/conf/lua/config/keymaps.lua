@@ -68,7 +68,12 @@ map("n", "<leader>|", "<C-W>v", { desc = "Split Window Right", remap = true })
 map("n", "<leader>wd", "<C-W>c", { desc = "Delete Window", remap = true })
 map("n", "<leader>wo", "<C-W>o", { desc = "Only Window", remap = true })
 
-map("n", "<leader>qr", cmd.restart, { noremap = true, silent = true, desc = "Restart Neovim" })
+map(
+	"n",
+	"<leader>qr",
+	":mksession! Session.vim | restart source Session.vim<CR>",
+	{ noremap = true, silent = true, desc = "Restart Neovim" }
+)
 
 map("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true, desc = "Scroll Up and Center" })
 map("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true, desc = "Scroll Down and Center" })
