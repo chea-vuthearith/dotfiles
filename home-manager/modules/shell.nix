@@ -256,7 +256,7 @@ in {
     enableVPN = false;
     enableDynamicTheming = false;
     enableAudioWavelength = false;
-    enableCalendarEvents = false;
+    enableCalendarEvents = true;
     enableClipboardPaste = true;
   };
 }

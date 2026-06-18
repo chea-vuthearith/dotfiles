@@ -22,6 +22,8 @@
     noto-fonts-cjk-sans
   ];
 
+  services.power-profiles-daemon.enable = true;
+
   nix = {
     settings = {
       trusted-users = ["root" username];
