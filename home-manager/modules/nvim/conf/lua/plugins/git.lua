@@ -65,7 +65,9 @@ require("git-conflict").setup({
 	default_mappings = false, -- configured below
 	default_commands = true,
 	disable_diagnostics = true,
-	list_opener = "trouble",
+	list_opener = function()
+		require("trouble").open("quickfix")
+	end,
 	highlights = {
 		incoming = "DiffAdd",
 		current = "DiffText",
