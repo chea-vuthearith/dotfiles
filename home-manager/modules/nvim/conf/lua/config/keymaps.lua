@@ -71,7 +71,7 @@ map("n", "<leader>wo", "<C-W>o", { desc = "Only Window", remap = true })
 map(
 	"n",
 	"<leader>qr",
-	":mksession! Session.vim | restart source Session.vim<CR>",
+	":mksession! /tmp/restart-session.vim | restart source /tmp/restart-session.vim<CR>",
 	{ noremap = true, silent = true, desc = "Restart Neovim" }
 )
 
