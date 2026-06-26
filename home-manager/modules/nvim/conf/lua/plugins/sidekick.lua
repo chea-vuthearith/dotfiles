@@ -12,7 +12,7 @@ require("sidekick").setup({
 
 local map = vim.keymap.set
 
-local maincli = "opencode"
+local maincli = "claude"
 map("n", "<leader>a", "", { desc = "+ai" })
 
 map({ "n", "t", "i", "x" }, "<C-.>", function()

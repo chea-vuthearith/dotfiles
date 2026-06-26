@@ -40,8 +40,7 @@ windows:
           docker compose \
             -f docker-compose.app.yml \
             -f docker-compose.dev.yml \
-            up frontend-client frontend-owner --build -w \
-            >/dev/null 2>&1 &
+            up frontend-client frontend-owner --build -w &
 
           lazydocker \
             -f docker-compose.data.yml \
