@@ -7,8 +7,8 @@ snacks.setup({
 	notifier = { enabled = true },
 	quickfile = { enabled = true },
 	words = { enabled = true },
-	indent = { enabed = true },
-	statuscolumn = { enabed = true },
+	indent = { enabled = true },
+	statuscolumn = { enabled = true },
 	scope = { enabled = true },
 	explorer = { replace_netrw = true, trash = true },
 	picker = {
@@ -22,13 +22,12 @@ snacks.setup({
 				hidden = true,
 				ignored = true,
 				follow = true,
+				follow_file = true,
 				actions = {
 					explorer_find_files = function(picker)
 						Snacks.picker.files({ cwd = picker:cwd() })
 					end,
 				},
-				hidden = true,
-				follow_file = true,
 				win = {
 					input = {
 						keys = {

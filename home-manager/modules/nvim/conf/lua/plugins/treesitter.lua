@@ -4,41 +4,43 @@ require("nvim-treesitter").setup({
 	folds = { enable = true },
 	install_dir = vim.fn.stdpath("data") .. "/site",
 })
-require("nvim-treesitter")
-	.install({
-		"bash",
-		"c",
-		"prisma",
-		"cpp",
-		"css",
-		"diff",
-		"gitattributes",
-		"gitcommit",
-		"git_config",
-		"gitignore",
-		"git_rebase",
-		"go",
-		"html",
-		"java",
-		"javascript",
-		"json",
-		"lua",
-		"markdown",
-		"markdown_inline",
-		"nix",
-		"python",
-		"query",
-		"regex",
-		"rust",
-		"sql",
-		"toml",
-		"tsx",
-		"typescript",
-		"vim",
-		"vimdoc",
-		"yaml",
-	})
-	:wait(300000) -- wait max. 5 minutes
+vim.schedule(function()
+	require("nvim-treesitter")
+		.install({
+			"bash",
+			"c",
+			"prisma",
+			"cpp",
+			"css",
+			"diff",
+			"gitattributes",
+			"gitcommit",
+			"git_config",
+			"gitignore",
+			"git_rebase",
+			"go",
+			"html",
+			"java",
+			"javascript",
+			"json",
+			"lua",
+			"markdown",
+			"markdown_inline",
+			"nix",
+			"python",
+			"query",
+			"regex",
+			"rust",
+			"sql",
+			"toml",
+			"tsx",
+			"typescript",
+			"vim",
+			"vimdoc",
+			"yaml",
+		})
+		:wait(300000)
+end)
 
 require("nvim-ts-autotag").setup({})
 

@@ -30,7 +30,7 @@ hl.config({
 		},
 
 		shadow = {
-			enabled = true,
+			enabled = false,
 			range = 20,
 			offset = { 0, 2 },
 			render_power = 4,
@@ -110,8 +110,8 @@ hl.animation({ leaf = "windows", enabled = true, speed = 3, bezier = "wind", sty
 hl.animation({ leaf = "windowsIn", enabled = true, speed = 3, bezier = "winIn", style = "slide" })
 hl.animation({ leaf = "windowsOut", enabled = true, speed = 3, bezier = "winOut", style = "slide" })
 hl.animation({ leaf = "windowsMove", enabled = true, speed = 3, bezier = "wind", style = "slide" })
-hl.animation({ leaf = "border", enabled = true, speed = 1, bezier = "liner" })
-hl.animation({ leaf = "borderangle", enabled = true, speed = 30, bezier = "liner", style = "loop" })
+hl.animation({ leaf = "border", enabled = false, speed = 1, bezier = "liner" })
+hl.animation({ leaf = "borderangle", enabled = false, speed = 30, bezier = "liner", style = "loop" })
 hl.animation({ leaf = "fade", enabled = true, speed = 10, bezier = "default" })
 hl.animation({ leaf = "workspaces", enabled = true, speed = 5, bezier = "wind", style = "slidefade 20%" })
 

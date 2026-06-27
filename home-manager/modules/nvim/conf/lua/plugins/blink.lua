@@ -1,5 +1,7 @@
 local cmp = require("blink.cmp")
-cmp.build():wait(60000)
+vim.schedule(function()
+	cmp.build():wait(60000)
+end)
 cmp.setup({
 	completion = {
 		list = {
@@ -36,7 +38,7 @@ cmp.setup({
 			require("blink.cmp.keymap.presets").get("super-tab")["<Tab>"][1],
 			"fallback",
 		},
-		["S-Tab"] = {},
+		["<S-Tab>"] = {},
 		["<C-space>"] = {
 			function(cmp)
 				if cmp.is_visible() then

@@ -43,9 +43,6 @@
     };
 
     plugins = [
-      # pkgs.hyprlandPlugins.split-monitor-workspaces
-      # pkgs.hyprlandPlugins.hyprsplitlua
-      # pkgs.hyprlandPlugins.hyprtasking
       pkgs.hyprlandPlugins.hypr-dynamic-cursors
     ];
   };

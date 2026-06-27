@@ -33,9 +33,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.lsp.inline_completion.enable(true)
 		end
 
-		vim.wo.foldmethod = "expr"
-		vim.wo.foldexpr = "v:lua.vim.lsp.foldexpr()"
-
 		map("n", "gd", function()
 			Snacks.picker.lsp_definitions()
 		end, { desc = "Goto Definition" })
@@ -140,11 +137,9 @@ vim.lsp.config("tsgo", {
 		typescript = {
 			preferences = {
 				importModuleSpecifier = "non-relative",
-				preferences = {
-					importModuleSpecifierPreference = "non-relative",
-					autoImportSpecifierExcludeRegexes = {
-						"^@mui/[^/]+$",
-					},
+				importModuleSpecifierPreference = "non-relative",
+				autoImportSpecifierExcludeRegexes = {
+					"^@mui/[^/]+$",
 				},
 			},
 		},

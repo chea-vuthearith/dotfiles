@@ -1,8 +1,5 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [git-lfs gh];
-  # programs.zsh.shellAliases = {
-  #   nvimdiff = "nvim -d"; # for git config, since it only recognizes nvimdiff
-  # };
   programs.git = {
     enable = true;
     lfs.enable = true;

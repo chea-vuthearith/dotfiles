@@ -1,5 +1,18 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   programs = {
+    atuin = {
+      enable = true;
+      settings = {
+        filter_mode_shell_up_key_binding = "session";
+        search_mode = "fuzzy";
+        style = "compact";
+        show_preview = true;
+      };
+    };
     bat.enable = true;
     fzf = {
       enable = true;
@@ -10,10 +23,16 @@
       enable = true;
       enableZshIntegration = true;
     };
-    zsh.shellAliases = {
-      cat = "bat";
-      ls = "eza --icons";
-      lt = "eza --tree --icons";
+    zsh = {
+      initContent = lib.mkOrder 1600 ''
+        bindkey -M vicmd -r 'j'
+        bindkey -M vicmd -r 'k'
+      '';
+      shellAliases = {
+        cat = "bat";
+        ls = "eza --icons";
+        lt = "eza --tree --icons";
+      };
     };
   };
   home.packages = with pkgs; [
