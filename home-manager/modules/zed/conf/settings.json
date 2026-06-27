@@ -1,156 +1,155 @@
 {
-  "ssh_connections": [
-    {
-      "host": "GroundupSAF",
-      "args": [],
-      "projects": [
-        {
-          "paths": [
-            "/home/interns"
-          ]
-        }
-      ]
-    }
-  ],
-  "session": {
-    "trust_all_worktrees": true
-  },
-  "vim_mode": true,
+	"ssh_connections": [
+		{
+			"host": "GroundupSAF",
+			"args": [],
+			"projects": [
+				{
+					"paths": ["/home/interns"]
+				}
+			]
+		}
+	],
+	"session": {
+		"trust_all_worktrees": true
+	},
+	"vim_mode": true,
 
-  "theme": {
-    "mode": "system",
-    "dark": "Catppuccin Mocha",
-    "light": "Catppuccin Latte"
-  },
-  "icon_theme": {
-    "mode": "system",
-    "light": "Zed (Default)",
-    "dark": "Zed (Default)"
-  },
+	"theme": {
+		"mode": "dark",
+		"dark": "Catppuccin Mocha",
+		"light": "Catppuccin Latte"
+	},
+	"icon_theme": {
+		"mode": "dark",
+		"light": "Zed (Default)",
+		"dark": "Zed (Default)"
+	},
 
-  "buffer_font_family": "FiraCode Nerd Font",
-  "buffer_font_size": 16.0,
-  "ui_font_family": "SFProDisplay Nerd Font",
-  "ui_font_size": 16.0,
+	"buffer_font_family": "FiraCode Nerd Font",
+	"buffer_font_size": 16.0,
+	"ui_font_family": "SFProDisplay Nerd Font",
+	"ui_font_size": 16.0,
 
-  "tab_size": 2,
-  "hard_tabs": false,
-  "relative_line_numbers": true,
-  "cursor_blink": false,
-  "vertical_scroll_margin": 4,
-  "scrollbar": {
-    "show": "never"
-  },
+	"tab_size": 2,
+	"hard_tabs": false,
+	"relative_line_numbers": "enabled",
+	"cursor_blink": false,
+	"vertical_scroll_margin": 4,
+	"scrollbar": {
+		"show": "never"
+	},
 
-  "format_on_save": "on",
-  "ensure_final_newline_on_save": true,
-  "remove_trailing_whitespace_on_save": true,
+	"format_on_save": "on",
+	"ensure_final_newline_on_save": true,
+	"remove_trailing_whitespace_on_save": true,
 
-  "show_inline_completions": true,
-  "inline_completions": {
-    "disabled_globs": []
-  },
+	"show_edit_predictions": true,
+	"edit_predictions": {
+		"disabled_globs": []
+	},
 
-  "tab_bar": {
-    "show": false
-  },
+	"tab_bar": {
+		"show": false
+	},
 
-  "auto_install_extensions": {
-    "nix": true,
-    "catppuccin": true,
-    "lua": true,
-    "toml": true,
-    "prisma": true,
-    "biome": true
-  },
+	"auto_install_extensions": {
+		"nix": true,
+		"catppuccin": true,
+		"lua": true,
+		"toml": true,
+		"prisma": true,
+		"biome": true
+	},
 
-  "languages": {
-    "TypeScript": {
-      "tab_size": 2,
-      "language_servers": ["biome", "typescript-language-server", "..."],
-      "formatter": "language_server"
-    },
-    "JavaScript": {
-      "tab_size": 2,
-      "language_servers": ["biome", "typescript-language-server", "..."],
-      "formatter": "language_server"
-    },
-    "TSX": {
-      "tab_size": 2,
-      "language_servers": ["biome", "typescript-language-server", "..."],
-      "formatter": "language_server"
-    },
-    "JSX": {
-      "tab_size": 2,
-      "language_servers": ["biome", "typescript-language-server", "..."],
-      "formatter": "language_server"
-    },
-    "JSON": {
-      "tab_size": 2,
-      "language_servers": ["biome", "json-language-server", "..."],
-      "formatter": "language_server"
-    },
-    "Python": {
-      "tab_size": 2,
-      "formatter": {
-        "external": {
-          "command": "ruff",
-          "arguments": ["format", "--stdin-file-path", "{buffer_path}", "-"]
-        }
-      }
-    },
-    "Nix": {
-      "tab_size": 2,
-      "formatter": {
-        "external": {
-          "command": "alejandra",
-          "arguments": ["-q", "-"]
-        }
-      }
-    },
-    "Lua": {
-      "tab_size": 2,
-      "formatter": {
-        "external": {
-          "command": "stylua",
-          "arguments": ["-"]
-        }
-      }
-    },
-    "Bash": {
-      "tab_size": 2,
-      "formatter": {
-        "external": {
-          "command": "shfmt",
-          "arguments": ["-i", "2", "-"]
-        }
-      }
-    },
-    "Markdown": {
-      "tab_size": 2,
-      "soft_wrap": "preferred_line_length",
-      "formatter": {
-        "external": {
-          "command": "prettierd",
-          "arguments": ["{buffer_path}"]
-        }
-      }
-    },
-    "TOML": {
-      "tab_size": 2
-    },
-    "YAML": {
-      "tab_size": 2
-    },
-    "HTML": {
-      "tab_size": 2,
-      "language_servers": ["biome", "vscode-html-language-server", "..."],
-      "formatter": "language_server"
-    },
-    "CSS": {
-      "tab_size": 2,
-      "language_servers": ["biome", "vscode-css-language-server", "..."],
-      "formatter": "language_server"
-    }
-  }
+	"languages": {
+		"TypeScript": {
+			"tab_size": 2,
+			"language_servers": ["biome", "typescript-language-server", "..."],
+			"formatter": "language_server"
+		},
+		"JavaScript": {
+			"tab_size": 2,
+			"language_servers": ["biome", "typescript-language-server", "..."],
+			"formatter": "language_server"
+		},
+		"TSX": {
+			"tab_size": 2,
+			"language_servers": ["biome", "typescript-language-server", "..."],
+			"formatter": "language_server"
+		},
+		"JSX": {
+			"tab_size": 2,
+			"language_servers": ["biome", "typescript-language-server", "..."],
+			"formatter": "language_server"
+		},
+		"JSON": {
+			"tab_size": 2,
+			"language_servers": ["biome", "json-language-server", "..."],
+			"formatter": "language_server"
+		},
+		"Python": {
+			"language_servers": ["pyrefly"],
+			"tab_size": 2,
+			"formatter": {
+				"external": {
+					"command": "ruff",
+					"arguments": ["format", "--stdin-file-path", "{buffer_path}", "-"]
+				}
+			}
+		},
+		"Nix": {
+			"tab_size": 2,
+			"formatter": {
+				"external": {
+					"command": "alejandra",
+					"arguments": ["-q", "-"]
+				}
+			}
+		},
+		"Lua": {
+			"tab_size": 2,
+			"formatter": {
+				"external": {
+					"command": "stylua",
+					"arguments": ["-"]
+				}
+			}
+		},
+		"Bash": {
+			"tab_size": 2,
+			"formatter": {
+				"external": {
+					"command": "shfmt",
+					"arguments": ["-i", "2", "-"]
+				}
+			}
+		},
+		"Markdown": {
+			"tab_size": 2,
+			"soft_wrap": "preferred_line_length",
+			"formatter": {
+				"external": {
+					"command": "prettierd",
+					"arguments": ["{buffer_path}"]
+				}
+			}
+		},
+		"TOML": {
+			"tab_size": 2
+		},
+		"YAML": {
+			"tab_size": 2
+		},
+		"HTML": {
+			"tab_size": 2,
+			"language_servers": ["biome", "vscode-html-language-server", "..."],
+			"formatter": "language_server"
+		},
+		"CSS": {
+			"tab_size": 2,
+			"language_servers": ["biome", "vscode-css-language-server", "..."],
+			"formatter": "language_server"
+		}
+	}
 }

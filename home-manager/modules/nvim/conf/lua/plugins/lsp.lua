@@ -169,11 +169,11 @@ vim.lsp.config("nixd", {
 vim.lsp.enable("nixd")
 
 vim.lsp.enable("biome")
-vim.lsp.config("pyright", {
-	---@type lspconfig.settings.pyright
-	settings = {},
-})
-vim.lsp.enable("pyright")
+-- vim.lsp.config("pyright", {
+-- 	---@type lspconfig.settings.pyright
+-- 	settings = {},
+-- })
+vim.lsp.enable("pyrefly")
 vim.lsp.enable("yamlls")
 vim.lsp.enable("taplo")
 vim.lsp.enable("prismals")
