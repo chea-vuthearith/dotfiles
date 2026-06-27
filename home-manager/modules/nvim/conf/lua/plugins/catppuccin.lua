@@ -1,6 +1,15 @@
 require("catppuccin").setup({
 	term_colors = true,
 	transparent_background = true,
+	custom_highlights = function(colors)
+		return {
+			SnacksPickerGitStatusUntracked = { fg = colors.mauve },
+			SnacksPickerGitStatusIgnored = { fg = colors.overlay0 },
+			SnacksPickerGitStatusStaged = { fg = colors.green },
+			SnacksPickerGitStatusRenamed = { fg = colors.mauve },
+			SnacksPickerGitStatusCopied = { fg = colors.mauve },
+		}
+	end,
 	float = {
 		solid = true,
 		transparent = true,
