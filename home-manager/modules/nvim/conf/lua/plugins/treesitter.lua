@@ -34,6 +34,7 @@ vim.schedule(function()
 			"sql",
 			"toml",
 			"tsx",
+			"xml",
 			"typescript",
 			"vim",
 			"vimdoc",
