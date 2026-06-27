@@ -1,4 +1,9 @@
 require("noice").setup({
+	views = {
+		hover = {
+			border = { style = "rounded" },
+		},
+	},
 	lsp = {
 		-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
 		override = {

@@ -4,6 +4,24 @@ vim.schedule(function()
 end)
 cmp.setup({
 	completion = {
+		menu = {
+			border = "rounded",
+			draw = {
+				treesitter = { "lsp" },
+				columns = {
+					{ "kind_icon", gap = 1 },
+					{ "label", "label_description", gap = 1 },
+					{ "source_name" },
+				},
+			},
+		},
+		documentation = {
+			auto_show = true,
+			auto_show_delay_ms = 100,
+			window = {
+				border = "rounded",
+			},
+		},
 		list = {
 			selection = {
 				preselect = function(ctx)
@@ -14,6 +32,12 @@ cmp.setup({
 		ghost_text = { enabled = false },
 		accept = {
 			auto_brackets = { enabled = false },
+		},
+	},
+	signature = {
+		enabled = true,
+		window = {
+			border = "rounded",
 		},
 	},
 	sources = {
