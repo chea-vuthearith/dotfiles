@@ -9,7 +9,7 @@
       settings = {
         filter_mode_shell_up_key_binding = "session";
         search_mode = "fuzzy";
-        style = "compact";
+        style = "full";
         show_preview = true;
       };
     };

@@ -173,7 +173,7 @@ vim.lsp.enable("biome")
 -- 	---@type lspconfig.settings.pyright
 -- 	settings = {},
 -- })
-vim.lsp.enable("pyrefly")
+vim.lsp.enable("ty")
 vim.lsp.enable("yamlls")
 vim.lsp.enable("taplo")
 vim.lsp.enable("prismals")
