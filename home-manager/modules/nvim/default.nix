@@ -20,6 +20,9 @@
         recursive = true;
       };
 
+      "${config.xdg.configHome}/nvim/.neoconf.json".source =
+        config.lib.file.mkOutOfStoreSymlink (lib.toLocal ./conf/.neoconf.json);
+
       "${config.xdg.configHome}/nvim/lazy-lock.json".source =
         config.lib.file.mkOutOfStoreSymlink (lib.toLocal ./conf/lazy-lock.json);
 
@@ -39,7 +42,7 @@
       viAlias = true;
       defaultEditor = true;
       initLua = ''require("config.lazy")'';
-      extraLuaPackages = ps: [ ps.jsregexp ];
+      extraLuaPackages = ps: [ps.jsregexp];
     };
   };
 }

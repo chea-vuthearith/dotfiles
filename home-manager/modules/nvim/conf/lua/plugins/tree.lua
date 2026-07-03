@@ -1,4 +1,5 @@
 return {
+  { "nvim-treesitter", lazy = false },
   "nvim-neo-tree/neo-tree.nvim",
   ---@module 'neo-tree'
   ---@type neotree.Config
