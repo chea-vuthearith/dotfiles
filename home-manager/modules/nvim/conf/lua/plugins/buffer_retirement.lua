@@ -1,1 +1,5 @@
-require("early-retirement").setup({})
+return {
+  "chrisgrieser/nvim-early-retirement",
+  config = true,
+  event = "VeryLazy",
+}

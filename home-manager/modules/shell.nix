@@ -2,10 +2,22 @@
   pkgs,
   config,
   lib,
+  inputs,
   ...
 }: let
+  dms-shell-patched = (inputs.dms.packages.${pkgs.system}.dms-shell).overrideAttrs (old: {
+    postInstall =
+      old.postInstall
+      + ''
+        substituteInPlace $out/share/quickshell/dms/Services/IdleService.qml \
+          --replace-fail \
+            'property bool enabled: true' \
+            'property bool enabled: !SessionService.idleInhibited'
+      '';
+  });
 in {
   programs.dank-material-shell = {
+    package = dms-shell-patched;
     enable = true;
     systemd = {
       enable = true;

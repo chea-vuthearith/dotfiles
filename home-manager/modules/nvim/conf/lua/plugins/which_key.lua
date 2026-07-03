@@ -1,4 +1,7 @@
-require("which-key").setup({
-	preset = "helix",
-	delay = 0,
-})
+return {
+  "folke/which-key.nvim",
+  opts = {
+    preset = "helix",
+    delay = 0,
+  },
+}

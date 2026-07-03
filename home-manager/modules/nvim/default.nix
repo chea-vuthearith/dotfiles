@@ -11,10 +11,23 @@
     packages = with pkgs; [
       tree-sitter
     ];
-  };
 
-  xdg.configFile."nvim/nvim-pack-lock.json".source = config.lib.file.mkOutOfStoreSymlink (lib.toLocal ./conf/nvim-pack-lock.json);
-  xdg.configFile."nvim/lua".source = config.lib.file.mkOutOfStoreSymlink (lib.toLocal ./conf/lua);
+    file = {
+      "${config.xdg.configHome}/nvim/lua" = {
+        source = config.lib.file.mkOutOfStoreSymlink (lib.toLocal ./conf/lua);
+        recursive = true;
+      };
+
+      "${config.xdg.configHome}/nvim/lazy-lock.json".source =
+        config.lib.file.mkOutOfStoreSymlink (lib.toLocal ./conf/lazy-lock.json);
+
+      "${config.xdg.configHome}/nvim/lazyvim.json".source =
+        config.lib.file.mkOutOfStoreSymlink (lib.toLocal ./conf/lazyvim.json);
+
+      "${config.xdg.configHome}/nvim/stylua.toml".source =
+        config.lib.file.mkOutOfStoreSymlink (lib.toLocal ./conf/stylua.toml);
+    };
+  };
 
   programs = {
     neovim = {
@@ -23,7 +36,7 @@
       enable = true;
       viAlias = true;
       defaultEditor = true;
-      initLua = builtins.readFile ./conf/init.lua;
+      initLua = ''require("config.lazy")'';
     };
   };
 }
