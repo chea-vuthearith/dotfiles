@@ -3,4 +3,5 @@ return {
   { "mason-org/mason-lspconfig.nvim", enabled = false },
   { "mfussenegger/nvim-dap", enabled = false },
   { "mini.pairs", enabled = false },
+  { "akinsho/bufferline.nvim", enabled = false },
 }

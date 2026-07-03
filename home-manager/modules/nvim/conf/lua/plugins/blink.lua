@@ -1,5 +1,7 @@
 return {
   "saghen/blink.cmp",
+  dir = vim.env.BLINK_PATH,
+  lazy = false,
   opts = {
     completion = {
       menu = {

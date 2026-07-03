@@ -13,8 +13,6 @@ return {
         hide_gitignored = true,
         hide_ignored = true,
         never_show = {
-          "node_modules",
-          ".DS_Store",
           "__pycache__",
         },
       },

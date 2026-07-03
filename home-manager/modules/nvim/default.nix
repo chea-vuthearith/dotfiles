@@ -7,9 +7,11 @@
   home = {
     sessionVariables = {
       PAGER = "less -X -F";
+      BLINK_PATH = "${pkgs.vimPlugins.blink-cmp}";
     };
     packages = with pkgs; [
       tree-sitter
+      ast-grep
     ];
 
     file = {
@@ -37,6 +39,7 @@
       viAlias = true;
       defaultEditor = true;
       initLua = ''require("config.lazy")'';
+      extraLuaPackages = ps: [ ps.jsregexp ];
     };
   };
 }

@@ -8,5 +8,8 @@ return {
       },
     },
     cmdline = { view = "cmdline" },
+    presets = {
+      command_palette = false,
+    },
   },
 }

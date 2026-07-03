@@ -10,12 +10,10 @@ map("n", "q", "<nop>", { desc = "Disable q" })
 map("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true, desc = "Scroll Up and Center" })
 map("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true, desc = "Scroll Down and Center" })
 
-map(
-  "n",
-  "<leader>qr",
-  ":mksession! /tmp/restart-session.vim | restart source /tmp/restart-session.vim<CR>",
-  { noremap = true, silent = true, desc = "Restart Neovim" }
-)
+map("n", "<leader>qr", function()
+  require("persistence").save()
+  vim.cmd("restart source " .. vim.fn.fnameescape(require("persistence").current()))
+end, { noremap = true, silent = true, desc = "Restart Neovim" })
 
 map("n", "<leader><TAB>l", cmd.tabnext, { desc = "Next Tab" })
 map("n", "<leader><TAB>h", cmd.tabprevious, { desc = "Previous Tab" })

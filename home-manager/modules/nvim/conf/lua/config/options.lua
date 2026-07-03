@@ -1,4 +1,3 @@
--- Options that differ from or extend LazyVim defaults
 vim.opt.timeoutlen = 50
 vim.opt.wildmenu = true
 vim.opt.wildmode = { "longest:list", "full" }
@@ -12,7 +11,6 @@ vim.opt.foldmethod = "indent"
 vim.opt.foldtext = ""
 vim.opt.linebreak = true
 vim.opt.list = false
-vim.opt.smoothscroll = true
 vim.opt.diffopt:append("vertical")
 vim.opt.mouse = ""
 vim.opt.wrap = true

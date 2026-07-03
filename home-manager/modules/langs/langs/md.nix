@@ -3,5 +3,8 @@
     prettierd
     markdown-toc
     marksman
+    mermaid-cli
+    tectonic
+    ghostscript
   ];
 }

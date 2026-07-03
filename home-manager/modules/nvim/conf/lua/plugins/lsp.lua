@@ -48,6 +48,7 @@ return {
         },
         bashls = {},
         marksman = {},
+        pyright = { enabled = false },
       },
     },
   },
