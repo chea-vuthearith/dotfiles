@@ -1,3 +1,16 @@
+local function navigate(direction)
+  local ss = require("smart-splits")
+  local win_before = vim.fn.winnr()
+  if direction == "left" then ss.move_cursor_left()
+  elseif direction == "down" then ss.move_cursor_down()
+  elseif direction == "up" then ss.move_cursor_up()
+  elseif direction == "right" then ss.move_cursor_right()
+  end
+  if vim.fn.winnr() == win_before and vim.env.HERDR_SOCKET then
+    vim.fn.jobstart({ "herdr", "pane", "focus_direction", "--direction", direction, "--current" })
+  end
+end
+
 return {
   "mrjones2014/smart-splits.nvim",
   lazy = false,
@@ -33,30 +46,22 @@ return {
     },
     {
       "<C-h>",
-      function()
-        require("smart-splits").move_cursor_left()
-      end,
+      function() navigate("left") end,
       desc = "Go to Left Window",
     },
     {
       "<C-j>",
-      function()
-        require("smart-splits").move_cursor_down()
-      end,
+      function() navigate("down") end,
       desc = "Go to Lower Window",
     },
     {
       "<C-k>",
-      function()
-        require("smart-splits").move_cursor_up()
-      end,
+      function() navigate("up") end,
       desc = "Go to Upper Window",
     },
     {
       "<C-l>",
-      function()
-        require("smart-splits").move_cursor_right()
-      end,
+      function() navigate("right") end,
       desc = "Go to Right Window",
     },
     {

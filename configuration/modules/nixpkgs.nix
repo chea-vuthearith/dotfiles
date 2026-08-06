@@ -19,6 +19,7 @@
 
     inherit (bravePkgs) brave-origin;
     inherit (inputs.hyprland.packages.${system}) hyprland;
+    inherit (inputs.herdr.packages.${system}) herdr;
     inherit (inputs.apple-fonts.packages.${system}) sf-pro-nerd;
 
     hyprlandPlugins =

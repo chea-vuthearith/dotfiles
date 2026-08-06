@@ -10,6 +10,20 @@
           ".pyi" = "python";
         };
       };
+      tsgo = {
+        command = "${pkgs.typescript-go}/bin/tsgo";
+        args = ["--lsp"];
+        extensionToLanguage = {
+          ".ts" = "typescript";
+          ".tsx" = "typescriptreact";
+          ".mts" = "typescript";
+          ".cts" = "typescript";
+          ".js" = "javascript";
+          ".jsx" = "javascriptreact";
+          ".mjs" = "javascript";
+          ".cjs" = "javascript";
+        };
+      };
     };
   };
   programs.opencode = {
