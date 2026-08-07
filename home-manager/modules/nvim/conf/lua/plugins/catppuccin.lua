@@ -11,6 +11,9 @@ return {
         solid = true,
         transparent = true,
       },
+      integrations = {
+        treesitter_context = false,
+      },
     },
   },
   { "LazyVim/LazyVim", opts = { colorscheme = "catppuccin-mocha" } },
