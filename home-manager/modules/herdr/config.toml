@@ -1,2 +1,84 @@
+onboarding = false
+
 [keys]
+prefix = "alt+w"
+settings = "prefix+i"
 copy_mode = "prefix+v"
+navigate_workspace_up = "k"
+navigate_workspace_down = "j"
+previous_workspace = "alt+shift+k"
+next_workspace = "alt+shift+j"
+previous_agent = "alt+ctrl+k"
+next_agent = "alt+ctrl+j"
+toggle_sidebar = "prefix+e"
+
+new_tab = "prefix+alt+tab"
+rename_tab = "prefix+shift+tab"
+close_tab = "prefix+ctrl+tab"
+previous_tab = "alt+h"
+next_tab = "alt+l"
+zoom = "prefix+z"
+detach = "prefix+d"
+
+split_vertical = "prefix+|"
+split_horizontal = "prefix+-"
+rename_pane = "prefix+shift+w"
+close_pane = "prefix+ctrl+w"
+
+goto = "prefix+s"
+new_workspace = "prefix+alt+s"
+rename_workspace = "prefix+shift+s"
+close_workspace = "prefix+ctrl+s"
+
+new_worktree = "prefix+alt+g"
+open_worktree = "prefix+shift+g"
+remove_worktree = "prefix+ctrl+g"
+
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "herdr-splits.nav-left"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "herdr-splits.nav-down"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "herdr-splits.nav-up"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "herdr-splits.nav-right"
+
+
+[keys.indexed]
+tabs = "alt"
+workspaces = "alt+shift"
+agents = "alt+ctrl"
+
+[ui]
+show_agent_labels_on_pane_borders = false
+prompt_new_tab_name = false
+status_indicators = "symbols"
+agent_panel_sort = "priority"
+accent = "magenta"
+
+[ui.toast]
+delivery = "system"
+
+[ui.sound]
+enabled = false
+
+[theme]
+name = "catppuccin"
+auto_switch = false
+
+[advanced]
+scrollback_limit_bytes = 10000000
+
+[experimental]
+kitty_graphics = true
