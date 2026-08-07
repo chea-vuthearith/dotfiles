@@ -1,0 +1,2 @@
+- [ ] herdr ssh agent
+- [x] herdr plugin declarative

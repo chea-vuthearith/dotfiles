@@ -68,7 +68,7 @@ agent_panel_sort = "priority"
 accent = "magenta"
 
 [ui.toast]
-delivery = "system"
+delivery = "terminal"
 
 [ui.sound]
 enabled = false
@@ -82,3 +82,6 @@ scrollback_limit_bytes = 10000000
 
 [experimental]
 kitty_graphics = true
+
+[remote]
+manage_ssh_config = false
