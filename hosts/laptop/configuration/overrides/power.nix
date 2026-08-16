@@ -1,6 +1,7 @@
 {...}: {
   powerManagement.enable = true;
   services = {
+    power-profiles-daemon.enable = false;
     tuned.enable = false;
     upower.enable = true;
     thermald.enable = true;

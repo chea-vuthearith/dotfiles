@@ -2,6 +2,7 @@
   systemd.sleep.settings.Sleep = {
     HibernateDelaySec = "120min";
   };
+  services.power-profiles-daemon.enable = true;
   swapDevices = [
     {
       device = "/var/lib/swapfile";
