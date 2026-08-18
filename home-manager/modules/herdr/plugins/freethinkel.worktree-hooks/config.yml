@@ -6,3 +6,5 @@ GinaV2:
       - ln -sf "$MAIN/.venv" .venv
       - ln -sf "$MAIN/CLAUDE.md" CLAUDE.md
       - ln -sf "$MAIN/.envrc" .envrc
+      - ln -sf "$MAIN/database/data/datasets" database/data/datasets
+      - direnv allow

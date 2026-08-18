@@ -22,7 +22,7 @@ hl.bind(
 hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd("hyprpicker -a"))
 
 -- Recording stuff
-hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("dms ipc call screenRecorder toggleRecording"))
+hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("dms ipc call screenCaptureToolbar toggle"))
 
 -- ##! Workspace navigation
 for i = 1, 10 do

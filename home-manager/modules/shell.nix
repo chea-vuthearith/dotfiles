@@ -40,18 +40,14 @@ in {
           runSourceMode = "latest_unstable";
         };
       };
-      screenRecorder = {
+      screenCaptureToolbar = {
         enable = true;
         src = lib.mkForce (pkgs.fetchFromGitHub {
-          owner = "chea-vuthearith";
-          repo = "dms-screen-recorder";
-          rev = "4bf9e5d20b9a582b06bbb518d0a67552ce3fdd7a";
-          sha256 = "sha256-Q+TTG7h2LPvB/M4O/WuEmLHRjHJFalFspu/0bQte/Yg=";
+          owner = "JDKamalakar";
+          repo = "DMS-ScreenCapture_Toolbar";
+          rev = "f2ecab32e9d230f0d44226645c00a846e6c0f34d";
+          sha256 = "sha256-f2qEyhIp+OwxCU3FHHbsePZF+SyN26JqYCQT1AIQQrI=";
         });
-        settings = {
-          captureSource = "screen";
-          postRecordCommand = "wl-copy --type text/uri-list \"file://$1\"";
-        };
       };
       githubNotifier = {
         enable = true;
@@ -95,14 +91,14 @@ in {
         nixPackageRunner = {
           allowWithoutTrigger = false;
         };
-        screenRecorder = {
+        screenCaptureToolbar = {
           allowWithoutTrigger = false;
         };
       };
       launcherPluginOrder = [
         "dms_settings_search"
         "dankHyprlandWindows"
-        "screenRecorder"
+        "screenCaptureToolbar"
         "dms_clipboard_search"
         "nixPackageRunner"
       ];
