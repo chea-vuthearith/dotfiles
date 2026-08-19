@@ -7,4 +7,5 @@ GinaV2:
       - ln -sf "$MAIN/CLAUDE.md" CLAUDE.md
       - ln -sf "$MAIN/.envrc" .envrc
       - ln -sf "$MAIN/database/data/datasets" database/data/datasets
+      - ln -sf "$MAIN/Frontend/node_modules" Frontend/node_modules
       - direnv allow
