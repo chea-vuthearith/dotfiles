@@ -32,6 +32,7 @@
         cat = "bat";
         ls = "eza --icons";
         lt = "eza --tree --icons";
+        gt = "nvim ~/code/work/groundup/todo.*";
       };
     };
   };
