@@ -39,6 +39,6 @@ fi
 
 SCHEDULE_TIME=$(printf "%02d:%02d" "$HOUR" "$MIN")
 
-echo "echo 'herdr agent prompt $HERDR_PANE_ID \"continue\"'" | at "$SCHEDULE_TIME" 2>/dev/null
+echo "herdr agent prompt $HERDR_PANE_ID 'continue'" | at "$SCHEDULE_TIME" 2>/dev/null
 
 notify-send "Claude $HERDR_PANE_ID" "Limit reached, will resume at $SCHEDULE_TIME"
