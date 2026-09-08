@@ -1,8 +1,4 @@
-{
-  pkgs,
-  lib,
-  ...
-}: {
+{pkgs, ...}: {
   programs = {
     atuin = {
       enable = true;
@@ -22,22 +18,13 @@
       enable = true;
       enableZshIntegration = true;
     };
-    zsh = {
-      initContent = lib.mkOrder 1600 ''
-        bindkey -M vicmd -r 'j'
-        bindkey -M vicmd -r 'k'
-      '';
-      shellAliases = {
-        cat = "bat";
-        ls = "eza --icons";
-        lt = "eza --tree --icons";
-        gt = "nvim ~/code/work/groundup/todo.*";
-      };
+    zsh.shellAliases = {
+      cat = "bat";
+      ls = "eza --icons";
+      lt = "eza --tree --icons";
     };
   };
   home.packages = with pkgs; [
-    terraform
-    google-cloud-sdk
     eza
     fd
     ripgrep
@@ -46,23 +33,9 @@
     unzip
     unrar
     bottom
-    swappy
-    aria2
     jq
     xh
     magic-wormhole
-    playerctl
-    wf-recorder
-    tesseract
-    ffmpeg
-    hyprpicker
-    pavucontrol
-    brightnessctl
-    imagemagick
-    newt
-    dragon-drop
-    grim
-    slurp
-    wl-clipboard
+    aria2
   ];
 }

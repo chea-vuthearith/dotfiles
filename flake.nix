@@ -2,6 +2,7 @@
   description = "Nixos config flake";
 
   inputs = {
+    llm-agents.url = "github:numtide/llm-agents.nix";
     secrets.url = "git+ssh://git@github.com/chea-vuthearith/secrets.git";
     direnv-instant.url = "github:Mic92/direnv-instant";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -76,6 +77,12 @@
         inherit lib system;
         specialArgs = sharedArgs // {hostname = "laptop";};
         modules = sharedModules ++ [./hosts/laptop/configuration];
+      };
+
+      server = nixpkgs.lib.nixosSystem {
+        inherit lib system;
+        specialArgs = sharedArgs // {hostname = "server";};
+        modules = [./hosts/server/configuration];
       };
     };
   };

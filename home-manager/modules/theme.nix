@@ -41,7 +41,6 @@
     };
 
     targets = {
-      tmux.enable = false; # self managed
       ghostty.fonts.enable = false; # self managed
       hyprland.hyprpaper.enable = false; # managed by dms;
       neovim.enable = false; # not good enough for nvim

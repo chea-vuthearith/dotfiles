@@ -1,4 +1,5 @@
 {pkgs, ...}: {
+  home.packages = with pkgs; [omp];
   programs = {
     opencode = {
       enable = true;

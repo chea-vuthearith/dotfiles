@@ -25,6 +25,6 @@ zi light zsh-users/zsh-syntax-highlighting
 zi ice lucid wait depth"1"
 zi snippet OMZP::git
 
-AUTO_NOTIFY_IGNORE=("vi" "tmux" "ssh" "sst" "btm" "sesh" "fzf")
+AUTO_NOTIFY_IGNORE=("vi" "ssh" "btm" "fzf")
 zi ice lucid wait depth"1"
 zi light MichaelAquilina/zsh-auto-notify

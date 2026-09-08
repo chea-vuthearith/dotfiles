@@ -18,7 +18,7 @@ return {
     },
     formatters = {
       biome = {
-        command = "biome",
+        command = "bunx biome",
         args = { "check", "--write", "$FILENAME" },
         stdin = false,
       },
