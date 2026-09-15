@@ -1,5 +1,32 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [omp];
+  home.file.".omp/agent/config.yml".text = ''
+    modelRoles:
+      vision: google-antigravity/gemini-3.7-flash
+      default: anthropic/claude-sonnet-4-6
+    symbolPreset: nerd
+    composer:
+      shape: pi
+    theme:
+      dark: titanium
+      light: light
+    setupVersion: 2
+    colorBlindMode: false
+    statusLine:
+      preset: default
+      separator: powerline
+    memory:
+      backend: mnemopi
+    providers:
+      memoryModel: online
+    defaultThinkingLevel: auto
+    checkpoint:
+      enabled: true
+    retry:
+      maxRetryDelayMs: 21600000
+      maxDelayMs: 21600000
+      maxAgentDelayMs: 18000000
+  '';
   programs = {
     opencode = {
       enable = true;
