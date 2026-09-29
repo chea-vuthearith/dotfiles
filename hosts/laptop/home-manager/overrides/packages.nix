@@ -4,7 +4,7 @@
       cheese
       bluez
       bluez-tools
-      # cisco-packet-tracer_9
+      cisco-packet-tracer_9
     ];
   };
 }
