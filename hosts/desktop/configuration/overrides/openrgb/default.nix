@@ -1,7 +1,13 @@
 {pkgs, ...}: let
   no-rgb = pkgs.writeScriptBin "no-rgb" ''
     #!/bin/sh
-    ${pkgs.openrgb}/bin/openrgb --noautoconnect --profile ${./blackedout.orp} 2>&1 || true
+    echo "applying blackedout profile: ${./blackedout.orp}"
+    ${pkgs.openrgb}/bin/openrgb --noautoconnect --profile ${./blackedout.orp}
+    status=$?
+    if [ $status -ne 0 ]; then
+      echo "openrgb exited with status $status" >&2
+    fi
+    exit $status
   '';
 in {
   config = {
@@ -16,8 +22,9 @@ in {
         ExecStart = "${no-rgb}/bin/no-rgb";
         Type = "idle";
         RemainAfterExit = true;
-        StandardOutput = "null";
+        StandardOutput = "journal";
         StandardError = "journal";
+        SyslogIdentifier = "no-rgb";
       };
       wantedBy = ["multi-user.target"];
     };
