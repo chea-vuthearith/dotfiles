@@ -5,7 +5,7 @@
     turbo
     vtsls # just in case tsgo breaks
     bun
-    typescript-go
+    typescript
     biome
     tailwindcss-language-server
   ];

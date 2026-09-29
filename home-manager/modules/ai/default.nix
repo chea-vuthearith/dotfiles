@@ -62,7 +62,7 @@
           };
         };
         tsgo = {
-          command = "${pkgs.typescript-go}/bin/tsgo";
+          command = "${pkgs.typescript}/bin/tsgo";
           args = ["--lsp"];
           extensionToLanguage = {
             ".ts" = "typescript";

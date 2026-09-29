@@ -4,9 +4,6 @@
   ...
 }: let
   inherit (pkgs.stdenv.hostPlatform) system;
-  bravePkgs = import inputs.brave-origin-nixpkgs {
-    inherit system;
-  };
   overlay = final: prev: {
     tela-circle-icon-theme = prev.tela-circle-icon-theme.overrideAttrs (oldAttrs: {
       src = prev.fetchFromGitHub {
@@ -17,7 +14,6 @@
       };
     });
 
-    inherit (bravePkgs) brave-origin;
     inherit (inputs.llm-agents.packages.${system}) omp;
     inherit (inputs.hyprland.packages.${system}) hyprland;
     inherit (inputs.herdr.packages.${system}) herdr;

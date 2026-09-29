@@ -30,9 +30,6 @@ in {
           trigger = "w";
         };
       };
-      dankBatteryAlerts = {
-        enable = true;
-      };
       nixPackageRunner = {
         enable = true;
         settings = {
@@ -66,6 +63,11 @@ in {
       batteryPostLockMonitorTimeout = acPostLockMonitorTimeout;
       batterySuspendTimeout = acSuspendTimeout;
       batterySuspendBehavior = acSuspendBehavior;
+
+      batteryNotifyLow = true;
+      batteryNotifyCritical = true;
+      batteryLowThreshold = 20;
+      batteryCriticalThreshold = 10;
 
       builtInPluginSettings = {
         dms_settings_search = {

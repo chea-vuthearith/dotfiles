@@ -6,7 +6,6 @@
     secrets.url = "git+ssh://git@github.com/chea-vuthearith/secrets.git";
     direnv-instant.url = "github:Mic92/direnv-instant";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    brave-origin-nixpkgs.url = "github:Dreaming-Codes/nixpkgs/brave-channels";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
