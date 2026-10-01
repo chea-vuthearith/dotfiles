@@ -3,7 +3,8 @@
   home.file.".omp/agent/config.yml".text = ''
     modelRoles:
       vision: google-antigravity/gemini-3.7-flash
-      default: anthropic/claude-sonnet-4-6
+      default: anthropic/claude-opus-5-5
+      smol: anthropic/claude-sonnet-5-5
     symbolPreset: nerd
     composer:
       shape: pi
