@@ -29,8 +29,8 @@
       '';
       shellAliases = {
         cat = "bat";
-        ls = "eza --icons";
-        lt = "eza --tree --icons";
+        ls = "eza --icons always";
+        lt = "eza --tree --icons always";
         gt = "nvim ~/code/work/groundup/todo.*";
       };
     };
