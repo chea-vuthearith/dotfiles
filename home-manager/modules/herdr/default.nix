@@ -106,6 +106,13 @@
       binarySha256 = "1li1vwixphi40lanlpfwlc9csp9n1i075g8xy19rz0cg7xxpa3hb";
       dirName = "glance.pr";
     })
+    (mkPlugin {
+      owner = "wg1k";
+      repo = "live-sync-panes";
+      rev = "bd3120a952e92e3313182ed306bcba3863bd0746";
+      sha256 = "sha256-jmhJJhP4TRpi8ZLVlgDjXx6mpBzdY4zie/tyCVqdJjU=";
+      dirName = "live-sync-panes";
+    })
   ];
 
   pluginsJson = builtins.toJSON (map (p: p.json) plugins);

@@ -1,4 +1,9 @@
-{username, ...}: {
+{
+  pkgs,
+  username,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [sshpass];
   services.openssh = {
     enable = true;
     ports = [99];

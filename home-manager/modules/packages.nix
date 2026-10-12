@@ -7,5 +7,6 @@
     discord
     telegram-desktop
     brave-origin
+    libreoffice
   ];
 }

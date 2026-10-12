@@ -54,6 +54,16 @@ key = "ctrl+l"
 type = "plugin_action"
 command = "herdr-splits.nav-right"
 
+[[keys.command]]
+key = "prefix+a"
+type = "plugin_action"
+command = "live-sync-panes.broadcast"
+
+[[keys.command]]
+key = "prefix+y"
+type = "plugin_action"
+command = "live-sync-panes.sync"
+
 
 [keys.indexed]
 tabs = "alt"
