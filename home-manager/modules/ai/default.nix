@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   # omp custom tools; see ./omp/tools/README.md
+  home.packages = with pkgs; [omp];
   home.file.".omp/agent/tools/herdr-worktree.ts".source = ./omp/tools/herdr-worktree.ts;
   home.file.".omp/agent/APPEND_SYSTEM.md".source = ./omp/APPEND_SYSTEM.md;
   home.file.".omp/agent/config.yml".text = ''
