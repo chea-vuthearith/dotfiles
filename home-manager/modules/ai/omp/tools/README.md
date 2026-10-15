@@ -12,6 +12,8 @@ Moves the calling omp agent into a new git worktree, in one call:
    pane is closed.
 3. After the turn ends, `/move <worktree>` is sent to the agent, which moves the omp
    session (history and session folder) to the worktree.
+4. Once the move is confirmed, the agent is prompted with `continue`, so it resumes
+   the task in the worktree without user input.
 
 Ask the agent, for example: "move yourself to a worktree on branch docs/milkrun".
 Parameters: `branch` (required), `base`, `label`, `repo` (default: current folder).
@@ -28,7 +30,9 @@ or abort it before moving"). The tool starts a detached job that:
 | `herdr pane send-keys <pane> ctrl+c` | clears any draft in the prompt; `Up` recalls it |
 | `herdr agent prompt <pane> "/move <dir>"` | types and submits the command |
 | `herdr pane send-keys <pane> enter` | the first Enter only picks `/move` in the command picker; this one runs it |
-| `herdr pane read` for `Moved to <dir>` | confirms the move |
+| `herdr pane read` for `Moved to <dir>` | confirms the move; stops here if not seen |
+| `herdr agent wait <pane> --until idle` | waits for omp to settle after `/move` (1 minute max) |
+| `herdr agent prompt <pane> continue --wait --until working` | resumes the agent; fails if no turn starts within 10 s |
 
 Log: `/tmp/omp-herdr-worktree-<time>.log`.
 
@@ -46,7 +50,7 @@ herdr pane list            # confirm the pane is in the new workspace, THEN:
 herdr pane close <root>    # closing the only pane of a workspace closes the workspace
 ```
 
-Then type `/move <worktree>` in omp while it is idle.
+Then type `/move <worktree>` in omp while it is idle, then `continue`.
 
 ### Notes
 

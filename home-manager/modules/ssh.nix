@@ -13,6 +13,10 @@
     keychain = {
       enable = true;
       enableZshIntegration = true;
+      extraFlags = [
+        "--quiet"
+        "--immediate"
+      ];
       keys = [
         "id_ed25519"
       ];

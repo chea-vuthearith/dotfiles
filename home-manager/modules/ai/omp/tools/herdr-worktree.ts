@@ -1,6 +1,7 @@
 // omp custom tool: herdr_worktree
 // Creates a git worktree as a herdr workspace, moves this agent's herdr pane into it,
-// and moves this omp session there with /move once the current turn ends.
+// moves this omp session there with /move once the current turn ends, then prompts
+// "continue" so the agent resumes without user input.
 // Guide: ~/dotfiles/home-manager/modules/ai/omp/tools/README.md
 import type { CustomToolFactory } from "@oh-my-pi/pi-coding-agent";
 import { spawn } from "node:child_process";
@@ -18,10 +19,17 @@ herdr agent prompt "$p" "/move $d"
 sleep 1
 herdr pane send-keys "$p" enter      # first Enter only picks /move in the command picker
 sleep 3
-if herdr pane read "$p" --lines 200 | grep -qF "Moved to $d"; then
-  echo "moved OK: $d"
+if ! herdr pane read "$p" --lines 200 | grep -qF "Moved to $d"; then
+  echo "'Moved to $d' not seen; check pane $p; continue not sent"
+  exit 1
+fi
+echo "moved OK: $d"
+herdr agent wait "$p" --until idle --timeout 60000 || { echo "agent not idle after /move; continue not sent"; exit 1; }
+sleep 1
+if herdr agent prompt "$p" "continue" --wait --until working --timeout 10000; then
+  echo "continue sent"
 else
-  echo "'Moved to $d' not seen; check pane $p"
+  echo "continue did not start a turn; check pane $p"
   exit 1
 fi
 `;
@@ -99,8 +107,9 @@ const factory: CustomToolFactory = (pi) => {
     label: "Herdr Worktree",
     description:
       "Create a git worktree as a new herdr workspace, move this agent's herdr pane into it, " +
-      "and move this omp session there (/move, sent automatically after the current turn ends). " +
-      "Call it as the LAST action of a turn: the session move runs only once the agent is idle. " +
+      "and move this omp session there (/move, sent automatically after the current turn ends), " +
+      "then prompt the agent with \"continue\" so it resumes in the worktree. " +
+      "Call it as the LAST action of a turn and end the turn: the session move runs only once the agent is idle. " +
       "Files you want in the worktree must be moved before calling. Requires running inside herdr.",
     parameters: pi.zod.object({
       branch: pi.zod.string().describe("New branch name, e.g. docs/milkrun"),
@@ -152,8 +161,8 @@ const factory: CustomToolFactory = (pi) => {
 
       const text =
         `Worktree ${dest} (branch ${params.branch}) opened as herdr workspace ${ws}; ` +
-        `this pane is now ${moved.pane_id}. /move ${dest} will be sent when this turn ends ` +
-        `(log: ${log}). End the turn now.`;
+        `this pane is now ${moved.pane_id}. When this turn ends, /move ${dest} will be sent, ` +
+        `then "continue" (log: ${log}). End the turn now; resume the remaining work in the next turn.`;
       return {
         content: [{ type: "text", text }],
         details: { worktree: dest, branch: params.branch, workspace: ws, pane: moved.pane_id, log },
