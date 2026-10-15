@@ -9,7 +9,6 @@
       inputs.home-manager.nixosModules.default
       ../../../configuration/modules/hm.nix
       ../../../configuration/modules/networking.nix
-      ../../../configuration/modules/ssh.nix
       ../../../configuration/modules/storage.nix
       ../../../configuration/modules/virtualization.nix
       ../../../configuration/modules/cache-host.nix

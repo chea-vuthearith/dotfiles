@@ -1,14 +1,10 @@
-{
-  pkgs,
-  username,
-  ...
-}: {
-  environment.systemPackages = with pkgs; [sshpass];
+{username, ...}: {
   services.openssh = {
     enable = true;
     ports = [99];
     settings = {
       PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
       AllowUsers = [username];
       PermitRootLogin = "no";
     };
