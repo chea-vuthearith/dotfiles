@@ -2,7 +2,10 @@
   flake.modules.nixos.base = {...}: {
     nixpkgs.overlays = [
       (final: _prev: {
-        inherit (inputs.herdr.packages.${final.stdenv.hostPlatform.system}) herdr;
+        herdr = inputs.herdr.packages.${final.stdenv.hostPlatform.system}.herdr.overrideAttrs (o: {
+          # saved machines per local session (machines.nix); upstream keeps one global list
+          patches = (o.patches or []) ++ [./session-machines.patch];
+        });
       })
     ];
   };

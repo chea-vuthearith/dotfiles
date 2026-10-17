@@ -1,0 +1,31 @@
+diff --git a/src/client/endpoint/catalog.rs b/src/client/endpoint/catalog.rs
+index b1812ce..13d300e 100644
+--- a/src/client/endpoint/catalog.rs
++++ b/src/client/endpoint/catalog.rs
+@@ -371,15 +371,20 @@ pub(super) fn store_private_json(
+ }
+ 
+ pub(crate) fn catalog_path() -> PathBuf {
+-    crate::config::state_dir()
+-        .join("client")
+-        .join("endpoints.json")
++    client_state_dir().join("endpoints.json")
+ }
+ 
+ fn selection_path() -> PathBuf {
+-    crate::config::state_dir()
+-        .join("client")
+-        .join("endpoint-selection.json")
++    client_state_dir().join("endpoint-selection.json")
++}
++
++/// Saved machines belong to the local session; `default` keeps the unscoped path.
++fn client_state_dir() -> PathBuf {
++    let dir = crate::config::state_dir().join("client");
++    match crate::session::active_name() {
++        Some(name) => dir.join("sessions").join(name),
++        None => dir,
++    }
+ }
+ 
+ #[cfg(test)]
