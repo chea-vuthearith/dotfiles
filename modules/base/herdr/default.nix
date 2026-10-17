@@ -128,7 +128,15 @@
     pluginsJson = builtins.toJSON (map (p: p.json) plugins);
     pluginsXdg = lib.foldl' (acc: p: acc // p.xdgFiles) {} plugins;
   in {
-    home.packages = [pkgs.herdr];
+    home.packages = [
+      pkgs.herdr
+      # popup behind prefix+tab / prefix+w in config.toml
+      (pkgs.writeShellApplication {
+        name = "herdr-chord";
+        runtimeInputs = [pkgs.herdr pkgs.jq];
+        text = builtins.readFile ./chord.sh;
+      })
+    ];
 
     programs.zsh.shellAliases = {
       h = "herdr";
