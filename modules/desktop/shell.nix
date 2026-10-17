@@ -5,7 +5,7 @@
     lib,
     ...
   }: let
-    dms-shell-patched = (inputs.dms.packages.${pkgs.system}.dms-shell).overrideAttrs (old: {
+    dms-shell-patched = (inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.dms-shell).overrideAttrs (old: {
       postInstall =
         old.postInstall
         + ''
