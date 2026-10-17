@@ -8,24 +8,24 @@
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
   /* ----------  DAY THEME  ---------- */
-  --bg: #fab387;
-  --fg: #181825;
-  --accent-fg: #585b70;
-  --border: #181825;
-  --title: #89b4fa;
-  --title-accent: #a6e3a1;
-  --link: #b4befe;
-  --link-accent: #f5e0dc;
+  --bg: @base09@;
+  --fg: @base00@;
+  --accent-fg: @base02@;
+  --border: @base00@;
+  --title: @base0E@;
+  --title-accent: @base0B@;
+  --link: @base07@;
+  --link-accent: @base06@;
 
   /* ---------- NIGHT THEME ---------- */
-  --nbg: #fab387;
-  --nfg: #181825;
-  --naccent-fg: #585b70;
-  --nborder: #181825;
-  --ntitle: #89b4fa;
-  --ntitle-accent: #a6e3a1;
-  --nlink: #b4befe;
-  --nlink-accent: #f5e0dc;
+  --nbg: @base09@;
+  --nfg: @base00@;
+  --naccent-fg: @base02@;
+  --nborder: @base00@;
+  --ntitle: @base0E@;
+  --ntitle-accent: @base0B@;
+  --nlink: @base07@;
+  --nlink-accent: @base06@;
 
   font-family: var(--font);
   font-size: var(--font-size-link);
@@ -73,23 +73,23 @@
   --padding: 0px;
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
-  --bg: #1e1e2e;
-  --fg: #cdd6f4;
-  --accent-fg: #585b70;
-  --border: #b4befe;
-  --title: #89b4fa;
-  --title-accent: #a6e3a1;
-  --link: #f5e0dc;
-  --link-accent: #fab387;
+  --bg: @base00@;
+  --fg: @base05@;
+  --accent-fg: @base02@;
+  --border: @base07@;
+  --title: @base0E@;
+  --title-accent: @base0B@;
+  --link: @base06@;
+  --link-accent: @base09@;
 
-  --nbg: #1e1e2e;
-  --nfg: #cdd6f4;
-  --naccent-fg: #585b70;
-  --nborder: #b4befe;
-  --ntitle: #89b4fa;
-  --ntitle-accent: #a6e3a1;
-  --nlink: #f5e0dc;
-  --nlink-accent: #fab387;
+  --nbg: @base00@;
+  --nfg: @base05@;
+  --naccent-fg: @base02@;
+  --nborder: @base07@;
+  --ntitle: @base0E@;
+  --ntitle-accent: @base0B@;
+  --nlink: @base06@;
+  --nlink-accent: @base09@;
 
   font-family: var(--font);
 }
@@ -170,23 +170,23 @@ body {
   --padding: 0px;
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
-  --bg: #1e1e2e;
-  --fg: #cdd6f4;
-  --accent-fg: #585b70;
-  --border: #11111b;
-  --title: #89b4fa;
-  --title-accent: #a6e3a1;
-  --link: #b4befe;
-  --link-accent: #fab387;
+  --bg: @base00@;
+  --fg: @base05@;
+  --accent-fg: @base02@;
+  --border: @base00@;
+  --title: @base0E@;
+  --title-accent: @base0B@;
+  --link: @base07@;
+  --link-accent: @base09@;
 
-  --nbg: #1e1e2e;
-  --nfg: #cdd6f4;
-  --naccent-fg: #585b70;
-  --nborder: #11111b;
-  --ntitle: #89b4fa;
-  --ntitle-accent: #a6e3a1;
-  --nlink: #b4befe;
-  --nlink-accent: #fab387;
+  --nbg: @base00@;
+  --nfg: @base05@;
+  --naccent-fg: @base02@;
+  --nborder: @base00@;
+  --ntitle: @base0E@;
+  --ntitle-accent: @base0B@;
+  --nlink: @base07@;
+  --nlink-accent: @base09@;
 
   font-family: var(--font);
 }

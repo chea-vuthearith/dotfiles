@@ -79,7 +79,14 @@
           "^https?://localhost:8080/"
           "^https?://127\\.0\\.0\\.1:8082/"
         ];
-      userDefinedCss = lib.removeSuffix "\n" (builtins.readFile ./vimium-c.css);
+      # hint/HUD/omnibar theme; @baseXX@ = stylix colors
+      userDefinedCss = let
+        names = map (n: "base0${n}") ["0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "A" "B" "C" "D" "E" "F"];
+      in
+        lib.removeSuffix "\n" (builtins.replaceStrings
+          (map (n: "@${n}@") names)
+          (map (n: config.lib.stylix.colors.withHashtag.${n}) names)
+          (builtins.readFile ./vimium-c.css));
     };
   in {
     home.packages = [pkgs.brave-origin];
