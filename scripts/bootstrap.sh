@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Build/install a host without the private `secrets` input (no GitHub SSH access yet).
-# The stub in bootstrap/secrets-stub leaves the SSH work-host config and aria2 secret empty;
-# once SSH keys are set up, run a normal `nsw` to pick up the real secrets.
+# The stub in bootstrap/secrets-stub leaves the SSH work-host config empty and skips sops
+# (see modules/base/secrets.nix); afterwards set up /var/lib/sops-nix/key.txt and run `nsw`.
 #
 #   scripts/bootstrap.sh <host>                # on an installed system: nixos-rebuild switch
 #   scripts/bootstrap.sh <host> --install /mnt # from the installer ISO: nixos-install --root /mnt
