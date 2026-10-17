@@ -52,27 +52,27 @@ hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ to
 hl.bind(
 	"XF86AudioRaiseVolume",
 	hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 10%+"),
-	{ locked = true, repeatable = true }
+	{ locked = true, repeating = true }
 )
 hl.bind(
 	"SHIFT + XF86AudioRaiseVolume",
 	hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_SOURCE@ 10%+"),
-	{ locked = true, repeatable = true }
+	{ locked = true, repeating = true }
 )
 hl.bind(
 	"SHIFT + XF86AudioLowerVolume",
 	hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_SOURCE@ 10%-"),
-	{ locked = true, repeatable = true }
+	{ locked = true, repeating = true }
 )
 hl.bind(
 	"XF86AudioLowerVolume",
 	hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%-"),
-	{ locked = true, repeatable = true }
+	{ locked = true, repeating = true }
 )
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl s +10%"), { locked = true, repeatable = true })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl s 10%-"), { locked = true, repeatable = true })
-hl.bind("SHIFT + XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl s +1%"), { locked = true, repeatable = true })
-hl.bind("SHIFT + XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl s 1%-"), { locked = true, repeatable = true })
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl s +10%"), { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl s 10%-"), { locked = true, repeating = true })
+hl.bind("SHIFT + XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl s +1%"), { locked = true, repeating = true })
+hl.bind("SHIFT + XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl s 1%-"), { locked = true, repeating = true })
 hl.bind("XF86Poweroff", hl.dsp.exec_cmd("wlogout"))
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"))
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"))
@@ -135,10 +135,10 @@ hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "u" }))
 hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "d" }))
 
 -- Resize windows
-hl.bind(mainMod .. " + Left", hl.dsp.window.resize({ x = -100, y = 0 }), { repeatable = true })
-hl.bind(mainMod .. " + Right", hl.dsp.window.resize({ x = 100, y = 0 }), { repeatable = true })
-hl.bind(mainMod .. " + Up", hl.dsp.window.resize({ x = 0, y = -100 }), { repeatable = true })
-hl.bind(mainMod .. " + Down", hl.dsp.window.resize({ x = 0, y = 100 }), { repeatable = true })
+hl.bind(mainMod .. " + Left", hl.dsp.window.resize({ x = -100, y = 0, relative = true }), { repeating = true })
+hl.bind(mainMod .. " + Right", hl.dsp.window.resize({ x = 100, y = 0, relative = true }), { repeating = true })
+hl.bind(mainMod .. " + Up", hl.dsp.window.resize({ x = 0, y = -100, relative = true }), { repeating = true })
+hl.bind(mainMod .. " + Down", hl.dsp.window.resize({ x = 0, y = 100, relative = true }), { repeating = true })
 
 -- Reposition Windows
 hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.move({ direction = "l" }))
