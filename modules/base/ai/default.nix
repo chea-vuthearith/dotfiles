@@ -1,9 +1,21 @@
 {...}: {
   flake.modules.homeManager.base = {pkgs, ...}: {
     # omp custom tools; see ./omp/tools/README.md
-    home.packages = with pkgs; [omp];
+    # trafilatura: HTML-to-text CLI that omp can use (previously a `uv tool` install).
+    home.packages = with pkgs; [omp python3Packages.trafilatura];
     home.file.".omp/agent/tools/herdr-worktree.ts".source = ./omp/tools/herdr-worktree.ts;
     home.file.".omp/agent/APPEND_SYSTEM.md".source = ./omp/APPEND_SYSTEM.md;
+    # herdr's omp integration (state reporting + session resume), generated from the
+    # pinned herdr instead of a manual `herdr integration install omp`.
+    # force: replaces the copy herdr installed by hand.
+    home.file.".omp/agent/extensions/herdr-omp-agent-state.ts".force = true;
+    home.file.".omp/agent/extensions/herdr-omp-agent-state.ts".source = "${
+      pkgs.runCommand "herdr-omp-integration" {} ''
+        export HOME=$out XDG_CONFIG_HOME=$out/.config
+        mkdir -p $out/.omp/agent/extensions
+        ${pkgs.herdr}/bin/herdr integration install omp
+      ''
+    }/.omp/agent/extensions/herdr-omp-agent-state.ts";
     home.file.".omp/agent/config.yml".text = ''
       modelRoles:
         vision: google-antigravity/gemini-3.7-flash
