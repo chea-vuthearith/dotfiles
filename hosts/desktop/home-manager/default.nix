@@ -1,5 +1,8 @@
 {lib, ...}: {
   imports =
-    [../../../home-manager]
+    [
+      ../../../home-manager/global
+      ../../../home-manager/profiles/desktop.nix
+    ]
     ++ lib.collectModules ./overrides;
 }

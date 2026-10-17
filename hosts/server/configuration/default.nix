@@ -1,24 +1,7 @@
-{
-  inputs,
-  username,
-  lib,
-  ...
-}: {
+{lib, ...}: {
   imports =
     [
-      inputs.home-manager.nixosModules.default
-      ../../../configuration/modules/hm.nix
-      ../../../configuration/modules/networking.nix
-      ../../../configuration/modules/storage.nix
-      ../../../configuration/modules/virtualization.nix
-      ../../../configuration/modules/cache-host.nix
-      ../../../configuration/modules/tailscale.nix
-      /etc/nixos/hardware-configuration.nix
+      ../../../configuration/global
     ]
     ++ lib.collectModules ./overrides;
-
-  home-manager = {
-    extraSpecialArgs = {inherit inputs;};
-    users.${username} = import ../home-manager;
-  };
 }

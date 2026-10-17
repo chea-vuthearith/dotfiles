@@ -6,7 +6,6 @@
   environment.systemPackages = with pkgs; [
     neovim
     wget
-    sshpass
     dconf
     dbus
 

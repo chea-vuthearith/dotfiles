@@ -1,14 +1,8 @@
-{
-  inputs,
-  username,
-  lib,
-  ...
-}: {
-  imports = lib.collectModules ./overrides;
-  home-manager = {
-    extraSpecialArgs = {
-      inherit inputs;
-    };
-    users = {${username} = import ../home-manager;};
-  };
+{lib, ...}: {
+  imports =
+    [
+      ../../../configuration/global
+      ../../../configuration/profiles/desktop.nix
+    ]
+    ++ lib.collectModules ./overrides;
 }

@@ -62,27 +62,14 @@
         utils
     );
 
-    sharedArgs = {inherit inputs username;};
-    sharedModules = [./configuration];
+    # Every host is hosts/<name>/configuration; it picks its own layers.
+    mkHost = hostname:
+      nixpkgs.lib.nixosSystem {
+        inherit lib system;
+        specialArgs = {inherit inputs username hostname;};
+        modules = [./hosts/${hostname}/configuration];
+      };
   in {
-    nixosConfigurations = {
-      desktop = nixpkgs.lib.nixosSystem {
-        inherit lib system;
-        specialArgs = sharedArgs // {hostname = "desktop";};
-        modules = sharedModules ++ [./hosts/desktop/configuration];
-      };
-
-      laptop = nixpkgs.lib.nixosSystem {
-        inherit lib system;
-        specialArgs = sharedArgs // {hostname = "laptop";};
-        modules = sharedModules ++ [./hosts/laptop/configuration];
-      };
-
-      server = nixpkgs.lib.nixosSystem {
-        inherit lib system;
-        specialArgs = sharedArgs // {hostname = "server";};
-        modules = [./hosts/server/configuration];
-      };
-    };
+    nixosConfigurations = lib.genAttrs ["desktop" "laptop" "server"] mkHost;
   };
 }

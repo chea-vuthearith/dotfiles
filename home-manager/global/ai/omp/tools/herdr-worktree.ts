@@ -2,7 +2,7 @@
 // Creates a git worktree as a herdr workspace, moves this agent's herdr pane into it,
 // moves this omp session there with /move once the current turn ends, then prompts
 // "continue" so the agent resumes without user input.
-// Guide: ~/dotfiles/home-manager/modules/ai/omp/tools/README.md
+// Guide: ~/dotfiles/home-manager/global/ai/omp/tools/README.md
 import type { CustomToolFactory } from "@oh-my-pi/pi-coding-agent";
 import { spawn } from "node:child_process";
 import { closeSync, openSync } from "node:fs";

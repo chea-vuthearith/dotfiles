@@ -1,6 +1,6 @@
 # omp custom tools
 
-Deployed by `home-manager/modules/ai/default.nix` to `~/.omp/agent/tools/`. omp loads
+Deployed by `home-manager/global/ai/default.nix` to `~/.omp/agent/tools/`. omp loads
 them at startup; restart omp (or start a new session) after `nixos-rebuild switch`.
 
 ## `herdr_worktree`
