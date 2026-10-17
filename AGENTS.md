@@ -1,0 +1,92 @@
+# Repository Guidelines
+
+## Project Overview
+NixOS + home-manager configuration for one user (`kuro`) on three hosts: `laptop`, `desktop` (both workstation, Hyprland + DankMaterialShell) and `server` (headless old laptop). One flake, all hosts `x86_64-linux`, nixpkgs `nixos-unstable`.
+
+## Architecture & Data Flow
+Dendritic layout: **flake-parts + import-tree, one file per feature**.
+
+```
+flake.nix ─ import-tree ./modules ─► every modules/**/*.nix is a flake-parts module
+  feature file ─► flake.modules.nixos.<profile>       (NixOS module)
+               └► flake.modules.homeManager.<profile> (home-manager module for kuro)
+  modules/hosts/<h>/default.nix ─► hosts.<h>.profiles = ["base" "desktop"]
+  modules/flake/hosts.nix ─► nixosConfigurations.<h> = nixosSystem {
+        modules of every profile in hosts.<h>.profiles ++ ["host-<h>"],
+        home-manager.users.kuro.imports = matching homeManager modules }
+```
+
+- Profiles: `base` (all hosts), `desktop` (laptop + desktop), `host-<name>` (one host). Missing profile/class combos are skipped silently.
+- A feature owns **everything** about itself in one file, across classes and profiles: packages, overlay, `nix.settings` caches, firewall ports, user groups, HM config, aliases. Example: `modules/base/aria2.nix` publishes `homeManager.base` (CLI), `nixos.desktop` (daemon + `aria2` group) and `homeManager.desktop` (secret, symlink).
+- Never define the same feature in two files or per host when it can be shared. Host files hold only real differences (hardware, monitors, IPs, power).
+- Flake-level options (`modules/flake/meta.nix`): `config.username` (`"kuro"`), `config.repoDir` (`/home/kuro/dotfiles`). Read them in the **outer** function.
+
+## Key Directories
+- `modules/flake/` – scaffolding: `flake-parts.nix`, `meta.nix` (options), `hosts.nix` (host builder, `lib.toLocal`).
+- `modules/base/` – every host: nix settings, users/sudo, cli, zsh, nvim, git, ssh, tailscale, herdr, ai (omp/claude/opencode), `langs/*` (toolchains + LSPs).
+- `modules/desktop/` – workstation profile: hyprland (`conf/*.lua`), DMS shell (`shell.nix`), stylix theme, ghostty, zed, yazi, xdg, sound, keep-awake.
+- `modules/hosts/<h>/` – `default.nix` (profiles + `_hardware-configuration.nix` import) and host-only modules.
+- `scripts/maintain.sh` – manual helper; `wallpapers/` – stylix image.
+
+## Development Commands
+```sh
+# build a host (no --impure; hardware configs are in-repo)
+nix build --no-link .#nixosConfigurations.<laptop|desktop|server>.config.system.build.toplevel
+# fail on any evaluation warning
+nix eval --no-eval-cache --option abort-on-warn true --raw .#nixosConfigurations.<h>.config.system.build.toplevel.drvPath
+# inspect a merged value
+nix eval --json .#nixosConfigurations.<h>.config.users.users.kuro.extraGroups
+nix eval .#nixosConfigurations.<h>.config.home-manager.users.kuro.programs.zsh.shellAliases.nsw
+# deploy (zsh aliases from modules/base/zsh/default.nix)
+nsw    # git pull; nixos-rebuild switch --sudo --flake ~/dotfiles#<hostname>
+nswu   # nix flake update + nsw --upgrade
+nsws   # nsw via the other workstation's LAN harmonia cache (modules/hosts/{laptop,desktop}/zsh.nix)
+# format
+alejandra -q modules   # Nix
+stylua <file.lua>      # Lua (config: modules/base/nvim/conf/stylua.toml)
+```
+There is no `formatter`, `devShell` or `checks` output; `nix fmt` errors.
+
+## Code Conventions & Common Patterns
+- Feature module shape:
+  ```nix
+  {config, inputs, ...}: let inherit (config) username; in {   # flake-parts scope
+    flake.modules.nixos.base = {pkgs, ...}: { ... };           # NixOS scope
+    flake.modules.homeManager.base = {pkgs, osConfig, ...}: { ... };  # HM scope
+  }
+  ```
+  Use `{...}:` when no flake-scope args are needed. Files are named after the feature (`tailscale.nix`, `nvim/default.nix` with assets alongside).
+- Overlays live with their feature (`nixpkgs.overlays` in `ai`, `herdr`, `hyprland`, `theme`); use `final.stdenv.hostPlatform.system`, never `pkgs.system` (deprecated, warns).
+- User groups are appended by the owning feature: `users.users.${username}.extraGroups = ["docker"];`.
+- HM reads host facts via `osConfig` (e.g. `osConfig.networking.hostName`).
+- Host-specific opt-out: `lib.mkForce` in `modules/hosts/<h>/` (e.g. `server/agent.nix` disables keychain/ssh-agent to keep the forwarded agent).
+- Hot-reload configs: `config.lib.file.mkOutOfStoreSymlink (lib.toLocal ./conf)` links into the `~/dotfiles` checkout (nvim `conf/`, hypr `conf/`, zed, herdr `config.toml`). Edits apply without rebuild but only from `~/dotfiles`, not worktrees. Everything else (`builtins.readFile`, `./file` sources, zsh `*.sh` snippets) needs `nsw`.
+- Files herdr/apps rewrite are copied by `home.activation`, not symlinked (`base/herdr/machines.nix`).
+- Files prefixed `_` are not imported by import-tree (`_hardware-configuration.nix`).
+- zsh snippets (`base/zsh/{plugins,zshrc,keys}.sh`) are concatenated into `initContent`; guard optional tools: `if (( $+commands[wl-copy] )); then ... fi`.
+- Hyprland is configured in **Lua** (`modules/desktop/hyprland/conf/{general,keybinds,rules,auto}.lua`, tabs). API `hl.bind(keys, hl.dsp.*, opts)`; stubs at `${pkgs.hyprland}/share/hypr/stubs/hl.meta.lua` (wired via generated `.luarc.json`), but bind opts are whatever `hlBind` reads in Hyprland's `src/config/lua/bindings/LuaBindingsToplevel.cpp` (stubs omit `mouse`, `auto_consuming`). Feature-owned binds go in the feature's Nix file via `wayland.windowManager.hyprland.extraLuaFiles.<name>.content` (see `desktop/keep-awake.nix`). Gotchas: repeat flag is `repeating` (not `repeatable`); keyboard resize needs `relative = true`.
+
+## Important Files
+- `flake.nix` – inputs only; outputs = `mkFlake (import-tree ./modules)`.
+- `modules/flake/hosts.nix` – how profiles become `nixosConfigurations`; defines `lib.toLocal`.
+- `modules/hosts/<h>/default.nix` – host profile list.
+- `modules/base/nix.nix` – substituters, gc/optimise, unfree.
+- `modules/base/zsh/default.nix` – `nsw`/`nswu`.
+- `modules/desktop/shell.nix` – DMS settings (idle/lock/suspend).
+- `modules/base/ai/` – omp config, custom tools, `APPEND_SYSTEM.md`.
+
+## Runtime/Tooling Preferences
+- Nix flakes only; never `--impure`, never `/etc/nixos` imports.
+- `secrets` input is a **private** git+ssh flake (`inputs.secrets.{sshConfig,aria2}`); evaluation needs the user's SSH agent, which is why `nsw` builds as the user with `--sudo`. On remote hosts use `ssh -A`.
+- Hand-placed, never committed: `/var/lib/tailscale/authkey`, `/etc/wireguard/wg0.conf`. No sops.
+- Remote access is Tailscale SSH (MagicDNS names `laptop`, `desktop`, `server`); no OpenSSH server is configured.
+- New files must be `git add`ed before flake evaluation sees them.
+- `hyprctl` from a nix shell may need `env -u LD_LIBRARY_PATH hyprctl ...`; test dispatchers live with `hyprctl dispatch 'hl.dsp.window.resize({x = -100, y = 0, relative = true})'`.
+- Work lands as stacked draft PRs (`gh stack`); one concern per branch.
+
+## Testing & QA
+No tests, CI or `checks`. Before pushing:
+1. Build all three hosts (command above); a change in `base/` affects every host.
+2. Run the `abort-on-warn` eval for each host; keep warnings at zero.
+3. Spot-check merged values with `nix eval` (groups, aliases, services) when moving options between files.
+4. Exercise runtime behaviour where possible (`hyprctl dispatch`, built `home-files` under `nix build ...home-manager.users.kuro.home-files`).
