@@ -15,8 +15,18 @@ map("n", "<leader>qr", function()
   vim.cmd("restart source " .. vim.fn.fnameescape(require("persistence").current()))
 end, { noremap = true, silent = true, desc = "Restart Neovim" })
 
-map("n", "<leader><TAB>l", cmd.tabnext, { desc = "Next Tab" })
-map("n", "<leader><TAB>h", cmd.tabprevious, { desc = "Previous Tab" })
+-- <tab>h/l = close tabs left/right, same as Vimium C's <space><tab>h/l
+-- (a :N,Mtabclose range closes only one tab, so close them one at a time)
+map("n", "<leader><TAB>h", function()
+  for _ = 2, vim.fn.tabpagenr() do
+    cmd("1tabclose")
+  end
+end, { desc = "Close Tabs to the Left" })
+map("n", "<leader><TAB>l", function()
+  while vim.fn.tabpagenr("$") > vim.fn.tabpagenr() do
+    cmd("$tabclose")
+  end
+end, { desc = "Close Tabs to the Right" })
 
 map("i", "<S-Tab>", function()
   vim.lsp.inline_completion.get()
