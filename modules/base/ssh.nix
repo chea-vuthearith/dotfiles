@@ -1,4 +1,4 @@
-{inputs, ...}: {
+{...}: {
   flake.modules.homeManager.base = {pkgs, ...}: {
     home.packages = with pkgs; [
       openssl
@@ -23,7 +23,6 @@
         enable = true;
         enableDefaultConfig = false;
         settings."*" = {};
-        extraConfig = inputs.secrets.sshConfig;
       };
     };
   };
