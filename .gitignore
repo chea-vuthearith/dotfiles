@@ -27,3 +27,6 @@ secrets/
 
 __pycache__/  
 .claude
+
+# herdr runtime state (config dir is symlinked into the repo)
+modules/base/herdr/release-notes.json
