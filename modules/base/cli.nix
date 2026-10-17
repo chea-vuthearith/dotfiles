@@ -15,6 +15,7 @@
       fzf = {
         enable = true;
         enableZshIntegration = true;
+        historyWidget.command = ""; # atuin owns Ctrl-R
       };
       zoxide = {
         enable = true;

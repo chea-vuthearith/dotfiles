@@ -87,6 +87,7 @@
 
       targets = {
         ghostty.fonts.enable = false; # self managed
+        rofi.enable = false; # unused; stylix still sets the renamed programs.rofi.font
         hyprland.hyprpaper.enable = false; # managed by dms;
       };
 
