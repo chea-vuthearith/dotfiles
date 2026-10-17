@@ -12,6 +12,8 @@
         };
       };
       bat.enable = true;
+      # nix-shell / nix shell / nix develop drop into zsh instead of bash.
+      nix-your-shell.enable = true;
       fzf = {
         enable = true;
         enableZshIntegration = true;
