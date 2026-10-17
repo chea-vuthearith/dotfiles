@@ -86,8 +86,8 @@ There is no `formatter`, `devShell` or `checks` output; `nix fmt` errors.
 
 ## Runtime/Tooling Preferences
 - Nix flakes only; never `--impure`, never `/etc/nixos` imports.
-- `secrets` input is a **private** git+ssh flake (`inputs.secrets.{sshConfig,aria2}`); evaluation needs the user's SSH agent, which is why `nsw` builds as the user with `--sudo`. On remote hosts use `ssh -A`.
-- Hand-placed, never committed: `/var/lib/tailscale/authkey`, `/etc/wireguard/wg0.conf`, `/var/lib/hindsight/env` (server; Claude setup-token for the Hindsight memory server). No sops.
+- `secrets` input is a **private** git+ssh flake (`inputs.secrets.{sshConfig,sopsFile}`); evaluation needs the user's SSH agent, which is why `nsw` builds as the user with `--sudo`. On remote hosts use `ssh -A`.
+- Secrets use **sops-nix** (`modules/base/secrets.nix`): `secrets.yaml` (age-encrypted, recipients in its `.sops.yaml`) lives in the secrets repo and is decrypted to `/run/secrets/<name>` on activation. Each feature declares its own `sops.secrets.<name>` and reads `config.sops.secrets.<name>.path` (tailscale, networking `wg0.conf`, aria2, server harmonia/hindsight). Edit with `sops secrets.yaml` (admin key `~/.config/sops/age/keys.txt`, backed up in Bitwarden). Per-host key `/var/lib/sops-nix/key.txt` is the only per-host bootstrap: create with `age-keygen`, add its public key to `.sops.yaml`, `sops updatekeys secrets.yaml`, bump the lock.
 - Remote access is Tailscale SSH (MagicDNS names `laptop`, `desktop`, `server`); no OpenSSH server is configured.
 - New files must be `git add`ed before flake evaluation sees them.
 - `hyprctl` from a nix shell may need `env -u LD_LIBRARY_PATH hyprctl ...`; test dispatchers live with `hyprctl dispatch 'hl.dsp.window.resize({x = -100, y = 0, relative = true})'`.
