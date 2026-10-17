@@ -8,7 +8,9 @@
         hyprlandPlugins =
           prev.hyprlandPlugins
           // {
-            # binds.workspace_back_and_forth is an int now; Lua treats 0 as true.
+            # - binds.workspace_back_and_forth is an int now; Lua treats 0 as true.
+            # - skip mirrored monitors on hotplug; focusing one crashes Hyprland
+            #   (shezdy/hyprsplit#92, unmerged).
             hyprsplitlua = inputs.hyprsplit.packages.${system}.hyprsplitlua.overrideAttrs (old: {
               buildCommand =
                 old.buildCommand
@@ -17,7 +19,10 @@
                   substituteInPlace $out/share/hyprsplit/init.lua \
                     --replace-fail \
                       'hl.get_config("binds.workspace_back_and_forth")' \
-                      'hl.get_config("binds.workspace_back_and_forth") ~= 0'
+                      'hl.get_config("binds.workspace_back_and_forth") ~= 0' \
+                    --replace-fail \
+                      'hl.on("monitor.added", function(monitor)' \
+                      'hl.on("monitor.added", function(monitor) if monitor.is_mirror then return end'
                 '';
             });
             inherit (inputs.hypr-dynamic-cursors.packages.${system}) hypr-dynamic-cursors;
