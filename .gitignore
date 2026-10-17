@@ -20,8 +20,9 @@ Thumbs.db
 *.swo
 *~
 
-# Secrets (if any)
-secrets/
+# Secrets: only sops-encrypted yaml is committed
+secrets/*
+!secrets/*.yaml
 *.key
 *.pem
 

@@ -1,18 +1,15 @@
 {
-  config,
-  inputs,
-  ...
-}: let
-  inherit (config) username;
-in {
-  flake.modules.nixos.desktop = {...}: {
+  flake.modules.nixos.desktop = {config, ...}: {
+    # Root-only; the aria2 unit reads it via LoadCredential.
+    sops.secrets.aria2 = {};
+
     services.aria2 = {
       enable = true;
       settings = {
         enable-rpc = true;
         resume = true;
       };
-      rpcSecretFile = "/home/${username}/.aria2secret";
+      rpcSecretFile = config.sops.secrets.aria2.path;
     };
   };
   flake.modules.homeManager.desktop = {
@@ -22,9 +19,6 @@ in {
   }: {
     home.file."${config.xdg.userDirs.download}/aria2" = {
       source = config.lib.file.mkOutOfStoreSymlink osConfig.services.aria2.settings.dir;
-    };
-    home.file."${config.home.homeDirectory}/.aria2secret" = {
-      text = inputs.secrets.aria2;
     };
   };
 }

@@ -1,5 +1,9 @@
-{inputs, ...}: {
-  flake.modules.homeManager.base = {pkgs, ...}: {
+{
+  flake.modules.homeManager.base = {
+    pkgs,
+    osConfig,
+    ...
+  }: {
     home.packages = with pkgs; [
       openssl
     ];
@@ -23,7 +27,8 @@
         enable = true;
         enableDefaultConfig = false;
         settings."*" = {};
-        extraConfig = inputs.secrets.sshConfig;
+        # Host aliases, decrypted by sops-nix (modules/base/sops.nix).
+        includes = [osConfig.sops.secrets.ssh-config.path];
       };
     };
   };

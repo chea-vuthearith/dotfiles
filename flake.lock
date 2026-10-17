@@ -1084,7 +1084,7 @@
         "llm-agents": "llm-agents",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_6",
-        "secrets": "secrets",
+        "sops-nix": "sops-nix",
         "stylix": "stylix"
       }
     },
@@ -1107,21 +1107,6 @@
         "owner": "oxalica",
         "repo": "rust-overlay",
         "type": "github"
-      }
-    },
-    "secrets": {
-      "locked": {
-        "lastModified": 1792071411,
-        "narHash": "sha256-qnEZju0W8ZNwFKBEoudpGf2Tn+i9SgZkZKkKnlvhhds=",
-        "ref": "refs/heads/main",
-        "rev": "c78a6d5bccf5d8a5a9d185cc066aecb09fc96056",
-        "revCount": 8,
-        "type": "git",
-        "url": "ssh://git@github.com/chea-vuthearith/secrets.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/chea-vuthearith/secrets.git"
       }
     },
     "sf-arabic": {
@@ -1206,6 +1191,26 @@
       "original": {
         "type": "file",
         "url": "https://devimages-cdn.apple.com/design/resources/download/SF-Pro.dmg"
+      }
+    },
+    "sops-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792056300,
+        "narHash": "sha256-YU1LjDe1o2Ymg5zEiCHbmMXLkDCtxHQRiVqZ3nC5GGk=",
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "rev": "44931708c62937c2b1bf7953902989fa5bb9ee1b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "type": "github"
       }
     },
     "stylix": {
