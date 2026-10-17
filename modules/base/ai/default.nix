@@ -40,9 +40,9 @@
         preset: default
         separator: powerline
       memory:
-        backend: mnemopi
-      providers:
-        memoryModel: online
+        backend: hindsight
+      hindsight:
+        apiUrl: http://server:8888
       defaultThinkingLevel: auto
       checkpoint:
         enabled: true
