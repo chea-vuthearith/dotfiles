@@ -15,9 +15,9 @@ herdr agent wait "$p" --until idle --timeout 600000 || { echo "agent never went 
 sleep 1
 herdr pane send-keys "$p" ctrl+c     # clear any draft in the prompt (Up recalls it)
 sleep 0.5
-herdr agent prompt "$p" "/move $d"
-sleep 1
-herdr pane send-keys "$p" enter      # first Enter only picks /move in the command picker
+# The leading ':' makes omp's path completion find nothing, so no popup swallows the
+# submit Enter; /move strips it (expandPath) and resolves the plain path.
+herdr agent prompt "$p" "/move :$d"
 sleep 3
 if ! herdr pane read "$p" --lines 200 | grep -qF "Moved to $d"; then
   echo "'Moved to $d' not seen; check pane $p; continue not sent"
@@ -138,7 +138,7 @@ const factory: CustomToolFactory = (pi) => {
 
       step(`Moving pane ${me.pane_id} to workspace ${ws}…`);
       await herdr(
-        ["pane", "move", me.pane_id, "--tab", tab, "--split", "right", "--target-pane", placeholder, "--focus"],
+        ["pane", "move", me.pane_id, "--tab", tab, "--split", "right", "--target-pane", placeholder, "--no-focus"],
         signal,
       );
       // Confirm by terminal id before closing the placeholder: closing the only pane of a
