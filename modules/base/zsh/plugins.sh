@@ -9,8 +9,11 @@ zi ice lucid wait depth"1"
 zi light zsh-users/zsh-completions
 
 # Plugins
-zi ice lucid wait depth"1"
-zi light "kutsan/zsh-system-clipboard"
+# Needs a clipboard tool; skipped on headless hosts (server).
+if (( $+commands[wl-copy] || $+commands[xclip] || $+commands[xsel] )); then
+  zi ice lucid wait depth"1"
+  zi light "kutsan/zsh-system-clipboard"
+fi
 
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
 zi ice lucid wait depth"1"
@@ -25,6 +28,9 @@ zi light zsh-users/zsh-syntax-highlighting
 zi ice lucid wait depth"1"
 zi snippet OMZP::git
 
-AUTO_NOTIFY_IGNORE=("vi" "ssh" "btm" "fzf")
-zi ice lucid wait depth"1"
-zi light MichaelAquilina/zsh-auto-notify
+# Needs notify-send; skipped on headless hosts (server).
+if (( $+commands[notify-send] )); then
+  AUTO_NOTIFY_IGNORE=("vi" "ssh" "btm" "fzf")
+  zi ice lucid wait depth"1"
+  zi light MichaelAquilina/zsh-auto-notify
+fi
