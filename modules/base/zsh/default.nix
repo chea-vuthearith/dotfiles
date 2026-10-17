@@ -29,7 +29,7 @@
           }
         ];
         shellAliases = {
-          nsw = "git -C ~/dotfiles pull; sudo nixos-rebuild switch --flake ~/dotfiles#${osConfig.networking.hostName} --impure";
+          nsw = "git -C ~/dotfiles pull; nixos-rebuild switch --sudo --flake ~/dotfiles#${osConfig.networking.hostName}";
           nswu = "nix flake update --flake ~/dotfiles && nsw --upgrade";
         };
         dotDir = "${config.xdg.configHome}/zsh";
