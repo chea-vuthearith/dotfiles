@@ -29,7 +29,7 @@ in {
     '';
   };
 
-  flake.modules.homeManager.host-server = {pkgs, ...}: {
+  flake.modules.homeManager.base = {pkgs, ...}: {
     home.packages = [
       (pkgs.writeShellApplication {
         name = "wake-desktop";
