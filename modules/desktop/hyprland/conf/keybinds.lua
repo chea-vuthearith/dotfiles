@@ -54,14 +54,25 @@ hl.bind(
 	hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 10%+"),
 	{ locked = true, repeating = true }
 )
+-- SHIFT = fine step (like brightness), ALT = microphone
 hl.bind(
 	"SHIFT + XF86AudioRaiseVolume",
-	hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_SOURCE@ 10%+"),
+	hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 1%+"),
 	{ locked = true, repeating = true }
 )
 hl.bind(
 	"SHIFT + XF86AudioLowerVolume",
-	hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_SOURCE@ 10%-"),
+	hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-"),
+	{ locked = true, repeating = true }
+)
+hl.bind(
+	"ALT + XF86AudioRaiseVolume",
+	hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_SOURCE@ 10%+"),
+	{ locked = true, repeating = true }
+)
+hl.bind(
+	"ALT + XF86AudioLowerVolume",
+	hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_SOURCE@ 10%-"),
 	{ locked = true, repeating = true }
 )
 hl.bind(
@@ -149,18 +160,6 @@ hl.bind(mainMod .. " + SHIFT + J", hl.dsp.window.move({ direction = "d" }))
 -- Mouse binds
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
-
--- Testing
-hl.bind(
-	mainMod .. " + ALT + F12",
-	hl.dsp.exec_cmd(
-		'notify-send \'Test notification\' "Here\'s a really long message to test truncation and wrapping\\nYou can middle click or flick this notification to dismiss it!" -a \'Shell\' -A "Test1=I got it!" -A "Test2=Another action" -t 5000'
-	)
-)
-hl.bind(
-	mainMod .. " + ALT + Equal",
-	hl.dsp.exec_cmd('notify-send "Urgent notification" "Ah hell no" -u critical -a \'Hyprland keybind\'')
-)
 
 -- ##! Media
 hl.bind("CTRL + " .. mainMod .. "+ N", hl.dsp.exec_cmd("playerctl next"))
