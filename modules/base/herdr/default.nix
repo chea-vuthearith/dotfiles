@@ -1,4 +1,11 @@
-{...}: {
+{inputs, ...}: {
+  flake.modules.nixos.base = {...}: {
+    nixpkgs.overlays = [
+      (final: _prev: {
+        inherit (inputs.herdr.packages.${final.stdenv.hostPlatform.system}) herdr;
+      })
+    ];
+  };
   flake.modules.homeManager.base = {
     pkgs,
     lib,

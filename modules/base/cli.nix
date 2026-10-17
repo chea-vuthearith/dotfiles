@@ -1,5 +1,6 @@
 {...}: {
-  flake.modules.homeManager.host-server = {pkgs, ...}: {
+  flake.modules.homeManager.base = {pkgs, ...}: {
+    home.sessionVariables.PAGER = "less -X -F";
     programs = {
       atuin = {
         enable = true;
@@ -21,8 +22,8 @@
       };
       zsh.shellAliases = {
         cat = "bat";
-        ls = "eza --icons";
-        lt = "eza --tree --icons";
+        ls = "eza --icons always";
+        lt = "eza --tree --icons always";
       };
     };
     home.packages = with pkgs; [
@@ -37,7 +38,6 @@
       jq
       xh
       magic-wormhole
-      aria2
     ];
   };
 }

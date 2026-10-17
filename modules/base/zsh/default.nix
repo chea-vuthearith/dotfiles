@@ -1,7 +1,11 @@
 {...}: {
+  flake.modules.nixos.base = {...}: {
+    programs.zsh.enableGlobalCompInit = false;
+  };
   flake.modules.homeManager.base = {
     pkgs,
     config,
+    osConfig,
     ...
   }: {
     programs = {
@@ -25,8 +29,7 @@
           }
         ];
         shellAliases = {
-          wgu = "sudo systemctl start wg-quick-wg0.service";
-          wgd = "sudo systemctl stop wg-quick-wg0.service";
+          nsw = "git -C ~/dotfiles pull; sudo nixos-rebuild switch --flake ~/dotfiles#${osConfig.networking.hostName} --impure";
           nswu = "nix flake update --flake ~/dotfiles && nsw --upgrade";
         };
         dotDir = "${config.xdg.configHome}/zsh";

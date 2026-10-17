@@ -1,5 +1,23 @@
-{...}: {
+{inputs, ...}: {
   flake.modules.nixos.desktop = {pkgs, ...}: {
+    nixpkgs.overlays = [
+      (final: prev: {
+        tela-circle-icon-theme = prev.tela-circle-icon-theme.overrideAttrs (_: {
+          src = prev.fetchFromGitHub {
+            owner = "vinceliuice";
+            repo = "tela-circle-icon-theme";
+            rev = "bdb616e4cb0cf61fc6bd52a42af9c07261015b21";
+            sha256 = "sha256-3vqFK+yyk3EJwEpeKY92CHpFKLbXWDu1W3IDGl93VDo=";
+          };
+        });
+        inherit (inputs.apple-fonts.packages.${final.stdenv.hostPlatform.system}) sf-pro-nerd;
+      })
+    ];
+    fonts.packages = with pkgs; [
+      noto-fonts
+      noto-fonts-color-emoji
+      noto-fonts-cjk-sans
+    ];
     stylix = {
       enable = true;
       base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
@@ -28,6 +46,10 @@
     ...
   }: {
     home = {
+      sessionVariables = {
+        XCURSOR_THEME = "Catppuccin-Mocha-Lavender-Cursors";
+        XCURSOR_SIZE = "12";
+      };
       packages = with pkgs; [
         pkgs.sf-pro-nerd
         nerd-fonts.fira-code
@@ -66,7 +88,6 @@
       targets = {
         ghostty.fonts.enable = false; # self managed
         hyprland.hyprpaper.enable = false; # managed by dms;
-        neovim.enable = false; # not good enough for nvim
       };
 
       cursor = {

@@ -1,5 +1,6 @@
-{...}: {
+{config, ...}: {
   flake.modules.nixos.desktop = {...}: {
+    users.users.${config.username}.extraGroups = ["audio"];
     security.rtkit.enable = true;
     services.pipewire = {
       enable = true;

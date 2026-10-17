@@ -1,5 +1,22 @@
-{...}: {
+{inputs, ...}: {
   flake.modules.nixos.desktop = {pkgs, ...}: {
+    nixpkgs.overlays = [
+      (final: prev: let
+        inherit (final.stdenv.hostPlatform) system;
+      in {
+        inherit (inputs.hyprland.packages.${system}) hyprland;
+        hyprlandPlugins =
+          prev.hyprlandPlugins
+          // {
+            inherit (inputs.hyprsplit.packages.${system}) hyprsplitlua;
+            inherit (inputs.hypr-dynamic-cursors.packages.${system}) hypr-dynamic-cursors;
+          };
+      })
+    ];
+    nix.settings = {
+      extra-substituters = ["https://hyprland.cachix.org"];
+      extra-trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+    };
     programs.hyprland = {
       enable = true;
       portalPackage = pkgs.xdg-desktop-portal-hyprland;

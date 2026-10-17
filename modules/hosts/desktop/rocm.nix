@@ -1,7 +1,6 @@
 {...}: {
   flake.modules.nixos.host-desktop = {pkgs, ...}: {
     services = {xserver.videoDrivers = ["modesetting"];};
-    hardware.graphics.enable = true;
     boot.kernelParams = ["amdgpu.ppfeaturemask=0xffffffff"];
 
     systemd.packages = [pkgs.lact];

@@ -1,4 +1,11 @@
-{...}: {
+{inputs, ...}: {
+  flake.modules.nixos.base = {...}: {
+    nixpkgs.overlays = [
+      (final: _prev: {
+        inherit (inputs.llm-agents.packages.${final.stdenv.hostPlatform.system}) omp;
+      })
+    ];
+  };
   flake.modules.homeManager.base = {pkgs, ...}: {
     # omp custom tools; see ./omp/tools/README.md
     home.packages = with pkgs; [omp];

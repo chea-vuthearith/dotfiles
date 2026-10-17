@@ -5,6 +5,9 @@
 }: let
   inherit (config) username;
 in {
+  flake.modules.homeManager.base = {pkgs, ...}: {
+    home.packages = [pkgs.aria2];
+  };
   flake.modules.nixos.desktop = {...}: {
     services.aria2 = {
       enable = true;
@@ -14,6 +17,7 @@ in {
       };
       rpcSecretFile = "/home/${username}/.aria2secret";
     };
+    users.users.${username}.extraGroups = ["aria2"];
   };
   flake.modules.homeManager.desktop = {
     config,

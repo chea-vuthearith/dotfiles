@@ -1,16 +1,8 @@
 {config, ...}: let
   inherit (config) username;
 in {
-  flake.modules.nixos.host-server = {pkgs, ...}: {
-    environment.systemPackages = with pkgs; [
-      neovim
-      wget
-      git
-      linux-firmware
-    ];
-
-    programs.zsh.enableGlobalCompInit = false;
-
+  flake.modules.nixos.base = {...}: {
+    nixpkgs.config.allowUnfree = true;
     nix = {
       settings = {
         trusted-users = ["root" username];
@@ -42,17 +34,8 @@ in {
         dates = ["weekly"];
       };
     };
-
-    time.timeZone = "Asia/Phnom_Penh";
-    system.stateVersion = "24.11";
   };
-  flake.modules.homeManager.host-server = {...}: {
-    home = {
-      stateVersion = "24.11";
-      preferXdgDirectories = true;
-      sessionVariables = {
-        NIXPKGS_ALLOW_UNFREE = 1;
-      };
-    };
+  flake.modules.homeManager.base = {...}: {
+    home.sessionVariables.NIXPKGS_ALLOW_UNFREE = 1;
   };
 }

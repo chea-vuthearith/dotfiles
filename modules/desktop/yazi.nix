@@ -1,5 +1,6 @@
 {...}: {
   flake.modules.homeManager.desktop = {pkgs, ...}: {
+    home.packages = [pkgs.dragon-drop]; # <C-n> below
     programs.yazi = {
       enable = true;
       enableZshIntegration = true;

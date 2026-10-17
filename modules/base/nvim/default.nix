@@ -1,4 +1,10 @@
 {...}: {
+  flake.modules.nixos.base = {pkgs, ...}: {
+    environment.systemPackages = [pkgs.neovim]; # for root / sudoedit
+  };
+  flake.modules.homeManager.desktop = {...}: {
+    stylix.targets.neovim.enable = false; # not good enough for nvim
+  };
   flake.modules.homeManager.base = {
     pkgs,
     config,
@@ -7,7 +13,6 @@
   }: {
     home = {
       sessionVariables = {
-        PAGER = "less -X -F";
         BLINK_PATH = "${pkgs.vimPlugins.blink-cmp}";
       };
       packages = with pkgs; [
