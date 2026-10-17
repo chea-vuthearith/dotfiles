@@ -8,7 +8,18 @@
         hyprlandPlugins =
           prev.hyprlandPlugins
           // {
-            inherit (inputs.hyprsplit.packages.${system}) hyprsplitlua;
+            # binds.workspace_back_and_forth is an int now; Lua treats 0 as true.
+            hyprsplitlua = inputs.hyprsplit.packages.${system}.hyprsplitlua.overrideAttrs (old: {
+              buildCommand =
+                old.buildCommand
+                + ''
+                  chmod +w $out/share/hyprsplit/init.lua
+                  substituteInPlace $out/share/hyprsplit/init.lua \
+                    --replace-fail \
+                      'hl.get_config("binds.workspace_back_and_forth")' \
+                      'hl.get_config("binds.workspace_back_and_forth") ~= 0'
+                '';
+            });
             inherit (inputs.hypr-dynamic-cursors.packages.${system}) hypr-dynamic-cursors;
           };
       })

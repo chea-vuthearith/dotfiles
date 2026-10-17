@@ -116,8 +116,5 @@ auto_switch = false
 [advanced]
 scrollback_limit_bytes = 10000000
 
-[experimental]
-kitty_graphics = true
-
 [remote]
 manage_ssh_config = false
