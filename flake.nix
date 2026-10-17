@@ -39,37 +39,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.hyprland.follows = "hyprland";
     };
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+    import-tree.url = "github:denful/import-tree";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    ...
-  } @ inputs: let
-    system = "x86_64-linux";
-    username = "kuro";
-
-    # for symlinking configs for hot reload
-    repoDir = "/home/${username}/dotfiles";
-
-    lib = nixpkgs.lib.extend (
-      final: prev: let
-        utils = import ./lib/utils.nix {
-          inherit self repoDir;
-          lib = final;
-        };
-      in
-        utils
-    );
-
-    # Every host is hosts/<name>/configuration; it picks its own layers.
-    mkHost = hostname:
-      nixpkgs.lib.nixosSystem {
-        inherit lib system;
-        specialArgs = {inherit inputs username hostname;};
-        modules = [./hosts/${hostname}/configuration];
-      };
-  in {
-    nixosConfigurations = lib.genAttrs ["desktop" "laptop" "server"] mkHost;
-  };
+  # Every .nix file under modules/ is a flake-parts module; see modules/flake/.
+  outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.import-tree ./modules);
 }
