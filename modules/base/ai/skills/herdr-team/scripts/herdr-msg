@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# herdr-msg <to> <KIND> <text...>
+# Re-asserts this agent's name, then sends "[herdr from:<me> pane:<pane>] <KIND> <text>" without waiting.
+# <to> is a live agent name or a pane ID (use the pane: from the sender's header if the name is gone).
+set -euo pipefail
+[ $# -ge 3 ] || { echo "usage: herdr-msg <to> <TASK|DONE|FAILED|QUESTION|ANSWER|INFO|STOP|RENAMED> <text...>" >&2; exit 2; }
+to=$1 kind=$2; shift 2
+case "$kind" in TASK | DONE | FAILED | QUESTION | ANSWER | INFO | STOP | RENAMED) ;; *) echo "herdr-msg: unknown kind $kind" >&2; exit 2 ;; esac
+
+here=$(dirname "$(readlink -f "$0")")
+me=$("$here/herdr-name")
+pane=$(herdr pane current --current | jq -r '.result.pane.pane_id')
+
+if ! err=$(herdr agent prompt "$to" "[herdr from:$me pane:$pane] $kind $*" 2>&1 >/dev/null); then
+  case "$err" in
+    *agent_not_found*) echo "herdr-msg: '$to' not found; it may have been renamed or lost its name. Use the pane ID from its last header, or find it: herdr agent list" >&2 ;;
+    *agent_blocked*) echo "herdr-msg: '$to' is at an approval/question dialog (the user's). Not sent; wait for it to clear, then resend once." >&2 ;;
+    *) echo "herdr-msg: $err" >&2 ;;
+  esac
+  exit 1
+fi
+echo "sent to $to as $me"
