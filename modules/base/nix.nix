@@ -9,7 +9,6 @@ in {
         experimental-features = ["nix-command" "flakes"];
         max-jobs = "auto";
         cores = 0;
-        auto-optimise-store = true;
         keep-outputs = true;
         keep-derivations = true;
         extra-substituters = [
@@ -25,10 +24,18 @@ in {
         warn-dirty = false;
         build-use-substitutes = true;
       };
+
+      # Builds yield CPU and disk to interactive work.
+      daemonCPUSchedPolicy = "idle";
+      daemonIOSchedClass = "idle";
+
       gc = {
         automatic = true;
         dates = ["weekly"];
+        # Without this, gc never removes old system/home generations.
+        options = "--delete-older-than 14d";
       };
+      # Weekly dedup instead of auto-optimise-store, which slows every build.
       optimise = {
         automatic = true;
         dates = ["weekly"];
