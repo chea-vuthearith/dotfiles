@@ -29,25 +29,35 @@ in {
     '';
   };
 
-  flake.modules.homeManager.base = {pkgs, ...}: {
+  # Only the server is guaranteed to share the desktop's LAN; other hosts relay through it.
+  flake.modules.homeManager.base = {
+    pkgs,
+    osConfig,
+    ...
+  }: {
     home.packages = [
       (pkgs.writeShellApplication {
         name = "wake-desktop";
         runtimeInputs = [pkgs.wakeonlan];
-        text = ''
-          # Broadcast on the home LAN (wlo1); WoL needs only the MAC, not the desktop's IP.
-          wakeonlan -i 192.168.0.255 ${mac}
-          # Wait for the boot (up to ~5 min), then turn its screens off.
-          for _ in $(seq 60); do
-            if timeout 10 tailscale ssh desktop -- systemctl start screen-off.service </dev/null 2>/dev/null; then
-              echo "desktop up, screens off"
-              exit 0
-            fi
-            sleep 5
-          done
-          echo "desktop did not come up" >&2
-          exit 1
-        '';
+        text =
+          if osConfig.networking.hostName == "server"
+          then ''
+            # Broadcast on the home LAN (wlo1); WoL needs only the MAC, not the desktop's IP.
+            wakeonlan -i 192.168.0.255 ${mac}
+            # Wait for the boot (up to ~5 min), then turn its screens off.
+            for _ in $(seq 60); do
+              if timeout 10 tailscale ssh desktop -- systemctl start screen-off.service </dev/null 2>/dev/null; then
+                echo "desktop up, screens off"
+                exit 0
+              fi
+              sleep 5
+            done
+            echo "desktop did not come up" >&2
+            exit 1
+          ''
+          else ''
+            exec tailscale ssh server -- /etc/profiles/per-user/${username}/bin/wake-desktop
+          '';
       })
     ];
   };
