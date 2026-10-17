@@ -28,8 +28,7 @@ or abort it before moving"). The tool starts a detached job that:
 |------|-----|
 | `sleep 3`, then `herdr agent wait <pane> --until idle` | waits for the turn to end (gives up after 10 minutes) |
 | `herdr pane send-keys <pane> ctrl+c` | clears any draft in the prompt; `Up` recalls it |
-| `herdr agent prompt <pane> "/move <dir>"` | types and submits the command |
-| `herdr pane send-keys <pane> enter` | the first Enter only picks `/move` in the command picker; this one runs it |
+| `herdr agent prompt <pane> "/move :<dir>"` | types and submits the command; the leading `:` makes omp's path completion match nothing, so no popup takes the Enter (`/move` strips the `:`) |
 | `herdr pane read` for `Moved to <dir>` | confirms the move; stops here if not seen |
 | `herdr agent wait <pane> --until idle` | waits for omp to settle after `/move` (1 minute max) |
 | `herdr agent prompt <pane> continue --wait --until working` | resumes the agent; fails if no turn starts within 10 s |
@@ -45,7 +44,7 @@ process-info`). `HERDR_PANE_ID` is not used: it keeps the old ID after a pane mo
 
 ```bash
 herdr worktree create --cwd <repo> --branch <branch> --no-focus      # note workspace, tab, root pane
-herdr pane move <pane> --tab <tab> --split right --target-pane <root> --focus
+herdr pane move <pane> --tab <tab> --split right --target-pane <root> --no-focus
 herdr pane list            # confirm the pane is in the new workspace, THEN:
 herdr pane close <root>    # closing the only pane of a workspace closes the workspace
 ```
