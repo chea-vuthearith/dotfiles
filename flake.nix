@@ -2,7 +2,10 @@
   description = "Nixos config flake";
 
   inputs = {
-    llm-agents.url = "github:numtide/llm-agents.nix";
+    omp = {
+      url = "github:can1357/oh-my-pi";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     secrets.url = "git+ssh://git@github.com/chea-vuthearith/secrets.git";
     direnv-instant.url = "github:Mic92/direnv-instant";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";

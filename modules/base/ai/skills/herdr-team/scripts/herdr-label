@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# herdr-label <what you are working on>  label this agent's pane (shown in the herdr sidebar)
+set -euo pipefail
+[ "${HERDR_ENV:-}" = 1 ] || exit 0 # outside herdr: nothing to label
+[ $# -gt 0 ] || { echo "usage: herdr-label <what you are working on>" >&2; exit 2; }
+# resolve the live pane (HERDR_PANE_ID goes stale after a pane move)
+pane=$(herdr pane current --current | jq -r '.result.pane.pane_id')
+label=$(printf '%s' "$*" | cut -c1-40)
+herdr pane rename "$pane" "$label" >/dev/null
+echo "$pane: $label"

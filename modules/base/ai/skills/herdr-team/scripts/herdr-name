@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# herdr-name <task words...>  name this agent after its task (slugged, deduped with -2, -3 ...)
+# herdr-name                  re-assert the last name if herdr cleared it; print the current name
+set -euo pipefail
+[ "${HERDR_ENV:-}" = 1 ] || { echo "herdr-name: not inside herdr" >&2; exit 1; }
+
+state="${XDG_RUNTIME_DIR:-/tmp}/herdr-names"
+mkdir -p "$state"
+key="$state/${HERDR_PANE_ID//[^A-Za-z0-9]/_}"
+
+current() { herdr agent get "$HERDR_PANE_ID" 2>/dev/null | jq -r '.result.agent.name // empty'; }
+
+claim() { # claim <slug>: take slug, or slug-2..slug-9 if taken
+  local n=$1 i=2 err
+  while :; do
+    if err=$(herdr agent rename "$HERDR_PANE_ID" "$n" 2>&1 >/dev/null); then
+      printf '%s\n' "$n" > "$key"; printf '%s\n' "$n"; return 0
+    fi
+    case "$err" in *agent_name_taken*) ;; *) echo "herdr-name: $err" >&2; return 1 ;; esac
+    [ "$i" -le 9 ] || { echo "herdr-name: $1 and $1-2..9 all taken" >&2; return 1; }
+    n="$1-$i"; i=$((i + 1))
+  done
+}
+
+cur=$(current)
+
+if [ $# -eq 0 ]; then
+  [ -f "$key" ] || { [ -n "$cur" ] && { printf '%s\n' "$cur" > "$key"; echo "$cur"; exit 0; }
+    echo "herdr-name: no name yet; run: herdr-name <task words>" >&2; exit 1; }
+  want=$(cat "$key")
+  if [ "$cur" = "$want" ]; then echo "$cur"; else claim "$want"; fi
+  exit
+fi
+
+slug=$(printf '%s' "$*" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/^([0-9])/t-\1/' | cut -c1-29 | sed -E 's/-+$//')
+[ -n "$slug" ] || { echo "herdr-name: task words give an empty name" >&2; exit 1; }
+case "$cur" in "$slug" | "$slug"-[2-9]) printf '%s\n' "$cur" > "$key"; echo "$cur"; exit 0 ;; esac
+claim "$slug"

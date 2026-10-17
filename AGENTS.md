@@ -81,7 +81,7 @@ There is no `formatter`, `devShell` or `checks` output; `nix fmt` errors.
 - `modules/base/nix.nix` – substituters, gc/optimise, unfree.
 - `modules/base/zsh/default.nix` – `nsw`/`nswu`.
 - `modules/desktop/shell.nix` – DMS settings (idle/lock/suspend).
-- `modules/base/ai/` – omp config, custom tools, `APPEND_SYSTEM.md`.
+- `modules/base/ai/` – omp (`programs.omp` from the `omp` flake, package from nixpkgs), custom tools, `APPEND_SYSTEM.md`, agent skills (`skills/`, upstream `herdr` + `herdr-team` with `herdr-label`/`herdr-name`/`herdr-msg` helpers) for omp, Claude Code and opencode.
 
 ## Runtime/Tooling Preferences
 - Nix flakes only; never `--impure`, never `/etc/nixos` imports.
