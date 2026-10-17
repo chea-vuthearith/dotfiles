@@ -1,0 +1,212 @@
+/* #ui */
+* {
+  --font-size: 1rem;
+  --font-size-link: 0.8rem;
+  --font-weight: normal;
+  --font: system-ui;
+  --padding: 0px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+
+  /* ----------  DAY THEME  ---------- */
+  --bg: @base09@;
+  --fg: @base00@;
+  --accent-fg: @base02@;
+  --border: @base00@;
+  --title: @base0E@;
+  --title-accent: @base0B@;
+  --link: @base07@;
+  --link-accent: @base06@;
+
+  /* ---------- NIGHT THEME ---------- */
+  --nbg: @base09@;
+  --nfg: @base00@;
+  --naccent-fg: @base02@;
+  --nborder: @base00@;
+  --ntitle: @base0E@;
+  --ntitle-accent: @base0B@;
+  --nlink: @base07@;
+  --nlink-accent: @base06@;
+
+  font-family: var(--font);
+  font-size: var(--font-size-link);
+}
+
+.LH {
+  color: var(--fg);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  box-shadow: var(--shadow);
+}
+
+.D .LH {
+  color: var(--nfg);
+  border: 1px solid var(--nborder);
+  background: var(--nbg);
+  box-shadow: var(--shadow);
+}
+
+.MC {
+  color: var(--accent-fg);
+}
+
+.D .MC {
+  color: var(--naccent-fg);
+}
+
+.HUD {
+  background: var(--bg);
+  box-shadow: var(--shadow);
+  color: var(--title);
+}
+
+.HUD.D {
+  background: var(--nbg);
+  color: var(--ntitle);
+}
+
+/* #omni */
+* {
+  --font-size: 1rem;
+  --font-size-link: 0.8rem;
+  --font-weight: normal;
+  --font: system-ui;
+  --padding: 0px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+
+  --bg: @base00@;
+  --fg: @base05@;
+  --accent-fg: @base02@;
+  --border: @base07@;
+  --title: @base0E@;
+  --title-accent: @base0B@;
+  --link: @base06@;
+  --link-accent: @base09@;
+
+  --nbg: @base00@;
+  --nfg: @base05@;
+  --naccent-fg: @base02@;
+  --nborder: @base07@;
+  --ntitle: @base0E@;
+  --ntitle-accent: @base0B@;
+  --nlink: @base06@;
+  --nlink-accent: @base09@;
+
+  font-family: var(--font);
+}
+
+body {
+  animation: show 200ms cubic-bezier(0, 0, 0.2, 1) forwards;
+  box-shadow: var(--shadow);
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#bar,
+#input,
+#list {
+  background: var(--bg);
+}
+
+#bar {
+  padding: 10px;
+  border-bottom: none;
+}
+
+#input {
+  padding: var(--padding) 30px;
+  color: var(--title);
+  border: none;
+  box-shadow: none;
+}
+
+.item {
+  padding: 10px;
+  border-bottom: 1px solid var(--accent-fg);
+}
+
+.item.s,
+.item:hover {
+  background-color: var(--accent-fg);
+  cursor: pointer;
+}
+
+.item .top {
+  color: var(--title);
+}
+
+.item .top .title {
+  font-size: var(--font-size);
+  font-weight: bold;
+}
+
+.item .top .title match {
+  color: var(--title-accent);
+}
+
+.item .bottom a {
+  color: var(--link);
+  font-size: var(--font-size-link);
+}
+
+.item .bottom a match {
+  color: var(--link-accent);
+  text-decoration: none;
+}
+/* #find */
+* {
+  --font-size: 1rem;
+  --font-size-link: 0.8rem;
+  --font-weight: normal;
+  --font: system-ui;
+  --padding: 0px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+
+  --bg: @base00@;
+  --fg: @base05@;
+  --accent-fg: @base02@;
+  --border: @base00@;
+  --title: @base0E@;
+  --title-accent: @base0B@;
+  --link: @base07@;
+  --link-accent: @base09@;
+
+  --nbg: @base00@;
+  --nfg: @base05@;
+  --naccent-fg: @base02@;
+  --nborder: @base00@;
+  --ntitle: @base0E@;
+  --ntitle-accent: @base0B@;
+  --nlink: @base07@;
+  --nlink-accent: @base09@;
+
+  font-family: var(--font);
+}
+
+.r {
+  color: var(--title-accent);
+  background: var(--bg);
+  border: none;
+  box-shadow: none;
+}
+
+.r.D {
+  color: var(--ntitle-accent);
+  background: var(--nbg);
+}
+
+#i {
+  color: var(--link-accent);
+}
+
+.D #i {
+  color: var(--nlink-accent);
+}
