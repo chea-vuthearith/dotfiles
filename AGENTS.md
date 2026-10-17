@@ -1,5 +1,13 @@
 # Repository Guidelines
 
+## Worktrees First (mandatory)
+**Never work directly in the main worktree (`~/dotfiles`).** Before doing *any* work (first edit, `git switch`/`checkout`, `git add`, commit, rebase, stash, formatter run), worktree out:
+
+- Create the worktree with the omp `herdr_worktree` tool (`branch: "<type>/<topic>"`, `base:` the parent PR's branch when stacking, else `origin/main`), end the turn, and resume in the new workspace. Never `git worktree add`, `herdr worktree create` or `/move` by hand.
+- `~/dotfiles` is the deploy checkout: it stays on `main`, clean, and only ever moves by `git pull` (via `nsw`). Hot-reload symlinks point into it, so a branch checked out there goes live immediately.
+- Read-only inspection (`git log`, `git show`, `nix eval`) from `~/dotfiles` is fine. Rewriting remote PR branches needs no checkout: `git replay --ref-action=print --onto <base> <range>`, then push the printed SHAs with `--force-with-lease`.
+- If you find yourself in `~/dotfiles` with changes or off `main`, stop and move the work to a worktree before continuing.
+
 ## Project Overview
 NixOS + home-manager configuration for one user (`kuro`) on three hosts: `laptop`, `desktop` (both workstation, Hyprland + DankMaterialShell) and `server` (headless old laptop). One flake, all hosts `x86_64-linux`, nixpkgs `nixos-unstable`.
 
@@ -60,7 +68,7 @@ There is no `formatter`, `devShell` or `checks` output; `nix fmt` errors.
 - User groups are appended by the owning feature: `users.users.${username}.extraGroups = ["docker"];`.
 - HM reads host facts via `osConfig` (e.g. `osConfig.networking.hostName`).
 - Host-specific opt-out: `lib.mkForce` in `modules/hosts/<h>/` (e.g. `server/agent.nix` disables keychain/ssh-agent to keep the forwarded agent).
-- Hot-reload configs: `config.lib.file.mkOutOfStoreSymlink (lib.toLocal ./conf)` links into the `~/dotfiles` checkout (nvim `conf/`, hypr `conf/`, zed, herdr `config.toml`). Edits apply without rebuild but only from `~/dotfiles`, not worktrees. Everything else (`builtins.readFile`, `./file` sources, zsh `*.sh` snippets) needs `nsw`.
+- Hot-reload configs: `config.lib.file.mkOutOfStoreSymlink (lib.toLocal ./conf)` links into the `~/dotfiles` checkout (nvim `conf/`, hypr `conf/`, zed, herdr `config.toml`). Edits in a worktree go live only after merge + `nsw`; verify them beforehand through build output. Everything else (`builtins.readFile`, `./file` sources, zsh `*.sh` snippets) needs `nsw`.
 - Files herdr/apps rewrite are copied by `home.activation`, not symlinked (`base/herdr/machines.nix`).
 - Files prefixed `_` are not imported by import-tree (`_hardware-configuration.nix`).
 - zsh snippets (`base/zsh/{plugins,zshrc,keys}.sh`) are concatenated into `initContent`; guard optional tools: `if (( $+commands[wl-copy] )); then ... fi`.
@@ -82,7 +90,7 @@ There is no `formatter`, `devShell` or `checks` output; `nix fmt` errors.
 - Remote access is Tailscale SSH (MagicDNS names `laptop`, `desktop`, `server`); no OpenSSH server is configured.
 - New files must be `git add`ed before flake evaluation sees them.
 - `hyprctl` from a nix shell may need `env -u LD_LIBRARY_PATH hyprctl ...`; test dispatchers live with `hyprctl dispatch 'hl.dsp.window.resize({x = -100, y = 0, relative = true})'`.
-- Work lands as stacked draft PRs (`gh stack`); one concern per branch.
+- Work lands as stacked draft PRs (`gh stack`), one worktree and one concern per branch.
 
 ## Testing & QA
 No tests, CI or `checks`. Before pushing:
