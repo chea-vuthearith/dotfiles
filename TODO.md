@@ -1,2 +1,3 @@
 - [ ] herdr ssh agent
 - [x] herdr plugin declarative
+- [ ] server disk alerts I actually see (smartd only logs to journal/wall; add ntfy, mail, or forward to a workstation)
