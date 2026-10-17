@@ -1,9 +1,9 @@
 {...}: {
   flake.modules.nixos.host-server = {...}: {
     # Don't suspend when lid closes (server must keep running)
-    services.logind = {
-      lidSwitch = "ignore";
-      lidSwitchExternalPower = "ignore";
+    services.logind.settings.Login = {
+      HandleLidSwitch = "ignore";
+      HandleLidSwitchExternalPower = "ignore";
     };
 
     # Blank/restore backlight hardware on lid events
