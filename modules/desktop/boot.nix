@@ -21,7 +21,6 @@
     };
   in {
     boot = {
-      kernelModules = ["kvm-intel"];
       # Silent boot configuration
       kernelParams = [
         "quiet"
