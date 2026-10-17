@@ -1,4 +1,4 @@
-{...}: {
+{inputs, ...}: {
   flake.modules.homeManager.base = {pkgs, ...}: {
     home.packages = with pkgs; [
       openssl
@@ -22,7 +22,9 @@
       ssh = {
         enable = true;
         enableDefaultConfig = false;
-        settings."*" = {};
+        settings."*".ForwardAgent = true;
+        # Work hosts (Groundup, gina-*); Desktop/Laptop/server go through Tailscale SSH.
+        extraConfig = inputs.secrets.sshConfig;
       };
     };
   };
