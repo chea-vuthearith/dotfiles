@@ -101,6 +101,11 @@ hl.define_submap("dpms", "reset", function()
 end)
 hl.bind(mainMod .. " + M", hl.dsp.submap("dpms"))
 
+-- Keep awake: lid close/idle never sleeps; lid close only blanks the panel (see keep-awake.nix)
+hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("keep-awake toggle"))
+hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("keep-awake lid-close"), { locked = true })
+hl.bind("switch:off:Lid Switch", hl.dsp.exec_cmd("keep-awake lid-open"), { locked = true })
+
 -- ##! Apps
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("dms ipc call notifications toggle"))
 hl.bind(mainMod .. " + D", function()
