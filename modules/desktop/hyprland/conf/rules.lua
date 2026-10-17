@@ -120,24 +120,24 @@ hl.layer_rule({
 
 hl.layer_rule({
 	name = "no-anim-hyprpicker",
-	match = { class = "hyprpicker" },
+	match = { namespace = "hyprpicker" },
 	no_anim = true,
 })
 
 hl.layer_rule({
 	name = "ignore-alpha-notifications",
-	match = { class = "notifications" },
+	match = { namespace = "notifications" },
 	ignore_alpha = 0.69,
 })
 
 hl.layer_rule({
 	name = "blur-wlogout",
-	match = { class = "logout_dialog" },
+	match = { namespace = "logout_dialog" },
 	blur = true,
 })
 
 hl.layer_rule({
 	name = "xray-all",
-	match = { class = ".*" },
+	match = { namespace = ".*" },
 	xray = true,
 })
