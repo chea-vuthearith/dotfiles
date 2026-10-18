@@ -13,12 +13,15 @@ doesn't validate or decrypt them. After the first real `nsw`, everything runs no
 
 ## 1. Install NixOS (installer ISO)
 
-Partition, format and mount the target at `/mnt` as usual, then:
+Partition, format and mount the target at `/mnt` as usual. Clone straight to where the installed system
+expects the checkout (`repoDir` = `/home/kuro/dotfiles`). The nvim, hypr, zed and herdr configs are
+out-of-store symlinks into it (`lib.toLocal`), so they only resolve if the checkout is there:
 
 ```sh
 nix-shell -p git
-git clone https://github.com/chea-vuthearith/dotfiles.git /tmp/dotfiles
-cd /tmp/dotfiles
+mkdir -p /mnt/home/kuro
+git clone https://github.com/chea-vuthearith/dotfiles.git /mnt/home/kuro/dotfiles
+cd /mnt/home/kuro/dotfiles
 ```
 
 **Existing host** (`laptop`, `desktop`, `server`): if the disks changed, regenerate the hardware config
@@ -38,28 +41,21 @@ Install:
 scripts/bootstrap.sh <host> --install /mnt
 ```
 
-`nixos-install` asks for the root password at the end. Set kuro's password too, then reboot:
+`nixos-install` asks for the root password at the end. Give the checkout to kuro (it was cloned as root),
+set kuro's password, then reboot:
 
 ```sh
-nixos-enter --root /mnt -c 'passwd kuro'
+nixos-enter --root /mnt -c 'chown -R kuro:users /home/kuro && passwd kuro'
 reboot
 ```
 
-If NixOS is already installed (any config), clone the repo and run `scripts/bootstrap.sh <host>` instead.
-That runs `nixos-rebuild switch`.
+If NixOS is already installed (any config), clone to `~/dotfiles` and run `scripts/bootstrap.sh <host>`
+instead. That runs `nixos-rebuild switch`.
 
 ## 2. First boot
 
-Log in as `kuro` and move the checkout to where the config expects it (`repoDir`; hot-reload symlinks point
-there):
-
-```sh
-git clone https://github.com/chea-vuthearith/dotfiles.git ~/dotfiles
-```
-
-If you changed hardware config or host files in `/tmp/dotfiles` during the install, copy them over. That
-copy is gone after the reboot, so commit them from the installer or redo step 1's generation here with
-`nixos-generate-config --show-hardware-config`.
+Log in as `kuro`. The hot-reload symlinks already resolve because `~/dotfiles` exists. Commit any hardware
+config or new host files later, once GitHub SSH works.
 
 ## 3. sops host key
 
