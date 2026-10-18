@@ -67,19 +67,22 @@
           # A string, not the derivation: the module's null filter would recurse into it.
           labelmap_path = "${ssdlite.labelmap}";
         };
-        objects.track = ["person" "car" "motorcycle" "bicycle" "dog" "cat"];
-        # Main stream is ~4 Mbit/s (~43 GB/day) on the 1 TB disk; Frigate also prunes
-        # the oldest recordings when the disk runs low.
+        objects.track = ["person" "car" "motorcycle"];
+        # Every tracked object is an alert (Frigate's default is person + car).
+        review.alerts.labels = ["person" "car" "motorcycle"];
+        # Main stream is H.265 CBR 2048 kbit/s (set on the camera), ~23 GB/day with audio:
+        # 7 days continuous is ~160 GB of the 1 TB disk; motion/events fill the rest. Frigate
+        # also prunes the oldest recordings when the disk runs low.
         record = {
           enabled = true;
           continuous.days = 7;
-          motion.days = 14;
-          alerts.retain.days = 30;
-          detections.retain.days = 30;
+          motion.days = 30;
+          alerts.retain.days = 90;
+          detections.retain.days = 90;
         };
         snapshots = {
           enabled = true;
-          retain.default = 30;
+          retain.default = 90;
         };
         cameras.cctv = {
           ffmpeg = {
