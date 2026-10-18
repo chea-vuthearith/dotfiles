@@ -1,8 +1,8 @@
 {
   # Frigate NVR for the Hikvision DS-IPC-B12HV2-IA (PoE, 1080p H.264 + G.711 audio).
   # go2rtc holds the only camera connection and restreams it on 127.0.0.1:8554; Frigate
-  # records the main stream, detects on the sub stream. UI: http://server/ (nginx :80,
-  # tailnet only: tailscale0 is trusted in base/tailscale.nix). First login: admin, with
+  # records the main stream, detects on the sub stream. UI: http://server/ over the tailnet
+  # or the server's LAN IP (nginx :80, Frigate login required). First login: admin, with
   # the password Frigate prints once to `journalctl -u frigate`.
   flake.modules.nixos.host-server = {
     config,
@@ -109,6 +109,8 @@
         };
       };
     };
+
+    networking.firewall.allowedTCPPorts = [80];
 
     # Recordings live on the HDD; never start against an unmounted /srv/storage.
     systemd.tmpfiles.rules = ["d ${recordings} 0750 frigate frigate -"];
