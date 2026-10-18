@@ -64,13 +64,11 @@ the only recipient in the secrets repo's `.sops.yaml`. Nothing generates it; ins
 
 ```sh
 scripts/sops-setup.sh           # paste the key from Bitwarden, then Ctrl-D
-scripts/sops-setup.sh --user    # same, and copy it to ~/.config/sops/age/keys.txt to edit secrets here
 ```
 
 The script checks that the key decrypts the pinned `secrets.yaml` before writing
 `/var/lib/sops-nix/key.txt`. It evaluates the real `secrets` input, so it needs GitHub SSH access. To edit
-secrets, run `./edit.sh` in the secrets repo: it uses `~/.config/sops/age/keys.txt` or, if that's missing,
-the host key via `sudo`.
+secrets, run `./edit.sh` in the secrets repo; it reads the host key via `sudo`.
 
 ## 4. Switch to the real config
 
