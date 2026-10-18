@@ -1,8 +1,8 @@
 {inputs, ...}: {
   # sops-nix: secrets.yaml in the private `secrets` flake, decrypted at activation to /run/secrets.
   # Features declare their own `sops.secrets.<name>` next to the consumer.
-  # New host: sudo mkdir -p /var/lib/sops-nix && sudo age-keygen -o /var/lib/sops-nix/key.txt
-  #   then add `sudo age-keygen -y /var/lib/sops-nix/key.txt` to .sops.yaml and `sops updatekeys secrets.yaml`.
+  # One shared age key (the admin key, backed up in Bitwarden) on every host at /var/lib/sops-nix/key.txt:
+  #   sudo install -D -m600 keys.txt /var/lib/sops-nix/key.txt
   # Bootstrap stub (`inputs.secrets.bootstrap = true`, scripts/bootstrap.sh): secret paths stay
   # declared so consumers evaluate, but nothing is validated or decrypted; consumers start once
   # a real `nsw` runs.
@@ -15,7 +15,7 @@
       validateSopsFiles = !bootstrap;
       age = {
         keyFile = "/var/lib/sops-nix/key.txt";
-        generateKey = true;
+        generateKey = false; # a generated key matches no recipient; fail loudly instead
         sshKeyPaths = []; # no OpenSSH server, so no host ssh keys
       };
       gnupg.sshKeyPaths = [];

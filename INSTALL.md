@@ -59,19 +59,15 @@ config or new host files later, once GitHub SSH works.
 
 ## 3. sops host key
 
-Every host decrypts `secrets.yaml` with its own age key at `/var/lib/sops-nix/key.txt`:
+Every host decrypts `secrets.yaml` with the same age key: the admin key, backed up in Bitwarden, which is
+the only recipient in the secrets repo's `.sops.yaml`. Put it in place as root (nothing generates it):
 
 ```sh
-sudo mkdir -p /var/lib/sops-nix
-sudo age-keygen -o /var/lib/sops-nix/key.txt
-sudo age-keygen -y /var/lib/sops-nix/key.txt   # public key: age1...
+sudo install -D -m600 /dev/stdin /var/lib/sops-nix/key.txt   # paste the key from Bitwarden, then Ctrl-D
+nix-shell -p age --run 'sudo $(command -v age-keygen) -y /var/lib/sops-nix/key.txt'   # must print age1d73s…
 ```
 
-On a machine that holds the admin key (`~/.config/sops/age/keys.txt`, backed up in Bitwarden), in a
-checkout of the secrets repo:
-
-1. Add the public key to the recipients in `.sops.yaml`.
-2. `sops updatekeys secrets.yaml`, commit, push.
+To edit secrets on this machine too, copy it to `~/.config/sops/age/keys.txt` (mode 600).
 
 ## 4. Switch to the real config
 
@@ -79,7 +75,7 @@ Back on the new host:
 
 ```sh
 cd ~/dotfiles
-nix flake update secrets   # pick up the re-encrypted secrets.yaml
+nix flake update secrets   # only if the secrets repo moved since the last lock bump
 nsw
 ```
 
