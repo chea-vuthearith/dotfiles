@@ -2,12 +2,11 @@
   # Hindsight long-term memory server for omp (memory.backend: hindsight in base/ai).
   # API :8888, web UI :9999; host networking keeps both behind the NixOS firewall,
   # so they are reachable only over tailscale0 (trusted in base/tailscale.nix).
-  flake.modules.nixos.host-server = {...}: let
-    # Root-only, outside the world-readable nix store. Create once:
-    #   claude setup-token   # prints sk-ant-oat01-...
-    #   sudo install -Dm600 /dev/stdin /var/lib/hindsight/env <<< 'HINDSIGHT_API_LLM_API_KEY=sk-ant-oat01-...'
-    envFile = "/var/lib/hindsight/env";
+  flake.modules.nixos.host-server = {config, ...}: let
+    # sops `hindsight-env`: HINDSIGHT_API_LLM_API_KEY=sk-ant-oat01-... (from `claude setup-token`).
+    envFile = config.sops.secrets.hindsight-env.path;
   in {
+    sops.secrets.hindsight-env = {};
     virtualisation.oci-containers = {
       backend = "docker";
       containers.hindsight = {
@@ -26,7 +25,7 @@
       };
     };
 
-    # Skip (instead of crash-looping) until the token is placed.
+    # Skip (instead of crash-looping) until the host can decrypt the token.
     systemd.services.docker-hindsight.unitConfig.ConditionPathExists = envFile;
   };
 }
