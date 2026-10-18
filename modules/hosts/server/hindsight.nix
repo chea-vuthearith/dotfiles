@@ -3,7 +3,8 @@
   # API :8888, web UI :9999; host networking keeps both behind the NixOS firewall,
   # so they are reachable only over tailscale0 (trusted in base/tailscale.nix).
   flake.modules.nixos.host-server = {config, ...}: let
-    # sops `hindsight-env`: HINDSIGHT_API_LLM_API_KEY=sk-ant-oat01-... (from `claude setup-token`).
+    # sops `hindsight-env`: HINDSIGHT_API_LLM_API_KEY=sk-ant-oat01-... (from `claude setup-token`),
+    # unused with the ollama provider; kept for switching back to claude-code.
     envFile = config.sops.secrets.hindsight-env.path;
   in {
     sops.secrets.hindsight-env = {};
@@ -14,9 +15,14 @@
         # Embedded Postgres (pg0) lives in this named volume.
         volumes = ["hindsight-data:/home/hindsight/.pg0"];
         environment = {
-          # Claude Agent SDK billed to the Claude subscription via the setup-token in envFile.
-          HINDSIGHT_API_LLM_PROVIDER = "claude-code";
-          HINDSIGHT_API_LLM_MODEL = "claude-haiku-4-5";
+          # Local Ollama (ollama.nix); runs one request at a time on the 4 GB GPU.
+          HINDSIGHT_API_LLM_PROVIDER = "ollama";
+          HINDSIGHT_API_LLM_MODEL = "qwen2.5:3b";
+          HINDSIGHT_API_LLM_BASE_URL = "http://127.0.0.1:11434";
+          HINDSIGHT_API_LLM_OLLAMA_NUM_CTX = "8192";
+          HINDSIGHT_API_LLM_MAX_CONCURRENT = "1";
+          # Observation consolidation adds LLM calls per retain; too slow locally.
+          HINDSIGHT_API_ENABLE_OBSERVATIONS = "false";
           # Stable identity so tasks claimed before a restart are resumed.
           HINDSIGHT_API_WORKER_ID = "hindsight";
         };
