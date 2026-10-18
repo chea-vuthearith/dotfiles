@@ -1,12 +1,5 @@
 {...}: {
-  flake.modules.nixos.host-server = {pkgs, ...}: {
-    # Keyboard backlight (MSI GT683R, gt683r_led: front/side/back zones) off.
-    # Firmware lights it at power-on while the driver reports 0, so toggle 1→0
-    # to actually send the "off" packet.
-    services.udev.extraRules = ''
-      ACTION=="add", SUBSYSTEM=="leds", DRIVERS=="gt683r_led", RUN+="${pkgs.runtimeShell} -c 'echo 1 > /sys%p/brightness; echo 0 > /sys%p/brightness'"
-    '';
-
+  flake.modules.nixos.host-server = {...}: {
     # Don't suspend when lid closes (server must keep running)
     services.logind.settings.Login = {
       HandleLidSwitch = "ignore";
