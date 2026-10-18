@@ -42,17 +42,17 @@
       unitConfig.ConditionPathExists = config.sops.templates.go2rtc-env.path;
     };
 
-    # iHD VA-API for the UHD 630 (renderD129). Forcing iHD also makes Frigate's vainfo probe
-    # reject the NVIDIA node, so `preset-vaapi` picks the iGPU. OpenVINO on this iGPU crashes
-    # (intel-compute-runtime-legacy1), so detection stays on the CPU (~8 ms per inference).
-    hardware.graphics.extraPackages = [pkgs.intel-media-driver];
-
     services.frigate = {
       enable = true;
       hostname = "server";
-      vaapiDriver = "iHD";
       settings = {
-        ffmpeg.hwaccel_args = "preset-vaapi";
+        # Software decode only: the camera sends H.264 Baseline, which VA-API on the UHD 630
+        # decodes only via allow_profile_mismatch, and that fails within seconds ("Failed to
+        # sync surface"). Decoding the 640x360 detect stream costs a few % of one core.
+        # OpenVINO on that iGPU crashes too (intel-compute-runtime-legacy1), so detection
+        # runs on the CPU (~8 ms per inference).
+        # Frigate 0.18 defaults this to false.
+        detect.enabled = true;
         detectors.ov = {
           type = "openvino";
           device = "CPU";
