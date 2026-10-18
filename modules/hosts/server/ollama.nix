@@ -14,5 +14,11 @@
       # ~2 GB at Q4: fits the 4 GB VRAM with room for an 8k context.
       loadModels = ["qwen2.5:3b"];
     };
+    # Ollama probes GPUs once at startup; at boot it raced the nvidia module load and
+    # settled on CPU. nvidia-persistenced is up only once the driver is initialised.
+    systemd.services.ollama = {
+      after = ["nvidia-persistenced.service"];
+      wants = ["nvidia-persistenced.service"];
+    };
   };
 }
