@@ -61,29 +61,7 @@ If you changed hardware config or host files in `/tmp/dotfiles` during the insta
 copy is gone after the reboot, so commit them from the installer or redo step 1's generation here with
 `nixos-generate-config --show-hardware-config`.
 
-### Tailscale
-
-Hand-placed, never committed. Create an auth key in the Tailscale admin console:
-
-```sh
-sudo install -m600 /dev/stdin /var/lib/tailscale/authkey <<< 'tskey-auth-...'
-sudo systemctl restart tailscaled-autoconnect.service || sudo tailscale up
-```
-
-### WireGuard (optional)
-
-Place `/etc/wireguard/wg0.conf` by hand; `wgu` / `wgd` start and stop it.
-
-## 3. GitHub SSH access
-
-```sh
-ssh-keygen -t ed25519
-gh auth login            # choose SSH, upload ~/.ssh/id_ed25519.pub
-ssh -T git@github.com    # should greet you by username
-git -C ~/dotfiles remote set-url origin git@github.com:chea-vuthearith/dotfiles.git
-```
-
-## 4. sops host key
+## 3. sops host key
 
 Every host decrypts `secrets.yaml` with its own age key at `/var/lib/sops-nix/key.txt`:
 
@@ -99,7 +77,7 @@ checkout of the secrets repo:
 1. Add the public key to the recipients in `.sops.yaml`.
 2. `sops updatekeys secrets.yaml`, commit, push.
 
-## 5. Switch to the real config
+## 4. Switch to the real config
 
 Back on the new host:
 
