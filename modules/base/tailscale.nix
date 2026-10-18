@@ -1,10 +1,11 @@
 {config, ...}: let
   inherit (config) username;
 in {
-  flake.modules.nixos.base = {config, ...}: let
-    authKeyFile = config.sops.secrets.tailscale-authkey.path;
+  flake.modules.nixos.base = {...}: let
+    # Root-only, outside the world-readable nix store. Create once per host:
+    #   sudo install -m600 /dev/stdin /var/lib/tailscale/authkey <<< 'tskey-auth-...'
+    authKeyFile = "/var/lib/tailscale/authkey";
   in {
-    sops.secrets.tailscale-authkey = {};
     services.tailscale = {
       enable = true;
       openFirewall = true; # UDP 41641 for direct (non-DERP) connections
@@ -16,7 +17,7 @@ in {
       ];
     };
 
-    # Skip autoconnect (instead of failing on boot) until the host can decrypt the key.
+    # Skip autoconnect (instead of failing on boot) until the key is placed.
     systemd.services.tailscaled-autoconnect.unitConfig.ConditionPathExists = authKeyFile;
 
     networking = {

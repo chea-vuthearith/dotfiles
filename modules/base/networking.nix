@@ -1,9 +1,6 @@
-{config, ...}: let
-  inherit (config) username;
-in {
-  flake.modules.nixos.base = {config, ...}: {
-    sops.secrets."wg0.conf" = {};
-    users.users.${username}.extraGroups = ["networkmanager"];
+{config, ...}: {
+  flake.modules.nixos.base = {...}: {
+    users.users.${config.username}.extraGroups = ["networkmanager"];
     networking = {
       networkmanager = {
         enable = true;
@@ -13,7 +10,7 @@ in {
       };
       wg-quick.interfaces = {
         wg0 = {
-          configFile = config.sops.secrets."wg0.conf".path;
+          configFile = "/etc/wireguard/wg0.conf";
           autostart = false;
         };
       };
