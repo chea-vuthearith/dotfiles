@@ -1,11 +1,17 @@
 {config, ...}: let
   inherit (config) username;
+  # Not harmonia's default 5000: the server's Frigate nginx binds 127.0.0.1:5000.
+  cachePort = 5080;
 in {
   # Server signs everything harmonia serves, including builds it ran for workstations.
   # Key (sops `harmonia-key`) made with: nix-store --generate-binary-cache-key server-1 key key.pub
   flake.modules.nixos.host-server = {config, ...}: {
     sops.secrets.harmonia-key = {};
-    services.harmonia.cache.signKeyPaths = [config.sops.secrets.harmonia-key.path];
+    services.harmonia.cache = {
+      signKeyPaths = [config.sops.secrets.harmonia-key.path];
+      settings.bind = "[::]:${toString cachePort}";
+    };
+    networking.firewall.allowedTCPPorts = [cachePort];
   };
 
   # Workstations offload builds to server (Tailscale SSH) and substitute from its cache.
@@ -26,7 +32,7 @@ in {
       settings = {
         # Server fetches from public caches itself instead of via the workstation.
         builders-use-substitutes = true;
-        extra-substituters = ["http://server:5000"];
+        extra-substituters = ["http://server:${toString cachePort}"];
         extra-trusted-public-keys = ["server-1:fEDN/SamiRBT+SbeNiVEbpng9uAPkjSAgGPYjCtKb84="];
         # Server offline: give up quickly and build/fetch elsewhere.
         connect-timeout = 5;

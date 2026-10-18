@@ -6,6 +6,7 @@
   # the password Frigate prints once to `journalctl -u frigate`.
   flake.modules.nixos.host-server = {
     config,
+    lib,
     pkgs,
     ...
   }: let
@@ -113,7 +114,12 @@
     systemd.tmpfiles.rules = ["d ${recordings} 0750 frigate frigate -"];
     systemd.services.frigate = {
       unitConfig.RequiresMountsFor = [recordings];
-      serviceConfig.BindPaths = ["${recordings}:/var/lib/frigate/recordings"];
+      serviceConfig = {
+        BindPaths = ["${recordings}:/var/lib/frigate/recordings"];
+        # OpenVINO's CPU plugin JIT-compiles kernels; the module's W^X lock makes
+        # compile_model fail with "can't protect".
+        MemoryDenyWriteExecute = lib.mkForce false;
+      };
     };
   };
 }
