@@ -60,14 +60,17 @@ config or new host files later, once GitHub SSH works.
 ## 3. sops host key
 
 Every host decrypts `secrets.yaml` with the same age key: the admin key, backed up in Bitwarden, which is
-the only recipient in the secrets repo's `.sops.yaml`. Put it in place as root (nothing generates it):
+the only recipient in the secrets repo's `.sops.yaml`. Nothing generates it; install it with:
 
 ```sh
-sudo install -D -m600 /dev/stdin /var/lib/sops-nix/key.txt   # paste the key from Bitwarden, then Ctrl-D
-nix-shell -p age --run 'sudo $(command -v age-keygen) -y /var/lib/sops-nix/key.txt'   # must print age1d73s…
+scripts/sops-setup.sh           # paste the key from Bitwarden, then Ctrl-D
+scripts/sops-setup.sh --user    # same, and copy it to ~/.config/sops/age/keys.txt to edit secrets here
 ```
 
-To edit secrets on this machine too, copy it to `~/.config/sops/age/keys.txt` (mode 600).
+The script checks that the key decrypts the pinned `secrets.yaml` before writing
+`/var/lib/sops-nix/key.txt`. It evaluates the real `secrets` input, so it needs GitHub SSH access. To edit
+secrets, run `./edit.sh` in the secrets repo: it uses `~/.config/sops/age/keys.txt` or, if that's missing,
+the host key via `sudo`.
 
 ## 4. Switch to the real config
 

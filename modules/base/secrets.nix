@@ -1,8 +1,8 @@
 {inputs, ...}: {
   # sops-nix: secrets.yaml in the private `secrets` flake, decrypted at activation to /run/secrets.
   # Features declare their own `sops.secrets.<name>` next to the consumer.
-  # One shared age key (the admin key, backed up in Bitwarden) on every host at /var/lib/sops-nix/key.txt:
-  #   sudo install -D -m600 keys.txt /var/lib/sops-nix/key.txt
+  # One shared age key (the admin key, backed up in Bitwarden) on every host at /var/lib/sops-nix/key.txt,
+  # installed by scripts/sops-setup.sh. Edit with ./edit.sh in the secrets repo.
   # Bootstrap stub (`inputs.secrets.bootstrap = true`, scripts/bootstrap.sh): secret paths stay
   # declared so consumers evaluate, but nothing is validated or decrypted; consumers start once
   # a real `nsw` runs.
