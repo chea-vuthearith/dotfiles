@@ -21,6 +21,10 @@
           HINDSIGHT_API_LLM_BASE_URL = "http://127.0.0.1:11434";
           HINDSIGHT_API_LLM_OLLAMA_NUM_CTX = "8192";
           HINDSIGHT_API_LLM_MAX_CONCURRENT = "1";
+          # One task at a time: 8 parallel tasks only queue on Ollama, so each task's
+          # 3600 s wall clock (RETAIN_WALL_TIMEOUT) expired while waiting on the others.
+          HINDSIGHT_API_WORKER_MAX_SLOTS = "1";
+          HINDSIGHT_API_WORKER_CONSOLIDATION_RESERVED_SLOTS = "0";
           # Observation consolidation adds LLM calls per retain; too slow locally.
           HINDSIGHT_API_ENABLE_OBSERVATIONS = "false";
           # Stable identity so tasks claimed before a restart are resumed.
