@@ -96,8 +96,7 @@ sudo age-keygen -y /var/lib/sops-nix/key.txt   # public key: age1...
 On a machine that holds the admin key (`~/.config/sops/age/keys.txt`, backed up in Bitwarden), in a
 checkout of the secrets repo:
 
-1. Add the public key to `.sops.yaml` (new `&<host>` anchor plus an entry under the `creation_rules`
-   key group).
+1. Add the public key to the recipients in `.sops.yaml`.
 2. `sops updatekeys secrets.yaml`, commit, push.
 
 ## 5. Switch to the real config
