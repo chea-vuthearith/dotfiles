@@ -7,26 +7,23 @@ import type { CustomToolFactory } from "@oh-my-pi/pi-coding-agent";
 import { spawn } from "node:child_process";
 import { closeSync, openSync } from "node:fs";
 
-// Runs detached after the tool returns: /move is refused while a turn is running.
+// Runs detached after the tool returns: /move is refused while a turn is running. Every step
+// waits on a herdr event (omp reports its own idle/working state), never a fixed sleep.
 const MOVE_SCRIPT = `
 p=$1; d=$2
-sleep 3
-herdr agent wait "$p" --until idle --timeout 600000 || { echo "agent never went idle; /move not sent"; exit 1; }
-sleep 1
-herdr pane send-keys "$p" ctrl+c     # clear any draft in the prompt (Up recalls it)
-sleep 0.5
+herdr agent wait "$p" --until idle --timeout 600000 >/dev/null || { echo "agent never went idle; /move not sent"; exit 1; }
+herdr pane send-keys "$p" ctrl+c >/dev/null     # clear any draft in the prompt (Up recalls it)
 # The leading ':' makes omp's path completion find nothing, so no popup swallows the
 # submit Enter; /move strips it (expandPath) and resolves the plain path.
-herdr agent prompt "$p" "/move :$d"
-sleep 3
-if ! herdr pane read "$p" --lines 200 | grep -qF "Moved to $d"; then
+herdr agent prompt "$p" "/move :$d" >/dev/null
+# Unwrapped: a long path soft-wraps in the pane and would split the match.
+if ! herdr pane wait-output "$p" --source recent-unwrapped --lines 60 --match "Moved to $d" --timeout 30000 >/dev/null; then
   echo "'Moved to $d' not seen; check pane $p; continue not sent"
   exit 1
 fi
 echo "moved OK: $d"
-herdr agent wait "$p" --until idle --timeout 60000 || { echo "agent not idle after /move; continue not sent"; exit 1; }
-sleep 1
-if herdr agent prompt "$p" "continue" --wait --until working --timeout 10000; then
+herdr agent wait "$p" --until idle --timeout 60000 >/dev/null || { echo "agent not idle after /move; continue not sent"; exit 1; }
+if herdr agent prompt "$p" "continue" --wait --until working --timeout 10000 >/dev/null; then
   echo "continue sent"
 else
   echo "continue did not start a turn; check pane $p"

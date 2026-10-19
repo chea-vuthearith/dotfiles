@@ -22,16 +22,24 @@ Move any files the worktree needs before the call; the tool does not copy files.
 ### How step 3 works
 
 omp refuses `/move` while a turn is running ("Wait for the current response to finish
-or abort it before moving"). The tool starts a detached job that:
+or abort it before moving"). The tool starts a detached job that waits only on herdr
+events (omp reports its own idle/working state), with no fixed sleeps:
 
 | Step | Why |
 |------|-----|
-| `sleep 3`, then `herdr agent wait <pane> --until idle` | waits for the turn to end (gives up after 10 minutes) |
+| `herdr agent wait <pane> --until idle` | waits for the turn to end (gives up after 10 minutes) |
 | `herdr pane send-keys <pane> ctrl+c` | clears any draft in the prompt; `Up` recalls it |
 | `herdr agent prompt <pane> "/move :<dir>"` | types and submits the command; the leading `:` makes omp's path completion match nothing, so no popup takes the Enter (`/move` strips the `:`) |
-| `herdr pane read` for `Moved to <dir>` | confirms the move; stops here if not seen |
+| `herdr pane wait-output <pane> --source recent-unwrapped --match "Moved to <dir>"` | confirms the move as soon as it prints (30 s max); unwrapped, since a long path soft-wraps; stops here if not seen |
 | `herdr agent wait <pane> --until idle` | waits for omp to settle after `/move` (1 minute max) |
 | `herdr agent prompt <pane> continue --wait --until working` | resumes the agent; fails if no turn starts within 10 s |
+
+### Focus
+
+`worktree create` and `pane move` both pass `--no-focus`, and nothing in the job
+focuses, so the user stays where they are. One unavoidable exception: if the agent's
+pane was the only pane in its workspace, moving it closes that workspace, and herdr
+focuses the new one.
 
 Log: `/tmp/omp-herdr-worktree-<time>.log`.
 

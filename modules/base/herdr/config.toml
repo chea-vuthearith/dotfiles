@@ -38,7 +38,7 @@ new_workspace = ""
 rename_workspace = ""
 close_workspace = ""
 
-# g = worktrees (chord below)
+# g = worktrees (picker below)
 new_worktree = ""
 open_worktree = ""
 remove_worktree = ""
@@ -70,14 +70,14 @@ description = "workspace: s new, d close, r rename"
 width = 48
 height = 3
 
-# g (new) o (open) d (remove); new/open prompt for the branch
+# fuzzy-find a branch: go to its worktree, else create one; ctrl-x removes
 [[keys.command]]
 key = "prefix+g"
 type = "popup"
-command = "herdr-chord worktree"
-description = "worktree: g new, o open, d remove"
-width = 56
-height = 3
+command = "herdr-worktree"
+description = "worktree: find, open or create; ctrl-x remove"
+width = 90
+height = 20
 
 [[keys.command]]
 key = "ctrl+h"

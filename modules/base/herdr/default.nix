@@ -139,6 +139,12 @@
         runtimeInputs = [pkgs.herdr pkgs.jq];
         text = builtins.readFile ./chord.sh;
       })
+      # fuzzy worktree picker behind prefix+g in config.toml
+      (pkgs.writeShellApplication {
+        name = "herdr-worktree";
+        runtimeInputs = [pkgs.herdr pkgs.jq pkgs.git pkgs.fzf pkgs.gawk];
+        text = builtins.readFile ./worktree.sh;
+      })
     ];
 
     programs.zsh.shellAliases = {
