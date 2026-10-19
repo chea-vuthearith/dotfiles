@@ -32,8 +32,8 @@ cycle_pane_previous = "prefix+ctrl+o"
 cycle_pane_next = "prefix+ctrl+i"
 
 # s = workspaces (chord below); frees prefix+w (default workspace_picker) for the pane chord
-workspace_picker = "prefix+shift+s"
-goto = "prefix+shift+w"
+workspace_picker = "prefix+shift+w"
+goto = "prefix+shift+s"
 new_workspace = ""
 rename_workspace = ""
 close_workspace = ""
