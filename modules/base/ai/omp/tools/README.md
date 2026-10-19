@@ -27,11 +27,11 @@ events (omp reports its own idle/working state), with no fixed sleeps:
 
 | Step | Why |
 |------|-----|
-| `herdr agent wait <pane> --until idle` | waits for the turn to end (gives up after 10 minutes) |
+| `herdr agent wait <pane>` | waits for the turn to settle (`idle`, `done` or `blocked`; gives up after 10 minutes). Not `--until idle`: a turn ending in a workspace nobody views stays `done` until the user looks, which stalled `/move` until they touched the pane |
 | `herdr pane send-keys <pane> ctrl+c` | clears any draft in the prompt; `Up` recalls it |
-| `herdr agent prompt <pane> "/move :<dir>"` | types and submits the command; the leading `:` makes omp's path completion match nothing, so no popup takes the Enter (`/move` strips the `:`) |
+| `herdr agent prompt <pane> "/move :<dir>"` | types and submits the command; the leading `:` makes omp's path completion match nothing, so no popup takes the Enter (`/move` strips the `:`). Refused if the agent settled on an approval dialog, and the job stops |
 | `herdr pane wait-output <pane> --source recent-unwrapped --match "Moved to <dir>"` | confirms the move as soon as it prints (30 s max); unwrapped, since a long path soft-wraps; stops here if not seen |
-| `herdr agent wait <pane> --until idle` | waits for omp to settle after `/move` (1 minute max) |
+| `herdr agent wait <pane>` | waits for omp to settle after `/move` (1 minute max); matches the current state at once |
 | `herdr agent prompt <pane> continue --wait --until working` | resumes the agent; fails if no turn starts within 10 s |
 
 ### Focus

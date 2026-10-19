@@ -8,21 +8,26 @@ import { spawn } from "node:child_process";
 import { closeSync, openSync } from "node:fs";
 
 // Runs detached after the tool returns: /move is refused while a turn is running. Every step
-// waits on a herdr event (omp reports its own idle/working state), never a fixed sleep.
+// waits on a herdr event (omp reports its own state), never a fixed sleep.
+// Waits use herdr's settled default (idle | done | blocked), never --until idle: a turn that ends
+// in a workspace nobody is viewing settles as `done` and only becomes `idle` once the user looks,
+// so --until idle stalled /move until the user touched the pane. --until also skips the current
+// state, while the default matches it immediately.
 const MOVE_SCRIPT = `
 p=$1; d=$2
-herdr agent wait "$p" --until idle --timeout 600000 >/dev/null || { echo "agent never went idle; /move not sent"; exit 1; }
+herdr agent wait "$p" --timeout 600000 >/dev/null || { echo "turn never settled; /move not sent"; exit 1; }
 herdr pane send-keys "$p" ctrl+c >/dev/null     # clear any draft in the prompt (Up recalls it)
 # The leading ':' makes omp's path completion find nothing, so no popup swallows the
-# submit Enter; /move strips it (expandPath) and resolves the plain path.
-herdr agent prompt "$p" "/move :$d" >/dev/null
+# submit Enter; /move strips it (expandPath) and resolves the plain path. Refused (and we stop)
+# if the agent settled on an approval/question dialog.
+herdr agent prompt "$p" "/move :$d" >/dev/null || { echo "/move not accepted (agent blocked?); check pane $p"; exit 1; }
 # Unwrapped: a long path soft-wraps in the pane and would split the match.
 if ! herdr pane wait-output "$p" --source recent-unwrapped --lines 60 --match "Moved to $d" --timeout 30000 >/dev/null; then
   echo "'Moved to $d' not seen; check pane $p; continue not sent"
   exit 1
 fi
 echo "moved OK: $d"
-herdr agent wait "$p" --until idle --timeout 60000 >/dev/null || { echo "agent not idle after /move; continue not sent"; exit 1; }
+herdr agent wait "$p" --timeout 60000 >/dev/null || { echo "agent not settled after /move; continue not sent"; exit 1; }
 if herdr agent prompt "$p" "continue" --wait --until working --timeout 10000 >/dev/null; then
   echo "continue sent"
 else
