@@ -12,7 +12,7 @@ previous_agent = "alt+ctrl+k"
 next_agent = "alt+ctrl+j"
 toggle_sidebar = "prefix+e"
 
-# create/rename/close tabs and panes: the prefix+tab / prefix+w chord popups below
+# create/rename/close tabs, panes and workspaces: the prefix+tab / prefix+w / prefix+s chord popups below
 new_tab = ""
 rename_tab = ""
 close_tab = ""
@@ -31,12 +31,12 @@ close_pane = ""
 cycle_pane_previous = "prefix+ctrl+o"
 cycle_pane_next = "prefix+ctrl+i"
 
-# s = workspaces; frees prefix+w (default workspace_picker) for the pane chord
-workspace_picker = "prefix+s"
-goto = "prefix+shift+o"
-new_workspace = "prefix+alt+s"
-rename_workspace = "prefix+shift+s"
-close_workspace = "prefix+ctrl+s"
+# s = workspaces (chord below); frees prefix+w (default workspace_picker) for the pane chord
+workspace_picker = "prefix+shift+s"
+goto = "prefix+shift+w"
+new_workspace = ""
+rename_workspace = ""
+close_workspace = ""
 
 new_worktree = "prefix+alt+g"
 open_worktree = "prefix+shift+g"
@@ -58,6 +58,15 @@ type = "popup"
 command = "herdr-chord pane"
 description = "pane: w split right, d close, r rename"
 width = 56
+height = 3
+
+# s (new) d (close) r (rename)
+[[keys.command]]
+key = "prefix+s"
+type = "popup"
+command = "herdr-chord workspace"
+description = "workspace: s new, d close, r rename"
+width = 48
 height = 3
 
 [[keys.command]]
