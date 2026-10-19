@@ -38,9 +38,10 @@ new_workspace = ""
 rename_workspace = ""
 close_workspace = ""
 
-new_worktree = "prefix+alt+g"
-open_worktree = "prefix+shift+g"
-remove_worktree = "prefix+ctrl+g"
+# g = worktrees (chord below)
+new_worktree = ""
+open_worktree = ""
+remove_worktree = ""
 
 # tmux-style second key: tab (new) d (close) r (rename) h/l (close left/right)
 [[keys.command]]
@@ -67,6 +68,15 @@ type = "popup"
 command = "herdr-chord workspace"
 description = "workspace: s new, d close, r rename"
 width = 48
+height = 3
+
+# g (new) o (open) d (remove); new/open prompt for the branch
+[[keys.command]]
+key = "prefix+g"
+type = "popup"
+command = "herdr-chord worktree"
+description = "worktree: g new, o open, d remove"
+width = 56
 height = 3
 
 [[keys.command]]
