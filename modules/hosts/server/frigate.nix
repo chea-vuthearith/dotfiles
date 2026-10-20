@@ -113,8 +113,61 @@
       };
     };
 
-    # :80/:443 are owned by Caddy (caddy.nix), which fronts this UI as
-    # frigate.internal; Frigate itself stays on 127.0.0.1:5000.
+    # Frigate's module enables its own nginx (web UI, auth, vod) and binds
+    # 0.0.0.0:80 by default. Move it to loopback-only so :80/:443 are free; the
+    # vhost is served publicly as frigate.internal by nginx.nix (the TLS front
+    # door). The module appends `listen 127.0.0.1:5000;` to its extraConfig, so
+    # the block is reproduced here without that line (a duplicate `listen` is a
+    # hard nginx error). Keep this in sync if a nixpkgs bump changes the vod
+    # settings (they come from the frigate module's virtualHosts.<name>.extraConfig).
+    services.nginx.virtualHosts.${config.services.frigate.hostname} = {
+      listen = lib.mkForce [
+        {
+          addr = "127.0.0.1";
+          port = 5000;
+        }
+      ];
+      extraConfig = lib.mkForce ''
+        # Frigate wants to connect on 127.0.0.1:5000 for unauthenticated requests
+        # https://github.com/NixOS/nixpkgs/issues/370349
+
+        # vod settings
+        vod_hls_version 6;
+        vod_base_url "";
+        vod_segments_base_url "";
+        vod_mode mapped;
+        vod_max_mapping_response_size 1m;
+        vod_upstream_location /api;
+        vod_align_segments_to_key_frames on;
+        vod_manifest_segment_durations_mode accurate;
+        vod_ignore_edit_list on;
+        vod_segment_duration 10000;
+
+        # MPEG-TS settings (not used when fMP4 is enabled, kept for reference)
+        vod_hls_mpegts_align_frames off;
+        vod_hls_mpegts_interleave_frames on;
+
+        # file handle caching / aio
+        open_file_cache max=1000 inactive=5m;
+        open_file_cache_valid 2m;
+        open_file_cache_min_uses 1;
+        open_file_cache_errors on;
+        aio on;
+
+        # file upload size
+        client_max_body_size 20M;
+
+        # https://github.com/kaltura/nginx-vod-module#vod_open_file_thread_pool
+        vod_open_file_thread_pool default;
+
+        # vod caches
+        vod_metadata_cache metadata_cache 512m;
+        vod_mapping_cache mapping_cache 5m 10m;
+
+        # gzip manifest
+        gzip_types application/vnd.apple.mpegurl;
+      '';
+    };
 
     # Recordings live on the HDD; never start against an unmounted /srv/storage.
     systemd.tmpfiles.rules = ["d ${recordings} 0750 frigate frigate -"];

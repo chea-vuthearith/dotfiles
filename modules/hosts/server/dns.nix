@@ -9,7 +9,7 @@
     lanIp = "192.168.0.19";
     tailnetIp = "100.93.89.8";
     # Single source of truth for service names. A record carries no port, so both
-    # names point at this host; Caddy (caddy.nix) routes by Host on :80/:443.
+    # names point at this host; nginx (nginx.nix) routes by Host on :443.
     records = {
       frigate = lanIp;
       hindsight = lanIp;
