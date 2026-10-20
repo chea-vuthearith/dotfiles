@@ -113,7 +113,8 @@
       };
     };
 
-    networking.firewall.allowedTCPPorts = [80];
+    # :80/:443 are owned by Caddy (caddy.nix), which fronts this UI as
+    # frigate.internal; Frigate itself stays on 127.0.0.1:5000.
 
     # Recordings live on the HDD; never start against an unmounted /srv/storage.
     systemd.tmpfiles.rules = ["d ${recordings} 0750 frigate frigate -"];
