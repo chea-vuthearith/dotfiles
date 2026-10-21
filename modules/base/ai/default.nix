@@ -1,7 +1,14 @@
-{inputs, ...}: {
+{
+  inputs,
+  config,
+  ...
+}: let
+  inherit (config) username;
+in {
   flake.modules.homeManager.base = {
     pkgs,
     lib,
+    config,
     ...
   }: let
     # Agent skills for omp, Claude Code and opencode.
@@ -20,11 +27,18 @@
     '';
     # Always-on instructions shared by every agent (omp appends them to APPEND_SYSTEM.md).
     agentRules = builtins.readFile ./agent-rules.md;
+    # Opens a fresh Claude usage window on every Anthropic OAuth account with one
+    # 10-token message each; see ./warm-claude.sh.
+    warmClaude = pkgs.writeShellApplication {
+      name = "warm-claude";
+      runtimeInputs = [config.programs.omp.package pkgs.curl pkgs.coreutils];
+      text = builtins.readFile ./warm-claude.sh;
+    };
   in {
     imports = [inputs.omp.homeManagerModules.default];
 
     # trafilatura: HTML-to-text CLI that omp can use (previously a `uv tool` install).
-    home.packages = [pkgs.python3Packages.trafilatura herdrHelpers];
+    home.packages = [pkgs.python3Packages.trafilatura herdrHelpers warmClaude];
 
     # programs.omp writes config.yml as a writable copy on every switch, so omp's
     # /settings can save until the next switch resets it.
@@ -111,6 +125,29 @@
           }/.omp/agent/extensions/herdr-omp-agent-state.ts";
         };
       };
+
+    # A Claude subscription's 5-hour window starts with the first message an
+    # account receives and lives for 5 hours, so a tiny message at 07:00 buys a
+    # window that covers the working day. Every Anthropic account gets one
+    # message of its own (~10 tokens each) before the day starts.
+    systemd.user.services.warm-claude = {
+      Unit.Description = "Open a fresh Claude usage window on every Anthropic account";
+      Service = {
+        Type = "oneshot";
+        ExecStart = "${warmClaude}/bin/warm-claude";
+        Environment = "HOME=/home/${username}";
+      };
+    };
+
+    systemd.user.timers.warm-claude = {
+      Unit.Description = "Warm the Claude accounts every weekday at 07:00";
+      Timer = {
+        OnCalendar = "Mon..Fri *-*-* 07:00:00";
+        # A laptop asleep at 07:00 runs it as soon as it wakes up.
+        Persistent = true;
+      };
+      Install.WantedBy = ["timers.target"];
+    };
 
     programs = {
       opencode = {
