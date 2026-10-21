@@ -34,9 +34,36 @@
       settings = {
         modelRoles = {
           vision = "google-antigravity/gemini-3.7-flash";
-          default = "anthropic/claude-opus-5-5";
-          smol = "anthropic/claude-sonnet-5-5";
+          # interactive: judgment and language, minimal wait/scratchpad
+          default = "anthropic/claude-opus-5-5:low";
+          # fast/cheap utility + prewalk handoff target
+          smol = "anthropic/claude-haiku-5-5:high";
+          # escape hatch when low-opus isn't enough
+          slow = "anthropic/claude-opus-5-5:high";
+          plan = "anthropic/claude-opus-5-5:high";
+          # task subagent: plans on opus-low, prewalks to @smol (haiku) at first edit
+          task = "anthropic/claude-opus-5-5:low";
+          # frequent, trivial outputs
+          commit = "anthropic/claude-haiku-5-5:high";
+          tiny = "anthropic/claude-haiku-5-5:high";
         };
+        # session starts on opus-low and stays there; only task subagents prewalk
+        prewalk.enabled = false;
+        task.prewalk = true;
+        compaction = {
+          enabled = true;
+          # fixed triggers per model: opus compact at 327k, haiku at 475k
+          modelThresholds = {
+            "anthropic/claude-opus-5-5" = "f327000";
+            "anthropic/claude-haiku-5-5" = "f475000";
+          };
+        };
+        tui.vimMode = true;
+        startup = {
+          quiet = true;
+          checkUpdate = false;
+        };
+        autolearn.enabled = true;
         symbolPreset = "nerd";
         composer.shape = "pi";
         theme = {
