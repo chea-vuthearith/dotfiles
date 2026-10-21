@@ -57,7 +57,14 @@
             "anthropic/claude-opus-5-5" = "f327000";
             "anthropic/claude-haiku-5-5" = "f475000";
           };
+          # keep each handoff summary on disk, so decisions lost in compaction can be looked up
+          handoffSaveToDisk = true;
         };
+        # many herdr agents share one repo: refuse stash / reset --hard / checkout that discard others' work
+        bash.gitGuard = true;
+        # obfuscate secret-looking env values, credential shapes and ~/.omp/agent/secrets.yml entries before sending
+        secrets.enabled = true;
+        lsp.diagnosticsOnEdit = true;
         tui.vimMode = true;
         startup = {
           quiet = true;
