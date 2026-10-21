@@ -80,11 +80,7 @@
         hindsight.apiUrl = "http://server:8888";
         defaultThinkingLevel = "auto";
         checkpoint.enabled = true;
-        retry = {
-          maxRetryDelayMs = 21600000;
-          maxDelayMs = 21600000;
-          maxAgentDelayMs = 18000000;
-        };
+        retry.waitForUsageReset = true;
       };
     };
 
