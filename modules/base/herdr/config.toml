@@ -79,6 +79,25 @@ description = "worktree: find, open or create; ctrl-x remove"
 width = 90
 height = 20
 
+# m = move to the server, so sessions keep running while this machine is off (herdr-ship).
+# m asks the focused agent to pick the files it needs and move itself; shift+m moves every omp
+# session right away (cwd's git repo only; a mid-turn agent is cut off and finishes on the server).
+[[keys.command]]
+key = "prefix+m"
+type = "popup"
+command = "herdr-ship --ask"
+description = "ask the focused agent to move itself to the server"
+width = 90
+height = 8
+
+[[keys.command]]
+key = "prefix+shift+m"
+type = "popup"
+command = "herdr-ship --all"
+description = "move every omp session to the server now"
+width = 90
+height = 24
+
 [[keys.command]]
 key = "ctrl+h"
 type = "plugin_action"
