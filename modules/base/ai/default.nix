@@ -55,15 +55,15 @@ in {
           # escape hatch when low-opus isn't enough
           slow = "anthropic/claude-opus-5-5:high";
           plan = "anthropic/claude-opus-5-5:high";
-          # task subagent: plans on opus-low, prewalks to @smol (haiku) at first edit
+          # task subagent: plans and writes code on opus-low (no prewalk to haiku)
           task = "anthropic/claude-opus-5-5:low";
           # frequent, trivial outputs
           commit = "anthropic/claude-haiku-5-5:high";
           tiny = "anthropic/claude-haiku-5-5:high";
         };
-        # session starts on opus-low and stays there; only task subagents prewalk
+        # sessions and task subagents stay on opus-low; haiku only for commit/tiny/smol utility work
         prewalk.enabled = false;
-        task.prewalk = true;
+        task.prewalk = false;
         compaction = {
           enabled = true;
           # fixed triggers per model: opus compact at 327k, haiku at 475k
