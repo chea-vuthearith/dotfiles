@@ -1,5 +1,5 @@
 {...}: {
   flake.modules.homeManager.desktop = {pkgs, ...}: {
-    home.packages = [pkgs.umu-launcher];
+    home.packages = with pkgs; [umu-launcher goldberg-emu];
   };
 }
