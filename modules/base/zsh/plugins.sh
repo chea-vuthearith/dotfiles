@@ -15,6 +15,8 @@ if (( $+commands[wl-copy] || $+commands[xclip] || $+commands[xsel] )); then
   zi light "kutsan/zsh-system-clipboard"
 fi
 
+# Completion for every command (cd included): case-insensitive, then partial-word (f.b → foo.bar), then substring.
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
 zi ice lucid wait depth"1"
 zi light "Aloxaf/fzf-tab"
