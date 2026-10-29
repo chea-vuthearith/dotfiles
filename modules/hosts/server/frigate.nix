@@ -140,10 +140,9 @@
         '';
       in {
         "/".extraConfig = black;
-        "~ ^/assets/site-[^/]*\\.webmanifest$" = {
-          root = "${config.services.frigate.package.web}";
-          extraConfig = black + "sub_filter_types application/manifest+json;";
-        };
+        # Frigate's own manifest location (regex, listed first, so it wins over a new one).
+        "~ ^/.*-([A-Za-z0-9]+)\\.webmanifest$".extraConfig =
+          black + "sub_filter_types application/manifest+json;";
       };
     };
     systemd.services.tailscale-cert = {
