@@ -54,6 +54,9 @@
         # runs on the CPU (~8 ms per inference).
         # Frigate 0.18 defaults this to false.
         detect.enabled = true;
+        # go2rtc runs as its own service; Frigate only checks these names to offer the
+        # live stream picker ("Restreaming is not enabled" while this is empty).
+        go2rtc.streams = config.services.go2rtc.settings.streams;
         detectors.ov = {
           type = "openvino";
           device = "CPU";
