@@ -118,12 +118,19 @@
 
     networking.firewall.allowedTCPPorts = [80];
 
-    # Recordings live on the HDD; never start against an unmounted /srv/storage.
+    # Recordings live on the HDD. A system-wide bind mount, not BindPaths: nginx serves
+    # review playback (/vod) from /var/lib/frigate/recordings too, and a Frigate-only
+    # mount left it 404ing every clip. nofail keeps boot up without the HDD; Frigate
+    # then refuses to start instead of recording onto the SSD.
     systemd.tmpfiles.rules = ["d ${recordings} 0750 frigate frigate -"];
+    fileSystems."/var/lib/frigate/recordings" = {
+      device = recordings;
+      fsType = "none";
+      options = ["bind" "nofail" "x-systemd.requires-mounts-for=/srv/storage"];
+    };
     systemd.services.frigate = {
-      unitConfig.RequiresMountsFor = [recordings];
+      unitConfig.RequiresMountsFor = ["/var/lib/frigate/recordings"];
       serviceConfig = {
-        BindPaths = ["${recordings}:/var/lib/frigate/recordings"];
         # OpenVINO's CPU plugin JIT-compiles kernels; the module's W^X lock makes
         # compile_model fail with "can't protect".
         MemoryDenyWriteExecute = lib.mkForce false;
