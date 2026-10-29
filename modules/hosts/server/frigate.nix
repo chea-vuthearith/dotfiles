@@ -129,6 +129,22 @@
       serverAliases = [tsName];
       sslCertificate = "${tsCertDir}/cert.pem";
       sslCertificateKey = "${tsCertDir}/key.pem";
+      # The PWA's system bars follow theme-color: white for a light-mode phone (and always in
+      # the manifest), under Frigate's dark UI. Rewrite both to black. gzip_static off, or
+      # nginx serves the precompressed file and sub_filter never sees the text.
+      locations = let
+        black = ''
+          gzip_static off;
+          sub_filter_once off;
+          sub_filter '#ffffff' '#000000';
+        '';
+      in {
+        "/".extraConfig = black;
+        "~ ^/assets/site-[^/]*\\.webmanifest$" = {
+          root = "${config.services.frigate.package.web}";
+          extraConfig = black + "sub_filter_types application/manifest+json;";
+        };
+      };
     };
     systemd.services.tailscale-cert = {
       after = ["tailscaled.service" "network-online.target"];
