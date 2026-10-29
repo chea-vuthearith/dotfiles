@@ -170,7 +170,8 @@
         # tailscale writes the key 0600 root; nginx (the unit's group) must read it.
         chgrp nginx ${tsCertDir}/cert.pem ${tsCertDir}/key.pem
         chmod 0640 ${tsCertDir}/cert.pem ${tsCertDir}/key.pem
-        if systemctl is-active -q nginx.service; then systemctl reload nginx.service; fi
+        # --no-block: nginx is ordered after this unit, so a waiting reload would deadlock.
+        if systemctl is-active -q nginx.service; then systemctl reload --no-block nginx.service; fi
       '';
     };
     systemd.timers.tailscale-cert = {
