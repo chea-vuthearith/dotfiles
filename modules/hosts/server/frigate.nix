@@ -2,7 +2,8 @@
   # Frigate NVR for the Hikvision DS-IPC-B12HV2-IA (PoE, 1080p H.264 + G.711 audio).
   # go2rtc holds the only camera connection and restreams it on 127.0.0.1:8554; Frigate
   # records the main stream, detects on the sub stream. UI: http://server/ over the tailnet
-  # or the server's LAN IP (nginx :80, Frigate login required). First login: admin, with
+  # or the server's LAN IP (nginx :80), plus https://server.orfe-mizar.ts.net/ (:443, Tailscale
+  # cert). Frigate login required. First login: admin, with
   # the password Frigate prints once to `journalctl -u frigate`.
   flake.modules.nixos.host-server = {
     config,
@@ -17,6 +18,8 @@
     recordings = "/srv/storage/frigate";
     # nixpkgs points `.model` at `ssdlite_mobilnet_v2.xml` (sic); the file is spelled correctly.
     ssdlite = pkgs.frigate.models.openvino.ssdlite_mobilenet_v2_coco;
+    tsName = "server.orfe-mizar.ts.net";
+    tsCertDir = "/var/lib/tailscale-cert";
   in {
     sops.secrets.cctv-pw = {};
     sops.templates.go2rtc-env = {
@@ -116,7 +119,53 @@
       };
     };
 
-    networking.firewall.allowedTCPPorts = [80];
+    networking.firewall.allowedTCPPorts = [80 443];
+
+    # HTTPS next to plain HTTP (addSSL keeps :80 serving). `tailscale cert` fetches a Let's
+    # Encrypt cert for the MagicDNS name (needs HTTPS enabled in the tailnet admin console);
+    # the daily timer renews it (tailscale only re-issues near expiry) and reloads nginx.
+    services.nginx.virtualHosts.${config.services.frigate.hostname} = {
+      addSSL = true;
+      serverAliases = [tsName];
+      sslCertificate = "${tsCertDir}/cert.pem";
+      sslCertificateKey = "${tsCertDir}/key.pem";
+    };
+    systemd.services.tailscale-cert = {
+      after = ["tailscaled.service" "network-online.target"];
+      wants = ["tailscaled.service" "network-online.target"];
+      wantedBy = ["multi-user.target"];
+      before = ["nginx.service"];
+      path = [config.services.tailscale.package pkgs.openssl];
+      serviceConfig = {
+        Type = "oneshot";
+        StateDirectory = "tailscale-cert";
+        StateDirectoryMode = "0750";
+        Group = "nginx";
+        UMask = "0027";
+      };
+      # A missing cert would fail nginx and take :80 down too, so a failed first fetch
+      # leaves a short-lived self-signed placeholder until the next run.
+      script = ''
+        if ! tailscale cert --cert-file ${tsCertDir}/cert.pem --key-file ${tsCertDir}/key.pem ${tsName} \
+          && [ ! -s ${tsCertDir}/cert.pem ]; then
+          openssl req -x509 -newkey rsa:2048 -nodes -days 1 -subj /CN=${tsName} \
+            -keyout ${tsCertDir}/key.pem -out ${tsCertDir}/cert.pem
+        fi
+        if systemctl is-active -q nginx.service; then systemctl reload nginx.service; fi
+      '';
+    };
+    systemd.timers.tailscale-cert = {
+      wantedBy = ["timers.target"];
+      timerConfig = {
+        OnCalendar = "daily";
+        RandomizedDelaySec = "1h";
+        Persistent = true;
+      };
+    };
+    systemd.services.nginx = {
+      wants = ["tailscale-cert.service"];
+      after = ["tailscale-cert.service"];
+    };
 
     # Recordings live on the HDD. A system-wide bind mount, not BindPaths: nginx serves
     # review playback (/vod) from /var/lib/frigate/recordings too, and a Frigate-only
