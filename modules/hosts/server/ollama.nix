@@ -19,6 +19,11 @@
     systemd.services.ollama = {
       after = ["nvidia-persistenced.service"];
       wants = ["nvidia-persistenced.service"];
+      # Model loads and CPU fallback must not starve Frigate's CPU detector (frigate.nix).
+      serviceConfig = {
+        Nice = 10;
+        CPUWeight = 20;
+      };
     };
   };
 }
