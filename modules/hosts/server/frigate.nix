@@ -130,6 +130,9 @@
     };
     systemd.services.frigate = {
       unitConfig.RequiresMountsFor = ["/var/lib/frigate/recordings"];
+      # libgomp's default active wait spun ~12 idle threads in frigate.process:cctv at
+      # 300-400% CPU ("high detect CPU usage"); passive drops it to ~7%.
+      environment.OMP_WAIT_POLICY = "PASSIVE";
       serviceConfig = {
         # OpenVINO's CPU plugin JIT-compiles kernels; the module's W^X lock makes
         # compile_model fail with "can't protect".
