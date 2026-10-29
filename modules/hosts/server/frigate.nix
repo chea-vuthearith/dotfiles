@@ -151,6 +151,9 @@
           openssl req -x509 -newkey rsa:2048 -nodes -days 1 -subj /CN=${tsName} \
             -keyout ${tsCertDir}/key.pem -out ${tsCertDir}/cert.pem
         fi
+        # tailscale writes the key 0600 root; nginx (the unit's group) must read it.
+        chgrp nginx ${tsCertDir}/cert.pem ${tsCertDir}/key.pem
+        chmod 0640 ${tsCertDir}/cert.pem ${tsCertDir}/key.pem
         if systemctl is-active -q nginx.service; then systemctl reload nginx.service; fi
       '';
     };
