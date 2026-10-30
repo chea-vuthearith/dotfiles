@@ -4,11 +4,11 @@
     programs.git = {
       enable = true;
       lfs.enable = true;
-      # SSH key for signed RSN release tags (scripts/release.sh); commits stay unsigned
+      # SSH key: signs every commit and tag (GitHub "Verified"; RSN release tags via scripts/release.sh)
       signing = {
         format = "ssh";
         key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
-        signByDefault = false;
+        signByDefault = true;
       };
       settings = {
         user = {
