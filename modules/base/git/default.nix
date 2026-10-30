@@ -1,10 +1,15 @@
 {...}: {
-  flake.modules.homeManager.base = {pkgs, ...}: {
+  flake.modules.homeManager.base = {pkgs, config, ...}: {
     home.packages = with pkgs; [git-lfs gh];
     programs.git = {
       enable = true;
       lfs.enable = true;
-      signing.format = null;
+      # SSH key for signed RSN release tags (scripts/release.sh); commits stay unsigned
+      signing = {
+        format = "ssh";
+        key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
+        signByDefault = false;
+      };
       settings = {
         user = {
           name = "chea-vuthearith";
