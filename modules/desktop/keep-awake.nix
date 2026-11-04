@@ -1,12 +1,13 @@
 {...}: {
   flake.modules.homeManager.desktop = {pkgs, ...}: let
     # Toggle with SUPER+C (binds below). While on:
+    # - speakers are muted (unmuted again when toggled off)
     # - logind ignores the lid and refuses idle/sleep (block inhibitor held by keep-awake.service)
     # - DMS idle inhibit is on, so the shell does not lock/blank/suspend on idle
     # - closing the lid only sets the backlight to 0; opening restores it
     keep-awake = pkgs.writeShellApplication {
       name = "keep-awake";
-      runtimeInputs = with pkgs; [brightnessctl libnotify systemd coreutils];
+      runtimeInputs = with pkgs; [brightnessctl libnotify systemd coreutils wireplumber];
       text = ''
         saved="''${XDG_RUNTIME_DIR:?}/keep-awake-brightness"
 
@@ -24,10 +25,12 @@
               systemctl --user stop keep-awake.service
               dms ipc call inhibit disable >/dev/null || true
               restore
+              wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
               notify-send -a "Keep awake" "Keep awake off" "Lid close and idle behave normally"
             else
               systemctl --user start keep-awake.service
               dms ipc call inhibit enable >/dev/null || true
+              wpctl set-mute @DEFAULT_AUDIO_SINK@ 1
               notify-send -a "Keep awake" "Keep awake on" "Closing the lid only turns the screen off"
             fi
             ;;
