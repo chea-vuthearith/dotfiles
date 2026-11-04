@@ -1,8 +1,9 @@
 {...}: {
   flake.modules.homeManager.host-laptop = {pkgs, ...}: let
-    # eDP-1 runs 120Hz on AC, 60Hz on battery. Power-supply events are
-    # debounced: the mode only changes after AC state has been quiet for
-    # `settle` seconds, so a flaky charger connector doesn't thrash the panel.
+    # eDP-1 runs 120Hz on AC, 60Hz on battery. The first power-supply event
+    # switches immediately; further events are ignored until AC state has
+    # been quiet for `settle` seconds, then the final state is applied once,
+    # so a flaky charger connector doesn't thrash the panel.
     refresh-rate = pkgs.writeShellApplication {
       name = "refresh-rate-on-ac";
       runtimeInputs = with pkgs; [systemd coreutils hyprland];
@@ -21,7 +22,8 @@
 
         apply
         udevadm monitor --udev --subsystem-match=power_supply | while read -r _; do
-          # Drain events until none arrive for $settle seconds, then apply.
+          apply
+          # Swallow the burst until quiet for $settle seconds, then reconcile.
           while read -r -t "$settle" _; do :; done
           apply
         done
