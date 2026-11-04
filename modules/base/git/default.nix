@@ -1,5 +1,9 @@
 {...}: {
-  flake.modules.homeManager.base = {pkgs, config, ...}: {
+  flake.modules.homeManager.base = {
+    pkgs,
+    config,
+    ...
+  }: {
     home.packages = with pkgs; [git-lfs gh];
     programs.git = {
       enable = true;
