@@ -54,10 +54,13 @@ in {
     };
     kvm = pkgs.writeShellApplication {
       name = "kvm";
-      runtimeInputs = with pkgs; [pkgs.lan-mouse avahi iproute2 gnugrep gawk jq libnotify hyprland];
+      runtimeInputs = with pkgs; [pkgs.lan-mouse avahi iproute2 coreutils gnugrep gawk jq libnotify hyprland];
       text = ''
         peer=${self.peer}
         notify() { notify-send -a "KVM" "$@"; }
+        # Where the cursor was when input left this machine; put back when it returns.
+        saved="''${XDG_RUNTIME_DIR:?}/kvm-cursor"
+        warp() { hyprctl dispatch "hl.dsp.cursor.move({ x = $1, y = $2 })" >/dev/null; }
         # lan-mouse assigns the single configured client handle; read it back.
         id=$(lan-mouse cli list | awk -F'[ :]' '/^id /{print $2; exit}')
         [ -n "$id" ] || { notify "KVM unavailable" "lan-mouse is not running"; exit 1; }
@@ -69,6 +72,11 @@ in {
           off)
             active || exit 0
             lan-mouse cli deactivate "$id"
+            if [ -e "$saved" ]; then
+              read -r x y <"$saved"
+              warp "$x" "$y"
+              rm -f "$saved"
+            fi
             notify "KVM" "Keyboard and mouse back on this machine"
             exit 0
             ;;
@@ -88,6 +96,7 @@ in {
         lan-mouse cli activate "$id"
         # Give lan-mouse a moment to create its edge surface, then put the cursor on it:
         # entering that surface is what hands keyboard and mouse to the peer.
+        hyprctl cursorpos | tr -d , >"$saved"
         sleep 0.3
         read -r x y < <(hyprctl monitors -j | jq -r '
           map({l: .x, r: (.x + .width / .scale), y: (.y + .height / .scale / 2)})
@@ -96,7 +105,7 @@ in {
           then ''min_by(.l) | "\(.l | floor) \(.y | floor)"''
           else ''max_by(.r) | "\(.r - 1 | floor) \(.y | floor)"''
         }')
-        hyprctl dispatch "hl.dsp.cursor.move({ x = $x, y = $y })" >/dev/null
+        warp "$x" "$y"
         notify "KVM" "Keyboard and mouse on $peer, SUPER+X to take them back"
       '';
     };
