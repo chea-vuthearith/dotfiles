@@ -1,7 +1,8 @@
 {...}: let
   port = 4242;
-  # Each workstation shares its keyboard/mouse with the other one. `position` is where the
-  # peer sits relative to this machine's screens.
+  # Keyboard + mouse only (lan-mouse shares nothing else). Exactly one machine owns the input
+  # at a time; SUPER+X on whichever machine currently has it hands it to the other one.
+  # `position` is only the screen edge lan-mouse hands over at (we warp the cursor onto it).
   # `fingerprint` is the sha256 of *this* host's ~/.config/lan-mouse/lan-mouse.pem (generated
   # by lan-mouse on first run; the peer authorizes it). If that file is ever deleted, update with
   #   openssl x509 -in ~/.config/lan-mouse/lan-mouse.pem -outform der | sha256sum
@@ -42,28 +43,38 @@ in {
     self = peers.${osConfig.networking.hostName};
     toml = pkgs.formats.toml {};
     # Peer has no hostname on purpose: lan-mouse would resolve it through MagicDNS to a
-    # Tailscale address. `kvm toggle` fills in the LAN IP found via mDNS instead.
+    # Tailscale address. `kvm` fills in the LAN IP found via mDNS instead.
     config = toml.generate "lan-mouse.toml" {
       inherit port;
-      release_bind = ["KeyLeftCtrl" "KeyLeftShift" "KeyLeftMeta" "KeyLeftAlt"];
+      # While input goes to the peer, the local Hyprland never sees SUPER+X, so lan-mouse
+      # catches it as the release bind (X is not forwarded); kvm-release then deactivates.
+      release_bind = ["KeyLeftMeta" "KeyX"];
       authorized_fingerprints.${(peers.${self.peer}).fingerprint} = self.peer;
       clients = [{inherit (self) position;}];
     };
     kvm = pkgs.writeShellApplication {
       name = "kvm";
-      runtimeInputs = with pkgs; [pkgs.lan-mouse avahi iproute2 gnugrep gawk libnotify];
+      runtimeInputs = with pkgs; [pkgs.lan-mouse avahi iproute2 gnugrep gawk jq libnotify hyprland];
       text = ''
         peer=${self.peer}
         notify() { notify-send -a "KVM" "$@"; }
         # lan-mouse assigns the single configured client handle; read it back.
         id=$(lan-mouse cli list | awk -F'[ :]' '/^id /{print $2; exit}')
         [ -n "$id" ] || { notify "KVM unavailable" "lan-mouse is not running"; exit 1; }
+        active() { lan-mouse cli list | grep -q 'active: true'; }
 
-        if lan-mouse cli list | grep -q 'active: true'; then
-          lan-mouse cli deactivate "$id"
-          notify "KVM off" "Input stays on this machine"
-          exit 0
-        fi
+        case "''${1:-}" in
+          # Input came back (SUPER+X on the peer side, or the link dropped): disarm the edge so
+          # only SUPER+X can hand over again.
+          off)
+            active || exit 0
+            lan-mouse cli deactivate "$id"
+            notify "KVM" "Keyboard and mouse back on this machine"
+            exit 0
+            ;;
+          "") ;;
+          *) echo "usage: kvm [off]" >&2; exit 2 ;;
+        esac
 
         ip=$(avahi-resolve-host-name -4 "$peer.local" 2>/dev/null | awk '{print $2}')
         # Directly connected (no gateway), not via Tailscale/WireGuard: same physical LAN.
@@ -75,7 +86,18 @@ in {
 
         lan-mouse cli set-ips "$id" "$ip"
         lan-mouse cli activate "$id"
-        notify "KVM on" "Move the pointer ${self.position} to control $peer ($ip)"
+        # Give lan-mouse a moment to create its edge surface, then put the cursor on it:
+        # entering that surface is what hands keyboard and mouse to the peer.
+        sleep 0.3
+        read -r x y < <(hyprctl monitors -j | jq -r '
+          map({l: .x, r: (.x + .width / .scale), y: (.y + .height / .scale / 2)})
+          | ${
+          if self.position == "left"
+          then ''min_by(.l) | "\(.l | floor) \(.y | floor)"''
+          else ''max_by(.r) | "\(.r - 1 | floor) \(.y | floor)"''
+        }')
+        hyprctl dispatch "hl.dsp.cursor.move({ x = $x, y = $y })" >/dev/null
+        notify "KVM" "Keyboard and mouse on $peer, SUPER+X to take them back"
       '';
     };
   in {
@@ -98,6 +120,25 @@ in {
         Restart = "on-failure";
       };
       Install.WantedBy = ["graphical-session.target"];
+    };
+
+    # Whenever input returns (release bind, peer edge, or link lost) disarm via `kvm off`.
+    # Skips "releasing capture: no active client ...", logged while the peer controls us.
+    systemd.user.services.kvm-release = {
+      Unit = {
+        Description = "Disarm the KVM when keyboard and mouse return to this machine";
+        PartOf = ["lan-mouse.service"];
+        After = ["lan-mouse.service"];
+      };
+      Service = {
+        ExecStart = toString (pkgs.writeShellScript "kvm-release" ''
+          ${pkgs.systemd}/bin/journalctl --user -fu lan-mouse -n0 -o cat \
+            | ${pkgs.gnugrep}/bin/grep --line-buffered 'releasing capture: [^n]' \
+            | while read -r _; do ${lib.getExe kvm} off; done
+        '');
+        Restart = "always";
+      };
+      Install.WantedBy = ["lan-mouse.service"];
     };
   };
 }
