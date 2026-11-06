@@ -102,6 +102,11 @@ in {
         defaultThinkingLevel = "auto";
         checkpoint.enabled = true;
         retry.waitForUsageReset = true;
+        # deliver every queued steer/follow-up message in one turn instead of one turn each
+        steeringMode = "all";
+        followUpMode = "all";
+        # inline tail of spilled tool output (default 500 lines, ~2.5K tokens); the rest stays readable as artifact://
+        tools.artifactTailLines = 200;
       };
     };
 
