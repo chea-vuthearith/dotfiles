@@ -22,7 +22,7 @@ in {
       mkdir -p $out/bin
       for s in ${./skills/herdr-team/scripts}/*; do
         makeWrapper ${pkgs.bash}/bin/bash $out/bin/$(basename $s) \
-          --add-flags $s --prefix PATH : ${lib.makeBinPath [pkgs.jq pkgs.coreutils pkgs.gnused]}
+          --add-flags $s --prefix PATH : ${lib.makeBinPath [pkgs.jq pkgs.coreutils pkgs.gnused pkgs.socat]}
       done
     '';
     # Always-on instructions shared by every agent (omp appends them to APPEND_SYSTEM.md).
@@ -116,6 +116,8 @@ in {
         # omp custom tools; see ./omp/tools/README.md
         ".omp/agent/tools/herdr-worktree.ts".source = ./omp/tools/herdr-worktree.ts;
         ".omp/agent/APPEND_SYSTEM.md".text = builtins.readFile ./omp/APPEND_SYSTEM.md + "\n" + agentRules;
+        # herdr-msg delivers to omp through this socket instead of typing into the prompt
+        ".omp/agent/extensions/herdr-inbox.ts".source = ./omp/extensions/herdr-inbox.ts;
         # herdr's omp integration (state reporting + session resume), generated from the
         # pinned herdr instead of a manual `herdr integration install omp`.
         # force: replaces the copy herdr installed by hand.
