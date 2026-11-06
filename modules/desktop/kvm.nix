@@ -20,19 +20,8 @@
     };
   };
 in {
-  # mDNS: `<host>.local` resolves only over multicast on the local link, never through
-  # Tailscale (tailscale0 has no multicast), so a successful lookup means "same LAN, peer up".
-  flake.modules.nixos.desktop = {
-    services.avahi = {
-      enable = true;
-      nssmdns4 = true;
-      publish = {
-        enable = true;
-        addresses = true;
-      };
-    };
-    networking.firewall.allowedUDPPorts = [port];
-  };
+  # Peer discovery uses mDNS from base/mdns.nix: `<host>.local` never resolves via Tailscale.
+  flake.modules.nixos.desktop.networking.firewall.allowedUDPPorts = [port];
 
   flake.modules.homeManager.desktop = {
     pkgs,
