@@ -5,6 +5,19 @@
 }: let
   inherit (config) username;
 in {
+  # nixpkgs 1d06008 (2026-11-03): opencode 2.2.5 node_modules FOD hash is stale upstream.
+  # Drop once nixpkgs ships the fixed hash (build fails with a hash mismatch → remove this).
+  flake.modules.nixos.base = {
+    nixpkgs.overlays = [
+      (_final: prev: {
+        opencode = prev.opencode.overrideAttrs (o: {
+          node_modules = o.node_modules.overrideAttrs {
+            outputHash = "sha256-prx9dX7kUvs/E3zopkaPk5LXh3xJAy5sZeum/W8L7cA=";
+          };
+        });
+      })
+    ];
+  };
   flake.modules.homeManager.base = {
     pkgs,
     lib,

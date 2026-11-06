@@ -14,11 +14,11 @@
         "sf-pro": "sf-pro"
       },
       "locked": {
-        "lastModified": 1789419105,
-        "narHash": "sha256-T5A/AqlF4iL908aIZh45e35Mvj8lTJKq8ddS5bk7nd8=",
+        "lastModified": 1793889225,
+        "narHash": "sha256-Fjj4Xtklbx6ki5/O+WgiKbJrm+wsI9lVUVNo7OKXsAo=",
         "owner": "Lyndeno",
         "repo": "apple-fonts.nix",
-        "rev": "3861e2249cb244bfbc7cfab2303c152cf5f9d9e9",
+        "rev": "58b7ab5a049c57c4f38f27eac84f45e2903bb687",
         "type": "github"
       },
       "original": {
@@ -1028,11 +1028,11 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1791956154,
-        "narHash": "sha256-jBYGPi4udQ9uo4KQp9m2J0546nJVQitG15gvZSaVVAs=",
+        "lastModified": 1793726008,
+        "narHash": "sha256-jQp1wKvbwWdLBASTXkSi/VYmDJ5AbBi1WvcMt9HWJC8=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "55bfb4d7437bd4e09ab7cba58a43bd68eb310044",
+        "rev": "1d060086d60cb76a40cf37109f979d88a5bd6396",
         "type": "github"
       },
       "original": {
@@ -1191,11 +1191,11 @@
     },
     "secrets": {
       "locked": {
-        "lastModified": 1792340872,
-        "narHash": "sha256-bwy63YgK633QxDj83c7EKzd83/OIIDc4bTaPNWKyU8U=",
+        "lastModified": 1793936082,
+        "narHash": "sha256-iYn+JBs2OOYFL+82v4Zmy70HkaBhzqrrlv+u00EV7NQ=",
         "ref": "refs/heads/main",
-        "rev": "bb5c0225d32c4edf5ff91459292dc54402a7b2cc",
-        "revCount": 18,
+        "rev": "e8eb418667af95289b64c4db19a6ad1e089b2b74",
+        "revCount": 19,
         "type": "git",
         "url": "ssh://git@github.com/chea-vuthearith/secrets.git"
       },
@@ -1231,7 +1231,7 @@
     "sf-compact": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-KjCzuJOrNxgptsMLGaR8wcrU/bBxCpwtUGzGDcCxJTc=",
+        "narHash": "sha256-5qI/CsQ4O06tlYKVCw6DDukYEeaWdB6iO6un0XUqTkw=",
         "type": "file",
         "url": "https://devimages-cdn.apple.com/design/resources/download/SF-Compact.dmg"
       },
