@@ -1,0 +1,21 @@
+--- a/src/service.rs	2026-11-06 18:37:33.048714940 +0700
++++ b/src/service.rs	2026-11-06 18:37:40.111117419 +0700
+@@ -388,7 +388,9 @@
+     fn add_incoming(&mut self, addr: SocketAddr, pos: Position, fingerprint: String) {
+         let handle = Self::ENTER_HANDLE_BEGIN + self.next_trigger_handle;
+         self.next_trigger_handle += 1;
+-        self.capture.create(handle, pos, CaptureType::EnterOnly);
++        // dotfiles: no edge capture for incoming connections. Control only moves by keybind,
++        // and this barrier shares the edge with our own client's, so crossing it could grab
++        // input while forwarding it nowhere.
+         self.incoming_conns.insert(addr);
+         self.incoming_conn_info.insert(
+             handle,
+@@ -434,7 +436,6 @@
+             .iter()
+             .find(|(_, incoming)| incoming.addr == addr)
+             .map(|(k, _)| *k)?;
+-        self.capture.destroy(handle);
+         self.incoming_conns.remove(&addr);
+         self.incoming_conn_info
+             .remove(&handle)
