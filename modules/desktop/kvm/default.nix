@@ -209,7 +209,7 @@ in {
     '';
 
     # lan-mouse always runs so the peer can forward to this machine. Its log is read
-    # in-process: "entering client" confirms forwarding started; any other capture release
+    # in-process: the peer's Ack confirms forwarding started; any other capture release
     # (emergency chord, link to the owner lost) turns the KVM off. On (re)start the state is
     # reset to off on both sides so they never disagree.
     systemd.user.services.lan-mouse = {
@@ -226,9 +226,12 @@ in {
           ${lib.getExe lan-mouse} daemon 2>&1 | while IFS= read -r line; do
             printf '%s\n' "$line"
             case "$line" in
-              *"entering client"*) : >"$XDG_RUNTIME_DIR/kvm-entered" ;;
-              # Logged on the receiving side for every Enter, and while connecting.
-              *"entered this device"* | *"releasing capture: not connected"*) ;;
+              # The first crossing only opens the connection and is released ("not connected")
+              # while "entering client" is still logged; the peer's Ack is the real handover.
+              *"acknowledged the connection"*) : >"$XDG_RUNTIME_DIR/kvm-entered" ;;
+              *"releasing capture: not connected"*) rm -f "$XDG_RUNTIME_DIR/kvm-entered" ;;
+              # Logged on the receiving side for every Enter.
+              *"entered this device"*) ;;
               *"releasing capture: "*) ${lib.getExe kvm} off & ;;
             esac
           done
