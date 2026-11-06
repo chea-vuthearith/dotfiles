@@ -6,6 +6,9 @@
     services.avahi = {
       enable = true;
       nssmdns4 = true;
+      # Publish/resolve on the physical LAN only: otherwise the server announced its
+      # docker0 bridge (172.17.0.1) as server.local, unreachable from the peers.
+      denyInterfaces = ["docker0" "tailscale0" "wg0"];
       publish = {
         enable = true;
         addresses = true;
