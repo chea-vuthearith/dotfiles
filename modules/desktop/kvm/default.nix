@@ -1,13 +1,16 @@
 {...}: let
-  port = 4242;
+  port = 4242; # lan-mouse (UDP)
+  controlPort = 4243; # owner-state sync between the two `kvm` instances (TCP)
   # Keyboard + mouse only (lan-mouse shares nothing else).
-  # While the KVM is on, exactly one machine (the owner) gets *every* keyboard and mouse: the
-  # other machine captures its own local input and forwards it to the owner.
-  # - SUPER+X (from any keyboard, so it lands on the owner): the owner starts forwarding to
-  #   the peer; the peer, entered by it, stops forwarding. Ownership flips.
-  # - SUPER+SHIFT+X: KVM off; nobody forwards, each machine uses its own devices again.
-  # Each machine's cursor returns to where it was when that machine lost control.
-  # Only keybinds switch: screen edges never do (patched, see `lan-mouse` below).
+  # Both machines keep the same state `owner` = laptop | desktop | off and follow one rule:
+  #   owner == me   -> don't forward (every keyboard/mouse ends up here)
+  #   owner == peer -> forward this machine's keyboard/mouse to the peer
+  #   off           -> don't forward
+  # - SUPER+X: off -> the machine you pressed it on owns; on -> ownership flips.
+  # - SUPER+SHIFT+X (or lan-mouse's emergency chord on the forwarding machine): off.
+  # A change is written on both sides; the side that stops forwarding applies first, so the
+  # two never forward at once. Peer unreachable -> off locally.
+  # Each machine's cursor returns to where it was when it started forwarding.
   # `position` is only the side lan-mouse's internal barrier sits on; `kvm` crosses it with a
   # virtual pointer.
   # `fingerprint` is the sha256 of *this* host's ~/.config/lan-mouse/lan-mouse.pem (generated
@@ -28,7 +31,11 @@
   };
 in {
   # Peer discovery uses mDNS from base/mdns.nix: `<host>.local` never resolves via Tailscale.
-  flake.modules.nixos.desktop.networking.firewall.allowedUDPPorts = [port];
+  flake.modules.nixos.desktop.networking.firewall = {
+    allowedUDPPorts = [port];
+    # `kvm recv` drops anything not from the peer's mDNS-resolved LAN address.
+    allowedTCPPorts = [controlPort];
+  };
 
   flake.modules.homeManager.desktop = {
     pkgs,
@@ -42,8 +49,9 @@ in {
       patches =
         (old.patches or [])
         ++ [
-          # The controlled machine's pointer reaching the edge no longer hands control back.
-          ./no-edge-return.patch
+          # No edge capture for incoming connections: control only moves by keybind, and that
+          # barrier shared the edge with our own client's, grabbing input to nowhere.
+          ./no-incoming-capture.patch
           # Deactivating the client being forwarded to releases cleanly (key-ups + Leave)
           # instead of leaving input grabbed; `kvm off` relies on it.
           ./release-on-deactivate.patch
@@ -60,41 +68,45 @@ in {
     };
     kvm = pkgs.writeShellApplication {
       name = "kvm";
-      runtimeInputs = with pkgs; [lan-mouse systemd iproute2 coreutils gnugrep gawk jq libnotify hyprland wlrctl];
+      runtimeInputs = with pkgs; [lan-mouse systemd iproute2 coreutils gnugrep gawk jq libnotify hyprland wlrctl socat];
       text = ''
+        me=${osConfig.networking.hostName}
         peer=${self.peer}
         notify() { notify-send -a "KVM" "$@" & }
-        # Where the cursor was when this machine lost control; put back when it regains it.
-        saved="''${XDG_RUNTIME_DIR:?}/kvm-cursor"
-        # Touched by the lan-mouse service the moment we start forwarding to the peer.
+        state="''${XDG_RUNTIME_DIR:?}/kvm-owner"
+        # Where the cursor was when this machine started forwarding; restored when it stops.
+        saved="$XDG_RUNTIME_DIR/kvm-cursor"
+        # Touched by the lan-mouse service the moment forwarding to the peer starts.
         entered="$XDG_RUNTIME_DIR/kvm-entered"
+        owner() { cat "$state" 2>/dev/null || echo off; }
         warp() { hyprctl dispatch "hl.dsp.cursor.move({ x = $1, y = $2 })" >/dev/null; }
-        # lan-mouse assigns the single configured client handle; read it back.
-        id=$(lan-mouse cli list | awk -F'[ :]' '/^id /{print $2; exit}')
-        [ -n "$id" ] || { notify "KVM unavailable" "lan-mouse is not running"; exit 1; }
-        active() { lan-mouse cli list | grep -q 'active: true'; }
 
-        # Stop forwarding and put the cursor back. Called repeatedly by the service (one log
-        # line per Enter packet), so only the first caller restores.
-        back() {
-          if mv "$saved" "$saved.$$" 2>/dev/null; then
-            read -r x y <"$saved.$$"
-            rm -f "$saved.$$"
-            warp "$x" "$y"
-          fi
-          if active; then lan-mouse cli deactivate "$id"; fi
+        # Peer's LAN address via mDNS; fails unless it is directly connected (no gateway, not
+        # Tailscale/WireGuard), i.e. on the same physical network.
+        peer_ip() {
+          local ip route
+          ip=$(resolvectl query -4 --protocol=mdns --legend=no "$peer.local" 2>/dev/null | awk '{print $2; exit}')
+          route=$(ip route get "''${ip:-0.0.0.0}" 2>/dev/null || true)
+          [ -n "$ip" ] && ! grep -qE ' via |dev (tailscale0|wg0) ' <<<"$route" && echo "$ip"
         }
 
-        # Start forwarding this machine's keyboard and mouse to the peer. Entering the peer
-        # also makes the peer stop forwarding to us (lan-mouse releases on incoming Enter).
-        forward() {
-          ip=$(resolvectl query -4 --protocol=mdns --legend=no "$peer.local" 2>/dev/null | awk '{print $2; exit}')
-          # Directly connected (no gateway), not via Tailscale/WireGuard: same physical LAN.
-          route=$(ip route get "''${ip:-0.0.0.0}" 2>/dev/null || true)
-          if [ -z "$ip" ] || grep -qE ' via |dev (tailscale0|wg0) ' <<<"$route"; then
-            return 1
-          fi
+        # lan-mouse assigns the single configured client handle; read it back.
+        client() { lan-mouse cli list | awk -F'[ :]' '/^id /{print $2; exit}'; }
+        forwarding() { lan-mouse cli list | grep -q 'active: true'; }
 
+        stop_forwarding() {
+          if forwarding; then lan-mouse cli deactivate "$(client)"; fi
+          if [ -e "$saved" ]; then
+            read -r x y <"$saved"
+            rm -f "$saved"
+            warp "$x" "$y"
+          fi
+        }
+
+        start_forwarding() {
+          local ip id x y
+          ip=$(peer_ip) || return 1
+          id=$(client)
           [ -e "$saved" ] || hyprctl cursorpos | tr -d , >"$saved"
           read -r x y < <(hyprctl monitors -j | jq -r '
             map({l: .x, r: (.x + .width / .scale), y: (.y + .height / .scale / 2)})
@@ -120,30 +132,70 @@ in {
             sleep 0.02
             [ -e "$entered" ] && return 0
           done
-          back
+          return 1
+        }
+
+        # Write the state locally and make lan-mouse match it.
+        apply() {
+          echo "$1" >"$state"
+          if [ "$1" = "$peer" ]; then
+            forwarding || start_forwarding || { echo off >"$state"; stop_forwarding; return 1; }
+          else
+            stop_forwarding
+          fi
+        }
+
+        # Tell the peer; succeeds only once it has applied the state.
+        push() {
+          local ip
+          ip=$(peer_ip) || return 1
+          [ "$(echo "apply $1" | socat -t2 -T2 - "TCP4:$ip:${toString controlPort}" 2>/dev/null)" = ok ]
+        }
+
+        set_owner() {
+          if [ "$1" = "$peer" ]; then
+            # We start forwarding: the peer stops first.
+            push "$1" && apply "$1" && return 0
+            apply off
+            push off || true
+            return 1
+          fi
+          # We stop forwarding (owner = me or off): locally first, then the peer.
+          apply "$1"
+          push "$1" && return 0
+          [ "$1" = off ] && return 0
+          apply off
           return 1
         }
 
         case "''${1:-}" in
-          # SUPER+X: runs on the owner (every keyboard goes there); give ownership to the peer.
+          # SUPER+X
           "")
-            if forward; then
-              notify "KVM" "All keyboards and mice now control $peer"
+            case "$(owner)" in
+              "$me") new=$peer ;;
+              *) new=$me ;;
+            esac
+            if set_owner "$new"; then
+              notify "KVM" "All keyboards and mice now control $new"
             else
               notify "KVM unavailable" "$peer is off or not on this network"
             fi
             ;;
-          # SUPER+SHIFT+X: KVM off. Entering the peer makes it stop forwarding to us; then we
-          # stop forwarding too (patched deactivate releases cleanly).
+          # SUPER+SHIFT+X, emergency chord, lan-mouse (re)start
           off)
-            forward || true
-            back
-            notify "KVM off" "Each machine uses its own keyboard and mouse"
+            set_owner off
+            [ "''${2:-}" = quiet ] || notify "KVM off" "Each machine uses its own keyboard and mouse"
             ;;
-          # From the service: the peer entered us (it is now the forwarder) or the emergency
-          # release chord was pressed.
-          back) back ;;
-          *) echo "usage: kvm [off]" >&2; exit 2 ;;
+          # One request from the peer over the control port (socat sets SOCAT_PEERADDR).
+          recv)
+            read -r cmd arg
+            [ "''${SOCAT_PEERADDR:-}" = "$(peer_ip || true)" ] || exit 1
+            case "$cmd $arg" in
+              "apply $me" | "apply $peer" | "apply off") apply "$arg" && echo ok ;;
+            esac
+            ;;
+          status) owner ;;
+          *) echo "usage: kvm [off|status]" >&2; exit 2 ;;
         esac
       '';
     };
@@ -156,8 +208,10 @@ in {
       hl.bind("SUPER + SHIFT + X", hl.dsp.exec_cmd("kvm off"))
     '';
 
-    # Always listening, so the peer can forward to this machine. The daemon's log is read
-    # in-process (journalctl -f added ~0.5 s) to react to handovers immediately.
+    # lan-mouse always runs so the peer can forward to this machine. Its log is read
+    # in-process: "entering client" confirms forwarding started; any other capture release
+    # (emergency chord, link to the owner lost) turns the KVM off. On (re)start the state is
+    # reset to off on both sides so they never disagree.
     systemd.user.services.lan-mouse = {
       Unit = {
         Description = "lan-mouse software KVM";
@@ -168,18 +222,34 @@ in {
       Service = {
         ExecStart = toString (pkgs.writeShellScript "lan-mouse-kvm" ''
           set -o pipefail
+          (sleep 2; ${lib.getExe kvm} off quiet) &
           ${lib.getExe lan-mouse} daemon 2>&1 | while IFS= read -r line; do
             printf '%s\n' "$line"
             case "$line" in
-              *"entered this device"* | *"releasing capture: release-bind pressed"*)
-                ${lib.getExe kvm} back &
-                ;;
               *"entering client"*) : >"$XDG_RUNTIME_DIR/kvm-entered" ;;
+              # Logged on the receiving side for every Enter, and while connecting.
+              *"entered this device"* | *"releasing capture: not connected"*) ;;
+              *"releasing capture: "*) ${lib.getExe kvm} off & ;;
             esac
           done
         '');
         # A switch restarts this mid-activation and the daemon can die on a briefly missing
         # file; retry slowly forever instead of hitting the 5-in-10s start limit and staying down.
+        Restart = "always";
+        RestartSec = 3;
+      };
+      Install.WantedBy = ["graphical-session.target"];
+    };
+
+    # Receives owner-state changes from the peer.
+    systemd.user.services.kvm-control = {
+      Unit = {
+        Description = "KVM owner-state listener";
+        PartOf = ["graphical-session.target"];
+        After = ["graphical-session.target" "lan-mouse.service"];
+      };
+      Service = {
+        ExecStart = "${lib.getExe pkgs.socat} TCP4-LISTEN:${toString controlPort},fork,reuseaddr EXEC:'${lib.getExe kvm} recv'";
         Restart = "always";
         RestartSec = 3;
       };
