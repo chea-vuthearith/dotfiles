@@ -19,8 +19,11 @@ in {
     networking.firewall.allowedTCPPorts = [cachePort];
 
     nix.settings = {
+      # priority=20: ask peers before cache.numtide.com (30) and cache.nixos.org (40);
+      # harmonia advertises 50, which put peers last. Set client-side so it applies on
+      # switch, regardless of the peer's harmonia version or nix's cached nix-cache-info.
       extra-substituters =
-        map (h: "http://${h}.local:${toString cachePort}")
+        map (h: "http://${h}.local:${toString cachePort}?priority=20")
         (builtins.filter (h: h != config.networking.hostName) hosts);
       extra-trusted-public-keys = ["server-1:fEDN/SamiRBT+SbeNiVEbpng9uAPkjSAgGPYjCtKb84="];
       # A peer asleep or off this LAN: give up quickly and fetch/build elsewhere.
