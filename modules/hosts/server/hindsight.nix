@@ -2,7 +2,11 @@
   # Hindsight long-term memory server for omp (memory.backend: hindsight in base/ai).
   # API :8888, web UI :9999; host networking keeps both behind the NixOS firewall,
   # so they are reachable only over tailscale0 (trusted in base/tailscale.nix).
-  flake.modules.nixos.host-server = {config, ...}: let
+  flake.modules.nixos.host-server = {
+    config,
+    lib,
+    ...
+  }: let
     # sops `hindsight-env`: HINDSIGHT_API_LLM_API_KEY=sk-ant-oat01-... (from `claude setup-token`),
     # unused with the ollama provider; kept for switching back to claude-code.
     envFile = config.sops.secrets.hindsight-env.path;
@@ -35,7 +39,19 @@
       };
     };
 
-    # Skip (instead of crash-looping) until the host can decrypt the token.
-    systemd.services.docker-hindsight.unitConfig.ConditionPathExists = envFile;
+    systemd.services.docker-hindsight = {
+      # Skip (instead of crash-looping) until the host can decrypt the token.
+      unitConfig = {
+        ConditionPathExists = envFile;
+        # Never give up restarting.
+        StartLimitIntervalSec = lib.mkForce 0;
+      };
+      # earlyoom SIGTERMs hindsight-api under memory pressure; the container then
+      # exits 0, which on-failure (the oci-containers default) does not restart.
+      serviceConfig = {
+        Restart = lib.mkForce "always";
+        RestartSec = "10s";
+      };
+    };
   };
 }

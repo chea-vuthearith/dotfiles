@@ -207,5 +207,20 @@
         MemoryDenyWriteExecute = lib.mkForce false;
       };
     };
+
+    # The NVR must never stay down: restart Frigate, its camera feed (go2rtc) and UI
+    # (nginx) on any exit, including a clean one after earlyoom's SIGTERM, and never
+    # hit the start rate limit. A nested module: systemd.services.* is set above.
+    imports = [
+      {
+        systemd.services = lib.genAttrs ["frigate" "go2rtc" "nginx"] (_: {
+          unitConfig.StartLimitIntervalSec = lib.mkForce 0;
+          serviceConfig = {
+            Restart = lib.mkForce "always";
+            RestartSec = lib.mkForce "10s";
+          };
+        });
+      }
+    ];
   };
 }
