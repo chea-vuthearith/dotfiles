@@ -32,7 +32,6 @@
         "boot.shell_on_fail"
       ];
       consoleLogLevel = 3;
-      initrd.verbose = false;
       loader = {
         systemd-boot.enable = false;
         grub = {
