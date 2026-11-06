@@ -90,7 +90,7 @@ Send with `herdr-msg`. It never waits for the receiver's turn, and it explains `
 herdr-msg offline-kit INFO /tmp/herdr-team/milkrun/rebased.md
 ```
 
-Without the helper: `herdr-name >/dev/null && herdr agent prompt <to> "[herdr from:<me> pane:<pane>] <KIND> …" >/dev/null`. Never add `--wait` to a reply; it blocks the sender until the receiver's whole turn settles. Raw `herdr agent prompt` submits whatever the user is typing in that prompt along with your text; `herdr-msg` clears an omp receiver's draft first and recalls it after sending.
+Without the helper: `herdr-name >/dev/null && herdr agent prompt <to> "[herdr from:<me> pane:<pane>] <KIND> …" >/dev/null`. Never add `--wait` to a reply; it blocks the sender until the receiver's whole turn settles. Raw `herdr agent prompt` types into the receiver's prompt, so it submits whatever the user is typing there along with your text; `herdr-msg` delivers to omp through its `herdr-inbox` socket and leaves the prompt alone.
 
 If the receiver is `blocked`, it is sitting at an approval dialog that belongs to the user. Wait for it to clear, then resend once:
 
