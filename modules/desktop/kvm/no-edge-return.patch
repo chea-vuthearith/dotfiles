@@ -1,0 +1,18 @@
+--- a/src/service.rs	2026-11-06 17:09:52.413003912 +0700
++++ b/src/service.rs	2026-11-06 17:10:01.314291743 +0700
+@@ -324,12 +324,9 @@
+ 
+     fn handle_capture_event(&mut self, event: ICaptureEvent) {
+         match event {
+-            ICaptureEvent::CaptureBegin(handle) => {
+-                // we entered the capture zone for an incoming connection
+-                // => notify it that its capture should be released
+-                if let Some(incoming) = self.incoming_conn_info.get(&handle) {
+-                    self.emulation.send_leave_event(incoming.addr);
+-                }
++            ICaptureEvent::CaptureBegin(_) => {
++                // dotfiles: the pointer reaching the edge facing an incoming connection no
++                // longer hands control back; only the sender's release bind does.
+             }
+             ICaptureEvent::CaptureDisabled => {
+                 self.capture_status = Status::Disabled;

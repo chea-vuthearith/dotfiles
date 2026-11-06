@@ -1,0 +1,14 @@
+--- a/src/capture.rs	2026-11-06 17:11:39.679829519 +0700
++++ b/src/capture.rs	2026-11-06 17:11:51.920565635 +0700
+@@ -301,6 +301,11 @@
+                         capture.create(h, p).await?;
+                     }
+                     CaptureRequest::Destroy(h) => {
++                        // dotfiles: deactivating the client we are sending to must release
++                        // properly (key-ups + Leave), not leave input grabbed.
++                        if self.active_client == Some(h) {
++                            self.release_capture(capture).await?;
++                        }
+                         self.remove_capture(h);
+                         capture.destroy(h).await?;
+                     }
