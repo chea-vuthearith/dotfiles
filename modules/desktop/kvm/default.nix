@@ -163,6 +163,7 @@ in {
         Description = "lan-mouse software KVM";
         PartOf = ["graphical-session.target"];
         After = ["graphical-session.target"];
+        StartLimitIntervalSec = 0;
       };
       Service = {
         ExecStart = toString (pkgs.writeShellScript "lan-mouse-kvm" ''
@@ -177,7 +178,10 @@ in {
             esac
           done
         '');
-        Restart = "on-failure";
+        # A switch restarts this mid-activation and the daemon can die on a briefly missing
+        # file; retry slowly forever instead of hitting the 5-in-10s start limit and staying down.
+        Restart = "always";
+        RestartSec = 3;
       };
       Install.WantedBy = ["graphical-session.target"];
     };
