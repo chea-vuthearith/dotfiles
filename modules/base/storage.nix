@@ -37,6 +37,9 @@
       freeMemThreshold = 5;
       freeSwapThreshold = 10;
       enableNotifications = true;
+      # Never kill the server's always-on services (frigate.nix, hindsight.nix): Frigate's
+      # processes, its go2rtc/ffmpeg camera feed and hindsight-api. Matched against comm.
+      extraArgs = ["--avoid" "^(frigate\\..*|go2rtc|ffmpeg|hindsight-api)$"];
     };
     systemd.oomd.enable = false;
   };
