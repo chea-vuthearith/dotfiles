@@ -60,7 +60,7 @@ in {
     };
     kvm = pkgs.writeShellApplication {
       name = "kvm";
-      runtimeInputs = with pkgs; [lan-mouse avahi iproute2 coreutils gnugrep gawk jq libnotify hyprland wlrctl];
+      runtimeInputs = with pkgs; [lan-mouse systemd iproute2 coreutils gnugrep gawk jq libnotify hyprland wlrctl];
       text = ''
         peer=${self.peer}
         notify() { notify-send -a "KVM" "$@" & }
@@ -88,7 +88,7 @@ in {
         # Start forwarding this machine's keyboard and mouse to the peer. Entering the peer
         # also makes the peer stop forwarding to us (lan-mouse releases on incoming Enter).
         forward() {
-          ip=$(avahi-resolve-host-name -4 "$peer.local" 2>/dev/null | awk '{print $2}')
+          ip=$(resolvectl query -4 --protocol=mdns --legend=no "$peer.local" 2>/dev/null | awk '{print $2; exit}')
           # Directly connected (no gateway), not via Tailscale/WireGuard: same physical LAN.
           route=$(ip route get "''${ip:-0.0.0.0}" 2>/dev/null || true)
           if [ -z "$ip" ] || grep -qE ' via |dev (tailscale0|wg0) ' <<<"$route"; then
