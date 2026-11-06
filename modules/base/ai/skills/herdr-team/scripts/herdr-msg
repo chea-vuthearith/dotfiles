@@ -11,7 +11,36 @@ here=$(dirname "$(readlink -f "$0")")
 me=$("$here/herdr-name")
 pane=$(herdr pane current --current | jq -r '.result.pane.pane_id')
 
+# A draft the user is typing in the receiver's omp prompt would be submitted together with
+# the message. Clear it first (ctrl+c keeps it in omp's local Up history), send, then recall
+# it with Up. omp records the sent message in that history asynchronously, so the draft is
+# one or two entries back: press Up until the composer shows the draft again. The composer
+# is the text between the screen's last two rule lines. Other agents, and agents at an
+# approval dialog (where ctrl+c would answer it), are sent to as-is.
+composer() {
+  herdr agent read "$to" --source visible 2>/dev/null |
+    awk '/^───/ { prev = last; last = NR } { line[NR] = $0 }
+         END { for (i = prev + 1; prev && i < last; i++) print line[i] }' |
+    sed 's/^[[:space:]]*//; s/[[:space:]]*$//; /^$/d' | sed -n 1p
+}
+draft=
+case "$(herdr agent get "$to" 2>/dev/null | jq -r '.result.agent | "\(.agent) \(.agent_status)"')" in
+  "omp idle" | "omp working" | "omp done")
+    draft=$(composer)
+    [ -n "$draft" ] && herdr agent send-keys "$to" ctrl+c >/dev/null ;;
+esac
+restore() {
+  [ -n "$draft" ] || return 0
+  for _ in 1 2 3 4; do
+    herdr agent send-keys "$to" up >/dev/null
+    sleep 0.2
+    [ "$(composer)" = "$draft" ] && return 0
+  done
+  echo "herdr-msg: could not restore $to's draft; it is in that prompt's Up history" >&2
+}
+
 if ! err=$(herdr agent prompt "$to" "[herdr from:$me pane:$pane] $kind $*" 2>&1 >/dev/null); then
+  restore
   case "$err" in
     *agent_not_found*) echo "herdr-msg: '$to' not found; it may have been renamed or lost its name. Use the pane ID from its last header, or find it: herdr agent list" >&2 ;;
     *agent_blocked*) echo "herdr-msg: '$to' is at an approval/question dialog (the user's). Not sent; wait for it to clear, then resend once." >&2 ;;
@@ -19,4 +48,6 @@ if ! err=$(herdr agent prompt "$to" "[herdr from:$me pane:$pane] $kind $*" 2>&1 
   esac
   exit 1
 fi
+sleep 0.3
+restore
 echo "sent to $to as $me"
