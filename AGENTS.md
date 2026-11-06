@@ -48,7 +48,7 @@ nix eval .#nixosConfigurations.<h>.config.home-manager.users.kuro.programs.zsh.s
 # deploy (zsh aliases from modules/base/zsh/default.nix)
 nsw    # git pull; nixos-rebuild switch --sudo --flake ~/dotfiles#<hostname>
 nswu   # nix flake update + nsw --upgrade
-nsws   # nsw via the other workstation's LAN harmonia cache (modules/hosts/{laptop,desktop}/zsh.nix)
+nsws   # nsw via only the other workstation's LAN harmonia cache (modules/hosts/{laptop,desktop}/zsh.nix)
 # format
 alejandra -q modules   # Nix
 stylua <file.lua>      # Lua (config: modules/base/nvim/conf/stylua.toml)
@@ -87,7 +87,8 @@ There is no `formatter`, `devShell` or `checks` output; `nix fmt` errors.
 ## Runtime/Tooling Preferences
 - Nix flakes only; never `--impure`, never `/etc/nixos` imports.
 - `secrets` input is a **private** git+ssh flake (`inputs.secrets.{sshConfig,sopsFile}`); evaluation needs the user's SSH agent, which is why `nsw` builds as the user with `--sudo`. On remote hosts use `ssh -A`.
-- Secrets use **sops-nix** (`modules/base/secrets.nix`): `secrets.yaml` (age-encrypted, recipients in its `.sops.yaml`) lives in the secrets repo and is decrypted to `/run/secrets/<name>` on activation. Each feature declares its own `sops.secrets.<name>` and reads `config.sops.secrets.<name>.path` (aria2, server harmonia/hindsight). One shared age key (the admin key, backed up in Bitwarden) is the only recipient and sits on every host at `/var/lib/sops-nix/key.txt` (`scripts/sops-setup.sh` installs and verifies it; `generateKey = false`). Edit with `./edit.sh` in the secrets repo (reads the host key via sudo), then bump the lock.
+- Secrets use **sops-nix** (`modules/base/secrets.nix`): `secrets.yaml` (age-encrypted, recipients in its `.sops.yaml`) lives in the secrets repo and is decrypted to `/run/secrets/<name>` on activation. Each feature declares its own `sops.secrets.<name>` and reads `config.sops.secrets.<name>.path` (aria2, harmonia, server hindsight). One shared age key (the admin key, backed up in Bitwarden) is the only recipient and sits on every host at `/var/lib/sops-nix/key.txt` (`scripts/sops-setup.sh` installs and verifies it; `generateKey = false`). Edit with `./edit.sh` in the secrets repo (reads the host key via sudo), then bump the lock.
+- Store mesh (`modules/base/binary-cache.nix`): every host serves its store via harmonia on `:5080` (signed with the shared `harmonia-key`) and substitutes from the other two at `<host>.local`, so only on the same LAN (mDNS via `modules/base/mdns.nix`; never Tailscale). Each host still builds locally (no `buildMachines`: offloaded builds OOMed the server). Add new hosts to its `hosts` list.
 - Fresh machine (no GitHub SSH yet): `scripts/bootstrap.sh <host>` (installed system) or `scripts/bootstrap.sh <host> --install /mnt` (installer ISO) overrides the input with `bootstrap/secrets-stub` (`sshConfig = ""`, empty `secrets.yaml`, `bootstrap = true`; lock file untouched). `secrets.nix` then skips sops validation/decryption, so sops consumers stay down until the shared key is placed and a real `nsw` runs. Keep the stub's attributes in sync with every `inputs.secrets.*` use.
 - Hand-placed by choice, never committed or in sops: `/etc/wireguard/wg0.conf`, `/var/lib/tailscale/authkey` (rotating; only needed while logged out).
 - Remote access is Tailscale SSH (MagicDNS names `laptop`, `desktop`, `server`); no OpenSSH server is configured.
