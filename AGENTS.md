@@ -57,6 +57,7 @@ There is no `formatter`, `devShell` or `checks` output; `nix fmt` errors.
 
 Agents never build on the laptop. To deploy: wake the desktop (`tailscale ssh server -- wake-desktop`), run `nsw` there over `ssh -A` first (`ssh -A -t desktop zsh -ic nsw`; the secrets input needs the forwarded agent), then `nsw` on the laptop, which then substitutes from the desktop's harmonia cache (`desktop.local`, LAN only) instead of building.
 Check first whether the desktop is already up (`tailscale ssh desktop -- true`). If you woke it for a task, power it off when you are done with it; if it was already up, leave it on. No passwordless poweroff exists yet (`sudo -n` and polkit `org.freedesktop.login1.power-off` both need a password over SSH), so ask the user to power it off.
+DMS suspends the desktop after 60 min without keyboard/mouse input, and SSH work does not count. Hold it awake during remote work: `tailscale ssh desktop -- 'systemctl --user start keep-awake.service && dms ipc call inhibit enable'`, and after: `tailscale ssh desktop -- 'dms ipc call inhibit disable; systemctl --user stop keep-awake.service'`. Skip both if `systemctl --user is-active keep-awake.service` was already `active` (the user turned it on). `systemd-inhibit --what=sleep` does not work over SSH (polkit wants interactive auth from a non-local session); `keep-awake toggle` would also mute the speakers.
 
 ## Code Conventions & Common Patterns
 - Feature module shape:
