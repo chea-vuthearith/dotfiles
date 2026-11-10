@@ -1,8 +1,8 @@
 # Worktrees
 
-An owner spawned as an omp `task` subagent works in a plain git worktree at `~/.herdr/worktrees/<repo>/<branch-slug>`, created by the orchestrator with `git worktree add` before the spawn. The subagent runs every command there, pushes its own branch and opens its own PR.
+An owner spawned as an omp `task` subagent works in a worktree the orchestrator creates before the spawn with `herdr worktree create --cwd <repo checkout> --branch <branch> --base <base> --label <slug> --no-focus`. It prints JSON: the path is `.result.root_pane.cwd` (`~/.herdr/worktrees/<repo>/<branch-slug>`), the workspace id `.result.root_pane.workspace_id`. That pane stays an idle shell; the user sees the worktree in the Herdr sidebar. The subagent runs every command there, pushes its own branch and opens its own PR. Once the branch is pushed, retire it with `herdr worktree remove --workspace <id>` (`--force` only if the user agreed to drop local changes).
 
-To move an interactive (Herdr pane) session into a worktree, ALWAYS use the `herdr_worktree` tool. NEVER do that by hand with `herdr worktree create`, `herdr pane move`, or by typing `/move`.
+To move an interactive (Herdr pane) session itself into a worktree, ALWAYS use the `herdr_worktree` tool. NEVER do that by hand with `herdr pane move` or by typing `/move`.
 
 - Move files the worktree needs before calling it; it does not copy files.
 - Call it as the LAST action of the turn, then end the turn: the session move (`/move`) runs only once you are idle. After the move you receive a "continue" prompt in the worktree; resume the remaining work there.
