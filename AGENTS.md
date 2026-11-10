@@ -49,12 +49,13 @@ nix eval .#nixosConfigurations.<h>.config.home-manager.users.kuro.programs.zsh.s
 # deploy (zsh aliases from modules/base/zsh/default.nix)
 nsw    # git pull; nixos-rebuild switch --sudo --flake ~/dotfiles#<hostname>
 nswu   # nix flake update + nsw --upgrade
-nsws   # nsw via only the other workstation's LAN harmonia cache (modules/hosts/{laptop,desktop}/zsh.nix)
 # format
 alejandra -q modules   # Nix
 stylua <file.lua>      # Lua (config: modules/base/nvim/conf/stylua.toml)
 ```
 There is no `formatter`, `devShell` or `checks` output; `nix fmt` errors.
+
+Agents never build on the laptop. To deploy: wake the desktop (`tailscale ssh server -- wake-desktop`), run `nsw` there over `ssh -A` first (`ssh -A -t desktop zsh -ic nsw`; the secrets input needs the forwarded agent), then `nsw` on the laptop, which then substitutes from the desktop's harmonia cache (`desktop.local`, LAN only) instead of building.
 
 ## Code Conventions & Common Patterns
 - Feature module shape:
