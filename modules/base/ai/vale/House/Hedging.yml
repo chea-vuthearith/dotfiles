@@ -1,0 +1,11 @@
+extends: existence
+message: "Hedge: '%s'. State it, or say what is unknown."
+level: suggestion
+ignorecase: true
+tokens:
+  - arguably
+  - it seems
+  - perhaps
+  - might be able to
+  - I think
+  - I believe

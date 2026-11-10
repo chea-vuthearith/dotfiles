@@ -19,6 +19,10 @@
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     herdr.url = "github:herdrdev/herdr";
+    superpowers = {
+      url = "github:obra/superpowers";
+      flake = false;
+    };
     apple-fonts.url = "github:Lyndeno/apple-fonts.nix";
     stylix = {
       url = "github:nix-community/stylix";

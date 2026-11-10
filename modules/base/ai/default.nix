@@ -26,13 +26,22 @@ in {
   }: let
     # Agent skills for omp, Claude Code and opencode.
     # herdr: upstream skill from the pinned herdr input; herdr-team: multi-agent protocol on top;
-    # orchestrator: plan and run branch owners; gh-stack: stacked PRs via the gh stack extension.
-    skills = {
-      herdr = "${inputs.herdr}/skills/herdr";
-      herdr-team = ./skills/herdr-team;
-      orchestrator = ./skills/orchestrator;
-      gh-stack = ./skills/gh-stack;
-    };
+    # orchestrator: plan and run branch owners; gh-stack: stacked PRs via the gh stack extension;
+    # writing: house prose rules (checked with vale below); the rest: obra/superpowers at the pinned input.
+    skills =
+      {
+        herdr = "${inputs.herdr}/skills/herdr";
+        herdr-team = ./skills/herdr-team;
+        orchestrator = ./skills/orchestrator;
+        gh-stack = ./skills/gh-stack;
+        writing = ./skills/writing;
+      }
+      // lib.genAttrs [
+        "verification-before-completion"
+        "systematic-debugging"
+        "receiving-code-review"
+        "writing-plans"
+      ] (name: "${inputs.superpowers}/skills/${name}");
     # herdr-label / herdr-name / herdr-msg, used by the herdr-team skill and agent-rules.md.
     herdrHelpers = pkgs.runCommand "herdr-agent-helpers" {nativeBuildInputs = [pkgs.makeWrapper];} ''
       mkdir -p $out/bin
@@ -54,7 +63,15 @@ in {
     imports = [inputs.omp.homeManagerModules.default];
 
     # trafilatura: HTML-to-text CLI that omp can use (previously a `uv tool` install).
-    home.packages = [pkgs.python3Packages.trafilatura herdrHelpers warmClaude];
+    home.packages = [pkgs.python3Packages.trafilatura herdrHelpers warmClaude pkgs.vale];
+    # global vale config for the writing skill; styles live in ./vale
+    xdg.configFile."vale/.vale.ini".text = ''
+      StylesPath = ${./vale}
+      MinAlertLevel = suggestion
+
+      [*.{md,txt,rst,adoc}]
+      BasedOnStyles = House
+    '';
 
     # programs.omp writes config.yml as a writable copy on every switch, so omp's
     # /settings can save until the next switch resets it.
@@ -136,6 +153,8 @@ in {
       // {
         # omp custom tools; see ./omp/tools/README.md
         ".omp/agent/tools/herdr-worktree.ts".source = ./omp/tools/herdr-worktree.ts;
+        # omp's Python LSP is ty only; pyright stays installed for nvim/zed
+        ".omp/agent/lsp.json".source = ./omp/lsp.json;
         ".omp/agent/APPEND_SYSTEM.md".text = builtins.readFile ./omp/APPEND_SYSTEM.md + "\n" + agentRules;
         # herdr-msg delivers to omp through this socket instead of typing into the prompt
         ".omp/agent/extensions/herdr-inbox.ts".source = ./omp/extensions/herdr-inbox.ts;

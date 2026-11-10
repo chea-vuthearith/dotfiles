@@ -1,0 +1,7 @@
+{
+  "servers": {
+    "pyright": {"disabled": true},
+    "basedpyright": {"disabled": true},
+    "pylsp": {"disabled": true}
+  }
+}
