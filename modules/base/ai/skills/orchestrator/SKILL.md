@@ -12,8 +12,10 @@ docs or configs yourself: owners do the edits, you plan, brief, unblock, review 
 - An owner is a kept-alive omp `task` subagent, one per PR. Short jobs (review, scout, audit, research) are
   throwaway `task` subagents.
 - Before spawning, create its worktree yourself:
-  `git worktree add -b <branch> ~/.herdr/worktrees/<repo>/<slug> <base>`. The brief names that path; the owner
-  runs every command there, pushes its own branch and opens its own PR.
+  `herdr worktree create --cwd <repo checkout> --branch <branch> --base <base> --label <slug> --no-focus`. It prints
+  JSON: the path is `.result.root_pane.cwd` (`~/.herdr/worktrees/<repo>/<branch-slug>`), the workspace id
+  `.result.root_pane.workspace_id`. That pane stays an idle shell; the user sees the worktree in the Herdr sidebar.
+  The brief names that path; the owner runs every command there, pushes its own branch and opens its own PR.
 - omp isolation stays off (`task.isolation.enabled: false`, no `isolated` spawns): the worktree is the isolation.
 - Herdr panes are only for sessions the user drives by hand, not for owners.
 
@@ -38,7 +40,8 @@ decision goes into the plan file with its reason.
    never fix the code.
 6. **Report** at milestones only: one table of what is done with evidence, then what waits on the user.
 7. **Retire** an owner when its PR merges, parks, or idles long: it writes a handoff note to the state dir first.
-   Revive from brief + handoff when the work wakes up.
+   Once its branch is pushed, `herdr worktree remove --workspace <id>` (`--force` only if the user agreed to drop
+   local changes). Revive from brief + handoff when the work wakes up.
 
 ## Waking
 - No timers, no polling, no watcher scripts. You wake on IRC messages from owners and on `task` job results.
@@ -76,6 +79,6 @@ Outside every repo, in `~/.local/state/omp-orchestrator/<repo>/`:
 | File | Holds |
 |---|---|
 | `plan.md` | agreed plan, every decision and its reason |
-| `owners.md` | owner, PR, branch, worktree, status |
+| `owners.md` | owner, PR, branch, worktree, workspace id, status |
 | `live-state.md` | during hands-on sessions: what ran, current credentials entries, what is wiped |
 | `user-queue.md` | decisions waiting on the user |
