@@ -3,7 +3,8 @@
 ## Worktrees First (mandatory)
 **Never work directly in the main worktree (`~/dotfiles`).** Before doing *any* work (first edit, `git switch`/`checkout`, `git add`, commit, rebase, stash, formatter run), worktree out:
 
-- Create the worktree with the omp `herdr_worktree` tool (`branch: "<type>/<topic>"`, `base:` the parent PR's branch when stacking, else `origin/main`), end the turn, and resume in the new workspace. Never `git worktree add`, `herdr worktree create` or `/move` by hand.
+- Owner spawned as an omp `task` subagent: the orchestrator creates a plain git worktree at `~/.herdr/worktrees/<repo>/<branch-slug>` (`git worktree add`, `base:` the parent PR's branch when stacking, else `origin/main`) before the spawn; the subagent runs every command there, pushes its own branch and opens its own PR.
+- Interactive (Herdr pane) session: move into a worktree only with the omp `herdr_worktree` tool, then end the turn and resume in the new workspace. Never `herdr worktree create` or `/move` by hand.
 - `~/dotfiles` is the deploy checkout: it stays on `main`, clean, and only ever moves by `git pull` (via `nsw`). Hot-reload symlinks point into it, so a branch checked out there goes live immediately.
 - Read-only inspection (`git log`, `git show`, `nix eval`) from `~/dotfiles` is fine. Rewriting remote PR branches needs no checkout: `git replay --ref-action=print --onto <base> <range>`, then push the printed SHAs with `--force-with-lease`.
 - If you find yourself in `~/dotfiles` with changes or off `main`, stop and move the work to a worktree before continuing.
@@ -48,12 +49,15 @@ nix eval .#nixosConfigurations.<h>.config.home-manager.users.kuro.programs.zsh.s
 # deploy (zsh aliases from modules/base/zsh/default.nix)
 nsw    # git pull; nixos-rebuild switch --sudo --flake ~/dotfiles#<hostname>
 nswu   # nix flake update + nsw --upgrade
-nsws   # nsw via only the other workstation's LAN harmonia cache (modules/hosts/{laptop,desktop}/zsh.nix)
 # format
 alejandra -q modules   # Nix
 stylua <file.lua>      # Lua (config: modules/base/nvim/conf/stylua.toml)
 ```
 There is no `formatter`, `devShell` or `checks` output; `nix fmt` errors.
+
+Agents never build on the laptop. To deploy: wake the desktop (`tailscale ssh server -- wake-desktop`), run `nsw` there over `ssh -A` first (`ssh -A -t desktop zsh -ic nsw`; the secrets input needs the forwarded agent), then `nsw` on the laptop, which then substitutes from the desktop's harmonia cache (`desktop.local`, LAN only) instead of building.
+Check first whether the desktop is already up (`tailscale ssh desktop -- true`). If you woke it for a task, power it off when you are done with it; if it was already up, leave it on. No passwordless poweroff exists yet (`sudo -n` and polkit `org.freedesktop.login1.power-off` both need a password over SSH), so ask the user to power it off.
+DMS suspends the desktop after 60 min without keyboard/mouse input, and SSH work does not count. Hold it awake during remote work: `tailscale ssh desktop -- 'systemctl --user start keep-awake.service && dms ipc call inhibit enable'`, and after: `tailscale ssh desktop -- 'dms ipc call inhibit disable; systemctl --user stop keep-awake.service'`. Skip both if `systemctl --user is-active keep-awake.service` was already `active` (the user turned it on). `systemd-inhibit --what=sleep` does not work over SSH (polkit wants interactive auth from a non-local session); `keep-awake toggle` would also mute the speakers.
 
 ## Code Conventions & Common Patterns
 - Feature module shape:

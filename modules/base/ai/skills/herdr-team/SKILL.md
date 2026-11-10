@@ -20,7 +20,8 @@ Three helpers ship with this skill (on `PATH`; otherwise in `scripts/` next to t
 | You want | Use |
 |---|---|
 | Work done and the result back to you (implement, test, review, rebase, write a doc) | omp `task` subagent (or a custom agent from `.omp/agents/`). The result returns to you; `Alt+A` shows progress. No panes, names or message files. |
-| A separate owner for a branch/PR that lives for days, talks to the user, holds a server slot | A Herdr agent in its own worktree workspace (see "Handing a branch to a new owner") |
+| A separate owner for a branch/PR | An omp `task` subagent in a plain git worktree the orchestrator created (`~/.herdr/worktrees/<repo>/<branch-slug>`); it pushes and opens its own PR |
+| A long-lived or hands-on agent that lives for days, talks to the user directly, holds a server slot | A Herdr agent in its own worktree workspace (see "Handing a branch to a new owner") |
 | To tell or ask another owner something (a rebase it needs, a shared file you will change, a server handoff) | A Herdr message (this skill) |
 
 omp's own agent messaging (`agent://`, IRC) only reaches agents in the same omp session tree. Separate Herdr agents are separate omp processes, so between them this skill is the only channel. Inside one agent's work, prefer `task`.

@@ -1,0 +1,27 @@
+extends: existence
+message: "Drop hype or AI-tell word: '%s'."
+level: warning
+ignorecase: true
+tokens:
+  - seamless(ly)?
+  - robust
+  - powerful
+  - cutting-edge
+  - game-changer
+  - leverage
+  - delve
+  - tapestry
+  - testament
+  - elevate
+  - unlock
+  - empower
+  - streamline
+  - effortless(ly)?
+  - comprehensive
+  - crucial
+  - vital
+  - pivotal
+  - navigate the
+  - in today's
+  - ever-evolving
+  - blazing(ly)? fast

@@ -1,0 +1,17 @@
+extends: existence
+message: "Cut filler: '%s'."
+level: warning
+ignorecase: true
+tokens:
+  - basically
+  - essentially
+  - actually
+  - just
+  - really
+  - very
+  - simply
+  - quite
+  - in order to
+  - it is worth noting that
+  - it should be noted that
+  - needless to say

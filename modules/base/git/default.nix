@@ -4,7 +4,20 @@
     config,
     ...
   }: {
-    home.packages = with pkgs; [git-lfs gh];
+    home.packages = [pkgs.git-lfs];
+    programs.gh = {
+      enable = true;
+      # gh stack: stacked PRs (github/gh-stack), used by the gh-stack agent skill
+      extensions = [pkgs.gh-stack];
+      # the credential helpers below stay explicit
+      gitCredentialHelper.enable = false;
+      settings = {
+        git_protocol = "https";
+        aliases.co = "pr checkout";
+      };
+    };
+    # replaces the config.yml gh wrote by hand (same settings)
+    xdg.configFile."gh/config.yml".force = true;
     programs.git = {
       enable = true;
       lfs.enable = true;

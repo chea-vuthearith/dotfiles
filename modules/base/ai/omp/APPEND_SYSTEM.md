@@ -1,6 +1,8 @@
 # Worktrees
 
-When asked to create a git worktree, work in a new worktree or branch checkout, or move yourself (your pane or session) to another worktree, ALWAYS use the `herdr_worktree` tool. NEVER do it by hand with `git worktree`, `herdr worktree create`, `herdr pane move`, or by typing `/move`.
+An owner spawned as an omp `task` subagent works in a plain git worktree at `~/.herdr/worktrees/<repo>/<branch-slug>`, created by the orchestrator with `git worktree add` before the spawn. The subagent runs every command there, pushes its own branch and opens its own PR.
+
+To move an interactive (Herdr pane) session into a worktree, ALWAYS use the `herdr_worktree` tool. NEVER do that by hand with `herdr worktree create`, `herdr pane move`, or by typing `/move`.
 
 - Move files the worktree needs before calling it; it does not copy files.
 - Call it as the LAST action of the turn, then end the turn: the session move (`/move`) runs only once you are idle. After the move you receive a "continue" prompt in the worktree; resume the remaining work there.
