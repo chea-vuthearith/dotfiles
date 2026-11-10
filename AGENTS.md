@@ -3,7 +3,8 @@
 ## Worktrees First (mandatory)
 **Never work directly in the main worktree (`~/dotfiles`).** Before doing *any* work (first edit, `git switch`/`checkout`, `git add`, commit, rebase, stash, formatter run), worktree out:
 
-- Create the worktree with the omp `herdr_worktree` tool (`branch: "<type>/<topic>"`, `base:` the parent PR's branch when stacking, else `origin/main`), end the turn, and resume in the new workspace. Never `git worktree add`, `herdr worktree create` or `/move` by hand.
+- Owner spawned as an omp `task` subagent: the orchestrator creates a plain git worktree at `~/.herdr/worktrees/<repo>/<branch-slug>` (`git worktree add`, `base:` the parent PR's branch when stacking, else `origin/main`) before the spawn; the subagent runs every command there, pushes its own branch and opens its own PR.
+- Interactive (Herdr pane) session: move into a worktree only with the omp `herdr_worktree` tool, then end the turn and resume in the new workspace. Never `herdr worktree create` or `/move` by hand.
 - `~/dotfiles` is the deploy checkout: it stays on `main`, clean, and only ever moves by `git pull` (via `nsw`). Hot-reload symlinks point into it, so a branch checked out there goes live immediately.
 - Read-only inspection (`git log`, `git show`, `nix eval`) from `~/dotfiles` is fine. Rewriting remote PR branches needs no checkout: `git replay --ref-action=print --onto <base> <range>`, then push the printed SHAs with `--force-with-lease`.
 - If you find yourself in `~/dotfiles` with changes or off `main`, stop and move the work to a worktree before continuing.

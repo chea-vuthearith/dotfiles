@@ -25,10 +25,13 @@ in {
     ...
   }: let
     # Agent skills for omp, Claude Code and opencode.
-    # herdr: upstream skill from the pinned herdr input; herdr-team: multi-agent protocol on top.
+    # herdr: upstream skill from the pinned herdr input; herdr-team: multi-agent protocol on top;
+    # orchestrator: plan and run branch owners; gh-stack: stacked PRs via the gh stack extension.
     skills = {
       herdr = "${inputs.herdr}/skills/herdr";
       herdr-team = ./skills/herdr-team;
+      orchestrator = ./skills/orchestrator;
+      gh-stack = ./skills/gh-stack;
     };
     # herdr-label / herdr-name / herdr-msg, used by the herdr-team skill and agent-rules.md.
     herdrHelpers = pkgs.runCommand "herdr-agent-helpers" {nativeBuildInputs = [pkgs.makeWrapper];} ''
@@ -86,6 +89,10 @@ in {
           };
           # keep each handoff summary on disk, so decisions lost in compaction can be looked up
           handoffSaveToDisk = true;
+          # compact an idle agent above 200k before its prompt cache goes cold
+          idleEnabled = true;
+          # notes-backed context windows: rollover keeps a notebook + searchable full history instead of lossy summaries
+          experimentalContextManagement = true;
         };
         # many herdr agents share one repo: refuse stash / reset --hard / checkout that discard others' work
         bash.gitGuard = true;
@@ -97,7 +104,8 @@ in {
           quiet = true;
           checkUpdate = false;
         };
-        autolearn.enabled = true;
+        # skills stay declarative (modules/base/ai/skills/); autolearn would write unmanaged ones to ~/.omp/agent/managed-skills
+        autolearn.enabled = false;
         symbolPreset = "nerd";
         composer.shape = "pi";
         theme = {
