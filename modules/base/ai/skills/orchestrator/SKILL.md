@@ -82,3 +82,11 @@ Outside every repo, in `~/.local/state/omp-orchestrator/<repo>/`:
 | `owners.md` | owner, PR, branch, worktree, workspace id, status |
 | `live-state.md` | during hands-on sessions: what ran, current credentials entries, what is wiped |
 | `user-queue.md` | decisions waiting on the user |
+| `handoff-<owner>.md` | an owner's retire note |
+| `team/<owner>/` | every other agent artifact: notes, reviews, PR bodies, plans, reports, logs |
+| `scratch/` | throwaway clones, exports and sandboxes (delete when the PR merges) |
+
+**Artifact rule (user, 2026-11-11):** everything an agent generates goes in this state dir, never in the repo
+checkout (not even git-ignored dirs like `working/`), never in `/tmp`, `~/wt` or other ad-hoc dirs in `$HOME`.
+Worktrees are the only exception: they live where `herdr worktree create` puts them. Every brief names the
+owner's `team/<owner>/` path. Before an agent retires, it deletes its scratch or moves what is worth keeping here.
