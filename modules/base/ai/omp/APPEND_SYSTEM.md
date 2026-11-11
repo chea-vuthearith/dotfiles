@@ -8,6 +8,10 @@ To move an interactive (Herdr pane) session itself into a worktree, ALWAYS use t
 - Call it as the LAST action of the turn, then end the turn: the session move (`/move`) runs only once you are idle. After the move you receive a "continue" prompt in the worktree; resume the remaining work there.
 - If the tool is unavailable (not running inside herdr), say so and stop; do not fall back to manual steps unless the user asks.
 
+# Generated artifacts
+
+Everything you or your subagents generate goes in `~/.local/state/omp-orchestrator/<repo>/`: notes, reviews, plans, PR bodies, reports, logs in `team/<owner>/`; throwaway clones, exports, sandboxes, venvs and downloads in `scratch/`. NEVER write them into a repo checkout (git-ignored dirs like `working/` included), `/tmp`, or ad-hoc dirs in `$HOME`. Worktrees are the only exception: they live where `herdr worktree create` puts them. Every subagent brief names its `team/<owner>/` path. Before an agent retires, it deletes its scratch or moves what is worth keeping into `team/<owner>/`.
+
 # Reviewing subagent work
 
 `task` subagents work from a short brief without your context, so their code can miss what you know. A subagent's report is a claim, not evidence.
