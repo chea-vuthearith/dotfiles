@@ -26,8 +26,10 @@ in {
         map (h: "http://${h}.local:${toString cachePort}?priority=20")
         (builtins.filter (h: h != config.networking.hostName) hosts);
       extra-trusted-public-keys = ["server-1:fEDN/SamiRBT+SbeNiVEbpng9uAPkjSAgGPYjCtKb84="];
-      # A peer asleep or off this LAN: give up quickly and fetch/build elsewhere.
+      # A peer asleep, off or away from this LAN: give up after one try and
+      # fetch/build elsewhere. Global (nix has no per-substituter retry setting).
       connect-timeout = 5;
+      download-attempts = 1;
       fallback = true;
     };
   };
