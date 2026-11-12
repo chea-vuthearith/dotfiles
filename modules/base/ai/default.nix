@@ -189,7 +189,7 @@ in {
     # Copied writable for the same reason programs.omp copies config.yml.
     home.activation.ompPersonalProfile = let
       yaml = pkgs.formats.yaml {};
-      model = "qwen3.5:9b";
+      model = "ornith-1.5:9b";
       settings = lib.recursiveUpdate config.programs.omp.settings {
         modelRoles.default = "ollama/${model}";
       };
@@ -200,9 +200,9 @@ in {
         models = [
           {
             id = model;
-            name = "Qwen3.5 9B (desktop)";
+            name = "Ornith 1.5 9B (desktop)";
             reasoning = true;
-            input = ["text" "image"];
+            input = ["text"];
             # = OLLAMA_CONTEXT_LENGTH on the desktop
             contextWindow = 32768;
             maxTokens = 8192;

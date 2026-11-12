@@ -11,11 +11,12 @@
       rocmOverrideGfx = "10.3.0";
       host = "0.0.0.0";
       # Pulled on every start (ollama-model-loader); kept even when dropped from this list.
-      # Researched 2026-11 for 8 GB VRAM and agent tool calling:
-      #   qwen3.5:9b  strongest tool calling that fits (BFCL-V4 66.1); small KV cache (hybrid attention)
-      #   gemma4:e4b  top 8 GB pick on localagentbench.com (94.7)
-      #   qwen3.5:4b  smaller fallback that leaves room for long context
-      loadModels = ["qwen3.5:9b" "gemma4:e4b" "qwen3.5:4b"];
+      # Newest models that fit 8 GB, researched 2026-11 for agent tool calling and coding:
+      #   ornith-1.5:9b          Qwen3.5-9B + RL (2026-08); SWE-bench Verified 70.6 vs Qwen3.5-9B's 53.2;
+      #                          small KV cache (hybrid attention). omp's `personal` profile uses this one.
+      #   nemotron-3.5-bolt:e4b  Gemma 4 E4B + NVIDIA tool-use RL (2026-10); beats Gemma 4 E4B on BFCL/Tau2
+      #   gemma4:e4b             top 8 GB model on localagentbench.com (94.7)
+      loadModels = ["ornith-1.5:9b" "nemotron-3.5-bolt:e4b" "gemma4:e4b"];
       environmentVariables = {
         # Ollama defaults to 4k below 24 GB VRAM; omp's system prompt and tools alone need more.
         OLLAMA_CONTEXT_LENGTH = "32768";
