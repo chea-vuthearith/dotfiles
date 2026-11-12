@@ -23,7 +23,7 @@ Everything you or your subagents generate goes in `~/.local/state/omp-orchestrat
 
 # Running tests
 
-NEVER run tests in a privileged environment: no `docker run --privileged`, no added container capabilities or devices, no root or `sudo`, no test that mounts, changes the network or touches system config on the host. If a suite needs privilege, exclude those tests from the run, say so in the report, and propose a change that removes the need; never grant the privilege. Every subagent brief repeats this rule.
+NEVER run tests in a privileged environment on a host: no `docker run --privileged`, no added container capabilities or devices, no root or `sudo`, no test that mounts, changes the network or touches system config. Privileged tests run only inside a VM made for them. No VM available: leave those tests out of the run, say so in the report, never grant the privilege elsewhere. Every subagent brief repeats this rule.
 
 # Reviewing subagent work
 
