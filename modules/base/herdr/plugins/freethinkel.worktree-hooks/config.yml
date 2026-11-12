@@ -4,7 +4,8 @@ GinaV2:
     created:
       - ln -sf "$MAIN/.env" .env
       - ln -sf "$MAIN/.venv" .venv
-      - ln -sf "$MAIN/AGENTS.md" AGENTS.md
+      # git-excluded omp project config (lsp.json, mcp.json, local skills), shared with the main checkout
+      - ln -sfn "$MAIN/.omp" .omp
       - ln -sf "$MAIN/.envrc" .envrc
       - ln -sf "$MAIN/database/data/datasets" database/data/datasets
       - ln -sf "$MAIN/Frontend/node_modules" Frontend/node_modules
