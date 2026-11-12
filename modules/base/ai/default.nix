@@ -145,6 +145,8 @@ in {
         followUpMode = "all";
         # inline tail of spilled tool output (default 500 lines, ~2.5K tokens); the rest stays readable as artifact://
         tools.artifactTailLines = 200;
+        # task subagents get the lsp tool (definitions, references, renames) instead of grep
+        task.enableLsp = true;
       };
     };
 
