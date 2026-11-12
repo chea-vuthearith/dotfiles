@@ -155,6 +155,8 @@ in {
       // {
         # omp custom tools; see ./omp/tools/README.md
         ".omp/agent/tools/herdr-worktree.ts".source = ./omp/tools/herdr-worktree.ts;
+        # session-start tool check in one eval cell (APPEND_SYSTEM.md "Tool check at session start")
+        ".omp/agent/toolcheck.py".source = ./omp/toolcheck.py;
         # omp's Python LSP is ty only; pyright stays installed for nvim/zed
         ".omp/agent/lsp.json".source = ./omp/lsp.json;
         ".omp/agent/APPEND_SYSTEM.md".text = builtins.readFile ./omp/APPEND_SYSTEM.md + "\n" + agentRules;
