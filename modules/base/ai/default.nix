@@ -150,32 +150,78 @@ in {
       };
     };
 
-    home.file =
-      lib.mapAttrs' (name: src: lib.nameValuePair ".omp/agent/skills/${name}" {source = src;}) skills
-      // {
-        # omp custom tools; see ./omp/tools/README.md
-        ".omp/agent/tools/herdr-worktree.ts".source = ./omp/tools/herdr-worktree.ts;
-        # session-start tool check in one eval cell (APPEND_SYSTEM.md "Tool check at session start")
-        ".omp/agent/toolcheck.py".source = ./omp/toolcheck.py;
-        # omp's Python LSP is ty only; pyright stays installed for nvim/zed
-        ".omp/agent/lsp.json".source = ./omp/lsp.json;
-        ".omp/agent/APPEND_SYSTEM.md".text = builtins.readFile ./omp/APPEND_SYSTEM.md + "\n" + agentRules;
-        # herdr-msg delivers to omp through this socket instead of typing into the prompt
-        ".omp/agent/extensions/herdr-inbox.ts".source = ./omp/extensions/herdr-inbox.ts;
-        # herdr's omp integration (state reporting + session resume), generated from the
-        # pinned herdr instead of a manual `herdr integration install omp`.
-        # force: replaces the copy herdr installed by hand.
-        ".omp/agent/extensions/herdr-omp-agent-state.ts" = {
-          force = true;
-          source = "${
-            pkgs.runCommand "herdr-omp-integration" {} ''
-              export HOME=$out XDG_CONFIG_HOME=$out/.config
-              mkdir -p $out/.omp/agent/extensions
-              ${pkgs.herdr}/bin/herdr integration install omp
-            ''
-          }/.omp/agent/extensions/herdr-omp-agent-state.ts";
+    # Everything under ~/.omp/agent is mirrored into the `personal` profile
+    # (`omp --profile personal`), which otherwise sees none of the default profile's config.
+    home.file = let
+      agentFiles =
+        lib.mapAttrs' (name: src: lib.nameValuePair "skills/${name}" {source = src;}) skills
+        // {
+          # omp custom tools; see ./omp/tools/README.md
+          "tools/herdr-worktree.ts".source = ./omp/tools/herdr-worktree.ts;
+          # session-start tool check in one eval cell (APPEND_SYSTEM.md "Tool check at session start")
+          "toolcheck.py".source = ./omp/toolcheck.py;
+          # omp's Python LSP is ty only; pyright stays installed for nvim/zed
+          "lsp.json".source = ./omp/lsp.json;
+          "APPEND_SYSTEM.md".text = builtins.readFile ./omp/APPEND_SYSTEM.md + "\n" + agentRules;
+          # herdr-msg delivers to omp through this socket instead of typing into the prompt
+          "extensions/herdr-inbox.ts".source = ./omp/extensions/herdr-inbox.ts;
+          # herdr's omp integration (state reporting + session resume), generated from the
+          # pinned herdr instead of a manual `herdr integration install omp`.
+          # force: replaces the copy herdr installed by hand.
+          "extensions/herdr-omp-agent-state.ts" = {
+            force = true;
+            source = "${
+              pkgs.runCommand "herdr-omp-integration" {} ''
+                export HOME=$out XDG_CONFIG_HOME=$out/.config
+                mkdir -p $out/.omp/agent/extensions
+                ${pkgs.herdr}/bin/herdr integration install omp
+              ''
+            }/.omp/agent/extensions/herdr-omp-agent-state.ts";
+          };
         };
+      under = dir: lib.mapAttrs' (path: file: lib.nameValuePair "${dir}/${path}" file) agentFiles;
+    in
+      under ".omp/agent" // under ".omp/profiles/personal/agent";
+
+    # The `personal` profile: the default profile's settings, but the main model runs on the
+    # desktop's Ollama (hosts/desktop/ollama.nix) over Tailscale. Only that one model is
+    # declared (no discovery), so the other pulled models stay out of omp's model list.
+    # Copied writable for the same reason programs.omp copies config.yml.
+    home.activation.ompPersonalProfile = let
+      yaml = pkgs.formats.yaml {};
+      model = "qwen3.5:9b";
+      settings = lib.recursiveUpdate config.programs.omp.settings {
+        modelRoles.default = "ollama/${model}";
       };
+      models.providers.ollama = {
+        baseUrl = "http://desktop:11434";
+        api = "openai-completions";
+        auth = "none";
+        models = [
+          {
+            id = model;
+            name = "Qwen3.5 9B (desktop)";
+            reasoning = true;
+            input = ["text" "image"];
+            # = OLLAMA_CONTEXT_LENGTH on the desktop
+            contextWindow = 32768;
+            maxTokens = 8192;
+            cost = {
+              input = 0;
+              output = 0;
+              cacheRead = 0;
+              cacheWrite = 0;
+            };
+          }
+        ];
+      };
+      dir = "$HOME/.omp/profiles/personal/agent";
+    in
+      lib.hm.dag.entryAfter ["writeBoundary"] ''
+        run mkdir -p "${dir}"
+        run install -m 600 ${yaml.generate "omp-personal-config.yml" settings} "${dir}/config.yml"
+        run install -m 600 ${yaml.generate "omp-personal-models.yml" models} "${dir}/models.yml"
+      '';
 
     # A Claude subscription's 5-hour window starts with the first message an
     # account receives and lives for 5 hours, so a tiny message at 07:00 buys a
