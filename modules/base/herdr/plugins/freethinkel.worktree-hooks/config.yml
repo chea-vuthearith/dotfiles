@@ -1,11 +1,16 @@
+# "*": every repo's new worktrees (patched in; see ../../patches). Runs before the project's own hooks.
+"*":
+  git_worktree_hooks:
+    created:
+      # git-excluded omp project config (lsp.json, mcp.json, local skills), shared with the main checkout
+      - '[ -e "$MAIN/.omp" ] && [ ! -e .omp ] && ln -s "$MAIN/.omp" .omp || true'
+
 GinaV2:
   dir: ~/code/work/groundup/GinaV2
   git_worktree_hooks:
     created:
       - ln -sf "$MAIN/.env" .env
       - ln -sf "$MAIN/.venv" .venv
-      # git-excluded omp project config (lsp.json, mcp.json, local skills), shared with the main checkout
-      - ln -sfn "$MAIN/.omp" .omp
       - ln -sf "$MAIN/.envrc" .envrc
       - ln -sf "$MAIN/database/data/datasets" database/data/datasets
       - ln -sf "$MAIN/Frontend/node_modules" Frontend/node_modules
