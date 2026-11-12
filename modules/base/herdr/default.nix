@@ -145,6 +145,15 @@
         runtimeInputs = [pkgs.herdr pkgs.jq pkgs.git pkgs.fzf pkgs.gawk];
         text = builtins.readFile ./worktree.sh;
       })
+      # move omp sessions to another machine (prefix+m / prefix+shift+m in config.toml);
+      # omp itself comes from PATH (programs.omp)
+      (pkgs.writeShellApplication {
+        name = "herdr-ship";
+        runtimeInputs = [pkgs.herdr pkgs.jq pkgs.git pkgs.rsync pkgs.openssh pkgs.procps pkgs.util-linux];
+        text = builtins.readFile ./ship.sh;
+      })
+      # herdr-ship's receiving end runs rsync from the login PATH
+      pkgs.rsync
     ];
 
     programs.zsh.shellAliases = {
