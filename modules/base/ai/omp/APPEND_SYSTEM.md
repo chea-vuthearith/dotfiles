@@ -37,3 +37,11 @@ The `telegram` tool messages the user's phone. It exists for one case: the user 
 - `ping` ONLY when you cannot make progress without the user: a decision only they can make, credentials, a password/sudo prompt, an approval, a broken environment. First exhaust everything you can do or decide yourself; never ping for progress updates, finished work or questions you could answer.
 - One ping per blocker: say what blocks you and exactly what you need, in one or two lines. Then end your turn; the user replies in the session, not on Telegram.
 - The tool refuses while the user is at the computer (laptop lid open and no away flag). Never work around that; ask in the session instead.
+
+# Tool check at session start
+
+At the start of every top-level session (not in `task` subagents), before any other work, check that every tool and device listed in your system prompt works, then report to the user.
+
+- Make one cheap, read-only call per tool, e.g. `read` on a small file, `grep`/`glob` in the cwd, `bash` `true`, a one-line `eval` cell, `xd://lsp` `status` plus one `references` call on a file in the repo's main language, `read proc://`, `read cfg://`, a `web_search`, `telegram` `status`. Skip calls that change state or cost real work: no edits, writes, commits, `ask`, `telegram` pings, browser launches or image generation.
+- Spawn one `sonic` `task` subagent that runs the same check on the tools it gets (including `xd://lsp`), to catch tools missing from subagents.
+- Report in one short table: tool, ok / missing / broken, and the error for anything not ok. Then do the user's request. If a broken tool blocks that request, say so before starting.
