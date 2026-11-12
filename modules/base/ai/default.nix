@@ -183,46 +183,6 @@ in {
     in
       under ".omp/agent" // under ".omp/profiles/personal/agent";
 
-    # The `personal` profile: the default profile's settings, but the main model runs on the
-    # desktop's Ollama (hosts/desktop/ollama.nix) over Tailscale. Only that one model is
-    # declared (no discovery), so the other pulled models stay out of omp's model list.
-    # Copied writable for the same reason programs.omp copies config.yml.
-    home.activation.ompPersonalProfile = let
-      yaml = pkgs.formats.yaml {};
-      model = "ornith-1.5:9b";
-      settings = lib.recursiveUpdate config.programs.omp.settings {
-        modelRoles.default = "ollama/${model}";
-      };
-      models.providers.ollama = {
-        baseUrl = "http://desktop:11434";
-        api = "openai-completions";
-        auth = "none";
-        models = [
-          {
-            id = model;
-            name = "Ornith 1.5 9B (desktop)";
-            reasoning = true;
-            input = ["text"];
-            # = OLLAMA_CONTEXT_LENGTH on the desktop
-            contextWindow = 32768;
-            maxTokens = 8192;
-            cost = {
-              input = 0;
-              output = 0;
-              cacheRead = 0;
-              cacheWrite = 0;
-            };
-          }
-        ];
-      };
-      dir = "$HOME/.omp/profiles/personal/agent";
-    in
-      lib.hm.dag.entryAfter ["writeBoundary"] ''
-        run mkdir -p "${dir}"
-        run install -m 600 ${yaml.generate "omp-personal-config.yml" settings} "${dir}/config.yml"
-        run install -m 600 ${yaml.generate "omp-personal-models.yml" models} "${dir}/models.yml"
-      '';
-
     # A Claude subscription's 5-hour window starts with the first message an
     # account receives and lives for 5 hours, so a tiny message at 07:00 buys a
     # window that covers the working day. Every Anthropic account gets one
