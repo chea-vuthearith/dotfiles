@@ -23,9 +23,20 @@
       rev,
       sha256,
       dirName,
+      patches ? [],
     }: let
-      src = pkgs.fetchFromGitHub {inherit owner repo rev sha256;};
-      manifest = fromTOML (builtins.readFile "${src}/herdr-plugin.toml");
+      fetched = pkgs.fetchFromGitHub {inherit owner repo rev sha256;};
+      src =
+        if patches == []
+        then fetched
+        else
+          pkgs.applyPatches {
+            name = "herdr-${dirName}-plugin";
+            src = fetched;
+            inherit patches;
+          };
+      # read from the fetched source so evaluation never builds the patched one
+      manifest = fromTOML (builtins.readFile "${fetched}/herdr-plugin.toml");
       pluginDir = "${pluginsDir}/${dirName}";
     in {
       json =
@@ -102,6 +113,8 @@
         rev = "3c0257b5223f6e7bdaec3623824a6c58c6eee1cd";
         sha256 = "sha256-wkfVKTxZYjy2Qf0WBHLJzLxXpAEbx5AASdmk/gpdWOU=";
         dirName = "freethinkel.worktree-hooks";
+        # adds a "*" entry whose `created` commands run in every repo's new worktrees
+        patches = [./patches/worktree-hooks-all-repos.patch];
       })
       (mkPlugin {
         owner = "lmilojevicc";

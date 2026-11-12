@@ -1,0 +1,92 @@
+diff -r a/bin/event.mjs b/bin/event.mjs
+--- a/bin/event.mjs	2026-11-12 11:54:33.785320641 +0700
++++ b/bin/event.mjs	2026-11-12 11:54:54.232157518 +0700
+@@ -2,6 +2,7 @@
+ // Event hook for worktree.created / workspace.created / workspace.focused (create
+ // path) and worktree.removed (remove path). Runs the matching project's commands
+ // from the single YAML config, exactly once per worktree.
++import path from "node:path";
+ import { loadConfig, matchProject } from "../src/config.mjs";
+ import {
+   eventFacts,
+@@ -22,7 +23,7 @@
+ 
+ function handleCreated() {
+   const { config } = loadConfig(env);
+-  if (!config.projects.length) return;
++  if (!config.projects.length && !config.all) return;
+ 
+   const f = eventFacts(env);
+   const isFocus = event.includes("focus");
+@@ -55,16 +56,19 @@
+   if (!fresh) return done();
+ 
+   const project = matchProject(config, repoRoot, repoName);
+-  if (!project) return done(`no project matches repo ${repoRoot ?? repoName}`);
++  const main = project?.dir ?? (repoRoot ? path.resolve(repoRoot) : null);
++  const commands = [...(main ? config.all?.created ?? [] : []), ...(project?.created ?? [])];
++  if (!commands.length) return done(`no project matches repo ${repoRoot ?? repoName}`);
++  const name = project?.name ?? repoName ?? "*";
+ 
+   if (!claim(env, checkoutPath)) return done(); // already ran for this worktree
+-  saveMapping(env, checkoutPath, { name: project.name });
++  if (project) saveMapping(env, checkoutPath, { name: project.name });
+ 
+-  log(`created [${project.name}] -> ${checkoutPath}`);
+-  const ok = runCommands(project.created, {
++  log(`created [${name}] -> ${checkoutPath}`);
++  const ok = runCommands(commands, {
+     cwd: checkoutPath,
+     env,
+-    extra: { PROJECT: project.name, MAIN: project.dir, WORKTREE: checkoutPath, EVENT: "created" },
++    extra: { PROJECT: name, MAIN: main, WORKTREE: checkoutPath, EVENT: "created" },
+     log,
+   });
+   if (!ok) release(env, checkoutPath); // failed — allow a retry next time
+diff -r a/src/config.mjs b/src/config.mjs
+--- a/src/config.mjs	2026-11-12 11:54:33.784535559 +0700
++++ b/src/config.mjs	2026-11-12 11:55:14.320038983 +0700
+@@ -43,8 +43,11 @@
+ }
+ 
+ // Config root: { <project>: { dir, git_worktree_hooks: { created: [...], removed: [...] } } }
++// The reserved key "*" (no `dir`) holds `created` commands run in every new linked
++// worktree of any repo, before the matching project's own; $MAIN is the repo root.
+ export function validateConfig(raw) {
+   const projects = [];
++  let all = null;
+   if (raw == null) return { projects };
+   if (typeof raw !== "object" || Array.isArray(raw)) {
+     throw new ConfigError("config root must be a mapping of project -> settings");
+@@ -52,14 +55,19 @@
+   for (const [name, entry] of Object.entries(raw)) {
+     if (typeof entry !== "object" || entry == null || Array.isArray(entry)) {
+       throw new ConfigError(`project "${name}" must be a mapping`);
+-    }
+-    if (typeof entry.dir !== "string" || entry.dir.trim() === "") {
+-      throw new ConfigError(`project "${name}": "dir" is required`);
+     }
+     const hooks = entry.git_worktree_hooks ?? {};
+     if (typeof hooks !== "object" || Array.isArray(hooks)) {
+       throw new ConfigError(`project "${name}": git_worktree_hooks must be a mapping`);
+     }
++    if (name === "*") {
++      if (hooks.removed != null) throw new ConfigError(`project "*": only "created" is supported`);
++      all = { created: asCommands(hooks.created, `project "*": created`) };
++      continue;
++    }
++    if (typeof entry.dir !== "string" || entry.dir.trim() === "") {
++      throw new ConfigError(`project "${name}": "dir" is required`);
++    }
+     projects.push({
+       name,
+       dir: path.resolve(expandHome(entry.dir)),
+@@ -67,7 +75,7 @@
+       removed: asCommands(hooks.removed, `project "${name}": removed`),
+     });
+   }
+-  return { projects };
++  return all ? { projects, all } : { projects };
+ }
+ 
+ export function loadConfig(env = process.env) {
