@@ -21,6 +21,10 @@ When asked to move yourself (your session or pane) to the server or another mach
 
 Everything you or your subagents generate goes in `~/.local/state/omp-orchestrator/<repo>/`: notes, reviews, plans, PR bodies, reports, logs in `team/<owner>/`; throwaway clones, exports, sandboxes, venvs and downloads in `scratch/`. NEVER write them into a repo checkout (git-ignored dirs like `working/` included), `/tmp`, or ad-hoc dirs in `$HOME`. Worktrees are the only exception: they live where `herdr worktree create` puts them. Every subagent brief names its `team/<owner>/` path. Before an agent retires, it deletes its scratch or moves what is worth keeping into `team/<owner>/`.
 
+# Running tests
+
+NEVER run tests in a privileged environment on a host: no `docker run --privileged`, no added container capabilities or devices, no root or `sudo`, no test that mounts, changes the network or touches system config. Privileged tests run only inside a VM made for them. No VM available: leave those tests out of the run, say so in the report, never grant the privilege elsewhere. Every subagent brief repeats this rule.
+
 # Reviewing subagent work
 
 `task` subagents work from a short brief without your context, so their code can miss what you know. A subagent's report is a claim, not evidence.
