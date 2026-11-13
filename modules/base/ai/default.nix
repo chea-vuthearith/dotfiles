@@ -93,16 +93,21 @@ in {
           # frequent, trivial outputs
           commit = "anthropic/claude-haiku-5-5:high";
           tiny = "anthropic/claude-haiku-5-5:high";
+          # opt-in only: grants fable to per-call task/eval model selection, never routed by default
+          fable = "anthropic/claude-fable-5-2";
         };
         # sessions and task subagents stay on opus-low; haiku only for commit/tiny/smol utility work
         prewalk.enabled = false;
         task.prewalk = false;
+        # task/eval calls may pick an exact operator-approved model (roles above) per spawn
+        task.perCallModel = "on";
         compaction = {
           enabled = true;
           # fixed triggers per model: opus compact at 327k, haiku at 475k
           modelThresholds = {
             "anthropic/claude-opus-5-5" = "f327000";
             "anthropic/claude-haiku-5-5" = "f475000";
+            "anthropic/claude-fable-5-2" = "f327000";
           };
           # keep each handoff summary on disk, so decisions lost in compaction can be looked up
           handoffSaveToDisk = true;
