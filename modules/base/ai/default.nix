@@ -97,6 +97,8 @@ in {
         # sessions and task subagents stay on opus-low; haiku only for commit/tiny/smol utility work
         prewalk.enabled = false;
         task.prewalk = false;
+        # task/eval calls may pick an exact operator-approved model (roles above) per spawn
+        task.perCallModel = "on";
         compaction = {
           enabled = true;
           # fixed triggers per model: opus compact at 327k, haiku at 475k
