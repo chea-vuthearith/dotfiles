@@ -107,6 +107,7 @@ in {
           modelThresholds = {
             "anthropic/claude-opus-5-5" = "f327000";
             "anthropic/claude-haiku-5-5" = "f475000";
+            "anthropic/claude-fable-5-2" = "f327000";
           };
           # keep each handoff summary on disk, so decisions lost in compaction can be looked up
           handoffSaveToDisk = true;
