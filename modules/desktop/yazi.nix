@@ -1,14 +1,5 @@
 {...}: {
-  flake.modules.homeManager.desktop = {pkgs, ...}: let
-    # Terminal multiplexers (herdr) may outlive or predate the graphical session
-    # and lack WAYLAND_DISPLAY/DISPLAY; pull them from the systemd user manager.
-    gui = pkgs.writeShellScript "yazi-gui-env" ''
-      eval "$(${pkgs.systemd}/bin/systemctl --user show-environment \
-        | ${pkgs.gnugrep}/bin/grep -E '^(WAYLAND_DISPLAY|DISPLAY)=' \
-        | ${pkgs.gnused}/bin/sed 's/^/export /')"
-      exec "$@"
-    '';
-  in {
+  flake.modules.homeManager.desktop = {pkgs, ...}: {
     home.packages = [pkgs.dragon-drop]; # <C-n> below
     programs.yazi = {
       enable = true;
@@ -25,19 +16,19 @@
         }
         {
           on = "<C-n>";
-          run = ''shell -- ${gui} dragon-drop -x -i -a -T "$@"'';
+          run = ''shell -- dragon-drop -x -i -a -T "$@"'';
         }
         {
           on = "y";
           run = [
             ''
-              shell -- for path in "$@"; do echo "file://$path"; done | ${gui} wl-copy -t text/uri-list''
+              shell -- for path in "$@"; do echo "file://$path"; done | wl-copy -t text/uri-list''
             "yank"
           ];
         }
         {
           on = "P";
-          run = "shell -- ${gui} wl-paste > pasted-image.png";
+          run = "shell -- wl-paste > pasted-image.png";
           desc = "Paste image from clipboard";
         }
         {
