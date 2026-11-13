@@ -2,8 +2,8 @@
   # Frigate NVR for the Hikvision DS-IPC-B12HV2-IA (PoE, 1080p H.264 + G.711 audio).
   # go2rtc holds the only camera connection and restreams it on 127.0.0.1:8554; Frigate
   # records the main stream, detects on the sub stream. UI: http://server/ over the tailnet
-  # or the server's LAN IP (nginx :80), plus https://server.orfe-mizar.ts.net/ (:443, Tailscale
-  # cert). Frigate login required. First login: admin, with
+  # or the server's LAN IP (nginx :80), and publicly at https://server.orfe-mizar.ts.net/
+  # (Tailscale Funnel -> nginx :80). Frigate login required. First login: admin, with
   # the password Frigate prints once to `journalctl -u frigate`.
   flake.modules.nixos.host-server = {
     config,
@@ -19,7 +19,6 @@
     # nixpkgs points `.model` at `ssdlite_mobilnet_v2.xml` (sic); the file is spelled correctly.
     ssdlite = pkgs.frigate.models.openvino.ssdlite_mobilenet_v2_coco;
     tsName = "server.orfe-mizar.ts.net";
-    tsCertDir = "/var/lib/tailscale-cert";
   in {
     sops.secrets.cctv-pw = {};
     sops.templates.go2rtc-env = {
@@ -119,16 +118,15 @@
       };
     };
 
-    networking.firewall.allowedTCPPorts = [80 443];
+    networking.firewall.allowedTCPPorts = [80];
 
-    # HTTPS next to plain HTTP (addSSL keeps :80 serving). `tailscale cert` fetches a Let's
-    # Encrypt cert for the MagicDNS name (needs HTTPS enabled in the tailnet admin console);
-    # the daily timer renews it (tailscale only re-issues near expiry) and reloads nginx.
+    # Public HTTPS via Tailscale Funnel: tailscaled terminates TLS for the MagicDNS name (its
+    # own cert) on :443 and proxies to nginx :80, whose serverAlias matches the Host header.
+    # Funnel needs the `funnel` nodeAttr in the tailnet ACL. Node-level serve/funnel config
+    # can't be set via `tailscale serve set-config` (Tailscale Services only), so this
+    # oneshot reapplies it on every boot; `funnel --bg` replaces the :443 handler in place.
     services.nginx.virtualHosts.${config.services.frigate.hostname} = {
-      addSSL = true;
       serverAliases = [tsName];
-      sslCertificate = "${tsCertDir}/cert.pem";
-      sslCertificateKey = "${tsCertDir}/key.pem";
       # The PWA's system bars follow theme-color: white for a light-mode phone (and always in
       # the manifest), under Frigate's dark UI. Rewrite both to black. gzip_static off, or
       # nginx serves the precompressed file and sub_filter never sees the text.
@@ -145,45 +143,20 @@
           black + "sub_filter_types application/manifest+json;";
       };
     };
-    systemd.services.tailscale-cert = {
-      after = ["tailscaled.service" "network-online.target"];
-      wants = ["tailscaled.service" "network-online.target"];
+    systemd.services.tailscale-funnel = {
+      after = ["tailscaled.service" "tailscaled-autoconnect.service" "tailscaled-set.service"];
+      wants = ["tailscaled.service"];
       wantedBy = ["multi-user.target"];
-      before = ["nginx.service"];
-      path = [config.services.tailscale.package pkgs.openssl];
+      # Restarting tailscaled drops nothing (serve config persists in its state), but rerun anyway.
+      partOf = ["tailscaled.service"];
       serviceConfig = {
         Type = "oneshot";
-        StateDirectory = "tailscale-cert";
-        StateDirectoryMode = "0750";
-        Group = "nginx";
-        UMask = "0027";
+        RemainAfterExit = true;
+        ExecStart = "${lib.getExe config.services.tailscale.package} funnel --bg --yes --https=443 http://127.0.0.1:80";
+        # tailscaled may still be starting/logging in.
+        Restart = "on-failure";
+        RestartSec = "10s";
       };
-      # A missing cert would fail nginx and take :80 down too, so a failed first fetch
-      # leaves a short-lived self-signed placeholder until the next run.
-      script = ''
-        if ! tailscale cert --cert-file ${tsCertDir}/cert.pem --key-file ${tsCertDir}/key.pem ${tsName} \
-          && [ ! -s ${tsCertDir}/cert.pem ]; then
-          openssl req -x509 -newkey rsa:2048 -nodes -days 1 -subj /CN=${tsName} \
-            -keyout ${tsCertDir}/key.pem -out ${tsCertDir}/cert.pem
-        fi
-        # tailscale writes the key 0600 root; nginx (the unit's group) must read it.
-        chgrp nginx ${tsCertDir}/cert.pem ${tsCertDir}/key.pem
-        chmod 0640 ${tsCertDir}/cert.pem ${tsCertDir}/key.pem
-        # --no-block: nginx is ordered after this unit, so a waiting reload would deadlock.
-        if systemctl is-active -q nginx.service; then systemctl reload --no-block nginx.service; fi
-      '';
-    };
-    systemd.timers.tailscale-cert = {
-      wantedBy = ["timers.target"];
-      timerConfig = {
-        OnCalendar = "daily";
-        RandomizedDelaySec = "1h";
-        Persistent = true;
-      };
-    };
-    systemd.services.nginx = {
-      wants = ["tailscale-cert.service"];
-      after = ["tailscale-cert.service"];
     };
 
     # Recordings live on the HDD. A system-wide bind mount, not BindPaths: nginx serves
