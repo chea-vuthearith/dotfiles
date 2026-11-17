@@ -35,6 +35,7 @@ in {
         orchestrator = ./skills/orchestrator;
         gh-stack = ./skills/gh-stack;
         writing = ./skills/writing;
+        pr-description = ./skills/pr-description;
       }
       // lib.genAttrs [
         "verification-before-completion"
