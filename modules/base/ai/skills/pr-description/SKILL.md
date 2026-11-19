@@ -1,6 +1,6 @@
 ---
 name: pr-description
-description: "How to write or rewrite a PR description, and how to add before/after proof screenshots. Use before drafting any PR body, editing an existing one, or capturing proof images for one."
+description: "How to write or rewrite a PR description, and how to add before/after proof screenshots and screen recordings. Use before drafting any PR body, editing an existing one, or capturing proof images or videos for one."
 ---
 
 # PR descriptions
@@ -20,7 +20,17 @@ Follow the `writing` skill for prose.
    - One-line caption naming what actually differs.
    - At most about 6 pairs. Drop pairs that look the same. Never put the same image in both cells.
    - Before is the base build, After is the PR head, on the same page and state.
+   - Interactions (hover, drag, animation) get a short screen recording instead of a still.
    - Non-visual PRs have no Proof section; name the covering test in Notes instead.
+
+## Uploading proof
+
+Upload every proof image and video with `gh attach` (see the `gh-attach` skill). Never commit
+them to the repo or put them in a gist.
+
+- Images: png, jpeg, gif, webp, svg, up to 10 MiB. Videos: mp4, mov, webm, up to 100 MiB.
+- `gh attach <file> --markdown` prints a ready Markdown reference.
+- In table cells or `<img width="800" src="...">`, use the bare URL that `gh attach <file>` prints.
 
 ## Banned in the body
 
@@ -44,7 +54,8 @@ other PRs as #N.
 
 ## Before publishing
 
-- Every image URL returns 200 (`curl -sI <url>`).
+- After embedding, every image and video URL downloads (`gh attach download <url> -O - >/dev/null`).
+  Don't check with anonymous `curl`: upload-only URLs 404 until embedded, and private-repo URLs 404 without auth.
 - Open each before/after pair and check it shows the change.
 - Re-read the body against the live diff (`gh pr diff`) so every claim matches the code.
 
