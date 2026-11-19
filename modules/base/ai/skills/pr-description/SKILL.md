@@ -12,9 +12,7 @@ Follow the `writing` skill for prose.
 
 1. `## What`: 1–3 sentences on what the PR changes.
 2. `## Why`: 1–3 sentences on the problem it solves.
-3. `## Changes` (optional): short bullets with concrete names (files, components, flags). Only what a reviewer needs.
-4. `## Behaviour changes` or `## Notes for the reviewer` (optional): intended behaviour changes, known limits, what's left to another PR (#N), and the test file that covers it.
-5. `## Proof`: only when the change is visible.
+3. `## Proof`: only when the change is visible.
    - Before/after image tables: `| Before | After |`, with a row label column when there are several pages.
    - Outline the changed element in red. Light theme, 1440 px; add 390 px for phone changes.
    - One-line caption naming what actually differs.
@@ -22,6 +20,8 @@ Follow the `writing` skill for prose.
    - Before is the base build, After is the PR head, on the same page and state.
    - Interactions (hover, drag, animation) get a short screen recording instead of a still.
    - Non-visual PRs have no Proof section; name the covering test in Notes instead.
+4. `## Changes` (optional): short bullets with concrete names (files, components, flags). Only what a reviewer needs.
+5. `## Behaviour changes` or `## Notes for the reviewer` (optional): intended behaviour changes, known limits, what's left to another PR (#N), and the test file that covers it.
 
 ## Uploading proof
 
@@ -44,7 +44,7 @@ them to the repo or put them in a gist.
 
 ## Body vs comments
 
-The body holds what, why, notes and proof only. Test runs, logs, e2e comparisons and rerun
+The body holds what, why, proof and notes only. Test runs, logs, e2e comparisons and rerun
 evidence go in PR comments, and only when the user approves posting them.
 
 ## Tone
@@ -68,16 +68,16 @@ FilterBar keeps the selected filters when you switch tabs.
 ## Why
 Switching tabs reset every filter, so users had to set them again.
 
-## Notes for the reviewer
-- Date range still resets; that's #881.
-- Covered by `e2e/filter-bar.spec.ts`.
-
 ## Proof
 Selected chips survive the tab switch.
 
 | | Before | After |
 |---|---|---|
 | Assets, 1440 px | ![](before.png) | ![](after.png) |
+
+## Notes for the reviewer
+- Date range still resets; that's #881.
+- Covered by `e2e/filter-bar.spec.ts`.
 ```
 
 Live references: GinaV2 #862 (visual) and #880 (non-visual).
