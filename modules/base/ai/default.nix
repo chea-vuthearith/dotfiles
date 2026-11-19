@@ -27,6 +27,7 @@ in {
     # Agent skills for omp, Claude Code and opencode.
     # herdr: upstream skill from the pinned herdr input; herdr-team: multi-agent protocol on top;
     # orchestrator: plan and run branch owners; gh-stack: stacked PRs via the gh stack extension;
+    # gh-attach: upstream skill from the pinned gh-attach source (PR images/videos via gh attach);
     # writing: house prose rules (checked with vale below); the rest: obra/superpowers at the pinned input.
     skills =
       {
@@ -34,6 +35,7 @@ in {
         herdr-team = ./skills/herdr-team;
         orchestrator = ./skills/orchestrator;
         gh-stack = ./skills/gh-stack;
+        gh-attach = "${pkgs.gh-attach.src}/skills/gh-attach";
         writing = ./skills/writing;
         pr-description = ./skills/pr-description;
       }

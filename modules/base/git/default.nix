@@ -1,4 +1,27 @@
 {...}: {
+  # gh attach: uploads PR images/videos to user-attachments (sudosubin/gh-attach, not in nixpkgs)
+  flake.modules.nixos.base.nixpkgs.overlays = [
+    (final: _: {
+      gh-attach = (final.buildGoModule.override {go = final.go_1_27;}) rec {
+        pname = "gh-attach";
+        version = "0.5.1";
+        src = final.fetchFromGitHub {
+          owner = "sudosubin";
+          repo = "gh-attach";
+          tag = "v${version}";
+          hash = "sha256-mXTFqv56y2pwITgVJKuCOuHDZK6F65UU18pN3iz62+I=";
+        };
+        vendorHash = "sha256-CPlH6NNmBFpoav7vmPbS7P3LbQXNXpQVIP2BIW3XajI=";
+        subPackages = ["cmd/gh-attach"];
+        meta = {
+          description = "GitHub CLI extension that uploads and downloads GitHub attachments";
+          homepage = "https://github.com/sudosubin/gh-attach";
+          license = final.lib.licenses.mit;
+          mainProgram = "gh-attach";
+        };
+      };
+    })
+  ];
   flake.modules.homeManager.base = {
     pkgs,
     config,
@@ -7,8 +30,9 @@
     home.packages = [pkgs.git-lfs];
     programs.gh = {
       enable = true;
-      # gh stack: stacked PRs (github/gh-stack), used by the gh-stack agent skill
-      extensions = [pkgs.gh-stack];
+      # gh stack: stacked PRs (github/gh-stack), used by the gh-stack agent skill;
+      # gh attach: PR images/videos (sudosubin/gh-attach), used by the gh-attach and pr-description skills
+      extensions = [pkgs.gh-stack pkgs.gh-attach];
       # the credential helpers below stay explicit
       gitCredentialHelper.enable = false;
       settings = {
@@ -59,6 +83,20 @@
           prompt = false;
         };
       };
+    };
+  };
+  # gh attach falls back to browser cookies when the gh token is rejected; Brave Origin keeps
+  # its profiles outside gh-attach's default Brave path. Profiles without a github.com session are skipped.
+  flake.modules.homeManager.desktop = {
+    pkgs,
+    config,
+    ...
+  }: {
+    xdg.configFile."gh/attach.yml".source = (pkgs.formats.yaml {}).generate "gh-attach.yml" {
+      browsers = map (profile: {
+        browser = "brave";
+        profile = "${config.xdg.configHome}/BraveSoftware/Brave-Origin/${profile}";
+      }) ["Default" "Profile 1"];
     };
   };
 }
