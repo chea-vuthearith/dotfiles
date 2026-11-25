@@ -159,8 +159,6 @@ in {
         // {
           # omp custom tools; see ./omp/tools/README.md
           "tools/herdr-worktree.ts".source = ./omp/tools/herdr-worktree.ts;
-          # session-start tool check in one eval cell (APPEND_SYSTEM.md "Tool check at session start")
-          "toolcheck.py".source = ./omp/toolcheck.py;
           # omp's Python LSP is ty only; pyright stays installed for nvim/zed
           "lsp.json".source = ./omp/lsp.json;
           "APPEND_SYSTEM.md".text = builtins.readFile ./omp/APPEND_SYSTEM.md + "\n" + agentRules;
@@ -183,6 +181,14 @@ in {
       under = dir: lib.mapAttrs' (path: file: lib.nameValuePair "${dir}/${path}" file) agentFiles;
     in
       under ".omp/agent" // under ".omp/profiles/personal/agent";
+
+    # The same settings as the default profile's config.yml (programs.omp above), copied the same
+    # way: a writable file that /settings can save to until the next switch resets it.
+    home.activation.ompPersonalConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      run mkdir -p "$HOME/.omp/profiles/personal/agent"
+      run install -m 600 ${(pkgs.formats.yaml {}).generate "omp-config.yml" config.programs.omp.settings} \
+        "$HOME/.omp/profiles/personal/agent/config.yml"
+    '';
 
     # A Claude subscription's 5-hour window starts with the first message an
     # account receives and lives for 5 hours, so a tiny message at 07:00 buys a
