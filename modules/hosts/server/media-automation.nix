@@ -18,10 +18,11 @@ in {
     # Frigate records to ${storage}/frigate on this same disk and prunes its own recordings
     # when space runs low; Sonarr stops importing below this floor so media never eats it.
     minFreeMB = 250 * 1024;
-    # Prowlarr definition names (github.com/Prowlarr/Indexers). 1337x needs FlareSolverr;
-    # TorrentGalaxy has no definition anymore.
-    indexers = ["nyaasi" "eztv" "limetorrents"];
-    series = ["The Exiled Heavy Knight Knows How to Game the System"];
+    # Prowlarr definition names (github.com/Prowlarr/Indexers). 1337x and EZTV sit behind
+    # Cloudflare (need FlareSolverr); TorrentGalaxy has no definition anymore.
+    indexers = ["nyaasi" "limetorrents"];
+    # Added with a search for missing episodes, so listing a show starts downloads.
+    series = [];
 
     provision = pkgs.writeShellApplication {
       name = "media-provision";
@@ -92,8 +93,9 @@ in {
 
         # Prowlarr: indexers, then push them to Sonarr (full sync).
         for def in ${lib.escapeShellArgs indexers}; do
+          # Sites come and go (Cloudflare, dead mirrors); one failing indexer mustn't stop the rest.
           ensure "$PROWLARR_KEY" "$prowlarr/indexer" "$def" ".definitionName == \"$def\"" \
-            '.enable = true | .appProfileId = 1 | setf({baseUrl: .indexerUrls[0]})'
+            '.enable = true | .appProfileId = 1 | setf({baseUrl: .indexerUrls[0]})' || echo "indexer $def failed" >&2
         done
         ensure "$PROWLARR_KEY" "$prowlarr/applications" Sonarr '.implementation == "Sonarr"' \
           '.syncLevel = "fullSync" | setf({prowlarrUrl: "http://127.0.0.1:9696", baseUrl: "http://127.0.0.1:8989", apiKey: $ENV.SONARR_KEY})'
