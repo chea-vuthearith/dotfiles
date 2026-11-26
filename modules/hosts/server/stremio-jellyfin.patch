@@ -1,5 +1,5 @@
 diff --git a/index.js b/index.js
-index 07088f8..bfad1b7 100644
+index 07088f8..7173727 100644
 --- a/index.js
 +++ b/index.js
 @@ -336,6 +336,21 @@ function buildAddon({ jellyfinUrl, jellyfinApiKey, name, token, stubId, legacyId
@@ -16,7 +16,7 @@ index 07088f8..bfad1b7 100644
 +      const sub = texts.find((s) => s.IsDefault) || texts[0];
 +      if (sub) {
 +        stream.subtitles = [{
-+          id: `${sub.Title || sub.DisplayTitle || 'Subtitles'} (Jellyfin SRT)`,
++          id: sub.Title || 'Jellyfin',
 +          lang: sub.Language || 'und',
 +          url: client.subtitleUrl(item.Id, source.Id, sub.Index),
 +        }];
