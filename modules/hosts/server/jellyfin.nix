@@ -4,7 +4,7 @@ in {
   # Media server on :8096 (LAN/tailnet), and at https://server.orfe-mizar.ts.net:8443/
   # via Tailscale Serve (tailnet only); Stremio add-ons need HTTPS. :443 is Frigate's
   # (frigate.nix). Library lives on the storage disk (storage.nix); files are owned by
-  # the login user and world-readable, so jellyfin needs no extra groups.
+  # the login user (group media) and world-readable, so jellyfin needs no extra groups.
   flake.modules.nixos.host-server = {
     config,
     lib,
@@ -16,7 +16,8 @@ in {
     };
     systemd.tmpfiles.rules = [
       "d /srv/storage/media 0755 ${username} users -"
-      "d /srv/storage/media/shows 0755 ${username} users -"
+      # Group media + setgid so Sonarr (media-automation.nix) can import; world-readable.
+      "d /srv/storage/media/shows 2775 ${username} media -"
     ];
     # Library is on a nofail mount; don't start against an empty mountpoint.
     systemd.services.jellyfin.unitConfig.RequiresMountsFor = ["/srv/storage"];
