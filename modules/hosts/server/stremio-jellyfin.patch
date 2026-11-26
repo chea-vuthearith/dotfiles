@@ -1,7 +1,22 @@
 diff --git a/index.js b/index.js
-index 07088f8..33b977f 100644
+index 07088f8..bf3c3d2 100644
 --- a/index.js
 +++ b/index.js
+@@ -322,10 +322,10 @@ function buildAddon({ jellyfinUrl, jellyfinApiKey, name, token, stubId, legacyId
+         const [seriesRef, season, episode] = id.split(':');
+         const series = await client.resolveItem(seriesRef, 'series');
+         const episodes = await client.episodes(series.Id, Number(season) || undefined);
+-        item =
+-          episodes.filter((ep) => ep.Id !== series.Id).find((ep) => ep.IndexNumber === Number(episode)) ||
+-          episodes.filter((ep) => ep.Id !== series.Id)[0] ||
+-          series;
++        // Stremio asks for every episode in its own catalog; only answer the ones Jellyfin
++        // has, instead of falling back to another episode's file.
++        item = episodes.find((ep) => ep.Id !== series.Id && ep.IndexNumber === Number(episode));
++        if (!item) return { streams: [], cacheMaxAge: 0 };
+       } else {
+         item = await client.resolveItem(id, type);
+       }
 @@ -336,6 +336,22 @@ function buildAddon({ jellyfinUrl, jellyfinApiKey, name, token, stubId, legacyId
          url: client.streamUrl(item.Id),
        };
