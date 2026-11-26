@@ -1,20 +1,17 @@
 diff --git a/index.js b/index.js
-index 07088f8..c2121e0 100644
+index 07088f8..33b977f 100644
 --- a/index.js
 +++ b/index.js
-@@ -336,6 +336,25 @@ function buildAddon({ jellyfinUrl, jellyfinApiKey, name, token, stubId, legacyId
+@@ -336,6 +336,22 @@ function buildAddon({ jellyfinUrl, jellyfinApiKey, name, token, stubId, legacyId
          url: client.streamUrl(item.Id),
        };
        if (card) stream.description = card.description;
-+      stream.behaviorHints = { bingeGroup: `jellyfin-${item.SeriesId || item.Id}` };
++      // Play through Stremio's own streaming server, as with torrents: on Android that's the
++      // only path where embedded ASS subtitles get drawn.
++      stream.behaviorHints = { notWebReady: true, bingeGroup: `jellyfin-${item.SeriesId || item.Id}` };
 +      const subs = source && Array.isArray(source.MediaStreams)
 +        ? source.MediaStreams.filter((s) => s.Type === 'Subtitle')
 +        : [];
-+      // Stremio on Android draws embedded ASS only when it plays through its own streaming
-+      // server (as with torrents); from a direct link it lists the track but draws nothing.
-+      if (subs.some((s) => !s.IsExternal && /^(ass|ssa)$/i.test(s.Codec || ''))) {
-+        stream.behaviorHints.notWebReady = true;
-+      }
 +      // Sidecar subtitle files aren't inside the stream; hand Stremio the default one as SRT.
 +      const external = subs.filter((s) => s.IsExternal && s.IsTextSubtitleStream);
 +      const sub = external.find((s) => s.IsDefault) || external[0];
@@ -28,7 +25,7 @@ index 07088f8..c2121e0 100644
        return {
          streams: [stream],
          cacheMaxAge: 0,
-@@ -675,7 +694,8 @@ app.get('/', (req, res) => {
+@@ -675,7 +691,8 @@ app.get('/', (req, res) => {
  });
  
  rebuild();
