@@ -58,7 +58,9 @@ in {
             api "$k" -X POST "$url?forceSave=true" -d "$want" >/dev/null && echo "added $name"
           else
             want=$(jq "$setf $mut" <<<"$cur")
-            if [ "$(jq -S . <<<"$want")" != "$(jq -S . <<<"$cur")" ]; then
+            # GETs mask secrets as ********; compare with those re-masked so only real
+            # changes PUT (so a rotated secret alone isn't pushed).
+            if [ "$(jq -S --argjson c "$cur" '.fields |= map(.name as $k | if any($c.fields[]; .name == $k and .value == "********") then .value = "********" else . end)' <<<"$want")" != "$(jq -S . <<<"$cur")" ]; then
               api "$k" -X PUT "$url/$(jq .id <<<"$cur")?forceSave=true" -d "$want" >/dev/null && echo "updated $name"
             fi
           fi
@@ -95,7 +97,7 @@ in {
         for def in ${lib.escapeShellArgs indexers}; do
           # Sites come and go (Cloudflare, dead mirrors); one failing indexer mustn't stop the rest.
           ensure "$PROWLARR_KEY" "$prowlarr/indexer" "$def" ".definitionName == \"$def\"" \
-            '.enable = true | .appProfileId = 1 | setf({baseUrl: .indexerUrls[0]})' || echo "indexer $def failed" >&2
+            '.enable = true | .appProfileId = 1 | if has("indexerUrls") then setf({baseUrl: .indexerUrls[0]}) else . end' || echo "indexer $def failed" >&2
         done
         ensure "$PROWLARR_KEY" "$prowlarr/applications" Sonarr '.implementation == "Sonarr"' \
           '.syncLevel = "fullSync" | setf({prowlarrUrl: "http://127.0.0.1:9696", baseUrl: "http://127.0.0.1:8989", apiKey: $ENV.SONARR_KEY})'
