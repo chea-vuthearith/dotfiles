@@ -1,0 +1,78 @@
+diff --git a/index.js b/index.js
+index 07088f8..bfad1b7 100644
+--- a/index.js
++++ b/index.js
+@@ -336,6 +336,21 @@ function buildAddon({ jellyfinUrl, jellyfinApiKey, name, token, stubId, legacyId
+         url: client.streamUrl(item.Id),
+       };
+       if (card) stream.description = card.description;
++      stream.behaviorHints = { bingeGroup: `jellyfin-${item.SeriesId || item.Id}` };
++      // Stremio on Android lists the MKV's own subtitle tracks but doesn't draw them;
++      // external SRT from Jellyfin does draw. Prefer the default text track (the plain
++      // one with sign translations in this library), else the first text track.
++      const texts = source && Array.isArray(source.MediaStreams)
++        ? source.MediaStreams.filter((s) => s.Type === 'Subtitle' && s.IsTextSubtitleStream)
++        : [];
++      const sub = texts.find((s) => s.IsDefault) || texts[0];
++      if (sub) {
++        stream.subtitles = [{
++          id: `${sub.Title || sub.DisplayTitle || 'Subtitles'} (Jellyfin SRT)`,
++          lang: sub.Language || 'und',
++          url: client.subtitleUrl(item.Id, source.Id, sub.Index),
++        }];
++      }
+       return {
+         streams: [stream],
+         cacheMaxAge: 0,
+@@ -675,7 +690,8 @@ app.get('/', (req, res) => {
+ });
+ 
+ rebuild();
+-app.listen(PORT, () => {
++// HOST lets a reverse-proxied deployment bind loopback only.
++app.listen(PORT, process.env.HOST || '0.0.0.0', () => {
+   console.log(`Addon running: http://localhost:${PORT} — manage page: http://localhost:${PORT}/manage`);
+   for (const c of configs) {
+     console.log(`  "${c.name}": http://localhost:${PORT}/${c.token}/manifest.json`);
+diff --git a/src/jellyfin.js b/src/jellyfin.js
+index 1ff7a0c..165cce6 100644
+--- a/src/jellyfin.js
++++ b/src/jellyfin.js
+@@ -10,10 +10,10 @@ class JellyfinClient {
+     this.userId = null;
+     this.externalIdIndex = null;
+     this.externalIdIndexAt = 0;
++    // Jellyfin 12 dropped X-Emby-Token and the api_key query param; the token goes in
++    // the Authorization header (and ApiKey= in URLs).
+     this.headers = {
+-      'X-Emby-Token': apiKey,
+-      Authorization:
+-        'MediaBrowser Client="stremio-jellyfin", Device="stremio", DeviceId="stremio-jellyfin", Version="1.0.0"',
++      Authorization: `MediaBrowser Client="stremio-jellyfin", Device="stremio", DeviceId="stremio-jellyfin", Version="1.0.0", Token="${apiKey}"`,
+       Accept: 'application/json',
+     };
+   }
+@@ -166,7 +166,7 @@ class JellyfinClient {
+   }
+ 
+   streamUrl(itemId) {
+-    const qs = new URLSearchParams({ api_key: this.apiKey });
++    const qs = new URLSearchParams({ ApiKey: this.apiKey });
+     if (this.streamMode === 'auto') {
+       qs.set('Static', 'false');
+       qs.set('TranscodeReasons', 'ContainerNotSupported,VideoCodecNotSupported,AudioCodecNotSupported');
+@@ -176,8 +176,13 @@ class JellyfinClient {
+     return `${this.baseUrl}/Videos/${itemId}/stream?${qs.toString()}`;
+   }
+ 
++  // Jellyfin converts any text track (embedded or external) to SRT on request.
++  subtitleUrl(itemId, sourceId, index) {
++    return `${this.baseUrl}/Videos/${itemId}/${sourceId}/Subtitles/${index}/0/Stream.srt?ApiKey=${encodeURIComponent(this.apiKey)}`;
++  }
++
+   imageUrl(itemId, type = 'Primary') {
+-    return `${this.baseUrl}/Items/${itemId}/Images/${type}?api_key=${encodeURIComponent(this.apiKey)}`;
++    return `${this.baseUrl}/Items/${itemId}/Images/${type}?ApiKey=${encodeURIComponent(this.apiKey)}`;
+   }
+ 
+   image(itemId, type = 'Primary') {

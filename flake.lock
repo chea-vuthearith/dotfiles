@@ -1192,11 +1192,11 @@
     },
     "secrets": {
       "locked": {
-        "lastModified": 1795716772,
-        "narHash": "sha256-deAd98i5kwHxFWQoVTQzWAv738Gtk19FdyICmh9CUgw=",
+        "lastModified": 1795718638,
+        "narHash": "sha256-DPfLeGkM0KA93r9o+osV1T1Cscytn4oA9egJ/IGs/0k=",
         "ref": "refs/heads/main",
-        "rev": "5f751ecdd4f3360c5743cf5f4a8d977e428b219e",
-        "revCount": 20,
+        "rev": "69cfdf820e125099e6f7b0ac92df6a11fb862b77",
+        "revCount": 21,
         "type": "git",
         "url": "ssh://git@github.com/chea-vuthearith/secrets.git"
       },
