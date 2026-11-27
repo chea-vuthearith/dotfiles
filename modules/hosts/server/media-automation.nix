@@ -18,9 +18,11 @@ in {
     # Frigate records to ${storage}/frigate on this same disk and prunes its own recordings
     # when space runs low; Sonarr stops importing below this floor so media never eats it.
     minFreeMB = 250 * 1024;
-    # Prowlarr definition names (github.com/Prowlarr/Indexers). 1337x and EZTV sit behind
-    # Cloudflare (need FlareSolverr); TorrentGalaxy has no definition anymore.
-    indexers = ["nyaasi" "limetorrents"];
+    # Prowlarr definition names (github.com/Prowlarr/Indexers). Knaben aggregates many
+    # sites (incl. 1337x/EZTV data). 1337x, EZTV, KAT, uindex and TorrentDownloads sit
+    # behind Cloudflare (need FlareSolverr); Anidex/AniSource are unreachable;
+    # TorrentGalaxy has no definition anymore.
+    indexers = ["nyaasi" "limetorrents" "Knaben" "SubsPlease" "thepiratebay"];
     # Added with a search for missing episodes, so listing a show starts downloads.
     series = [];
 
